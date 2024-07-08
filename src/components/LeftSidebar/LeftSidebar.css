@@ -1,6 +1,5 @@
 /* components/LeftSidebar/LeftSidebar.css */
 .left-sidebar {
-  background-color: #3e86cf;
   /* padding: 20px; */
   width: 100px;
   /* border-right: 1px solid #dee2e6; */
@@ -9,5 +8,6 @@
 .icon{
   width: 50px;
   height: auto;
-  margin-left: 50px; 
+  margin-left: 30px; 
+  margin-top: 20px;
 }

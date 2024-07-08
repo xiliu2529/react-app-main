@@ -36,6 +36,8 @@ const Layout: React.FC = () => {
   // 根据接收到的值显示不同的内容
   function renderContent() {
     switch (clickedButton) {
+      case 0:
+          return <MainContent />
       case 1:
           return <Page1 />;
       case 2:

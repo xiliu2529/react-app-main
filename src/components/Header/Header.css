@@ -1,7 +1,29 @@
 .header {
   background-color: #143867;
-  padding: 19px 23px; /* 修正 padding 的语法 */
-  height: 64px;
-  color: #fff;
-  margin-top: -10px; /* 负数表示往上移动 */
+  padding-left:19px;
+  height: 17
+px;
+  display: flex;
+  width: 99.3%;
+  align-items: center; /* 使子元素在交叉轴上居中 */
+  justify-content: space-between; /* 使子元素在主轴上两端对齐 */
+}
+
+.quick {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  align-items: center; /* 使元素在交叉轴上居中 */
+}
+
+.settings-icon {
+  width: 24px; /* 你可以根据需要调整图标的宽度 */
+  height: 24px; /* 你可以根据需要调整图标的高度 */
+  background-image: url('../../img/settings.svg'); /* 替换为你的图标路径 */
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  margin-left: auto; /* 自动填充左侧空间，右对齐 */
+  padding-right:30px ;
 }

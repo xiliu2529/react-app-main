@@ -17,8 +17,8 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ onButtonClick }) => {
 
   return (
     <aside className="left-sidebar">
-      <div className="icon-container" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-        <img src={icon} alt="Icon" className="icon" />
+      <span className="icon-container" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+        <img src={icon} alt="Icon" className="icon" onClick={() => handleButtonClick(0)}/>
         {isHovered && (
           <div className="button-container">
             <button className="sidebar-button" onClick={() => handleButtonClick(1)}>Button 1</button>
@@ -30,7 +30,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ onButtonClick }) => {
             {/* Add more buttons as needed */}
           </div>
         )}
-      </div>
+      </span>
     </aside>
   );
 };
