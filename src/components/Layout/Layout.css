@@ -1,0 +1,12 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  transform: translateX(-10px); /* 将这个值调整为你想左移的距离 */
+  
+}
+
+.body {
+  display: flex;
+  flex-grow: 1;
+}

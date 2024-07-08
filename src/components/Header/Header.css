@@ -1,0 +1,7 @@
+.header {
+  background-color: #143867;
+  padding: 19px 23px; /* 修正 padding 的语法 */
+  height: 64px;
+  color: #fff;
+  margin-top: -10px; /* 负数表示往上移动 */
+}
