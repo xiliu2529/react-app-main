@@ -2,6 +2,7 @@
 
 import React from 'react';
 import './Header.css';
+import SettingsDialog from '../SettingsDialog/SettingsDialog'
 
 const Header: React.FC = () => {
   const handleClick = () => {
@@ -10,8 +11,9 @@ const Header: React.FC = () => {
   return (
     <header className="header">
         <p className="quick" onClick={handleClick}>QUICK ラボ ボリュームカーブ</p>
-        <span className="settings-icon" onClick={handleClick}></span>
+        <SettingsDialog></SettingsDialog>
     </header>
+    
   );
 };
 

@@ -1,0 +1,60 @@
+
+.main-container {
+    margin-left: 100px;
+  }
+.inline-container {
+    display: flex;
+    align-items: center;
+    padding-right: 30px;
+    
+  }
+  
+  .inline-container p {
+    margin-right: 10px;
+  }
+ 
+  
+  .wrapper {
+    display: flex;
+    align-items: center;
+  }
+  .wrapper p{
+    width: 100px;
+  }
+ 
+  .color-picker-column input {
+    width: 100px; /* 设置颜色选择器的宽度 */
+    height: 30px; /* 设置颜色选择器的高度 */
+    margin-right: 10px; /* 设置颜色选择器之间的间距 */
+    padding: 0;
+  }
+  .text-column {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #333; /* 设置文字颜色 */
+    font-weight: bold; /* 设置字体粗细 */
+  }
+  .header-p {
+    white-space: pre;
+    padding-left: 140px;
+    margin: 0px;
+  }
+  .container {
+    display: flex; /* 使用 Flexbox 布局 */
+    align-items: center; /* 垂直居中 */
+  }
+  
+  .inline-element {
+    margin-right: 20px; /* 调整元素之间的间距 */
+  }
+ 
+  .settings-icon {
+
+    background-image: url('../../img/settings.svg'); /* 替换为你的图标路径 */
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    margin-left: auto; /* 自动填充左侧空间，右对齐 */
+    padding-right:60px ;
+  }
+  

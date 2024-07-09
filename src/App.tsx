@@ -4,7 +4,7 @@ import Sax from './components/SettingsDialog/SettingsDialog'
 import './App.css';
 
 const App: React.FC = () => {
-  return <Sax />;
+  return <Layout />;
 
 };
 
