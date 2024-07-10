@@ -27,6 +27,8 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ onButtonClick }) => {
             <button className="sidebar-button" onClick={() => handleButtonClick(4)}>Button 4</button>
             <button className="sidebar-button" onClick={() => handleButtonClick(5)}>Button 5</button>
             <button className="sidebar-button" onClick={() => handleButtonClick(6)}>Button 6</button>
+            <button className="sidebar-button" onClick={() => handleButtonClick(7)}>Button 7</button>
+            <button className="sidebar-button" onClick={() => handleButtonClick(8)}>Button 8</button>
             {/* Add more buttons as needed */}
           </div>
         )}

@@ -147,21 +147,14 @@ const SettingsDialog = () => {
     };
     const handleButtonClick = () => {
         // 按钮点击事件处理逻辑
-        console.log('按钮被点击了！');
+        
     };
-
-
-
-
-
-
-
 
 
 
     return (
         <div>
-            
+
             <span className="settings-icon" onClick={handleOpen}></span>
 
             {/* 对话框组件 */}
@@ -171,213 +164,223 @@ const SettingsDialog = () => {
 
                 {/* 对话框内容 */}
                 <DialogContent dividers>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <FormControl component="fieldset" sx={{ width: '89%' }}>
-                        <Grid className='main-container' container spacing={2}>
-                            <Grid item xs={12} sm={6} className='left-container'>
-                                <p>表示項目</p>
-                                <p>レイアウト</p>
-                                {/* 单选框组 */}
-                                <Grid container spacing={2}>
-                                    {/* 第一列 */}
-                                    <Grid item xs={12} sm={6}>
-                                        <RadioGroup value={selectedOption} onChange={handleRadioChange} sx={{ width: '100%' }}>
-                                            <FormControlLabel value="option1" control={<Radio />} label="条件設定+グリッド+グラフ" />
-                                            <FormControlLabel value="option2" control={<Radio />} label="条件設定+グリッド" />
-                                            <FormControlLabel value="option3" control={<Radio />} label="条件設定+グラフ" />
-                                        </RadioGroup>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <FormControl component="fieldset" sx={{ width: '89%' }}>
+                            <Grid className='main-container' container spacing={2}>
+                                <Grid item xs={12} sm={6} className='left-container'>
+                                    <p className='category-title'>表示項目</p>
+                                    <p className='sub-title'>レイアウト</p>
+                                    {/* 单选框组 */}
+                                    <Grid container spacing={2}>
+                                        {/* 第一列 */}
+                                        <Grid item xs={12} sm={6}>
+                                            <RadioGroup value={selectedOption} onChange={handleRadioChange} sx={{ width: '110%' }}>
+                                                <FormControlLabel value="option1" control={<Radio />} label="条件設定+グリッド+グラフ" />
+                                                <FormControlLabel value="option2" control={<Radio />} label="条件設定+グリッド" />
+                                                <FormControlLabel value="option3" control={<Radio />} label="条件設定+グラフ" />
+                                            </RadioGroup>
+                                        </Grid>
+                                        {/* 第二列 */}
+                                        <Grid item xs={12} sm={6}>
+                                            <RadioGroup value={selectedOption} onChange={handleRadioChange}>
+                                                <FormControlLabel value="option4" control={<Radio />} label="グリッド+グラフ" />
+                                                <FormControlLabel value="option5" control={<Radio />} label="グリッドのみ" />
+                                                <FormControlLabel value="option6" control={<Radio />} label="グラフのみ" />
+                                            </RadioGroup>
+                                        </Grid>
                                     </Grid>
-                                    {/* 第二列 */}
-                                    <Grid item xs={12} sm={6}>
-                                        <RadioGroup value={selectedOption} onChange={handleRadioChange}>
-                                            <FormControlLabel value="option4" control={<Radio />} label="グリッド+グラフ" />
-                                            <FormControlLabel value="option5" control={<Radio />} label="グリッドのみ" />
-                                            <FormControlLabel value="option6" control={<Radio />} label="グラフのみ" />
+                                    <br />
+                                    <p className='sub-title'>グリッド</p>
+                                    {/* 多选框 */}
+                                    <FormControlLabel
+                                        control={<Checkbox checked={isChecked1} onChange={handleCheckboxChange1} />}
+                                        label="場引け出来高を表示"
+                                    />
+                                    <div></div>
+                                    <FormControlLabel
+                                        control={<Checkbox checked={isChecked2} onChange={handleCheckboxChange2} />}
+                                        label="時間带别最多出来高·価格老表示"
+                                    />
+
+                                    {/* 第一个单选框组 */}
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        <p style={{ fontWeight: 'bold' }}>優先表示</p>
+
+                                        <RadioGroup
+                                            value={radioValue}
+                                            onChange={handleRadioGroupChange}
+                                            sx={{
+                                                display: 'flex',
+                                                flexDirection: 'row',
+                                                justifyContent: 'flex-start',
+                                                alignItems: 'center',
+                                                marginLeft: '20px'  // 向右移动的距离
+                                            }}
+                                        >
+                                            <FormControlLabel value="optionA" control={<Radio />} label="高値" />
+                                            <FormControlLabel value="optionB" control={<Radio />} label="安値" />
                                         </RadioGroup>
-                                    </Grid>
-                                </Grid>
-                                <br />
-                                <p>グリッド</p>
-                                {/* 多选框 */}
-                                <FormControlLabel
-                                    control={<Checkbox checked={isChecked1} onChange={handleCheckboxChange1} />}
-                                    label="場引け出来高を表示"
-                                />
-                                <FormControlLabel
-                                    control={<Checkbox checked={isChecked2} onChange={handleCheckboxChange2} />}
-                                    label="時間带别最多出来高·価格老表示"
-                                />
+                                    </div>
 
-                                {/* 第一个单选框组 */}
-                                <FormLabel component="legend">優先表示</FormLabel>
-                                <RadioGroup
-                                    value={radioValue}
-                                    onChange={handleRadioGroupChange}
-                                    sx={{
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        justifyContent: 'flex-start',
-                                        alignItems: 'center',
-                                        marginLeft: '20px'  // 向右移动的距离
-                                    }}
-                                >
-                                    <FormControlLabel value="optionA" control={<Radio />} label="高値" />
-                                    <FormControlLabel value="optionB" control={<Radio />} label="安値" />
-                                </RadioGroup>
 
-                                {/* 第二个多选框 */}
-                                <FormControlLabel
-                                    control={<Checkbox checked={isChecked3} onChange={handleCheckboxChange3} />}
-                                    label="場引けVWAPを表示"
-                                />
-                                <FormControlLabel
-                                    control={<Checkbox checked={isChecked4} onChange={handleCheckboxChange4} />}
-                                    label="当日出来高分布を百分率で表示"
-                                />
-                                <br />
-                                {/* 第二个单选框组 */}
-                                <FormLabel component="legend">グラフ</FormLabel>
-                                <RadioGroup
-                                    value={radioValue2}
-                                    onChange={handleRadioGroupChange2}
-                                    sx={{
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        justifyContent: 'flex-start',
-                                        alignItems: 'center',
-                                        marginLeft: '20px'  // 向右移动的距离
-                                    }}
-                                >
-                                    <FormControlLabel value="optionX" control={<Radio />} label="並ベて表示" />
-                                    <FormControlLabel value="optionY" control={<Radio />} label="重ねて表示" />
-                                </RadioGroup>
-                                <FormControlLabel
-                                    control={<Checkbox checked={isChecked5} onChange={handleCheckboxChange5} />}
-                                    label="当日の価格チャートを表示"
-                                />
-                            </Grid >
+                                    {/* 第二个多选框 */}
+                                    <FormControlLabel
+                                        control={<Checkbox checked={isChecked3} onChange={handleCheckboxChange3} />}
+                                        label="場引けVWAPを表示"
+                                    />
+                                    <div></div>
+                                    <FormControlLabel
+                                        control={<Checkbox checked={isChecked4} onChange={handleCheckboxChange4} />}
+                                        label="当日出来高分布を百分率で表示"
+                                    />
+                                    <br />
+                                    {/* 第二个单选框组 */}
+                                    <p className='sub-title'>グラフ</p>
+                                    <RadioGroup
+                                        value={radioValue2}
+                                        onChange={handleRadioGroupChange2}
+                                        sx={{
+                                            display: 'flex',
+                                            flexDirection: 'row',
+                                            justifyContent: 'flex-start',
+                                            alignItems: 'center',
+                                            marginLeft: '20px'  // 向右移动的距离
+                                        }}
+                                    >
+                                        <FormControlLabel value="optionX" control={<Radio />} label="並ベて表示" />
+                                        <FormControlLabel value="optionY" control={<Radio />} label="重ねて表示" />
+                                    </RadioGroup>
+                                    <FormControlLabel
+                                        control={<Checkbox checked={isChecked5} onChange={handleCheckboxChange5} />}
+                                        label="当日の価格チャートを表示"
+                                    />
+                                </Grid >
 
-                            <Grid item xs={12} sm={6} className='right-container'>
+                                <Grid item xs={12} sm={6} className='right-container'>
 
-                                <p>色</p>
-                                <p>グリッド</p>
-                                {/* 第一个颜色选择器，默认白色 */}
-                                <div className="wrapper">
-                                    <span className="inline-container">
-                                        <p>背景</p>
-                                        <input type="color" value={color1} style={{ width: '100px' }} onChange={handleColorChange1} />
-                                    </span>
-                                    {/* 第二个颜色选择器，默认黑色 */}
-                                    <span className="inline-container">
-                                        <p>文字</p>
-                                        <input type="color" value={color2} style={{ width: '100px' }} onChange={handleColorChange2} />
-                                    </span>
-                                </div>
-
-                                <p style={{ margin: '0px' }}>グラフ</p>
-                                <div style={{ border: '1px solid #ccc', borderRadius: '5px', padding: '10px' }}>
+                                    <p className='category-title'>色</p>
+                                    <p className='sub-title'>グリッド</p>
                                     {/* 第一个颜色选择器，默认白色 */}
                                     <div className="wrapper">
                                         <span className="inline-container">
                                             <p>背景</p>
-                                            <input type="color" value={color3} style={{ width: '100px' }} onChange={handleColorChange3} />
+                                            <input type="color" value={color1} style={{ width: '100px' }} onChange={handleColorChange1} />
                                         </span>
                                         {/* 第二个颜色选择器，默认黑色 */}
                                         <span className="inline-container">
                                             <p>文字</p>
-                                            <input type="color" value={color4} style={{ width: '100px' }} onChange={handleColorChange4} />
+                                            <input type="color" value={color2} style={{ width: '100px' }} onChange={handleColorChange2} />
                                         </span>
                                     </div>
-                                    <p style={{ margin: '0px' }}>分布</p>
-                                    <div>  
+
+                                    <p className='sub-title'>グラフ</p>
                                     <div style={{ border: '1px solid #ccc', borderRadius: '5px', padding: '10px' }}>
-                                        <Grid container spacing={2}>
-                                            <Grid item xs={12}>
-                                                <p className="header-p">当日              過去平均</p>
-                                            </Grid>
-                                            <Grid item xs={2.5}>
-                                                <div className="text-column">前場</div>
-                                                <div className="text-column">後場</div>
-                                                <div className="text-column">イブニング</div>
-                                                <div className="text-column">寄付</div>
-                                                <div className="text-column">引け</div>
-                                            </Grid>
-                                            <Grid item xs={3}>
-                                                <div className="color-picker-column">
-                                                    <input type="color" value={color5} onChange={handleColorChange5} />
-                                                </div>
-                                                <div className="color-picker-column">
-                                                    <input type="color" value={color6} onChange={handleColorChange6} />
-                                                </div>
-                                                <div className="color-picker-column">
-                                                    <input type="color" value={color7} onChange={handleColorChange7} />
-                                                </div>
-                                                <div className="color-picker-column">
-                                                    <input type="color" value={color8} onChange={handleColorChange8} />
-                                                </div>
-                                                <div className="color-picker-column">
-                                                    <input type="color" value={color9} onChange={handleColorChange9} />
-                                                </div>
-
-                                            </Grid>
-                                            <Grid item xs={4}>
-                                                <div className="color-picker-column">
-                                                    <input type="color" value={color10} onChange={handleColorChange10} />
-                                                </div>
-                                                <div className="color-picker-column">
-                                                    <input type="color" value={color11} onChange={handleColorChange11} />
-                                                </div>
-                                                <div className="color-picker-column">
-                                                    <input type="color" value={color12} onChange={handleColorChange12} />
-                                                </div>
-                                                <div className="color-picker-column">
-                                                    <input type="color" value={color13} onChange={handleColorChange13} />
-                                                </div>
-                                                <div className="color-picker-column">
-                                                    <input type="color" value={color14} onChange={handleColorChange14} />
-                                                </div>
-                                            </Grid>
-                                        </Grid>
-                                        </div>
+                                        {/* 第一个颜色选择器，默认白色 */}
                                         <div className="wrapper">
-                                            <p>累計</p>
                                             <span className="inline-container">
-                                                <input type="color" value={color15} style={{ width: '100px' }} onChange={handleColorChange15} />
+                                                <p>背景</p>
+                                                <input type="color" value={color3} style={{ width: '100px' }} onChange={handleColorChange3} />
                                             </span>
+                                            {/* 第二个颜色选择器，默认黑色 */}
                                             <span className="inline-container">
-                                                <input type="color" value={color16} style={{ width: '100px' }} onChange={handleColorChange16} />
-                                            </span>
-
-                                        </div>
-                                        <div className="wrapper">
-                                            <p>チャート</p>
-                                            <span className="inline-container">
-                                                <input type="color" value={color17} style={{ width: '100px' }} onChange={handleColorChange17} />
+                                                <p>文字</p>
+                                                <input type="color" value={color4} style={{ width: '100px' }} onChange={handleColorChange4} />
                                             </span>
                                         </div>
+                                        <p> 分布</p>
+                                        <div>
+                                            <div style={{ border: '1px solid #ccc', borderRadius: '5px', padding: '10px' }}>
+                                                <Grid container spacing={2}>
+                                                    <Grid item xs={12}>
+                                                        {/* 这里放上方的标题 */}
+                                                    </Grid>
+                                                    <Grid item xs={2.5} >
+                                                        <div className="text-column">前場</div>
+                                                        <div className="text-column">後場</div>
+                                                        <div className="text-column">イブニング</div>
+                                                        <div className="text-column">寄付</div>
+                                                        <div className="text-column">引け</div>
+                                                    </Grid>
+                                                    <Grid item xs={2.5}>
+                                                        {/* 将每个颜色选择器列移到这里 */}
+                                                        <p className="header-p">当日</p>
+                                                        <div className="color-picker-column">
+                                                            <input type="color" value={color5} onChange={handleColorChange5} />
+                                                        </div>
+                                                        <div className="color-picker-column">
+                                                            <input type="color" value={color6} onChange={handleColorChange6} />
+                                                        </div>
+                                                        <div className="color-picker-column">
+                                                            <input type="color" value={color7} onChange={handleColorChange7} />
+                                                        </div>
+                                                        <div className="color-picker-column">
+                                                            <input type="color" value={color8} onChange={handleColorChange8} />
+                                                        </div>
+                                                        <div className="color-picker-column">
+                                                            <input type="color" value={color9} onChange={handleColorChange9} />
+                                                        </div>
+                                                    </Grid>
+                                                    <Grid item xs={2.5}>
+                                                        <p className="header-p">過去平均</p>
+                                                        {/* 将每个颜色选择器列移到这里 */}
+                                                        <div className="color-picker-column">
+                                                            <input type="color" value={color10} onChange={handleColorChange10} />
+                                                        </div>
+                                                        <div className="color-picker-column">
+                                                            <input type="color" value={color11} onChange={handleColorChange11} />
+                                                        </div>
+                                                        <div className="color-picker-column">
+                                                            <input type="color" value={color12} onChange={handleColorChange12} />
+                                                        </div>
+                                                        <div className="color-picker-column">
+                                                            <input type="color" value={color13} onChange={handleColorChange13} />
+                                                        </div>
+                                                        <div className="color-picker-column">
+                                                            <input type="color" value={color14} onChange={handleColorChange14} />
+                                                        </div>
+                                                    </Grid>
+                                                </Grid>
+                                            </div>
+                                            <div className="wrapper">
+                                                <p>累計</p>
+                                                <span className="inline-container">
+                                                    <input type="color" value={color15} style={{ width: '100px' }} onChange={handleColorChange15} />
+                                                </span>
+                                                <span className="inline-container">
+                                                    <input type="color" value={color16} style={{ width: '100px' }} onChange={handleColorChange16} />
+                                                </span>
 
-                                    </div>
+                                            </div>
+                                            <div className="wrapper">
+                                                <p>チャート</p>
+                                                <span className="inline-container">
+                                                    <input type="color" value={color17} style={{ width: '100px' }} onChange={handleColorChange17} />
+                                                </span>
+                                            </div>
+
+                                        </div>
                                     </div>
 
-                                <div>
-                                    <div className="container">
-                                        <p className="inline-element">並べて表示</p>
+                                    <div>
+                                        <div className="container">
+                                            <p className="inline-element">並べて表示</p>
+                                            <FormControlLabel
+                                                control={<Checkbox checked={isChecked6} onChange={handleCheckboxChange6} />}
+                                                label="当日の色设定を使用する"
+                                                className="inline-element"
+                                            />
+                                        </div>
+                                        <Button variant="contained" onClick={handleButtonClick} style={{ backgroundColor: 'white', color: 'gray', border: '1px solid gray', marginRight: '30px' }}>
+                                            初期値に戻す</Button>
                                         <FormControlLabel
-                                            control={<Checkbox checked={isChecked6} onChange={handleCheckboxChange6} />}
-                                            label="当日の色设定を使用する"
-                                            className="inline-element"
+                                            control={<Checkbox checked={isChecked7} onChange={handleCheckboxChange7} />}
+                                            label="すベての面面に適用"
                                         />
                                     </div>
-                                    <Button variant="contained" onClick={handleButtonClick}  style={{ marginRight: '30px' }}>初期値に戻す</Button>
-                                    <FormControlLabel
-                                        control={<Checkbox checked={isChecked7} onChange={handleCheckboxChange7} />}
-                                        label="すベての面面に適用"
-                                    />
-                                </div>
+                                </Grid>
                             </Grid>
-                        </Grid>
 
-                    </FormControl>
+                        </FormControl>
                     </div>
                 </DialogContent>
 
@@ -385,10 +388,9 @@ const SettingsDialog = () => {
 
                 {/* 对话框操作按钮 */}
                 <DialogActions>
-                    <Button onClick={handleClose}>取消</Button>
-                    <Button onClick={handleClose} autoFocus>
-                        保存
-                    </Button>
+                    <Button onClick={handleClose} style={{ backgroundColor: '#143867', color: 'white' }}>OK</Button>
+                    <Button onClick={handleClose} style={{ border: '2px solid #143867', backgroundColor: 'white', color: '#143867' }}>キャンセル</Button>
+
                 </DialogActions>
             </Dialog>
         </div>

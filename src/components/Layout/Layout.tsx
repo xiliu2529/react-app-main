@@ -9,6 +9,8 @@ import Page3 from '../../pages/PageThree'
 import Page4 from '../../pages/PageFour'
 import Page5 from '../../pages/PageFive'
 import Page6 from '../../pages/PageSix'
+import Page7 from '../../pages/PageSeven'
+import Page8 from '../../pages/PageEight'
 
 
 const Layout: React.FC = () => {
@@ -50,6 +52,10 @@ const Layout: React.FC = () => {
           return <Page5 />;
       case 6:
           return <Page6 />;    
+      case 7:
+          return <Page7 />;    
+      case 8:
+          return <Page8 />;    
    
     }
   }

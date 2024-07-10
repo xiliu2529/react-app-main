@@ -1,60 +1,117 @@
+*{
+  font-size: 13px;
+}
 
 .main-container {
-    margin-left: 100px;
-  }
-.inline-container {
-    display: flex;
-    align-items: center;
-    padding-right: 30px;
-    
-  }
-  
-  .inline-container p {
-    margin-right: 10px;
-  }
- 
-  
-  .wrapper {
-    display: flex;
-    align-items: center;
-  }
-  .wrapper p{
-    width: 100px;
-  }
- 
-  .color-picker-column input {
-    width: 100px; /* 设置颜色选择器的宽度 */
-    height: 30px; /* 设置颜色选择器的高度 */
-    margin-right: 10px; /* 设置颜色选择器之间的间距 */
-    padding: 0;
-  }
-  .text-column {
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: #333; /* 设置文字颜色 */
-    font-weight: bold; /* 设置字体粗细 */
-  }
-  .header-p {
-    white-space: pre;
-    padding-left: 140px;
-    margin: 0px;
-  }
-  .container {
-    display: flex; /* 使用 Flexbox 布局 */
-    align-items: center; /* 垂直居中 */
-  }
-  
-  .inline-element {
-    margin-right: 20px; /* 调整元素之间的间距 */
-  }
- 
-  .settings-icon {
+  margin-left: 10px; /* 降低左侧边距，适应小屏幕 */
+  margin-right: 10px; /* 降低右侧边距，适应小屏幕 */
+  min-width: 320px; /* 设置最小宽度 */
+  max-width: 1200px; /* 设置最大宽度 */
+}
 
-    background-image: url('../../img/settings.svg'); /* 替换为你的图标路径 */
-    background-size: contain;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    margin-left: auto; /* 自动填充左侧空间，右对齐 */
-    padding-right:60px ;
-  }
-  
+.inline-container {
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+  padding-right: 10px; /* 减少右侧填充 */
+  min-width: 100px; /* 设置最小宽度 */
+  max-width: 100%; /* 设置最大宽度为父容器的100% */
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap; /* 允许容器换行 */
+  min-width: 200px; /* 设置最小宽度 */
+  max-width: 100%; /* 设置最大宽度为父容器的100% */
+}
+
+.wrapper p {
+  margin-right: 5px; /* 减少段落之间的间距 */
+  margin-bottom: 5px; /* 减少段落底部的间距 */
+}
+
+.color-picker-column input {
+  width: 80px; /* 减少颜色选择器的宽度 */
+  min-width: 50px; /* 设置最小宽度 */
+  max-width: 120px; /* 设置最大宽度 */
+}
+
+.text-column {
+  margin-top: 10px;
+  font-size: 14px; /* 减小字体大小 */
+  margin-bottom: 9px; /* 减少文字列之间的间距 */
+  min-width: 100px; /* 设置最小宽度 */
+  max-width: 400px; /* 设置最大宽度 */
+}
+
+.header-p {
+  white-space: nowrap; /* 避免标题换行 */
+  margin: 0; /* 清除段落的外边距 */
+  text-align: center; /* 将文本居中 */
+  margin-top: -20px;
+
+  margin-bottom: 10px;
+  min-width: 50px; /* 设置最小宽度 */
+  max-width: 600px; /* 设置最大宽度 */
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap; /* 允许容器换行 */
+  min-width: 300px; /* 设置最小宽度 */
+  max-width: 100%; /* 设置最大宽度为父容器的100% */
+}
+
+.inline-element {
+  margin-right: 10px; /* 减少元素之间的间距 */
+  min-width: 100px; /* 设置最小宽度 */
+  max-width: 200px; /* 设置最大宽度 */
+}
+
+.settings-icon {
+  background-image: url('../../img/settings.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  padding-right: 30px; /* 减少右侧填充 */
+  min-width: 30px; /* 设置最小宽度 */
+  max-width: 60px; /* 设置最大宽度 */
+}
+
+.category-title {
+  position: relative; /* 设置相对定位，以便于后面绝对定位伪元素 */
+  font-weight: bold; /* 加粗 */
+  font-size: 1.2em; /* 增大字号 */
+  padding-left: 10px; /* 左侧填充 */
+  min-width: 150px; /* 设置最小宽度 */
+  max-width: 100%; /* 设置最大宽度为父容器的100% */
+}
+
+.category-title::before {
+  content: ""; /* 必须有 content 属性才能显示伪元素 */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px; /* 竖线宽度 */
+  height: 100%; /* 高度与父元素高度相同 */
+  background-color: #143867; 
+  border-radius: 5px; /* 圆角半径 */
+}
+
+.sub-title {
+  font-weight: bold; 
+  margin: 5px;
+  min-width: 100px; /* 设置最小宽度 */
+  max-width: 300px; /* 设置最大宽度 */
+}
+
+.custom-button {
+  background-color: white;
+  color: gray;
+  border: 2px solid gray;
+  margin-right: 30px;
+  min-width: 80px; /* 设置最小宽度 */
+  max-width: 150px; /* 设置最大宽度 */
+}
