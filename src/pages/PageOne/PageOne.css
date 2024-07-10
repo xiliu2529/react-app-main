@@ -1,0 +1,84 @@
+.message {
+    white-space: pre;
+}
+
+.body {
+    width: 100%;
+    height: 100%;
+}
+
+.dataPanel {
+    height: 75%;
+    padding-top: 30px;
+    margin-left: -50px;
+}
+
+.message-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.message-item {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    /* 调整每个项目之间的水平间距 */
+}
+
+.label {
+    font-weight: bold;
+    margin-right: 5px;
+    /* 调整标签和值之间的水平间距 */
+}
+
+.execution-time {
+    margin-top: 10px;
+    /* 调整执行时间段落的上边距 */
+}
+
+.message {
+    position: relative;
+    /* 让伪元素相对于这个元素定位 */
+}
+
+.message::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    /* 调整竖线的位置 */
+    top: 0;
+    width: 2px;
+    /* 竖线的宽度 */
+    height: 100%;
+    background-color: #000;
+    /* 竖线的颜色 */
+}
+.toggle-button{
+    padding-left: 30px;
+    padding-top: 25px;
+}
+.customToggleButton {
+    width: 200px;
+    border: none; /* 初始无边框 */
+    border-bottom: 2px solid #ccc; /* 初始下边框是灰色且比较细 */
+    text-transform: none; /* 取消按钮文本大写 */
+    position: relative; /* 相对定位 */
+  }
+  
+  .customToggleButton.Mui-selected {
+    background-color: #ccc; /* 背景变灰 */
+  }
+  
+  .customToggleButton.Mui-selected .MuiButton-label {
+    color: #143867; /* 文字变蓝 */
+  }
+  
+  .customToggleButton.Mui-selected::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px; /* 下边框变粗 */
+    background-color: #143867; /* 下边框颜色变蓝 */
+  }

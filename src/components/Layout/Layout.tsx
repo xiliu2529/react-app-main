@@ -3,7 +3,7 @@ import './Layout.css';
 import Header from '../Header/Header';
 import LeftSidebar from '../LeftSidebar/LeftSidebar';
 import MainContent from '../MainContent/MainContent';
-import Page1 from '../../pages/PageOne'
+import Page1 from '../../pages/PageOne/PageOne'
 import Page2 from '../../pages/PageTwo'
 import Page3 from '../../pages/PageThree'
 import Page4 from '../../pages/PageFour'

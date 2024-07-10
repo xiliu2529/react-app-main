@@ -3,6 +3,7 @@
   /* padding: 20px; */
   width: 100px;
   /* border-right: 1px solid #dee2e6; */
+  height: 80px; 
 }
 
 .icon{
@@ -10,4 +11,15 @@
   height: auto;
   margin-left: 30px; 
   margin-top: 20px;
+  position: relative; /* 确保 z-index 生效，需要相对定位 */
+  z-index: 9999; /* 设置一个较高的 z-index 值 */
+}
+.button-container {
+  position: absolute; /* 或者 position: fixed; */
+  top: 150px; /* 调整按钮容器的位置 */
+  left:30px; /* 调整按钮容器的位置 */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, auto);
+  z-index: 9999; /* 设置一个较高的 z-index 值 */
 }

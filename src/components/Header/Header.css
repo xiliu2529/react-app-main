@@ -1,8 +1,7 @@
+
 .header {
   background-color: #143867;
   padding-left:19px;
-  height: 17
-px;
   display: flex;
   width: 99.3%;
   align-items: center; /* 使子元素在交叉轴上居中 */
