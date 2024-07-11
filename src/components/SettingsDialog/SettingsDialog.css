@@ -32,6 +32,7 @@
 }
 
 .color-picker-column input {
+  margin-top: 2px;
   width: 80px; /* 减少颜色选择器的宽度 */
   min-width: 50px; /* 设置最小宽度 */
   max-width: 120px; /* 设置最大宽度 */

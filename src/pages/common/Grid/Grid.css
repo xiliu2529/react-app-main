@@ -1,0 +1,11 @@
+.body{
+    width: 100%;
+}
+
+.table-container {
+    margin-left: -50px;
+    max-width: 200vh;
+    max-height:65vh;
+    overflow: auto;
+    width: 100%;
+}

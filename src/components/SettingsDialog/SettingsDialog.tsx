@@ -9,154 +9,77 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 import { Grid } from '@mui/material';
 import './SettingsDialog.css';
 
+
+type CheckboxState = boolean[];
+type RadioValue = string[];
+type ColorValue = string[];
+
 const SettingsDialog = () => {
-    const [open, setOpen] = useState(false); // 定义状态管理对话框的打开/关闭状态
-    const [selectedOption, setSelectedOption] = useState('option1'); // 定义状态管理选中的选项值
-    const [isChecked1, setIsChecked1] = useState(false); // 第一个多选框的状态
-    const [isChecked2, setIsChecked2] = useState(false); // 第二个多选框的状态
-    const [isChecked3, setIsChecked3] = useState(false); // 第3个多选框的状态
-    const [isChecked4, setIsChecked4] = useState(false); // 第4个多选框的状态
-    const [isChecked5, setIsChecked5] = useState(false); // 第5个多选框的状态
-    const [isChecked6, setIsChecked6] = useState(false); // 第6个多选框的状态
-    const [isChecked7, setIsChecked7] = useState(false); // 第7个多选框的状态
-    const [radioValue, setRadioValue] = useState('option1'); // 第一个单选框的选中值
-    const [radioValue2, setRadioValue2] = useState('optionA'); // 第二个单选框的选中值
-    const [color1, setColor1] = useState('#FFFFFF'); // 第一个颜色选择器的值，默认白色
-    const [color2, setColor2] = useState('#000000'); // 第二个颜色选择器的值，默认黑色
-    const [color3, setColor3] = useState('#FFFFFF'); // 第一个颜色选择器的值，默认白色
-    const [color4, setColor4] = useState('#000000'); // 第二个颜色选择器的值，默认黑色
-    const [color5, setColor5] = useState('#d22331'); // 第一个颜色选择器的值，默认白色
-    const [color6, setColor6] = useState('#d22331'); // 第二个颜色选择器的值，默认黑色
-    const [color7, setColor7] = useState('#d22331'); // 第一个颜色选择器的值，默认白色
-    const [color8, setColor8] = useState('#d22331'); // 第二个颜色选择器的值，默认黑色 const [color1, setColor1] = useState('#FFFFFF'); // 第一个颜色选择器的值，默认白色
-    const [color9, setColor9] = useState('#d22331'); // 第二个颜色选择器的值，默认黑色
-    const [color10, setColor10] = useState('#52a69f'); // 第一个颜色选择器的值，默认白色
-    const [color11, setColor11] = useState('#52a69f'); // 第二个颜色选择器的值，默认黑色
-    const [color12, setColor12] = useState('#52a69f'); // 第二个颜色选择器的值，默认黑色
-    const [color13, setColor13] = useState('#52a69f'); // 第二个颜色选择器的值，默认黑色
-    const [color14, setColor14] = useState('#52a69f'); // 第二个颜色选择器的值，默认黑色
-    const [color15, setColor15] = useState('#596db8'); // 第二个颜色选择器的值，默认黑色
-    const [color16, setColor16] = useState('#5bbcd1'); // 第二个颜色选择器的值，默认黑色
-    const [color17, setColor17] = useState('#7e522e'); // 第二个颜色选择器的值，默认黑色
+
+    const [open, setOpen] = useState(false); // ダイアログの開閉状態を管理する状態を定義
+    const [checkboxStates, setCheckboxStates] = useState<CheckboxState>(
+        Array(7).fill(false) // 7つのチェックボックスの初期状態をすべて未選択にする
+    );
+    // 単一選択ボックスの状態を管理するために配列を使用
+    const [radioValues, setRadioValues] = useState<RadioValue>(['option1', 'optionA', 'optionX']);
+    // 色選択ボックスの状態を管理するために配列を使用
+    const [colors, setColors] = useState<ColorValue>([
+        '#FFFFFF', '#000000', '#FFFFFF', '#000000', '#d22331', '#d22331',
+        '#d22331', '#d22331', '#d22331', '#52a69f', '#52a69f', '#52a69f',
+        '#52a69f', '#52a69f', '#596db8', '#5bbcd1', '#7e522e'
+    ]);
+    const [handleTransaction, sethandleTransaction] = useState<any>({});
 
 
-
+    // チェックボックスの状態を更新する関数
+    const handleCheckboxChange = (index: number) => {
+        const newCheckboxStates = [...checkboxStates];
+        newCheckboxStates[index] = !newCheckboxStates[index];
+        setCheckboxStates(newCheckboxStates);
+    };
+    // 単一選択ボックスの状態を更新する関数
+    const handleRadioChange = (index: number, value: string) => {
+        const newRadioValues = [...radioValues];
+        newRadioValues[index] = value;
+        setRadioValues(newRadioValues);
+    };
+    // 色選択ボックスの状態を更新する関数
+    const handleColorChange = (index: number, colorValue: string) => {
+        const newColors = [...colors];
+        newColors[index] = colorValue;
+        setColors(newColors);
+    };
     const handleOpen = () => {
-        setOpen(true); // 处理打开对话框的事件
+        setOpen(true); // ダイアログを開く処理
+        sethandleTransaction({checkboxStates,radioValues,colors})
+    };
+    const handleClose = (value:boolean) => {
+        if(!value){
+            setCheckboxStates(handleTransaction.checkboxStates);
+            setRadioValues(handleTransaction.radioValues);
+            setColors(handleTransaction.colors);
+        }
+        setOpen(false);
     };
 
-    const handleClose = () => {
-        setOpen(false); // 处理关闭对话框的事件
-    };
-
-    const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedOption(event.target.value); // 处理单选框选项变化的事件
-    };
-
-    const handleCheckboxChange1 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setIsChecked1(event.target.checked); // 处理第一个多选框变化的事件
-    };
-
-    const handleCheckboxChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setIsChecked2(event.target.checked); // 处理第二个多选框变化的事件
-    };
-    const handleCheckboxChange3 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setIsChecked3(event.target.checked); // 处理第三个多选框变化的事件
-    };
-
-    const handleCheckboxChange4 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setIsChecked4(event.target.checked); // 处理第四个多选框变化的事件
-    };
-    const handleCheckboxChange5 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setIsChecked5(event.target.checked); // 处理第四个多选框变化的事件
-    };
-    const handleCheckboxChange6 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setIsChecked6(event.target.checked); // 处理第四个多选框变化的事件
-    };
-    const handleCheckboxChange7 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setIsChecked7(event.target.checked); // 处理第四个多选框变化的事件
-    };
-
-    const handleRadioGroupChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRadioValue((event.target as HTMLInputElement).value); // 处理第一个单选框变化的事件
-    };
-
-    const handleRadioGroupChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRadioValue2((event.target as HTMLInputElement).value); // 处理第二个单选框变化的事件
-    };
-    const handleColorChange1 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setColor1(event.target.value);
-    };
-
-    const handleColorChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setColor2(event.target.value);
-    };
-    const handleColorChange3 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setColor3(event.target.value);
-    };
-
-    const handleColorChange4 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setColor4(event.target.value);
-    };
-    const handleColorChange5 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setColor5(event.target.value);
-    };
-
-    const handleColorChange6 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setColor6(event.target.value);
-    };
-    const handleColorChange7 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setColor7(event.target.value);
-    };
-
-    const handleColorChange8 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setColor8(event.target.value);
-    };
-    const handleColorChange9 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setColor9(event.target.value);
-    };
-    const handleColorChange10 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setColor10(event.target.value);
-    };
-
-    const handleColorChange11 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setColor11(event.target.value);
-    };
-    const handleColorChange12 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setColor12(event.target.value);
-    };
-
-    const handleColorChange13 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setColor13(event.target.value);
-    };
-    const handleColorChange14 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setColor14(event.target.value);
-    };
-    const handleColorChange15 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setColor15(event.target.value);
-    };
-    const handleColorChange16 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setColor16(event.target.value);
-    };
-    const handleColorChange17 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setColor17(event.target.value);
-    };
     const handleButtonClick = () => {
-        // 按钮点击事件处理逻辑
-        
+        // ボタンクリック時の処理
+        setCheckboxStates(Array(7).fill(false));
+        setRadioValues(['option1', 'optionA', 'optionX']);
+        setColors([
+            '#FFFFFF', '#000000', '#FFFFFF', '#000000', '#d22331', '#d22331',
+            '#d22331', '#d22331', '#d22331', '#52a69f', '#52a69f', '#52a69f',
+            '#52a69f', '#52a69f', '#596db8', '#5bbcd1', '#7e522e'
+        ]);
     };
-
 
 
     return (
         <div>
-
             <span className="settings-icon" onClick={handleOpen}></span>
-
             {/* 对话框组件 */}
             <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
                 {/* 对话框标题 */}
@@ -174,7 +97,7 @@ const SettingsDialog = () => {
                                     <Grid container spacing={2}>
                                         {/* 第一列 */}
                                         <Grid item xs={12} sm={6}>
-                                            <RadioGroup value={selectedOption} onChange={handleRadioChange} sx={{ width: '110%' }}>
+                                            <RadioGroup value={radioValues[0]} onChange={(event) => handleRadioChange(0, event.target.value)} sx={{ width: '110%' }}>
                                                 <FormControlLabel value="option1" control={<Radio />} label="条件設定+グリッド+グラフ" />
                                                 <FormControlLabel value="option2" control={<Radio />} label="条件設定+グリッド" />
                                                 <FormControlLabel value="option3" control={<Radio />} label="条件設定+グラフ" />
@@ -182,10 +105,10 @@ const SettingsDialog = () => {
                                         </Grid>
                                         {/* 第二列 */}
                                         <Grid item xs={12} sm={6}>
-                                            <RadioGroup value={selectedOption} onChange={handleRadioChange}>
+                                            <RadioGroup value={radioValues[0]} onChange={(event) => handleRadioChange(0, event.target.value)} sx={{ width: '110%' }}>
                                                 <FormControlLabel value="option4" control={<Radio />} label="グリッド+グラフ" />
                                                 <FormControlLabel value="option5" control={<Radio />} label="グリッドのみ" />
-                                                <FormControlLabel value="option6" control={<Radio />} label="グラフのみ" />
+                                                <FormControlLabel value="6" control={<Radio />} label="グラフのみ" />
                                             </RadioGroup>
                                         </Grid>
                                     </Grid>
@@ -193,12 +116,12 @@ const SettingsDialog = () => {
                                     <p className='sub-title'>グリッド</p>
                                     {/* 多选框 */}
                                     <FormControlLabel
-                                        control={<Checkbox checked={isChecked1} onChange={handleCheckboxChange1} />}
+                                        control={<Checkbox checked={checkboxStates[0]} onChange={() => handleCheckboxChange(0)} />}
                                         label="場引け出来高を表示"
                                     />
                                     <div></div>
                                     <FormControlLabel
-                                        control={<Checkbox checked={isChecked2} onChange={handleCheckboxChange2} />}
+                                        control={<Checkbox checked={checkboxStates[1]} onChange={() => handleCheckboxChange(1)} />}
                                         label="時間带别最多出来高·価格老表示"
                                     />
 
@@ -207,8 +130,8 @@ const SettingsDialog = () => {
                                         <p style={{ fontWeight: 'bold' }}>優先表示</p>
 
                                         <RadioGroup
-                                            value={radioValue}
-                                            onChange={handleRadioGroupChange}
+                                            value={radioValues[1]}
+                                            onChange={(event) => handleRadioChange(1, event.target.value)}
                                             sx={{
                                                 display: 'flex',
                                                 flexDirection: 'row',
@@ -225,20 +148,20 @@ const SettingsDialog = () => {
 
                                     {/* 第二个多选框 */}
                                     <FormControlLabel
-                                        control={<Checkbox checked={isChecked3} onChange={handleCheckboxChange3} />}
+                                        control={<Checkbox checked={checkboxStates[3]} onChange={() => handleCheckboxChange(2)} />}
                                         label="場引けVWAPを表示"
                                     />
                                     <div></div>
                                     <FormControlLabel
-                                        control={<Checkbox checked={isChecked4} onChange={handleCheckboxChange4} />}
+                                        control={<Checkbox checked={checkboxStates[3]} onChange={() => handleCheckboxChange(3)} />}
                                         label="当日出来高分布を百分率で表示"
                                     />
                                     <br />
                                     {/* 第二个单选框组 */}
                                     <p className='sub-title'>グラフ</p>
                                     <RadioGroup
-                                        value={radioValue2}
-                                        onChange={handleRadioGroupChange2}
+                                        value={radioValues[2]}
+                                        onChange={(event) => handleRadioChange(2, event.target.value)}
                                         sx={{
                                             display: 'flex',
                                             flexDirection: 'row',
@@ -251,7 +174,7 @@ const SettingsDialog = () => {
                                         <FormControlLabel value="optionY" control={<Radio />} label="重ねて表示" />
                                     </RadioGroup>
                                     <FormControlLabel
-                                        control={<Checkbox checked={isChecked5} onChange={handleCheckboxChange5} />}
+                                        control={<Checkbox checked={checkboxStates[4]} onChange={() => handleCheckboxChange(4)} />}
                                         label="当日の価格チャートを表示"
                                     />
                                 </Grid >
@@ -264,12 +187,12 @@ const SettingsDialog = () => {
                                     <div className="wrapper">
                                         <span className="inline-container">
                                             <p>背景</p>
-                                            <input type="color" value={color1} style={{ width: '100px' }} onChange={handleColorChange1} />
+                                            <input type="color" value={colors[0]} style={{ width: '100px' }} onChange={(event) => handleColorChange(0, event.target.value)} />
                                         </span>
                                         {/* 第二个颜色选择器，默认黑色 */}
                                         <span className="inline-container">
                                             <p>文字</p>
-                                            <input type="color" value={color2} style={{ width: '100px' }} onChange={handleColorChange2} />
+                                            <input type="color" value={colors[1]} style={{ width: '100px' }} onChange={(event) => handleColorChange(1, event.target.value)} />
                                         </span>
                                     </div>
 
@@ -279,12 +202,12 @@ const SettingsDialog = () => {
                                         <div className="wrapper">
                                             <span className="inline-container">
                                                 <p>背景</p>
-                                                <input type="color" value={color3} style={{ width: '100px' }} onChange={handleColorChange3} />
+                                                <input type="color" value={colors[2]} style={{ width: '100px' }} onChange={(event) => handleColorChange(2, event.target.value)} />
                                             </span>
                                             {/* 第二个颜色选择器，默认黑色 */}
                                             <span className="inline-container">
                                                 <p>文字</p>
-                                                <input type="color" value={color4} style={{ width: '100px' }} onChange={handleColorChange4} />
+                                                <input type="color" value={colors[3]} style={{ width: '100px' }} onChange={(event) => handleColorChange(3, event.target.value)} />
                                             </span>
                                         </div>
                                         <p> 分布</p>
@@ -305,38 +228,38 @@ const SettingsDialog = () => {
                                                         {/* 将每个颜色选择器列移到这里 */}
                                                         <p className="header-p">当日</p>
                                                         <div className="color-picker-column">
-                                                            <input type="color" value={color5} onChange={handleColorChange5} />
+                                                            <input type="color" value={colors[4]} onChange={(event) => handleColorChange(4, event.target.value)} />
                                                         </div>
                                                         <div className="color-picker-column">
-                                                            <input type="color" value={color6} onChange={handleColorChange6} />
+                                                            <input type="color" value={colors[5]} onChange={(event) => handleColorChange(5, event.target.value)} />
                                                         </div>
                                                         <div className="color-picker-column">
-                                                            <input type="color" value={color7} onChange={handleColorChange7} />
+                                                            <input type="color" value={colors[6]} onChange={(event) => handleColorChange(6, event.target.value)} />
                                                         </div>
                                                         <div className="color-picker-column">
-                                                            <input type="color" value={color8} onChange={handleColorChange8} />
+                                                            <input type="color" value={colors[7]} onChange={(event) => handleColorChange(7, event.target.value)} />
                                                         </div>
                                                         <div className="color-picker-column">
-                                                            <input type="color" value={color9} onChange={handleColorChange9} />
+                                                            <input type="color" value={colors[8]} onChange={(event) => handleColorChange(8, event.target.value)} />
                                                         </div>
                                                     </Grid>
                                                     <Grid item xs={2.5}>
                                                         <p className="header-p">過去平均</p>
                                                         {/* 将每个颜色选择器列移到这里 */}
                                                         <div className="color-picker-column">
-                                                            <input type="color" value={color10} onChange={handleColorChange10} />
+                                                            <input type="color" value={colors[9]} onChange={(event) => handleColorChange(9, event.target.value)} />
                                                         </div>
                                                         <div className="color-picker-column">
-                                                            <input type="color" value={color11} onChange={handleColorChange11} />
+                                                            <input type="color" value={colors[10]} onChange={(event) => handleColorChange(10, event.target.value)} />
                                                         </div>
                                                         <div className="color-picker-column">
-                                                            <input type="color" value={color12} onChange={handleColorChange12} />
+                                                            <input type="color" value={colors[11]} onChange={(event) => handleColorChange(11, event.target.value)} />
                                                         </div>
                                                         <div className="color-picker-column">
-                                                            <input type="color" value={color13} onChange={handleColorChange13} />
+                                                            <input type="color" value={colors[12]} onChange={(event) => handleColorChange(12, event.target.value)} />
                                                         </div>
                                                         <div className="color-picker-column">
-                                                            <input type="color" value={color14} onChange={handleColorChange14} />
+                                                            <input type="color" value={colors[13]} onChange={(event) => handleColorChange(13, event.target.value)} />
                                                         </div>
                                                     </Grid>
                                                 </Grid>
@@ -344,17 +267,17 @@ const SettingsDialog = () => {
                                             <div className="wrapper">
                                                 <p>累計</p>
                                                 <span className="inline-container">
-                                                    <input type="color" value={color15} style={{ width: '100px' }} onChange={handleColorChange15} />
+                                                    <input type="color" value={colors[14]} style={{ width: '100px' }} onChange={(event) => handleColorChange(14, event.target.value)} />
                                                 </span>
                                                 <span className="inline-container">
-                                                    <input type="color" value={color16} style={{ width: '100px' }} onChange={handleColorChange16} />
+                                                    <input type="color" value={colors[15]} style={{ width: '100px' }} onChange={(event) => handleColorChange(15, event.target.value)} />
                                                 </span>
 
                                             </div>
                                             <div className="wrapper">
                                                 <p>チャート</p>
                                                 <span className="inline-container">
-                                                    <input type="color" value={color17} style={{ width: '100px' }} onChange={handleColorChange17} />
+                                                    <input type="color" value={colors[16]} style={{ width: '100px' }} onChange={(event) => handleColorChange(16, event.target.value)} />
                                                 </span>
                                             </div>
 
@@ -365,7 +288,7 @@ const SettingsDialog = () => {
                                         <div className="container">
                                             <p className="inline-element">並べて表示</p>
                                             <FormControlLabel
-                                                control={<Checkbox checked={isChecked6} onChange={handleCheckboxChange6} />}
+                                                control={<Checkbox checked={checkboxStates[5]} onChange={() => handleCheckboxChange(5)} />}
                                                 label="当日の色设定を使用する"
                                                 className="inline-element"
                                             />
@@ -373,7 +296,7 @@ const SettingsDialog = () => {
                                         <Button variant="contained" onClick={handleButtonClick} style={{ backgroundColor: 'white', color: 'gray', border: '1px solid gray', marginRight: '30px' }}>
                                             初期値に戻す</Button>
                                         <FormControlLabel
-                                            control={<Checkbox checked={isChecked7} onChange={handleCheckboxChange7} />}
+                                            control={<Checkbox checked={checkboxStates[6]} onChange={() => handleCheckboxChange(6)} />}
                                             label="すベての面面に適用"
                                         />
                                     </div>
@@ -388,8 +311,8 @@ const SettingsDialog = () => {
 
                 {/* 对话框操作按钮 */}
                 <DialogActions>
-                    <Button onClick={handleClose} style={{ backgroundColor: '#143867', color: 'white' }}>OK</Button>
-                    <Button onClick={handleClose} style={{ border: '2px solid #143867', backgroundColor: 'white', color: '#143867' }}>キャンセル</Button>
+                    <Button onClick={() => handleClose(true)} style={{ backgroundColor: '#143867', color: 'white' }}>OK</Button>
+                    <Button onClick={() => handleClose(false)} style={{ border: '2px solid #143867', backgroundColor: 'white', color: '#143867' }}>キャンセル</Button>
 
                 </DialogActions>
             </Dialog>

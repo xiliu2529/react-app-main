@@ -3,11 +3,11 @@ import './Layout.css';
 import Header from '../Header/Header';
 import LeftSidebar from '../LeftSidebar/LeftSidebar';
 import MainContent from '../MainContent/MainContent';
-import Page1 from '../../pages/PageOne/PageOne'
-import Page2 from '../../pages/PageTwo'
-import Page3 from '../../pages/PageThree'
-import Page4 from '../../pages/PageFour'
-import Page5 from '../../pages/PageFive'
+import Page1 from '../../pages/GraphPage/GraphPage'
+import Page2 from '../../pages/common/Chart/Chart'
+import Page3 from '../../pages/common/InfoPanel/InfoPanel'
+import Page4 from '../../pages/common/Grid/Grid'
+import Page5 from '../../pages/GridChartPage/GridChartPage'
 import Page6 from '../../pages/PageSix'
 import Page7 from '../../pages/PageSeven'
 import Page8 from '../../pages/PageEight'

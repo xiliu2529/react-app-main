@@ -1,0 +1,12 @@
+.page-five-container {
+    display: flex;
+    height: 100vh; /* 设置高度为100%视口高度 */
+  }
+  
+  .page-five-left {
+    width: 70%; /* 设置宽度为70% */
+    display: flex;
+    flex-direction: column;
+  }
+  
+ 
