@@ -3,17 +3,18 @@
 import React from 'react';
 
 const PageSeven: React.FC = () => {
-  const pageStyle = {
-    backgroundColor: '#66cc80',
-    padding: '60px', 
-    color: 'white' ,
-  };
+  
 
   return (
-    <div style={pageStyle}>
-      <h6>7</h6>
-      <p>7777</p>
+    <div>
+      <div className='title-1'>銘柄設定</div>
+      <div className='title-1'>期間設定</div>
+      <div className='title-1'>算出間隔</div>
+
+
+
     </div>
+  
   );
 };
 

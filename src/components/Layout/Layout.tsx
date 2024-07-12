@@ -8,7 +8,7 @@ import Page2 from '../../pages/GridChartPage/GridChartPage'
 import Page3 from '../../pages/common/InfoPanel/InfoPanel'
 import Page4 from '../../pages/common/Grid/Grid'
 import Page5 from '../../pages/GridChartPage/GridChartPage'
-import Page6 from '../../pages/PageSix'
+import Page6 from '../../pages/ConditionSettingsPage'
 import Page7 from '../../pages/PageSeven'
 import Page8 from '../../pages/PageEight'
 

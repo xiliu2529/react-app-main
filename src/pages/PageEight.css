@@ -1,0 +1,24 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* 三列等宽 */
+  gap: 6px; /* 列之间的间隔，可以根据需要调整 */
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-grid-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* 可选的垂直间隔 */
+}
+
+.grid-container > .column {
+  padding: 6px; /* 内边距 */
+  border: 1px solid #ddd; /* 可选的边框 */
+}
+
+
+

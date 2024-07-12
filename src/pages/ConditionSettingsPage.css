@@ -1,0 +1,31 @@
+.body{
+    height:100% ;
+}
+.Setting-div{
+    margin-left: -70px;
+    margin-top: 70px;
+    text-align: left ;
+    width: 300px;
+
+}
+.title-1 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px; /* 根据需要调整下边距 */
+    font-size: 13px;
+  }
+  
+  .title-1::before {
+    content: '';
+    background-color: #143867; /* 设置竖线颜色 */
+    width: 4px;             /* 设置竖线的宽度 */
+    height: 20px;           /* 设置竖线的高度，可以调整为合适的值 */
+    border-radius: 4px;    /* 设置圆角 */
+    margin-right: 6px;    /* 设置竖线和文字之间的间隔 */
+    display: inline-block; /* 确保竖线和文字在一行 */
+  }
+  
+
+
+  
+  
