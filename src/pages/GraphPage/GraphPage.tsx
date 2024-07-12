@@ -6,10 +6,9 @@ import './GraphPage.css';
 const PageOne: React.FC = () => {
   
   return (
-    <div style={{ width: '100%' }}>
+    <div className='Chart'>
       <PageThree/>
-      <PageTwo/>
-    </div>
+        <PageTwo/></div>
   );
 };
 

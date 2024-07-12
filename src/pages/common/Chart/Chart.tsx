@@ -13,7 +13,11 @@ const PageTwo: React.FC = () => {
   const options: Highcharts.Options = {
     chart: {
       type: 'line',
-      zoomType: 'xy'
+      zoomType: 'xy',
+      
+    },
+    title: {
+      text: null // 设置图表标题为空
     },
     xAxis: {
       categories: [
@@ -31,17 +35,13 @@ const PageTwo: React.FC = () => {
     yAxis: [{
       labels: {
         format: '{value}%',
+        enabled: false, 
         style: {
           color: Highcharts.getOptions().colors![1]
         }
       }
     }, {
-      title: {
-        text: 'Precipitation',
-        style: {
-          color: Highcharts.getOptions().colors![0]
-        }
-      },
+    
       labels: {
         format: '{value} %',
         style: {
@@ -106,7 +106,6 @@ const PageTwo: React.FC = () => {
         5, 100, 95, 90, 85
       ],
       tooltip: {
-        valueSuffix: '%'
       }
     }]
   };
@@ -117,13 +116,14 @@ const PageTwo: React.FC = () => {
 
   return (
     <div>
-    <FormControlLabel
+    <FormControlLabel className='chart-top'
     control={<Checkbox checked={checked} onChange={handleChange} />}
     label="当日の価格チャートを表示"
     labelPlacement="start"
   />
   <div>
   <div id="chart-container" className='chart'></div>
+
   </div>
   </div>
   );

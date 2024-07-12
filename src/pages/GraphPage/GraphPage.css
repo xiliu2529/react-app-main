@@ -1,46 +1,32 @@
-.message {
-    white-space: pre;
-}
-
-.body {
-    width: 100%;
-    height: 100%;
-}
-
-.dataPanel {
-    padding-top: 30px;
-    margin-left: -50px;
-}
-
-.message-container {
+.Chart .message-container {
     display: flex;
     flex-wrap: wrap;
 }
 
-.message-item {
+.Chart .message-item {
     display: flex;
     align-items: center;
     margin-right: 20px;
     /* 调整每个项目之间的水平间距 */
 }
 
-.label {
+.Chart .label {
     font-weight: bold;
     margin-right: 5px;
     /* 调整标签和值之间的水平间距 */
 }
 
-.execution-time {
+.Chart .execution-time {
     margin-top: 10px;
     /* 调整执行时间段落的上边距 */
 }
 
-.message {
+.Chart .message {
     position: relative;
     /* 让伪元素相对于这个元素定位 */
 }
 
-.message::before {
+.Chart .message::before {
     content: '';
     position: absolute;
     left: -10px;
@@ -52,27 +38,29 @@
     background-color: #000;
     /* 竖线的颜色 */
 }
-.toggle-button{
+
+.Chart .toggle-button {
     padding-left: 30px;
     padding-top: 25px;
 }
-.customToggleButton {
+
+.Chart .customToggleButton {
     width: 200px;
     border: none; /* 初始无边框 */
     border-bottom: 2px solid #ccc; /* 初始下边框是灰色且比较细 */
     text-transform: none; /* 取消按钮文本大写 */
     position: relative; /* 相对定位 */
-  }
-  
-  .customToggleButton.Mui-selected {
+}
+
+.Chart .customToggleButton.Mui-selected {
     background-color: #ccc; /* 背景变灰 */
-  }
-  
-  .customToggleButton.Mui-selected .MuiButton-label {
+}
+
+.Chart .customToggleButton.Mui-selected .MuiButton-label {
     color: #143867; /* 文字变蓝 */
-  }
-  
-  .customToggleButton.Mui-selected::before {
+}
+
+.Chart .customToggleButton.Mui-selected::before {
     content: '';
     position: absolute;
     bottom: 0;
@@ -80,8 +68,13 @@
     width: 100%;
     height: 3px; /* 下边框变粗 */
     background-color: #143867; /* 下边框颜色变蓝 */
-  }  
-  .chart{
+}
+
+.Chart .chart {
+    /* .chart 类名下的样式 */
+    height: 60vh;
+}
+
+.Chart{
     width: 100%;
-    margin-left: -30px;
-  }
+}

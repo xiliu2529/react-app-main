@@ -4,7 +4,7 @@ import Header from '../Header/Header';
 import LeftSidebar from '../LeftSidebar/LeftSidebar';
 import MainContent from '../MainContent/MainContent';
 import Page1 from '../../pages/GraphPage/GraphPage'
-import Page2 from '../../pages/common/Chart/Chart'
+import Page2 from '../../pages/GridChartPage/GridChartPage'
 import Page3 from '../../pages/common/InfoPanel/InfoPanel'
 import Page4 from '../../pages/common/Grid/Grid'
 import Page5 from '../../pages/GridChartPage/GridChartPage'
