@@ -1,24 +1,19 @@
+.C{
+  width: 50%;
+  margin-top: 80px;
+  margin-left: -60px;
+}
 .grid-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr; /* 三列等宽 */
-  gap: 6px; /* 列之间的间隔，可以根据需要调整 */
+  grid-template-columns: 1fr 2fr; /* 两列布局，第一个列较窄，第二列较宽 */
+  gap: 20px; /* 列之间的间距 */
+  grid-template-rows: auto; /* 行高自动调整 */
 }
 
-.column {
-  display: flex;
-  flex-direction: column;
+.grid-container .C {
+  grid-column: 1; /* 第一列 */
 }
 
-.info-grid-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px; /* 可选的垂直间隔 */
+.grid-container .grid-chart-page {
+  grid-column: 2; /* 第二列 */
 }
-
-.grid-container > .column {
-  padding: 6px; /* 内边距 */
-  border: 1px solid #ddd; /* 可选的边框 */
-}
-
-
-

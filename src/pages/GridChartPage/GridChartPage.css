@@ -1,111 +1,17 @@
-.body {
-  width: 100%; /* 设置宽度为100% */
-  height: 100%;
-}
-
-.page-five-container {
+.GridChartPage{
   display: flex;
-  text-align: left;
-}
-.page-five-right .chart-top {
-  margin-left: -40%;
-  width: 60vh;
-  margin-top: 10vh;
-}
-
-
-.page-five-left {
-  width: 100%; /* 设置宽度为70% */
-  display: flex;
-  flex-direction: column; /* 设置为垂直方向的列布局 */
-}
-
-.page-five-left .table-container {
-  max-height: 55vh; 
-  overflow: auto; 
-  overflow-x: auto;
-}
-.page-five-right .chart {
- height: 450px;
- 
-}
-
-.page-five-left .message-container {
-  display: flex;
-  flex-wrap: wrap; /* 消息容器使用flex布局，并换行显示 */
-}
-.page-five-left .grid-container {
+  margin-left: 1vw;
   
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    min-width: 700px;
-    border: 1px solid #ccc; 
-    margin-left: -50px; /* 负边距左移50像素 */
-    max-height: 55vh; /* 最大高度为65%视口高度 */
-    border-radius: 8px;
 }
-.page-five-left .grid-container-div{
-  display: flex;
-  flex-direction: row;
+.GridChartPage-InfoPanel .toggle-button{
+  margin-left: 50px;
+}
+.GridChartPage-GRid .table-container{
+  height: 68vh;
+  min-width: 80vw;
 }
 
-.page-five-left .message-item {
-  display: flex;
-  align-items: center;
-  margin-right: 20px; /* 调整每个项目之间的水平间距 */
+.GridChartPage-Chart {
+  /* width: 20%; */
 }
 
-.page-five-left .label {
-  font-weight: bold;
-  margin-right: 5px; /* 调整标签和值之间的水平间距 */
-}
-
-.page-five-left .execution-time {
-  margin-top: 10px; /* 调整执行时间段落的上边距 */
-}
-
-.page-five-left .message {
-  position: relative; /* 让伪元素相对于这个元素定位 */
-}
-
-.page-five-left .message::before {
-  content: '';
-  position: absolute;
-  left: -10px; /* 调整竖线的位置 */
-  top: 0;
-  width: 2px; /* 竖线的宽度 */
-  height: 100%; /* 竖线的高度 */
-  background-color: #000; /* 竖线的颜色 */
-}
-
-.page-five-left .toggle-button {
-  padding-left: 30px;
-  padding-top: 25px; /* 设置按钮的内边距 */
-}
-
-.page-five-left .customToggleButton {
-  width: 200px;
-  border: none; /* 初始无边框 */
-  border-bottom: 2px solid #ccc; /* 初始下边框是灰色且比较细 */
-  text-transform: none; /* 取消按钮文本大写 */
-  position: relative; /* 相对定位 */
-}
-
-.page-five-left .customToggleButton.Mui-selected {
-  background-color: #ccc; /* 背景变灰 */
-}
-
-.page-five-left .customToggleButton.Mui-selected .MuiButton-label {
-  color: #143867; /* 文字变蓝 */
-}
-
-.page-five-left .customToggleButton.Mui-selected::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3px; /* 下边框变粗 */
-  background-color: #143867; /* 下边框颜色变蓝 */
-}

@@ -13,8 +13,6 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ onButtonClick }) => {
     onButtonClick(buttonName);
   };
 
-  
-
   return (
     <aside className="left-sidebar">
       <span className="icon-container" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>

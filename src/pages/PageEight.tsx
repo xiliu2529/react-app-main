@@ -1,31 +1,25 @@
-
 import React from 'react';
-import ConditionSettingsPage from './ConditionSettingsPage'
+import C from './PageSeven'
 import InfoPanel from './common/InfoPanel/InfoPanel'
 import Grid from './common/Grid/Grid'
 import Chart from './common/Chart/Chart'
-import './PageEight.css'
+import GridChartPage from'./GridChartPage/GridChartPage'
+// import './PageEight.css'
 const PageEight: React.FC = () => {
   
 
   return (
     <div className='grid-container'>
-    <div className='column'>
-      <ConditionSettingsPage />
-    </div>
-    <div className='column'>
-      <div className='info-grid-container'>
-        <InfoPanel />
-        <Grid />
+      <div className='C'> 
+        <C />
+      </div>
+      <div className='grid-chart-page'>
+        <GridChartPage />
       </div>
     </div>
-    <div className='column'>
-      <Chart />
-    </div>
-  </div>
-  
-  
   );
+  
+  
 };
 
 export default PageEight;

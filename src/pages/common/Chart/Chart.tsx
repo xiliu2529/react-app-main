@@ -4,7 +4,8 @@ import Checkbox from '@mui/material/Checkbox';
 import Highcharts from 'highcharts';
 
 
-const PageTwo: React.FC = () => {
+
+const PageTwo: React.FC<{ height:string | number | null ,width:string | number | null }> = (props) => {
   const [checked, setChecked] = useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -12,9 +13,10 @@ const PageTwo: React.FC = () => {
   };
   const options: Highcharts.Options = {
     chart: {
-      type: 'line',
-      zoomType: 'xy',
-      
+      // type: 'line',
+      // zoomType: 'xy',
+      height:props.height,
+      width:props.width
     },
     title: {
       text: null // 设置图表标题为空
@@ -123,7 +125,6 @@ const PageTwo: React.FC = () => {
   />
   <div>
   <div id="chart-container" className='chart'></div>
-
   </div>
   </div>
   );

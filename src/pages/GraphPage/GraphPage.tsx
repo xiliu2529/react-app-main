@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import PageTwo from '../common/Chart/Chart';
-import PageThree from '../common/InfoPanel/InfoPanel';
+import Chart from '../common/Chart/Chart';
+import InfoPanel from '../common/InfoPanel/InfoPanel';
 import './GraphPage.css';
 
-const PageOne: React.FC = () => {
-  
+const GraphPage: React.FC = () => {
+
   return (
-    <div className='Chart'>
-      <PageThree/>
-        <PageTwo/></div>
+    <div className='GraphPage'>
+      <div className='GraphPage-InfoPanel'><InfoPanel /></div>
+      <div> <Chart height={null} width={null} /></div>
+
+    </div>
   );
 };
 
-export default PageOne;
+export default GraphPage;

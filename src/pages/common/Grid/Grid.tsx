@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Grid, Paper, Table, TableContainer, TableHead, TableBody, TableCell, TableRow } from '@mui/material';
+import { Grid, Paper, Table, TableContainer, TableHead,Box, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import './Grid.css'
 import { styled } from '@mui/system';
 
 // 创建一个自定义的 TableCell 组件
 const CustomTableCell = styled(TableCell)({
     padding: '3px 3px', // 调整内边距
-    borderRight: '1px solid #ddd', 
+    borderRight: '1px solid #ddd',
 
 });
 
@@ -49,52 +49,57 @@ const DataTable: React.FC = () => {
     ];
 
     return (
-        <div className='grid-container'>
-               <div className='grid-container-div'> 
-                  <p style={{ margin: 0 ,marginLeft:'120px ',color:'#405D83',fontSize:'10px'}}>6日平均(05/17-05/24)2024/05/27</p> 
-                  <p style={{margin: 0 ,marginLeft:'270px ',color:'#405D83',fontSize:'10px'}}>時聞带別最多出来高·価格</p>
-                  </div>
-            <Grid container direction="column" spacing={2}>
-                <Grid item>
-                    <TableContainer component={Paper} className="table-container">
-                    <Table stickyHeader style={{ borderCollapse: 'collapse',minWidth: 600,  }}>
-                            <TableHead>
-                                <TableRow>
-                                    <CustomTableCell>時間</CustomTableCell>
-                                    <CustomTableCell>出来高</CustomTableCell>
-                                    <CustomTableCell>分布</CustomTableCell>
-                                    <CustomTableCell>累計</CustomTableCell>
-                                    <CustomTableCell>出来高</CustomTableCell>
-                                    <CustomTableCell>分布</CustomTableCell>
-                                    <CustomTableCell>累計</CustomTableCell>
-                                    <CustomTableCell>差</CustomTableCell>
-                                    <CustomTableCell>価格</CustomTableCell>
-                                    <CustomTableCell>出来高</CustomTableCell>
-                                    <CustomTableCell>場引けVWAP</CustomTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {data.map((row, index) => (
-                                    <TableRow key={index}>
-                                        <CustomTableCell>{row.time}</CustomTableCell>
-                                        <CustomTableCell>{row.volume1}</CustomTableCell>
-                                        <CustomTableCell>{row.distribution1}</CustomTableCell>
-                                        <CustomTableCell>{row.cumulative1}</CustomTableCell>
-                                        <CustomTableCell>{row.volume2}</CustomTableCell>
-                                        <CustomTableCell>{row.distribution2}</CustomTableCell>
-                                        <CustomTableCell>{row.cumulative2}</CustomTableCell>
-                                        <CustomTableCell>{row.difference}</CustomTableCell>
-                                        <CustomTableCell>{row.price}</CustomTableCell>
-                                        <CustomTableCell>{row.volume3}</CustomTableCell>
-                                        <CustomTableCell>{row.vwap}</CustomTableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </Grid>
-            </Grid>
-        </div>
+        <Box className='grid-container'>
+      <Box className='grid-container-div' />
+      <Grid container direction="column" spacing={1}>
+        <Grid item>
+        <TableContainer component={Paper} className="table-container">
+            <Box className='table-title'>
+              <Typography className="table-title-left">
+                6日平均(05/17-05/24)2024/05/27
+              </Typography>
+              <Typography className="table-title-right">
+                時聞带別最多出来高·偭格
+              </Typography>
+            </Box>
+            <Table stickyHeader>
+              <TableHead>
+                <TableRow>
+                  <TableCell>時間</TableCell>
+                  <TableCell>出来高</TableCell>
+                  <TableCell>分布</TableCell>
+                  <TableCell>累計</TableCell>
+                  <TableCell>出来高</TableCell>
+                  <TableCell>分布</TableCell>
+                  <TableCell>累計</TableCell>
+                  <TableCell>差</TableCell>
+                  <TableCell>価格</TableCell>
+                  <TableCell>出来高</TableCell>
+                  <TableCell>場引けVWAP</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data.map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{row.time}</TableCell>
+                    <TableCell>{row.volume1}</TableCell>
+                    <TableCell>{row.distribution1}</TableCell>
+                    <TableCell>{row.cumulative1}</TableCell>
+                    <TableCell>{row.volume2}</TableCell>
+                    <TableCell>{row.distribution2}</TableCell>
+                    <TableCell>{row.cumulative2}</TableCell>
+                    <TableCell>{row.difference}</TableCell>
+                    <TableCell>{row.price}</TableCell>
+                    <TableCell>{row.volume3}</TableCell>
+                    <TableCell>{row.vwap}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Grid>
+      </Grid>
+    </Box>
     );
 };
 

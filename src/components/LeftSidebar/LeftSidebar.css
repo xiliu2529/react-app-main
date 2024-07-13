@@ -1,25 +1,23 @@
-/* components/LeftSidebar/LeftSidebar.css */
+
 .left-sidebar {
-  /* padding: 20px; */
-  width: 100px;
-  /* border-right: 1px solid #dee2e6; */
-  height: 80px; 
+  position: absolute; /* 使用绝对定位 */
+  top: 11vh;
+  left:1vh;
 }
 
 .icon{
-  width: 50px;
+  width: 40px;
   height: auto;
-  margin-left: 30px; 
-  margin-top: 20px;
   position: relative; /* 确保 z-index 生效，需要相对定位 */
   z-index: 9999; /* 设置一个较高的 z-index 值 */
 }
 .button-container {
-  position: absolute; /* 或者 position: fixed; */
-  top: 150px; /* 调整按钮容器的位置 */
-  left:30px; /* 调整按钮容器的位置 */
+  border: 1px solid #007bff; /* 边框颜色 */
+  border-radius: 8px; /* 圆角效果 */
+  position: absolute; 
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(4, auto);
-  z-index: 9999; /* 设置一个较高的 z-index 值 */
+  z-index: 1000; /* 设置一个较高的 z-index 值 */
+  margin-top: -2px; /* 使用负值消除空隙 */
 }

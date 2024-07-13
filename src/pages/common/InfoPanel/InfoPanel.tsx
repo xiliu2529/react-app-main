@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import './InfoPanel.css'
+import { Stack } from '@mui/material';
 const PageThree: React.FC = () => {
   const [alignment, setAlignment] = useState<boolean>(true);
   const handleChange1 = (
@@ -35,30 +37,22 @@ const PageThree: React.FC = () => {
         </ToggleButton>
       </ToggleButtonGroup>
 
-      <div className='dataPanel'>
         <div className='message'>
-          <div className="message-container">
-            <div className="message-item">
+        <Stack direction="row" spacing={1} alignItems="center">
+              
               <span className="label">銘柄コード:</span>
               <span className="value">{code}</span>
-            </div>
-            <div className="message-item">
               <span className="label">銘柄名:</span>
               <span className="value">{codeName}</span>
-            </div>
-            <div className="message-item">
               <span className="label">期種:</span>
               <span className="value">{futuresContract}</span>
-            </div>
-            <div className="message-item">
               <span className="label">時間:</span>
               <span className="value">{time}</span>
-            </div>
-          </div>
+          </Stack>
           <p className="execution-time">実行時間: {executionTime}</p>
         </div>
       
-      </div>
+   
 
     </div>
   );

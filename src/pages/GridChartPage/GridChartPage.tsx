@@ -5,18 +5,20 @@ import GRid from '../common/Grid/Grid';
 import InfoPanel from '../common/InfoPanel/InfoPanel';
 import './GridChartPage.css';
 
-const PageFive: React.FC = () => {
+const GridChartPage: React.FC = () => {
   return (
-    <div className="page-five-container">
-      <div className="page-five-left">
-        <InfoPanel />
-        <GRid />
+    <div className='GridChartPage'>
+      <div className="page-left">
+        <div className='GridChartPage-InfoPanel'>
+          <InfoPanel />
+        </div>
+       <div className='GridChartPage-GRid'><GRid /></div> 
       </div>
-      <div className="page-five-right">
-        <Chart />
+      <div className="GridChartPage-Chart">
+        <Chart height={500} width={350}/>
       </div>
     </div>
   );
 };
 
-export default PageFive;
+export default GridChartPage;

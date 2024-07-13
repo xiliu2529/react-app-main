@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, Grid, Box, ToggleButton, ToggleButtonGroup, IconButton } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
-import './ConditionSettingsPage.css'; // 确保 CSS 文件路径正确
+// import './ConditionSettingsPage.css'; // 确保 CSS 文件路径正确
 
 const ConditionSettingsPage: React.FC = () => {
   const [interval, setInterval] = useState<number>(15);
