@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import './InfoPanel.css'
+import { useMyContext } from '../../../contexts/MyContext'; // 导入上下文
 import { Stack } from '@mui/material';
+
 const PageThree: React.FC = () => {
-  const [alignment, setAlignment] = useState<boolean>(true);
+  const {isHistoricalActive,setisHistoricalActive} = useMyContext();
   const handleChange1 = (
     event: React.MouseEvent<HTMLElement>,
     newAlignment: boolean | null,
   ) => {
     if (newAlignment !== null) {
-      setAlignment(newAlignment);
+      setisHistoricalActive(newAlignment);
     }
   };
   const code = '0000';
@@ -24,7 +26,7 @@ const PageThree: React.FC = () => {
         <ToggleButtonGroup
         className='toggle-button'
         color="primary"
-        value={alignment}
+        value={isHistoricalActive}
         exclusive
         onChange={handleChange1}
         aria-label="Platform"

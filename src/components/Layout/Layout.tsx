@@ -11,6 +11,7 @@ import SettingsChartPage from '../../pages/SettingsChartPage/SettingsChartPage'
 import GraphPage from '../../pages/GraphPage/GraphPage'
 import ConfigChartBottom from '../../pages/ConfigChartBottom/ConfigChartBottom'
 import ChartBottom from '../../pages/ChartBottom/ChartBottom'
+import { MyProvider } from '../../contexts/MyContext'; // 导入上下文提供者
 
 
 const Layout: React.FC = () => {
@@ -25,13 +26,15 @@ const Layout: React.FC = () => {
   };
 
   return (
-    <div className="layout">
-      <Header />
-      <div className="body">
-        <LeftSidebar onButtonClick={handleButtonClick} />
-        {showMainContent ? <MainContent /> : renderContent()}
+    <MyProvider>
+      <div className="layout">
+        <Header />
+        <div className="body">
+          <LeftSidebar onButtonClick={handleButtonClick} />
+          {showMainContent ? <MainContent /> : renderContent()}
+        </div>
       </div>
-    </div>
+    </MyProvider>
   );
     
     
