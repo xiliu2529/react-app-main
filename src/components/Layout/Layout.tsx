@@ -3,14 +3,14 @@ import './Layout.css';
 import Header from '../Header/Header';
 import LeftSidebar from '../LeftSidebar/LeftSidebar';
 import MainContent from '../MainContent/MainContent';
-import Page1 from '../../pages/GraphPage/GraphPage'
-import Page2 from '../../pages/GridChartPage/GridChartPage'
-import Page3 from '../../pages/common/InfoPanel/InfoPanel'
-import Page4 from '../../pages/common/Grid/Grid'
-import Page5 from '../../pages/common/Chart/Chart'
-import Page6 from '../../pages/ConditionSettingsPage'
-import Page7 from '../../pages/PageSeven'
-import Page8 from '../../pages/PageEight'
+import SettingsChartGridPage from '../../pages/SettingsChartGridPage/SettingsChartGridPage'
+import GridChartPage from '../../pages/GridChartPage/GridChartPage'
+import SettingsGridPage from '../../pages/SettingsGridPage/SettingsGridPage'
+import Grid from '../../pages/GridPage/GridPage'
+import SettingsChartPage from '../../pages/SettingsChartPage/SettingsChartPage'
+import GraphPage from '../../pages/GraphPage/GraphPage'
+import ConfigChartBottom from '../../pages/ConfigChartBottom/ConfigChartBottom'
+import ChartBottom from '../../pages/ChartBottom/ChartBottom'
 
 
 const Layout: React.FC = () => {
@@ -39,23 +39,23 @@ const Layout: React.FC = () => {
   function renderContent() {
     switch (clickedButton) {
       case 0:
-          return <MainContent />
+          return <SettingsChartGridPage />
       case 1:
-          return <Page1 />;
+          return <SettingsChartGridPage />;
       case 2:
-          return <Page2 />;
+          return <GridChartPage />;
       case 3:
-          return <Page3 />;
+          return <SettingsGridPage />;
       case 4:
-          return <Page4 />;
+          return <Grid />;
       case 5:
-          return <Page5 />;
+          return <SettingsChartPage />;
       case 6:
-          return <Page6 />;    
+          return <GraphPage />;    
       case 7:
-          return <Page7 />;    
+          return <ConfigChartBottom />;    
       case 8:
-          return <Page8 />;    
+          return <ChartBottom />;    
    
     }
   }

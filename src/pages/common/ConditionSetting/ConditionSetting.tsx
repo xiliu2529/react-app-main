@@ -1,8 +1,8 @@
 import { TextField, Box, Grid, Typography, Button, Stack, ToggleButton, ToggleButtonGroup, MenuItem, Checkbox, Select, FormControlLabel } from '@mui/material';
 import React, { useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
-
-const PageSeven: React.FC = () => {
+import './ConditionSetting.css'
+const ConditionSetting: React.FC = () => {
   const [alignment, setAlignment] = React.useState('1');
   const [value, setValue] = useState<number>(0);
   const [age, setAge] = React.useState('');
@@ -34,7 +34,7 @@ const PageSeven: React.FC = () => {
     // 你可以在这里执行一些计算或提交表单等操作
   };
   return (
-    <div>
+    <div className='commonsp'>
       <div className='title-1'>銘柄設定</div>
       <Stack direction="row" spacing={1} alignItems="center">
         <Typography variant="body1">銘柄入力</Typography>
@@ -57,8 +57,9 @@ const PageSeven: React.FC = () => {
       </ToggleButtonGroup>
 
       <div>
+      <Stack direction="row" spacing={1} alignItems="center">
         <Typography variant="body1">日数</Typography>
-        <Stack direction="row" spacing={1} alignItems="center">
+      
           <Button
             variant="outlined"
             size="small"
@@ -88,7 +89,7 @@ const PageSeven: React.FC = () => {
         </Stack>
       </div>
 
-      <div className='title-1'>算出間隔</div>
+      <div id='title-2' className='title-1'>算出間隔</div>
       <Stack direction="row" spacing={1} alignItems="center">
         <p>間隔</p>
         <Select labelId="demo-simple-select-label" id="demo-simple-select" value={age} label="Age" onChange={handleChange}>
@@ -116,8 +117,9 @@ const PageSeven: React.FC = () => {
         </Grid>
       </Grid>
       <p>個别算出</p>
-      <Grid container spacing={3} alignItems="center">
-        <Grid item xs={2}>
+      <div style={{width:'1000px'}}>
+      <Grid container spacing={1} alignItems="center">
+        <Grid item xs={1}>
           <Typography variant="body1">前場</Typography>
         </Grid>
         <Grid item xs>
@@ -127,7 +129,7 @@ const PageSeven: React.FC = () => {
       </Grid>
 
       <Grid container spacing={1} alignItems="center">
-        <Grid item xs={2}>
+        <Grid item xs={1}>
           <Typography variant="body1">後場</Typography>
         </Grid>
         <Grid item xs>
@@ -137,21 +139,22 @@ const PageSeven: React.FC = () => {
       </Grid>
 
       <Grid container spacing={1} alignItems="center">
-        <Grid item xs={2} >
-          <Typography variant="body1" sx={{width:'800px'}}>イプニング</Typography>
+        <Grid item xs={1} >
+          <Typography variant="body1" >イプニング</Typography>
         </Grid>
         <Grid item xs>
           <FormControlLabel control={<Checkbox checked={checkedE} onChange={handleChangeE} />} label="寄付" />
           <FormControlLabel control={<Checkbox checked={checkedF} onChange={handleChangeF} />} label="引け" />
         </Grid>
       </Grid>
-      <Stack direction="row" spacing={1} sx={{ marginTop: '-20px',marginLeft:'220px'}}>
+      </div>
+      <Box display="flex" justifyContent="flex-end">
       <Button variant="contained" sx={{ backgroundColor: '#143867' }} onClick={handleCalculate}>
         算出
       </Button>
-    </Stack>
+      </Box>
     </div>
   );
 };
 
-export default PageSeven;
+export default ConditionSetting;

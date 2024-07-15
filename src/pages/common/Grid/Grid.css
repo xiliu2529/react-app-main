@@ -18,11 +18,13 @@
     font-size: 10px; /* 字体大小 */
     color: #2d70d4; /* 字体颜色 */
     padding-left: 13vw;
+    white-space: nowrap; /* 防止换行 */
 }
 .table-title-right {
     font-size: 10px; /* 字体大小 */
     color: #2d70d4; /* 字体颜色 */
     text-align: right; /* 右对齐 */
     padding-right: 17vw;
+    white-space: nowrap; /* 防止换行 */
 }
 

@@ -1,15 +1,6 @@
 import * as React from 'react';
 import { Grid, Paper, Table, TableContainer, TableHead,Box, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import './Grid.css'
-import { styled } from '@mui/system';
-
-// 创建一个自定义的 TableCell 组件
-const CustomTableCell = styled(TableCell)({
-    padding: '3px 3px', // 调整内边距
-    borderRight: '1px solid #ddd',
-
-});
-
 interface DataItem {
     time: string;
     volume1: number;

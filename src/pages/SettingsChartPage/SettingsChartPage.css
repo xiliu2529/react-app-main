@@ -1,0 +1,6 @@
+.SettingsChartPage {
+    display: flex; /* 使用 flexbox 布局 */
+}
+.SettingsChart-InfoPanelChart{
+    margin-left: 20px;
+}

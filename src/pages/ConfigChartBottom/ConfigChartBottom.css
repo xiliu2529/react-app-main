@@ -1,0 +1,12 @@
+
+.ConfigChartBottom {
+    display: flex;
+}
+
+.right-column{
+    margin-left: 2vw;
+}
+
+.right-top .infoPanelGrid-Grid .table-container{
+    height: 30vh;
+}

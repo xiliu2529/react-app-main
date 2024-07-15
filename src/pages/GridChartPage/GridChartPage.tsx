@@ -1,5 +1,4 @@
 import React from 'react';
-import { Grid } from '@mui/material';
 import Chart from '../common/Chart/Chart';
 import GRid from '../common/Grid/Grid';
 import InfoPanel from '../common/InfoPanel/InfoPanel';
@@ -15,7 +14,7 @@ const GridChartPage: React.FC = () => {
        <div className='GridChartPage-GRid'><GRid /></div> 
       </div>
       <div className="GridChartPage-Chart">
-        <Chart height={500} width={350}/>
+        <Chart height={'150%'} width={480}/>
       </div>
     </div>
   );

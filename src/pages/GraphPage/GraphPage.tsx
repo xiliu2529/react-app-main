@@ -5,10 +5,11 @@ import './GraphPage.css';
 
 const GraphPage: React.FC = () => {
 
+  
   return (
     <div className='GraphPage'>
       <div className='GraphPage-InfoPanel'><InfoPanel /></div>
-      <div> <Chart height={null} width={null} /></div>
+      <div> <Chart height={'35%'} width={null} /></div>
 
     </div>
   );
