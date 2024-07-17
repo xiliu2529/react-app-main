@@ -1,15 +1,17 @@
 .SettingsChartGridPage {
-    display: flex; /* 将容器的布局模式设置为 flexbox 布局 */
-  }
-  .SettingsChartGridPage-InfoPanelGrid {
-    flex: 0.5; /* 使每个子元素占据容器宽度的两倍，调整此值可以改变每个子元素所占宽度比例 */
-    margin: 5px; /* 设置子元素之间没有间距 */
-  }
-  .SettingsChartGridPage-InfoPanelGrid .table-container {
-    /* 其他样式 */
-    width: 100%;
-  }
-  
-  .Chart {
-    /* 其他样式 */
-  }
+  display: flex;
+  /* 将容器的布局模式设置为 flexbox 布局 */
+}
+
+.SettingsChartGridPage-InfoPanelGrid {
+  margin: 5px;
+  /* 设置子元素之间没有间距 */
+}
+
+.SettingsChartGridPage-InfoPanelGrid .table-container {
+  /* width: 70%; */
+}
+.SettingsChartGridPage-InfoPanelGrid .grid-container{
+  width: 50vw;
+}
+

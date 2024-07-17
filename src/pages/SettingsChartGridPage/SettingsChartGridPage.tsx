@@ -13,7 +13,7 @@ const SettingsChartGridPage: React.FC = () => {
         <InfoPanelGrid/>
         </div>
 
-        <Chart height={800} width={600}/>
+        <Chart height={530} width={300}/>
 
     </div>
   );

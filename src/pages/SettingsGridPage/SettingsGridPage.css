@@ -2,13 +2,13 @@
     display: flex; /* 使用 flexbox 布局 */
     height: 100%;
   }
-.SettingsGridPage-Grid{
-    width: 100%;
+.SettingsGridPage-InfoPanelGrid{
+    width: 120%;
     margin-left: 10px;
     
  
    
 }
 .SettingsGridPage-Grid .table-container {
-  height: 77vh;
+  height: 68vh;
 }

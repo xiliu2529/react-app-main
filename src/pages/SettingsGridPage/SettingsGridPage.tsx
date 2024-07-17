@@ -1,6 +1,6 @@
 import React from 'react';
 import ConditionSetting from '../common/ConditionSetting/ConditionSetting'
-import Grid from '../common/InfoPanelGrid/InfoPanelGrid'
+import InfoPanelGrid from '../common/InfoPanelGrid/InfoPanelGrid'
 import './SettingsGridPage.css'
 const SettingsGridPage: React.FC = () => {
   
@@ -10,8 +10,8 @@ const SettingsGridPage: React.FC = () => {
   <div className='SettingsGridPage-ConditionSetting'>
     <ConditionSetting />
   </div>
-  <div className='SettingsGridPage-Grid'>
-    <Grid />
+  <div className='SettingsGridPage-InfoPanelGrid'>
+    <InfoPanelGrid />
   </div>
 </div>
 

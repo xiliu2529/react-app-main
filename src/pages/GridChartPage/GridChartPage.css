@@ -6,9 +6,10 @@
 .GridChartPage-InfoPanel .toggle-button{
   margin-left: 50px;
 }
-.GridChartPage-GRid .table-container{
-  height: 77vh;
-  min-width: 80vw;
+
+.GridChartPage-GRid .grid-container{
+  width: 52vw;
+  height: 67vh;
 }
 
 .GridChartPage-Chart {

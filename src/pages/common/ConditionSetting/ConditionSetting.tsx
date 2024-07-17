@@ -49,11 +49,11 @@ const ConditionSetting: React.FC = () => {
 
       <div className='title-1'>期間設定</div>
       <ToggleButtonGroup value={alignment} exclusive onChange={handleAlignment} aria-label="text alignment">
-        <ToggleButton value="1">直近</ToggleButton>
-        <ToggleButton value="2">開始日</ToggleButton>
-        <ToggleButton value="3">終了日</ToggleButton>
-        <ToggleButton value="4">開始終了日</ToggleButton>
-        <ToggleButton value="5">SQ-日</ToggleButton>
+      <ToggleButton value="1" className="ToggleButton">直近</ToggleButton>
+      <ToggleButton value="2" className="ToggleButton">開始日</ToggleButton>
+      <ToggleButton value="3" className="ToggleButton">終了日</ToggleButton>
+      <ToggleButton value="4" className="ToggleButton">開始終了日</ToggleButton>
+      <ToggleButton value="5" className="ToggleButton">SQ-日</ToggleButton>
       </ToggleButtonGroup>
 
       <div>
@@ -64,7 +64,7 @@ const ConditionSetting: React.FC = () => {
             variant="outlined"
             size="small"
             onClick={handleDecrement}
-            sx={{ padding: 0, width: '30px', height: '30px', minWidth: '30px', minHeight: '30px', fontSize: '16px' }}
+            sx={{ padding: 0, width: '30px', height: '10px', minWidth: '10px', minHeight: '20px', fontSize: '16px' }}
           >
             -
           </Button>
@@ -74,7 +74,7 @@ const ConditionSetting: React.FC = () => {
             size="small"
             InputProps={{
               readOnly: true,
-              sx: { padding: 0, '& input': { paddingLeft: 2, height: '30px' } }
+              sx: { padding: 0, '& input': { paddingLeft: 2, height: '10px' } }
             }}
             sx={{ width: '50px', '& .MuiOutlinedInput-root': { padding: 0 } }}
           />
@@ -82,7 +82,7 @@ const ConditionSetting: React.FC = () => {
             variant="outlined"
             size="small"
             onClick={handleIncrement}
-            sx={{ padding: 0, width: '30px', height: '30px', minWidth: '30px', minHeight: '30px', fontSize: '16px' }}
+            sx={{ padding: 0, width: '30px', height: '10px', minWidth: '10px', minHeight: '20px', fontSize: '16px' }}
           >
             +
           </Button>
@@ -117,37 +117,38 @@ const ConditionSetting: React.FC = () => {
         </Grid>
       </Grid>
       <p>個别算出</p>
-      <div style={{width:'1000px'}}>
-      <Grid container spacing={1} alignItems="center">
-        <Grid item xs={1}>
-          <Typography variant="body1">前場</Typography>
-        </Grid>
-        <Grid item xs>
-          <FormControlLabel control={<Checkbox checked={checkedA} onChange={handleChangeA} />} label="寄付" />
-          <FormControlLabel control={<Checkbox checked={checkedB} onChange={handleChangeB} />} label="引け" />
-        </Grid>
-      </Grid>
+      <div style={{ width: '900px',  flexDirection: 'row' }}>
+  <Grid container spacing={1} alignItems="center">
+    <Grid item xs={1}>
+      <Typography variant="body1">前場</Typography>
+    </Grid>
+    <Grid item xs>
+      <FormControlLabel control={<Checkbox checked={checkedA} onChange={handleChangeA} />} label="寄付" />
+      <FormControlLabel control={<Checkbox checked={checkedB} onChange={handleChangeB} />} label="引け" />
+    </Grid>
+  </Grid>
 
-      <Grid container spacing={1} alignItems="center">
-        <Grid item xs={1}>
-          <Typography variant="body1">後場</Typography>
-        </Grid>
-        <Grid item xs>
-          <FormControlLabel control={<Checkbox checked={checkedC} onChange={handleChangeC} />} label="寄付" />
-          <FormControlLabel control={<Checkbox checked={checkedD} onChange={handleChangeD} />} label="引け" />
-        </Grid>
-      </Grid>
+  <Grid container spacing={1} alignItems="center">
+    <Grid item xs={1}>
+      <Typography variant="body1">後場</Typography>
+    </Grid>
+    <Grid item xs>
+      <FormControlLabel control={<Checkbox checked={checkedC} onChange={handleChangeC} />} label="寄付" />
+      <FormControlLabel control={<Checkbox checked={checkedD} onChange={handleChangeD} />} label="引け" />
+    </Grid>
+  </Grid>
 
-      <Grid container spacing={1} alignItems="center">
-        <Grid item xs={1} >
-          <Typography variant="body1" >イプニング</Typography>
-        </Grid>
-        <Grid item xs>
-          <FormControlLabel control={<Checkbox checked={checkedE} onChange={handleChangeE} />} label="寄付" />
-          <FormControlLabel control={<Checkbox checked={checkedF} onChange={handleChangeF} />} label="引け" />
-        </Grid>
-      </Grid>
-      </div>
+  <Grid container spacing={1} alignItems="center">
+    <Grid item xs={1}>
+      <Typography variant="body1">イプニング</Typography>
+    </Grid>
+    <Grid item xs>
+      <FormControlLabel control={<Checkbox checked={checkedE} onChange={handleChangeE} />} label="寄付" />
+      <FormControlLabel control={<Checkbox checked={checkedF} onChange={handleChangeF} />} label="引け" />
+    </Grid>
+  </Grid>
+</div>
+
       <Box display="flex" justifyContent="flex-end">
       <Button variant="contained" sx={{ backgroundColor: '#143867' }} onClick={handleCalculate}>
         算出

@@ -4,9 +4,11 @@
 }
 
 .right-column{
+    width: 68vw;
     margin-left: 2vw;
 }
 
 .right-top .infoPanelGrid-Grid .table-container{
     height: 30vh;
 }
+

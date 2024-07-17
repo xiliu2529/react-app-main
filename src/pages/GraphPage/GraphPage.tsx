@@ -9,7 +9,7 @@ const GraphPage: React.FC = () => {
   return (
     <div className='GraphPage'>
       <div className='GraphPage-InfoPanel'><InfoPanel /></div>
-      <div> <Chart height={'35%'} width={null} /></div>
+      <div> <Chart height={'32%'} width={null} /></div>
 
     </div>
   );

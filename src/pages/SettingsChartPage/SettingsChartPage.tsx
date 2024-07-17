@@ -12,7 +12,7 @@ const SettingsChartPage: React.FC = () => {
             <div className='SettingsChart-InfoPanelChart'>
             <InfoPanel />
             
-            <Chart height={700} width={1400} />
+            <Chart height={'45%'} width={900} />
             </div>
         </div>
     );

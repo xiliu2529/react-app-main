@@ -1,7 +1,7 @@
 .grid-container{
     border: 1px solid #ccc; 
     overflow-x: auto;
-    max-width: 70vw;
+    max-width: 100vw;
 }
 .table-container {
     overflow: auto;

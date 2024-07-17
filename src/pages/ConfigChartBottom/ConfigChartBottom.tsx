@@ -14,7 +14,7 @@ const ConfigChartBottom: React.FC = () => {
             </div>
             <div className='right-column'>
                 <div className='right-top'>   <InfoPanelGrid /></div>
-                <div className='right-bottom'> <Chart height={null}width={null} /></div>
+                <div className='right-bottom'> <Chart height={'23%'}width={'900'} /></div>
             </div>
         </div>
     );

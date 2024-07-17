@@ -14,7 +14,7 @@ const GridChartPage: React.FC = () => {
        <div className='GridChartPage-GRid'><GRid /></div> 
       </div>
       <div className="GridChartPage-Chart">
-        <Chart height={'150%'} width={480}/>
+        <Chart height={'86%'} width={600}/>
       </div>
     </div>
   );

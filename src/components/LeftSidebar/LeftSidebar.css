@@ -1,7 +1,7 @@
 
 .left-sidebar {
   position: absolute; /* 使用绝对定位 */
-  top: 8vh;
+  top: 10%;
   left:1vh;
 }
 

@@ -9,7 +9,7 @@ const ChartBottom: React.FC = () => {
     return (
         <div className='ChartBottom'>
                 <div className='ChartBottom-top'>   <InfoPanelGrid /></div>
-                <div className='ChartBottom-bottom'> <Chart height={null}width={null} /></div>
+                <div className='ChartBottom-bottom'> <Chart height={'17%'}width={null} /></div>
             </div>
     );
 

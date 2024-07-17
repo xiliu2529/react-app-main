@@ -1,12 +1,15 @@
 .commonsp {
-    width: 25vw;
-    margin-top: 9vh;
+    width: 30vw;
+    margin-top: 7vh;
     margin-left: 1vw;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 8px;
     min-width: 250px;
-    height: 80vh;
+    height: 79vh;
+    min-height: 500px;
+    max-width: 500px;
+    max-height: 600px;
     
 }
 
@@ -26,7 +29,7 @@
     transform: translateY(-50%);
     width: 3px;
     /* 线条的宽度 */
-    height: 100%;
+    height: 50%;
     /* 线条的高度 */
     background-color: #143867;
     /* 线条的颜色 */
@@ -34,5 +37,26 @@
     /* 圆角 */
 }
 #title-2{
-    margin-top: 10vh;
+    margin-top: 4vh;
 }
+
+ .ToggleButton {
+    height: 30px;
+    font-size: 14px;
+    padding: 4px !important;
+
+  }
+   
+  #demo-simple-select {
+    padding: 10px;
+    padding-right: 30px;
+  }
+  .MuiInputBase-input[type="time"] {
+    padding: 4px; /* 适当调整输入框的内边距 */
+  }
+  
+  /* Optional: Adjust other styles as needed */
+  .MuiInputBase-input[type="time"] {
+    font-size: 14px;
+    /* width: 120px; */
+  }
