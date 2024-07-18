@@ -5,6 +5,7 @@ npm install
 npm run dev
 
 放弃更改
-拉取最新
+拉取
 git checkout 
-git pull origin main
+git pull origin main    /node
+

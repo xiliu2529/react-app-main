@@ -23,5 +23,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "src/pages/GridChartPage/.tsx"]
+  "include": ["src", "src/Components/GridChartPage/.tsx"]
 }
