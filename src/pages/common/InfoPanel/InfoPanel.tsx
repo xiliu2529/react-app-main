@@ -15,6 +15,7 @@ const PageThree: React.FC = () => {
       setisHistoricalActive(newAlignment);
     }
   };
+  
   const code = '0000';
   const codeName = 'ああああああ';
   const time = '0000/00/00 ～0000/00/00';

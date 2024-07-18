@@ -9,6 +9,7 @@ interface LeftSidebarProps {
 
 const LeftSidebar: React.FC<LeftSidebarProps> = ({ onButtonClick }) => {
   const { isHistoricalActive } = useMyContext(); // 获取上下文中的 alignment
+  
   const [isHovered, setIsHovered] = useState(false);
   const handleButtonClick = (buttonName: number) => {
     onButtonClick(buttonName);
