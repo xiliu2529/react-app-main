@@ -1,10 +1,10 @@
 import React from 'react';
-import InfoPanelGrid from '../../Components/InfoPanelGrid/InfoPanelGrid';
-import Chart from '../../Components/Chart/Chart';
-import ConditionSetting from '../../Components/ConditionSetting/ConditionSetting';
-import InfoPanel from '../../Components/InfoPanel/InfoPanel';
-import Grid from '../../Components/Grid/Grid';
-import InfoPanelHistoricalGrid from '../../Components/InfoPanelGrid/InfoPanelHistoricalGrid';
+import InfoPanelGrid from '../../components/InfoPanelGrid/InfoPanelGrid';
+import Chart from '../../components/Chart/Chart';
+import ConditionSetting from '../../components/ConditionSetting/ConditionSetting';
+import InfoPanel from '../../components/InfoPanel/InfoPanel';
+import Grid from '../../components/Grid/Grid';
+import InfoPanelHistoricalGrid from '../../components/InfoPanelGrid/InfoPanelHistoricalGrid';
 import './PageSwitcher.css'
 
 export const SettingsChartGridPage: React.FC = () => {

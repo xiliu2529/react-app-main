@@ -1,6 +1,6 @@
 // Layout.tsx
 import React, { useState } from 'react';
-import './Layout.css';
+import './MainPage.css';
 import Header from '../Header/Header';
 import LeftSidebar from '../LeftSidebar/LeftSidebar';
 import {
@@ -17,7 +17,7 @@ import {
 } from '../PageSwitcher/PageSwitcher'; 
 import { useMyContext } from '../../contexts/MyContext'; // 导入上下文提供者
 
-const Layout: React.FC = () => {
+const MainPage: React.FC = () => {
   // 定义状态来存储从 LeftSidebar 组件传递过来的值和显示状态
   const [clickedButton, setClickedButton] = useState<number | null>(null);
   const { isHistoricalActive } = useMyContext(); // 获取上下文中的 alignment
@@ -74,4 +74,4 @@ const Layout: React.FC = () => {
   }
 };
 
-export default Layout;
+export default MainPage;

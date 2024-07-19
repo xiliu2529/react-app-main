@@ -1,6 +1,6 @@
 import React from 'react';
 import './Header.css';
-import SettingsDialog from '../../Components/SettingsDialog/SettingsDialog'
+import SettingsDialog from '../../components/SettingsDialog/SettingsDialog'
 
 const Header: React.FC = () => {
   const handleClick = () => {
