@@ -55,7 +55,7 @@ export const GridPage: React.FC = () => {
 
   return (
     <div className='gridnomi'>
-      <Grid />
+      <InfoPanelGrid />
     </div>
   );
 };
