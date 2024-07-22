@@ -7,5 +7,5 @@ npm run dev
 放弃更改
 拉取
 git checkout 
-git pull origin main    /node
+git pull origin node    /node
 
