@@ -207,41 +207,6 @@ const ConditionSetting: React.FC = () => {
         <ToggleButton value="5" className="ToggleButton">SQ-日</ToggleButton>
       </ToggleButtonGroup>
       {renderUI()}
-
-
-      {/* <div>
-      <Stack direction="row" spacing={1} alignItems="center">
-        <Typography variant="body1">日数</Typography>
-      
-          <Button
-            variant="outlined"
-            size="small"
-            onClick={handleDecrement}
-            sx={{ padding: 0, width: '30px', height: '10px', minWidth: '10px', minHeight: '20px', fontSize: '16px' }}
-          >
-            -
-          </Button>
-          <TextField
-            variant="outlined"
-            value={value}
-            size="small"
-            InputProps={{
-              readOnly: true,
-              sx: { padding: 0, '& input': { paddingLeft: 2, height: '10px' } }
-            }}
-            sx={{ width: '50px', '& .MuiOutlinedInput-root': { padding: 0 } }}
-          />
-          <Button
-            variant="outlined"
-            size="small"
-            onClick={handleIncrement}
-            sx={{ padding: 0, width: '30px', height: '10px', minWidth: '10px', minHeight: '20px', fontSize: '16px' }}
-          >
-            +
-          </Button>
-        </Stack>
-      </div> */}
-
       <div id='title-2' className='title-1'>算出間隔</div>
       <Stack direction="row" spacing={1} alignItems="center">
         <p>間隔</p>
@@ -269,7 +234,7 @@ const ConditionSetting: React.FC = () => {
           <TextField type="time" variant="outlined" size="small" value={endTime} onChange={handleDateChange(setEndTime)} />
         </Grid>
       </Grid>
-      <p>個别算出</p>
+      <p style={{marginBottom:0}}>個别算出</p>
       <div style={{ width: '900px', flexDirection: 'row' }}>
         <Grid container spacing={1} alignItems="center">
           <Grid item xs={1}>
