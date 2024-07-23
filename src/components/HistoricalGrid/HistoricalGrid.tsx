@@ -17,7 +17,7 @@ interface DataItem {
 }
 
 // 数据表格组件
-const DataTable: React.FC = () => {
+const HistoricalGrid: React.FC = () => {
     // 假数据作为示例
     const data: DataItem[] = [
         { time: '11:01-11:05', date: '2024/07/11', volume1: 11111, distribution1: '1%', volume2: 32554, distribution2: '34%', volume3: 12, distribution3: '1.2%', volume4: 24000, distribution4: '2.4%' },
@@ -96,4 +96,4 @@ const DataTable: React.FC = () => {
     );
 };
 
-export default DataTable;
+export default HistoricalGrid;

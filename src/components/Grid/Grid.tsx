@@ -15,7 +15,7 @@ interface DataItem {
     vwap: string;
 }
 
-const DataTable: React.FC = () => {
+const Grids: React.FC = () => {
     // 假数据作为示例
     const data: DataItem[] = [
         { time: '11:01-11:05', volume1: 24067, distribution1: '1%', cumulative1: '46%', volume2: 32554, distribution2: '3455', cumulative2: '54254', difference: '12', price: '12', volume3: 12, vwap: '355' },
@@ -94,4 +94,4 @@ const DataTable: React.FC = () => {
     );
 };
 
-export default DataTable;
+export default Grids;

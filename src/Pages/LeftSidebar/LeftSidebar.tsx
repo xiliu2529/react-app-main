@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './LeftSidebar.css';
-import icon from '../../img/icon.png';
+import icon from '../../img/icon.svg';
 import { useMyContext } from '../../contexts/MyContext'; // 导入上下文
 
 interface LeftSidebarProps {

@@ -5,7 +5,7 @@ import Highcharts from 'highcharts';
 
 
 
-const PageTwo: React.FC<{ height:string | number | null ,width:string | number | null }> = (props) => {
+const Chart: React.FC<{ height:string | number | null ,width:string | number | null }> = (props) => {
   const [checked, setChecked] = useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -130,4 +130,4 @@ const PageTwo: React.FC<{ height:string | number | null ,width:string | number |
   );
 };
 
-export default PageTwo;
+export default Chart;

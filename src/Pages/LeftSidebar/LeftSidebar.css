@@ -6,10 +6,11 @@
 }
 
 .icon{
-  width: 40px;
+  /* width: 40px; */
   height: auto;
   position: relative; /* 确保 z-index 生效，需要相对定位 */
   z-index: 9999; /* 设置一个较高的 z-index 值 */
+  margin-top: 1vh;
 }
 .button-container {
   border: 1px solid #007bff; /* 边框颜色 */

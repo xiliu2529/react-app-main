@@ -5,7 +5,7 @@ import './InfoPanel.css'
 import { useMyContext } from '../../contexts/MyContext'; // 导入上下文
 import { Stack } from '@mui/material';
 
-const PageThree: React.FC = () => {
+const InfoPanel: React.FC = () => {
   const {isHistoricalActive,setisHistoricalActive} = useMyContext();
   const handleChange1 = (
     _event: React.MouseEvent<HTMLElement>,
@@ -61,4 +61,4 @@ const PageThree: React.FC = () => {
   );
 };
 
-export default PageThree;
+export default InfoPanel;
