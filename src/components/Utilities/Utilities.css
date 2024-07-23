@@ -1,0 +1,62 @@
+.utilities-container {
+    display: flex;
+    align-items: center; /* 垂直居中对齐 */
+    gap: 1px;
+  }
+  
+  .help-button,
+  .print-icon,
+  .favorite-button,
+  .download-button {
+    display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* 给图标留出空间 */
+  background-repeat: no-repeat; /* 背景图像不重复 */
+  background-position: left center; /* 图标位置 */
+  cursor: pointer;
+  height: 22px; /* 调整高度以容纳图标和文字 */
+  line-height: 30px; /* 使文字垂直居中 */
+  }
+
+.print-icon{
+    background-image: url('../../img/print_24dp_FFFFFF.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    min-width: 30px; /* 设置最小宽度 */
+    max-width: 60px; /* 设置最大宽度 */
+    margin-left: 10px;
+ 
+  }
+.help-button{
+    background-image: url('../../img/info_24dp_FFFFFF.svg');
+    background-repeat: no-repeat;
+    cursor: pointer;
+    min-width: 30px; /* 设置最小宽度 */
+    max-width: 60px; /* 设置最大宽度 */
+    font-weight: bold;
+    color: #fff;
+    border: 2px solid #fff;
+    padding: 3px;
+    border-radius: 5px;
+    padding-left: 30px;
+}
+.favorite-button{
+    background-image: url('../../img/bookmark_border_24dp_FFFFFF.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    min-width: 30px; /* 设置最小宽度 */
+    max-width: 60px; /* 设置最大宽度 */
+
+
+}
+.download-button{
+    background-image: url('../../img//file_download_24dp_FFFFFF.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    min-width: 30px; /* 设置最小宽度 */
+    max-width: 60px; /* 设置最大宽度 */
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import './Header.css';
 import SettingsDialog from '../../components/SettingsDialog/SettingsDialog'
+import Utilities from '../../components/Utilities/Utilities'
 
 const Header: React.FC = () => {
   const handleClick = () => {
@@ -9,7 +10,9 @@ const Header: React.FC = () => {
   return (
     <header className="header">
         <p className="quick" onClick={handleClick}>QUICK ラボ ボリュームカーブ</p>
-        <SettingsDialog></SettingsDialog>
+        <Utilities/>
+        {/* <SettingsDialog></SettingsDialog> */}
+
     </header>
     
     

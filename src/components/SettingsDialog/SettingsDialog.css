@@ -72,7 +72,7 @@
 }
 
 .settings-icon {
-  background-image: url('../../img/settings.svg');
+  background-image: url('../../img/settings_24dp_FFFFFF.svg');
   background-size: contain;
   background-repeat: no-repeat;
   cursor: pointer;
@@ -80,6 +80,7 @@
   min-width: 30px; /* 设置最小宽度 */
   max-width: 60px; /* 设置最大宽度 */
 }
+
 
 .category-title {
   position: relative; /* 设置相对定位，以便于后面绝对定位伪元素 */
