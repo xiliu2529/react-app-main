@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Paper, Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Typography, Box } from '@mui/material';
+import { Grid, Paper, Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Box } from '@mui/material';
 import './HistoricalGrid.css';
 
 // 定义数据项接口
