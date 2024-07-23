@@ -1,7 +1,7 @@
 import React from 'react';
 import './Header.css';
-import SettingsDialog from '../../components/SettingsDialog/SettingsDialog'
 import Utilities from '../../components/Utilities/Utilities'
+import labo from '../../img/labo.svg'
 
 const Header: React.FC = () => {
   const handleClick = () => {
@@ -9,9 +9,8 @@ const Header: React.FC = () => {
 
   return (
     <header className="header">
-        <p className="quick" onClick={handleClick}>QUICK ラボ ボリュームカーブ</p>
+        <img src={labo} className="quick" alt="Icon description" onClick={handleClick}/>
         <Utilities/>
-        {/* <SettingsDialog></SettingsDialog> */}
 
     </header>
     
