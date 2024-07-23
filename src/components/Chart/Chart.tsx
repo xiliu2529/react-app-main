@@ -1,133 +1,232 @@
-import React, { useState } from 'react';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Highcharts from 'highcharts';
+import React, { useState, useEffect } from 'react'; // 从 React 导入所需的钩子
+import FormControlLabel from '@mui/material/FormControlLabel'; // 从 MUI 导入 FormControlLabel 组件
+import Checkbox from '@mui/material/Checkbox'; // 从 MUI 导入 Checkbox 组件
+import Highcharts from 'highcharts'; // 从 Highcharts 导入 Highcharts
 
+// 生成假数据的函数
+const generateRandomData = (length: number) => {
+  return Array.from({ length }, () => Math.floor(Math.random() * 100));
+};
 
+// 定义假数据
+const seriesData = {
+  column1: generateRandomData(10), // 生成 10 个随机数据点用于柱状图 1
+  column2: generateRandomData(10), // 生成 10 个随机数据点用于柱状图 2
+  spline1: generateRandomData(10), // 生成 10 个随机数据点用于折线图 1
+  spline2: generateRandomData(10)  // 生成 10 个随机数据点用于折线图 2
+};
 
-const Chart: React.FC<{ height:string | number | null ,width:string | number | null }> = (props) => {
-  const [checked, setChecked] = useState<boolean>(false);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
-  };
-  const options: Highcharts.Options = {
-    chart: {
-      // type: 'line',
-      // zoomType: 'xy',
-      height:props.height,
-      width:props.width
-    },
-    title: {
-      // text: null // 设置图表标题为空
-    },
-    xAxis: {
-      categories: [
-        '9:00', '9:05', '9:10', '9:15', '9:20', '9:25', '9:30', '9:35', '9:40', '9:45',
-        '9:50', '9:55', '10:00', '10:05', '10:10', '10:15', '10:20', '10:25', '10:30',
-        '10:35', '10:40', '10:45', '10:50', '10:55', '11:00', '11:05', '11:10', '11:15',
-        '11:20', '11:25', '11:30', '11:35', '11:40', '11:45', '11:50', '11:55', '12:00',
-        '12:05', '12:10', '12:15', '12:20', '12:25', '12:30', '12:35', '12:40', '12:45',
-        '12:50', '12:55', '13:00', '13:05', '13:10', '13:15', '13:20', '13:25', '13:30',
-        '13:35', '13:40', '13:45', '13:50', '13:55', '14:00', '14:05', '14:10', '14:15',
-        '14:20', '14:25', '14:30', '14:35', '14:40', '14:45', '14:50', '14:55', '15:00'
-      ],
-      crosshair: true
-    },
-    yAxis: [{
-      labels: {
-        format: '{value}%',
-        enabled: false, 
-        style: {
-          color: Highcharts.getOptions().colors![1]
-        }
-      }
-    }, {
-    
-      labels: {
-        format: '{value} %',
-        style: {
-          color: Highcharts.getOptions().colors![0]
-        }
-      },
-      opposite: true
-    }],
+// 定义图表配置选项
+const chartOptions: Highcharts.Options = {
+  chart: {
+    type: 'column', // 图表类型为柱状图
+    height: '4000px', // 图表高度
+    width: '600px'   // 图表宽度
+  },
+  title: {
+    text: null // 图表标题
+  },
+  xAxis: {
+    categories: Array.from({ length: 60 }, (_, i) => `时间 ${i + 1}`), // X 轴分类
+    crosshair: true // 启用十字准线
+  },
+  yAxis: [{
+    labels: {
+      format: '{value}%', // Y 轴标签格式
+      enabled: false // 禁用 Y 轴标签
+    }
+  }, {
+    labels: {
+      format: '{value} %', // Y 轴标签格式
+    },  
+    opposite: true // 将此 Y 轴放在右边
+  }],
+  
+  tooltip: {
+    shared: true // 启用共享提示
+  },
+  legend: {
+    align: 'left', // 图例对齐方式
+    verticalAlign: 'top', // 图例垂直对齐方式
+    backgroundColor: Highcharts.defaultOptions.legend?.backgroundColor || 'rgba(255,255,255,0.25)' // 图例背景颜色
+  },
+  series: [{
+    type: 'column', // 数据系列类型为柱状图
+    color: '#FF0000', // 柱状图颜色
+    yAxis: 0, // 使用第一个 Y 轴
+    data: seriesData.column1 // 数据来源
+  }, {
+    type: 'column', // 数据系列类型为柱状图
+    color: '#00ff40', // 柱状图颜色
+    yAxis: 0, // 使用第一个 Y 轴
+    data: seriesData.column2 // 数据来源
+  }, {
+    name: '线图1', // 数据系列名称
+    type: 'spline', // 数据系列类型为折线图
+    yAxis: 0, // 使用第一个 Y 轴
+    data: seriesData.spline1, // 数据来源
     tooltip: {
-      shared: true
+      valueSuffix: '%' // 提示框后缀
+    }
+  }, {
+    name: '线图2', // 数据系列名称
+    type: 'spline', // 数据系列类型为折线图
+    yAxis: 1, // 使用第二个 Y 轴
+    data: seriesData.spline2 // 数据来源
+  }]
+};
+
+// 定义图表配置选项 1
+const chartOptions1: Highcharts.Options = {
+  chart: {
+    type: 'column', // 图表类型为柱状图
+    height: '200px', // 图表高度
+    width: '600px'   // 图表宽度
+  },
+  title: {
+    text: '柱状图和折线图 1' // 图表标题
+  },
+  xAxis: {
+    categories: Array.from({ length: 10 }, (_, i) => `时间 ${i + 1}`), // X 轴分类
+    crosshair: true // 启用十字准线
+  },
+  yAxis: [{
+    labels: {
+      format: '{value}%', // Y 轴标签格式
+      enabled: false // 禁用 Y 轴标签
+    }
+  }, {
+    labels: {
+      format: '{value} %', // Y 轴标签格式
     },
-    legend: {
-      align: 'left',
-      verticalAlign: 'top',
-      backgroundColor: Highcharts.defaultOptions.legend!.backgroundColor || 'rgba(255,255,255,0.25)'
+    opposite: true // 将此 Y 轴放在右边
+  }],
+  tooltip: {
+    shared: true // 启用共享提示
+  },
+  legend: {
+    align: 'left', // 图例对齐方式
+    verticalAlign: 'top', // 图例垂直对齐方式
+    backgroundColor: Highcharts.defaultOptions.legend?.backgroundColor || 'rgba(255,255,255,0.25)' // 图例背景颜色
+  },
+  series: [{
+    type: 'column', // 数据系列类型为柱状图
+    color: '#FF0000', // 柱状图颜色
+    yAxis: 0, // 使用第一个 Y 轴
+    data: seriesData.column1 // 数据来源
+  }, {
+    name: '线图1', // 数据系列名称
+    type: 'spline', // 数据系列类型为折线图
+    yAxis: 0, // 使用第一个 Y 轴
+    data: seriesData.spline1, // 数据来源
+    tooltip: {
+      valueSuffix: '%' // 提示框后缀
+    }
+  }]
+};
+
+// 定义图表配置选项 2
+const chartOptions2: Highcharts.Options = {
+  chart: {
+    type: 'column', // 图表类型为柱状图
+    height: '200px', // 图表高度
+    width: '600px'   // 图表宽度
+  },
+  title: {
+    text: '柱状图和折线图 2' // 图表标题
+  },
+  xAxis: {
+    categories: Array.from({ length: 10 }, (_, i) => `时间 ${i + 1}`), // X 轴分类
+    crosshair: true // 启用十字准线
+  },
+  yAxis: [{
+    labels: {
+      format: '{value}%', // Y 轴标签格式
+      enabled: false // 禁用 Y 轴标签
+    }
+  }, {
+    labels: {
+      format: '{value} %', // Y 轴标签格式
     },
-    series: [{
-      type: 'column',
-      color: '#FF0000',
-      yAxis: 0,
-      data: [16, 8, 20, 4, 18, 12, 5, 17, 7, 14, 11, 9, 3, 15, 10, 19, 2, 6, 13, 1,
-        5, 16, 8, 12, 4, 7, 11, 18, 10, 13, 9, 3, 2, 15, 19, 20, 14, 6, 1, 17, 5,
-        8, 11, 16, 7, 18, 12, 4, 10, 13, 19, 3, 2, 15, 20, 9, 14, 1, 6, 17, 8, 11,
-        16, 5, 7, 18, 12, 4, 10, 13, 19, 3, 15]
-    }, {
-      type: 'column',
-      color: '#00ff40',
-      yAxis: 0,
-      data: [8, 15, 10, 12, 14, 6, 19, 7, 13, 5, 9, 2, 1, 3, 20, 18, 4, 11, 17, 16,
-        3, 8, 15, 11, 19, 7, 12, 10, 13, 4, 16, 20, 18, 6, 9, 2, 14, 5, 1, 17, 11,
-        15, 10, 19, 14, 7, 13, 6, 12, 4, 18, 9, 20, 5, 2, 8, 3, 16, 1, 17, 7, 12,
-        11, 14, 19, 13, 8, 10, 4, 6, 3, 2, 5]
-    }, {
-      name: '',
-      type: 'spline',
-      yAxis: 1,
-      data: [
-        1, 2, 3, 5, 7, 9, 10, 12, 14, 15,
-        17, 18, 20, 22, 23, 25, 27, 28, 30, 32,
-        34, 35, 37, 38, 40, 42, 43, 45, 46, 48,
-        50, 51, 53, 55, 56, 58, 60, 61, 63, 65,
-        67, 68, 70, 72, 73, 75, 77, 78, 80, 81,
-        83, 85, 87, 88, 90, 91, 93, 95, 96, 98,
-        99, 100, 98, 97, 96, 94, 93, 92, 91, 90,
-        89, 88, 87, 86, 85
-      ],
-      tooltip: {
-        valueSuffix: '%'
-      }
-    }, {
-      name: '',
-      type: 'spline',
-      yAxis: 1,
-      data: [
-        5, 20, 35, 50, 10, 25, 40, 55, 15, 30,
-        45, 60, 20, 35, 50, 65, 25, 40, 55, 70,
-        30, 45, 60, 75, 35, 50, 65, 80, 40, 55,
-        70, 85, 45, 60, 75, 90, 50, 65, 80, 95,
-        55, 70, 85, 100, 60, 75, 90, 95, 65, 80,
-        85, 90, 70, 75, 80, 85, 75, 70, 65, 60,
-        55, 50, 45, 40, 35, 30, 25, 20, 15, 10,
-        5, 100, 95, 90, 85
-      ],
-      tooltip: {
-      }
-    }]
+    opposite: true // 将此 Y 轴放在右边
+  }],
+  tooltip: {
+    shared: true // 启用共享提示
+  },
+  legend: {
+    align: 'left', // 图例对齐方式
+    verticalAlign: 'top', // 图例垂直对齐方式
+    backgroundColor: Highcharts.defaultOptions.legend?.backgroundColor || 'rgba(255,255,255,0.25)' // 图例背景颜色
+  },
+  series: [ {
+    type: 'column', // 数据系列类型为柱状图
+    color: '#00ff40', // 柱状图颜色
+    yAxis: 0, // 使用第一个 Y 轴
+    data: seriesData.column2 // 数据来源
+  }, {
+    name: '线图2', // 数据系列名称
+    type: 'spline', // 数据系列类型为折线图
+    yAxis: 1, // 使用第二个 Y 轴
+    data: seriesData.spline2 // 数据来源
+  }]
+};
+
+// 定义 Chart 组件
+const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
+  const [checked, setChecked] = useState<boolean>(false); // 状态管理复选框的选中状态
+  console.log('height',props.height);
+  
+  // 处理复选框的变化事件
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked); // 更新复选框的状态
   };
-  React.useEffect(() => {
-    // Create the chart
-    Highcharts.chart('chart-container', options);
-  }, []);
+
+  // 使用 useEffect 钩子在组件挂载时创建图表
+  useEffect(() => {
+    setTimeout(() => {
+      const container = document.getElementById('chart-container'); // 获取图表容器元素
+      if (container) {
+        container.innerHTML = ''; // 清空容器内容
+        Highcharts.chart('chart-container', { ...chartOptions, chart: { height: props.height, width: props.width } }); // 创建图表
+      }
+
+      if (checked) {
+        const container1 = document.getElementById('chart-container1'); // 获取图表容器元素 1
+        const container2 = document.getElementById('chart-container2'); // 获取图表容器元素 2
+
+        if (container1) {
+          container1.innerHTML = ''; // 清空容器内容
+          Highcharts.chart('chart-container1', { ...chartOptions1, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width } }); // 创建图表 1
+        }
+
+        if (container2) {
+          container2.innerHTML = ''; // 清空容器内容
+          Highcharts.chart('chart-container2', { ...chartOptions2, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width } }); // 创建图表 2
+        }
+      }
+    }, 0); // 确保 DOM 渲染完成
+  }, [checked, props.height, props.width]); // 依赖项：checked 状态和图表的高度、宽度
 
   return (
     <div>
-    <FormControlLabel className='chart-top'
-    control={<Checkbox checked={checked} onChange={handleChange} />}
-    label="当日の価格チャートを表示"
-    labelPlacement="start"
-  />
-  <div>
-  <div id="chart-container" className='chart'></div>
-  </div>
-  </div>
+      <FormControlLabel
+        className='chart-top' // 为 FormControlLabel 组件添加自定义样式
+        control={<Checkbox checked={checked} onChange={handleChange} />} // 渲染复选框
+        label="当日の価格チャートを表示" // 复选框标签
+        labelPlacement="start" // 标签放置位置
+      />
+      <div>
+        {checked ? (
+          <>
+            <div id="chart-container1" className='chart'></div> 
+            <div id="chart-container2" className='chart'></div>
+          </>
+        ) : (
+          <div id="chart-container" className='chart'></div>
+        )}
+      </div>
+    </div>
   );
 };
 
-export default Chart;
+export default Chart; // 导出 Chart 组件
