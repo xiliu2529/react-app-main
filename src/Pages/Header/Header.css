@@ -7,7 +7,6 @@
   background-color: #143867;
   /* padding-left:19px; */
   display: flex;
-  min-width: 00px;
   grid-column: 1 / -1; /* 占据所有列 */
   width: 100%; /* 确保宽度占满 */
   align-items: center; /* 使子元素在交叉轴上居中 */

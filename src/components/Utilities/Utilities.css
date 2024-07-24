@@ -41,6 +41,7 @@
     padding: 3px;
     border-radius: 5px;
     padding-left: 30px;
+    white-space: nowrap;
 }
 .favorite-button{
     background-image: url('../../img/bookmark_border_24dp_FFFFFF.svg');

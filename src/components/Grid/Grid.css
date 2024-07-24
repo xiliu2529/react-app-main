@@ -1,12 +1,10 @@
 .grid-container {
     border: 1px solid #ccc;
     overflow-x: auto;
-    max-width: 100vw;
 }
 
 .table-container {
     overflow: auto;
-    max-width: 100vw;
 }
 
 .table-title {
@@ -25,7 +23,7 @@
     /* 字体大小 */
     color: #2d70d4;
     /* 字体颜色 */
-    padding-left: 13vw;
+    padding-left: 90px;
     white-space: nowrap;
     /* 防止换行 */
 }
@@ -37,7 +35,7 @@
     /* 字体颜色 */
     text-align: right;
     /* 右对齐 */
-    padding-right: 17vw;
+    padding-right: 90px;
     white-space: nowrap;
     /* 防止换行 */
 }

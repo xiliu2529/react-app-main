@@ -1,61 +1,68 @@
 .ChartBottom {
     flex-direction: column;
+    width: 1250px;
 }
 .ChartBottom-top .infoPanelGrid-Grid .table-container{
-    height: 30vh;
+    height: 100px;
+    /* 第八页的网格 */
 }
 .ChartBottom-top .infoPanelGrid .toggle-button{
-    margin-left: 12vw;
+    margin-left: 150px;
 }
 .ChartBottom-top{
-    margin-left: 1vw;
+    margin-left: 10px;
+    
 }
 
 .ConfigChartBottom {
     display: flex;
+    width: 1000px;
 }
 
 .right-column{
-    width: 68vw;
-    margin-left: 2vw;
+    width: 100%;
+    margin-left: 10px;
 }
 
 .right-top .infoPanelGrid-Grid .table-container{
-    height: 30vh;
+    height: 100px;
+    /* 第七页的网格 */
 }
 
 .GraphPage-InfoPanel .toggle-button{
-    margin-left: 12vw;
+    margin-left: 150px;
 }
 .GraphPage{
-    margin-left: 1vw;
+    margin-left: 10px;
 }
 .GridChartPage{
     display: flex;
-    margin-left: 1vw;
+    margin-left: 10px;
     
   }
   .GridChartPage-InfoPanel .toggle-button{
-    margin-left: 12vw;
+    margin-left:140px
   }
   
   .GridChartPage-GRid .grid-container{
-    width: 52vw;
-    height: 67vh;
+    width: 600px;
+    height: 430px;
   }
   .gridnomi .toggle-button{
-    margin-left: 12vw;
+    margin-left: 140px;
 
 }
 .gridnomi{
     height: 100%;
+    width: 1250px;
     margin-left: 20px;
 }
 .InfoPanelHistoricalGrid{
-    margin-left: 1vw;
+  width: 1200px;
+    margin-left: 10px;
 }
 .InfoPanelHistoricalGrid .toggle-button{
-    margin-left: 12vw;
+    margin-left: 150px;
 }
 .SettingsChartGridPage {
     display: flex;
@@ -65,10 +72,6 @@
   .SettingsChartGridPage-InfoPanelGrid {
     margin: 5px;
     /* 设置子元素之间没有间距 */
-  }
-  
-  .SettingsChartGridPage-InfoPanelGrid .table-container {
-    /* width: 70%; */
   }
   .SettingsChartGridPage-InfoPanelGrid .grid-container{
     width: 50vw;
@@ -81,10 +84,9 @@
 }
 .SettingsGridPage {
     display: flex; /* 使用 flexbox 布局 */
-    height: 100%;
   }
 .SettingsGridPage-InfoPanelGrid{
-    width: 120%;
+    width: 950px;
     margin-left: 10px;
     
  

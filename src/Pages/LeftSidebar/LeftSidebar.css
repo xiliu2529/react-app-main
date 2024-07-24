@@ -1,8 +1,8 @@
 
 .left-sidebar {
   position: absolute; /* 使用绝对定位 */
-  top: 10%;
-  left:1vh;
+  top: 70px;
+  left:10px;
 }
 
 .icon{
@@ -10,7 +10,7 @@
   height: auto;
   position: relative; /* 确保 z-index 生效，需要相对定位 */
   z-index: 9999; /* 设置一个较高的 z-index 值 */
-  margin-top: 1vh;
+  /* margin-top: 1vh; */
 }
 .button-container {
   border: 1px solid #007bff; /* 边框颜色 */
@@ -20,5 +20,5 @@
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(4, auto);
   z-index: 1000; /* 设置一个较高的 z-index 值 */
-  margin-top: -2px; /* 使用负值消除空隙 */
+  margin-top: -7px; /* 使用负值消除空隙 */
 }

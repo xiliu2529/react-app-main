@@ -80,7 +80,7 @@ export const GraphPage: React.FC = () => {
   return (
     <div className='GraphPage'>
       <div className='GraphPage-InfoPanel'><InfoPanel /></div>
-      <div> <Chart height={400} width={null} /></div>
+      <div> <Chart height={400} width={1250} /></div>
     </div>
   );
 };
