@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'; // 从 React 导入所需的钩子
-import FormControlLabel from '@mui/material/FormControlLabel'; // 从 MUI 导入 FormControlLabel 组件
-import Checkbox from '@mui/material/Checkbox'; // 从 MUI 导入 Checkbox 组件
-import Highcharts from 'highcharts'; // 从 Highcharts 导入 Highcharts
+import React, { useState, useEffect } from 'react'; 
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox'; 
+import Highcharts from 'highcharts';
+import { useMyContext } from '../../contexts/MyContext';
 
 // 生成假数据的函数
 const generateRandomData = (length: number) => {
@@ -38,10 +39,10 @@ const chartOptions: Highcharts.Options = {
   }, {
     labels: {
       format: '{value} %', // Y 轴标签格式
-    },  
+    },
     opposite: true // 将此 Y 轴放在右边
   }],
-  
+
   tooltip: {
     shared: true // 启用共享提示
   },
@@ -158,7 +159,7 @@ const chartOptions2: Highcharts.Options = {
     verticalAlign: 'top', // 图例垂直对齐方式
     backgroundColor: Highcharts.defaultOptions.legend?.backgroundColor || 'rgba(255,255,255,0.25)' // 图例背景颜色
   },
-  series: [ {
+  series: [{
     type: 'column', // 数据系列类型为柱状图
     color: '#00ff40', // 柱状图颜色
     yAxis: 0, // 使用第一个 Y 轴
@@ -173,9 +174,9 @@ const chartOptions2: Highcharts.Options = {
 
 // 定义 Chart 组件
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
+  const { settingsState } = useMyContext();
   const [checked, setChecked] = useState<boolean>(false); // 状态管理复选框的选中状态
-  console.log('height',props.height);
-  
+  let display = settingsState.radioValues[2] === "Arrange"
   // 处理复选框的变化事件
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked); // 更新复选框的状态
@@ -189,23 +190,20 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         container.innerHTML = ''; // 清空容器内容
         Highcharts.chart('chart-container', { ...chartOptions, chart: { height: props.height, width: props.width } }); // 创建图表
       }
-
-      if (checked) {
+      if (display) {
         const container1 = document.getElementById('chart-container1'); // 获取图表容器元素 1
         const container2 = document.getElementById('chart-container2'); // 获取图表容器元素 2
-
         if (container1) {
           container1.innerHTML = ''; // 清空容器内容
           Highcharts.chart('chart-container1', { ...chartOptions1, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width } }); // 创建图表 1
         }
-
         if (container2) {
           container2.innerHTML = ''; // 清空容器内容
           Highcharts.chart('chart-container2', { ...chartOptions2, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width } }); // 创建图表 2
         }
       }
     }, 0); // 确保 DOM 渲染完成
-  }, [checked, props.height, props.width]); // 依赖项：checked 状态和图表的高度、宽度
+  }, [display, props.height, props.width]); // 依赖项：checked 状态和图表的高度、宽度
 
   return (
     <div>
@@ -216,9 +214,9 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         labelPlacement="start" // 标签放置位置
       />
       <div>
-        {checked ? (
+        {display ? (
           <>
-            <div id="chart-container1" className='chart'></div> 
+            <div id="chart-container1" className='chart'></div>
             <div id="chart-container2" className='chart'></div>
           </>
         ) : (

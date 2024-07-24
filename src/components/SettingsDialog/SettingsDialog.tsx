@@ -17,22 +17,18 @@ import { useMyContext } from '../../contexts/MyContext';
 type CheckboxState = boolean[];
 type RadioValue = string[];
 type ColorValue = string[];
-type SettingsState = {
-    checkboxStates: CheckboxState;
-    radioValues: RadioValue;
-    colors: ColorValue;
-};
+
 
 
 
 const SettingsDialog = () => {
-    const { settingsState, setSettingsState } = useMyContext();
+    const { setSettingsState } = useMyContext();
     const [open, setOpen] = useState(false); // ダイアログの開閉状態を管理する状態を定義
     const [checkboxStates, setCheckboxStates] = useState<CheckboxState>(
         Array(7).fill(false) // 7つのチェックボックスの初期状態をすべて未選択にする
     );
     // 単一選択ボックスの状態を管理するために配列を使用
-    const [radioValues, setRadioValues] = useState<RadioValue>(['option1', 'optionA', 'optionX']);
+    const [radioValues, setRadioValues] = useState<RadioValue>(['option1', 'optionA', 'Arrange']);
     // 色選択ボックスの状態を管理するために配列を使用
     const [colors, setColors] = useState<ColorValue>([
         '#FFFFFF', '#000000', '#FFFFFF', '#000000', '#d22331', '#d22331',
@@ -179,8 +175,8 @@ const SettingsDialog = () => {
                                             marginLeft: '20px'  // 向右移动的距离
                                         }}
                                     >
-                                        <FormControlLabel value="optionX" control={<Radio />} label="並ベて表示" />
-                                        <FormControlLabel value="optionY" control={<Radio />} label="重ねて表示" />
+                                        <FormControlLabel value="Arrange" control={<Radio />} label="並ベて表示" />
+                                        <FormControlLabel value="Overlay" control={<Radio />} label="重ねて表示" />
                                     </RadioGroup>
                                     <FormControlLabel
                                         control={<Checkbox checked={checkboxStates[4]} onChange={() => handleCheckboxChange(4)} />}
