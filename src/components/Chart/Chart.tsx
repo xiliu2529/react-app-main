@@ -28,7 +28,7 @@ const chartOptions: Highcharts.Options = {
     text: undefined // 图表标题
   },
   xAxis: {
-    categories: Array.from({ length: 60 }, (_, i) => `时间 ${i + 1}`), // X 轴分类
+    categories: Array.from({ length: 60 }, (_, i) => `時間 ${i + 1}`), // X 轴分类
     crosshair: true // 启用十字准线
   },
   yAxis: [{
@@ -88,7 +88,7 @@ const chartOptions1: Highcharts.Options = {
     text: undefined // 图表标题
   },
   xAxis: {
-    categories: Array.from({ length: 10 }, (_, i) => `时间 ${i + 1}`), // X 轴分类
+    categories: Array.from({ length: 10 }, (_, i) => `時間 ${i + 1}`), // X 轴分类
     crosshair: true // 启用十字准线
   },
   yAxis: [{
@@ -137,7 +137,7 @@ const chartOptions2: Highcharts.Options = {
     text: undefined // 图表标题
   },
   xAxis: {
-    categories: Array.from({ length: 10 }, (_, i) => `时间 ${i + 1}`), // X 轴分类
+    categories: Array.from({ length: 10 }, (_, i) => `時間 ${i + 1}`), // X 轴分类
     crosshair: true // 启用十字准线
   },
   yAxis: [{

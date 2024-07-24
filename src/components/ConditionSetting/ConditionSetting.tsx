@@ -32,7 +32,7 @@ const ConditionSetting: React.FC = () => {
     switch (alignment) {
       case '1':
         return <div>
-          <Stack direction="row" spacing={1} alignItems="center">
+          <Stack direction="row" spacing={1} alignItems="center" className='counter-controls'>
             <Typography variant="body1">日数</Typography>
             <Button
               variant="outlined"
@@ -46,9 +46,9 @@ const ConditionSetting: React.FC = () => {
               size="small"
               InputProps={{
                 readOnly: true,
-                sx: { padding: 0, '& input': { paddingLeft: 2, height: '10px' } }
+                sx: { padding: 0, '& input': { paddingLeft: 2, height: '5px' } }
               }}
-              sx={{ width: '50px', '& .MuiOutlinedInput-root': { padding: 0 } }}
+              sx={{ width: '40px', '& .MuiOutlinedInput-root': { padding: 0 } }}
             />
             <Button
               variant="outlined"
@@ -71,7 +71,7 @@ const ConditionSetting: React.FC = () => {
                 variant="outlined"
                 size="small"
                 onClick={handleDecrement}
-                sx={{ padding: 0, width: '30px', height: '10px', minWidth: '10px', minHeight: '20px', fontSize: '16px' }}
+                sx={{ padding: 0, width: '30px', height: '10px', minWidth: '10px', minHeight: '20px', fontSize: '16px'}}
               >-</Button>
               <TextField
                 variant="outlined"
@@ -128,7 +128,7 @@ const ConditionSetting: React.FC = () => {
         )
       case '4':
         return (
-          <Grid container spacing={1} alignItems="center">
+          <Grid container spacing={1} alignItems="center"  className='counter-controls'>
             <Grid item>
               <Typography variant="body1">期間</Typography>
             </Grid>

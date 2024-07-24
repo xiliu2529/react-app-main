@@ -4,7 +4,7 @@ import './HistoricalGrid.css';
 
 // 定义数据项接口
 interface DataItem {
-    time: string;                   // 时间
+    time: string;                   // 時間
     date: string;                   // 日期
     volume1: number;                // 合计1
     distribution1: string;          // 分布1
