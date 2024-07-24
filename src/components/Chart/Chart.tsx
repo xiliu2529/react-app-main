@@ -25,7 +25,7 @@ const chartOptions: Highcharts.Options = {
     width: '600px'   // 图表宽度
   },
   title: {
-    text: null // 图表标题
+    text: undefined // 图表标题
   },
   xAxis: {
     categories: Array.from({ length: 60 }, (_, i) => `时间 ${i + 1}`), // X 轴分类
@@ -85,7 +85,7 @@ const chartOptions1: Highcharts.Options = {
     width: '600px'   // 图表宽度
   },
   title: {
-    text: '柱状图和折线图 1' // 图表标题
+    text: undefined // 图表标题
   },
   xAxis: {
     categories: Array.from({ length: 10 }, (_, i) => `时间 ${i + 1}`), // X 轴分类
@@ -134,7 +134,7 @@ const chartOptions2: Highcharts.Options = {
     width: '600px'   // 图表宽度
   },
   title: {
-    text: '柱状图和折线图 2' // 图表标题
+    text: undefined // 图表标题
   },
   xAxis: {
     categories: Array.from({ length: 10 }, (_, i) => `时间 ${i + 1}`), // X 轴分类

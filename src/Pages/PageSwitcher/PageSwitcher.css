@@ -59,7 +59,7 @@
 }
 .InfoPanelHistoricalGrid{
   width: 1200px;
-    margin-left: 10px;
+    margin: 10px;
 }
 .InfoPanelHistoricalGrid .toggle-button{
     margin-left: 150px;
@@ -74,7 +74,8 @@
     /* 设置子元素之间没有间距 */
   }
   .SettingsChartGridPage-InfoPanelGrid .grid-container{
-    width: 50vw;
+    width: 610px;
+    
   }
   .SettingsChartPage {
     display: flex; /* 使用 flexbox 布局 */
