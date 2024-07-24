@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { Grid, Paper, Table, TableContainer, TableHead, Box, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import './Grid.css'
+import { useMyContext } from '../../contexts/MyContext'; // 替换为实际路径
+import { useEffect } from 'react';
+
 interface DataItem {
   time: string;
   volume1: number;
@@ -16,6 +19,17 @@ interface DataItem {
 }
 
 const Grids: React.FC = () => {
+  const { settingsState } = useMyContext();
+  console.log('grid',settingsState.colors[1]
+  );
+  
+  useEffect(() => {
+    if (settingsState) {
+      // 假设 settingsState.colors[0] 是你要用作背景色的颜色
+      document.documentElement.style.setProperty('--cell-bg-color', settingsState.colors[0]);
+      document.documentElement.style.setProperty('--cell-color', settingsState.colors[1]);
+    }
+  }, [settingsState]);
   // 假数据作为示例
   const data: DataItem[] = [
     { time: '11:01-11:05', volume1: 24067, distribution1: '1%', cumulative1: '46%', volume2: 32554, distribution2: '3455', cumulative2: '54254', difference: '12', price: '12', volume3: 12, vwap: '355' },
@@ -73,9 +87,9 @@ const Grids: React.FC = () => {
                 {data.map((row, index) => (
                  <TableRow key={index}>
                  <TableCell className="table-body-cell-a" >{row.time}</TableCell>
-                 <TableCell className="table-body-cell-a">{row.volume1}</TableCell>
-                 <TableCell className="table-body-cell-a">{row.distribution1}</TableCell>
-                 <TableCell className="table-body-cell-a">{row.cumulative1}</TableCell>
+                 <TableCell className="table-body-cell">{row.volume1}</TableCell>
+                 <TableCell className="table-body-cell">{row.distribution1}</TableCell>
+                 <TableCell className="table-body-cell">{row.cumulative1}</TableCell>
                  <TableCell className="table-body-cell">{row.volume2}</TableCell>
                  <TableCell className="table-body-cell">{row.distribution2}</TableCell>
                  <TableCell className="table-body-cell">{row.cumulative2}</TableCell>

@@ -11,14 +11,22 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
 import { Grid } from '@mui/material';
 import './SettingsDialog.css';
+import { useMyContext } from '../../contexts/MyContext';
 
 
 type CheckboxState = boolean[];
 type RadioValue = string[];
 type ColorValue = string[];
+type SettingsState = {
+    checkboxStates: CheckboxState;
+    radioValues: RadioValue;
+    colors: ColorValue;
+};
+
+
 
 const SettingsDialog = () => {
-
+    const { settingsState, setSettingsState } = useMyContext();
     const [open, setOpen] = useState(false); // ダイアログの開閉状態を管理する状態を定義
     const [checkboxStates, setCheckboxStates] = useState<CheckboxState>(
         Array(7).fill(false) // 7つのチェックボックスの初期状態をすべて未選択にする
@@ -32,8 +40,6 @@ const SettingsDialog = () => {
         '#52a69f', '#52a69f', '#596db8', '#5bbcd1', '#7e522e'
     ]);
     const [handleTransaction, sethandleTransaction] = useState<any>({});
-
-
     // チェックボックスの状態を更新する関数
     const handleCheckboxChange = (index: number) => {
         const newCheckboxStates = [...checkboxStates];
@@ -55,16 +61,21 @@ const SettingsDialog = () => {
     const handleOpen = () => {
         setOpen(true); // ダイアログを開く処理
         sethandleTransaction({checkboxStates,radioValues,colors})
+
     };
     const handleClose = (value:boolean) => {
         if(!value){
             setCheckboxStates(handleTransaction.checkboxStates);
             setRadioValues(handleTransaction.radioValues);
             setColors(handleTransaction.colors);
+        }else{
+            setSettingsState({checkboxStates,radioValues,colors})
         }
         setOpen(false);
-    };
 
+    };
+   
+    
     const handleButtonClick = () => {
         // ボタンクリック時の処理
         setCheckboxStates(Array(7).fill(false));
@@ -75,11 +86,9 @@ const SettingsDialog = () => {
             '#52a69f', '#52a69f', '#596db8', '#5bbcd1', '#7e522e'
         ]);
     };
-
-
     return (
         <div>
-            <span className="settings-icon" onClick={handleOpen}></span>
+            <span className="settings-icon" onClick={ handleOpen}></span>
             {/* 对话框组件 */}
             <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
                 {/* 对话框标题 */}

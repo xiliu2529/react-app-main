@@ -59,3 +59,8 @@
   .table-body-cell-a{
     background-color: #e8ecf0 !important;
   }
+
+  .table-body-cell{
+    background-color: var(--cell-bg-color); /* 默认颜色为白色 */
+    color:var(--cell-color) !important;
+  }
