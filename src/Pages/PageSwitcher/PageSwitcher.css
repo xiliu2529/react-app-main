@@ -37,8 +37,8 @@
 }
 .GridChartPage{
     display: flex;
-    margin-left: 10px;
-    
+    margin-left: 20px;
+    /* 123 */
   }
   .GridChartPage-InfoPanel .toggle-button{
     margin-left:140px
@@ -70,7 +70,7 @@
   }
   
   .SettingsChartGridPage-InfoPanelGrid {
-    margin: 5px;
+    margin-left: 10px;
     /* 设置子元素之间没有间距 */
   }
   .SettingsChartGridPage-InfoPanelGrid .grid-container{
@@ -81,7 +81,7 @@
     display: flex; /* 使用 flexbox 布局 */
 }
 .SettingsChart-InfoPanelChart{
-    margin-left: 20px;
+    margin-left: 10px;
 }
 .SettingsGridPage {
     display: flex; /* 使用 flexbox 布局 */
