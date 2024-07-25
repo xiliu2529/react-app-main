@@ -10,6 +10,7 @@
     max-width: 500px;
     max-height: 600px;
     width: 270px;
+
     
 }
 
@@ -58,3 +59,8 @@
     margin-top: 10px !important;
 
   }
+  .content-container {
+    height: 80px; /* 根据需要调整高度 */
+    overflow: auto; /* 如果内容超过高度，允许滚动 */
+  }
+  

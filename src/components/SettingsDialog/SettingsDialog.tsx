@@ -70,8 +70,6 @@ const SettingsDialog = () => {
         setOpen(false);
 
     };
-   
-    
     const handleButtonClick = () => {
         // ボタンクリック時の処理
         setCheckboxStates(Array(7).fill(false));
@@ -86,7 +84,7 @@ const SettingsDialog = () => {
         <div>
             <span className="settings-icon" onClick={ handleOpen}></span>
             {/* 对话框组件 */}
-            <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
+            <Dialog open={open}  onClose={() => handleClose(false)} maxWidth="lg" fullWidth  sx={{ zIndex: 9999 }}>
                 {/* 对话框标题 */}
                 <DialogTitle sx={{ backgroundColor: '#143867', color: '#fff' }}>オプション設定</DialogTitle>
 

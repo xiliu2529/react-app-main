@@ -71,7 +71,7 @@ const ConditionSetting: React.FC = () => {
                 variant="outlined"
                 size="small"
                 onClick={handleDecrement}
-                sx={{ padding: 0, width: '30px', height: '10px', minWidth: '10px', minHeight: '20px', fontSize: '16px'}}
+                sx={{ padding: 0, width: '30px', height: '10px', minWidth: '10px', minHeight: '20px', fontSize: '16px' }}
               >-</Button>
               <TextField
                 variant="outlined"
@@ -128,7 +128,7 @@ const ConditionSetting: React.FC = () => {
         )
       case '4':
         return (
-          <Grid container spacing={1} alignItems="center"  className='counter-controls'>
+          <Grid container spacing={1} alignItems="center" className='counter-controls'>
             <Grid item>
               <Typography variant="body1">期間</Typography>
             </Grid>
@@ -145,19 +145,19 @@ const ConditionSetting: React.FC = () => {
       case '5':
         return (
           <div>
-          <FormControlLabel
-            control={<Checkbox checked={checkedState[0]} onChange={sqhandleChange(0)} />}
-            label={<span style={{ fontSize: '10px' }}>Large-SQ</span>}
-          />
-          <FormControlLabel
-            control={<Checkbox checked={checkedState[1]} onChange={sqhandleChange(1)} />}
-            label={<span style={{ fontSize: '10px' }}>Small-SQ</span>}
-          />
-          <FormControlLabel
-            control={<Checkbox checked={checkedState[2]} onChange={sqhandleChange(2)} />}
-            label={<span style={{ fontSize: '10px' }}>Weekly-SQ</span>}
-          />
-        </div>
+            <FormControlLabel
+              control={<Checkbox checked={checkedState[0]} onChange={sqhandleChange(0)} />}
+              label={<span style={{ fontSize: '10px' }}>Large-SQ</span>}
+            />
+            <FormControlLabel
+              control={<Checkbox checked={checkedState[1]} onChange={sqhandleChange(1)} />}
+              label={<span style={{ fontSize: '10px' }}>Small-SQ</span>}
+            />
+            <FormControlLabel
+              control={<Checkbox checked={checkedState[2]} onChange={sqhandleChange(2)} />}
+              label={<span style={{ fontSize: '10px' }}>Weekly-SQ</span>}
+            />
+          </div>
         );
       default:
         return null;
@@ -206,7 +206,9 @@ const ConditionSetting: React.FC = () => {
         <ToggleButton value="4" className="ToggleButton">開始終了日</ToggleButton>
         <ToggleButton value="5" className="ToggleButton">SQ-日</ToggleButton>
       </ToggleButtonGroup>
-      {renderUI()}
+      <div className="content-container">
+        {renderUI()}
+      </div>
       <div id='title-2' className='title-1'>算出間隔</div>
       <Stack direction="row" spacing={1} alignItems="center">
         <p>間隔</p>
@@ -234,7 +236,7 @@ const ConditionSetting: React.FC = () => {
           <TextField type="time" variant="outlined" size="small" value={endTime} onChange={handleDateChange(setEndTime)} />
         </Grid>
       </Grid>
-      <p style={{marginBottom:0}}>個别算出</p>
+      <p style={{ marginBottom: 0 }}>個别算出</p>
       <div style={{ width: '900px', flexDirection: 'row' }}>
         <Grid container spacing={1} alignItems="center">
           <Grid item xs={1}>
