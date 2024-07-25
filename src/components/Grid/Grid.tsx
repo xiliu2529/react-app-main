@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Grid, Paper, Table, TableContainer, TableHead, Box, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import './Grid.css'
-import { useMyContext } from '../../contexts/MyContext'; // 替换为实际路径
+import { useMyContext } from '../../contexts/MyContext'; 
 import { useEffect } from 'react';
 
 interface DataItem {
