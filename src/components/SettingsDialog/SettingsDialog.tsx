@@ -12,23 +12,22 @@ import FormControl from '@mui/material/FormControl';
 import { Grid } from '@mui/material';
 import './SettingsDialog.css';
 import { useMyContext } from '../../contexts/MyContext';
-
+import { useEffect } from 'react';
 
 type CheckboxState = boolean[];
 type RadioValue = string[];
 type ColorValue = string[];
 
-
-
-
 const SettingsDialog = () => {
     const { setSettingsState } = useMyContext();
+    const { buttonName } = useMyContext(); 
+    console.log('se',buttonName);
     const [open, setOpen] = useState(false); // ダイアログの開閉状態を管理する状態を定義
     const [checkboxStates, setCheckboxStates] = useState<CheckboxState>(
         Array(7).fill(false) // 7つのチェックボックスの初期状態をすべて未選択にする
     );
     // 単一選択ボックスの状態を管理するために配列を使用
-    const [radioValues, setRadioValues] = useState<RadioValue>(['option1', 'optionA', 'Arrange']);
+    const [radioValues, setRadioValues] = useState<RadioValue>(['1', 'optionA', 'Arrange']);
     // 色選択ボックスの状態を管理するために配列を使用
     const [colors, setColors] = useState<ColorValue>([
         '#FFFFFF', '#000000', '#FFFFFF', '#000000', '#d22331', '#d22331',
@@ -80,6 +79,11 @@ const SettingsDialog = () => {
             '#52a69f', '#52a69f', '#596db8', '#5bbcd1', '#7e522e'
         ]);
     };
+
+    useEffect(() => {
+       let value = buttonName.toString()
+        handleRadioChange(0,value)
+     }, [buttonName]);
     return (
         <div>
             <span className="settings-icon" onClick={ handleOpen}></span>
@@ -101,16 +105,16 @@ const SettingsDialog = () => {
                                         {/* 第一列 */}
                                         <Grid item xs={12} sm={6}>
                                             <RadioGroup value={radioValues[0]} onChange={(event) => handleRadioChange(0, event.target.value)} sx={{ width: '110%' }}>
-                                                <FormControlLabel value="option1" control={<Radio />} label="条件設定+グリッド+グラフ" />
-                                                <FormControlLabel value="option2" control={<Radio />} label="条件設定+グリッド" />
-                                                <FormControlLabel value="option3" control={<Radio />} label="条件設定+グラフ" />
+                                                <FormControlLabel value="1" control={<Radio />} label="条件設定+グリッド+グラフ" />
+                                                <FormControlLabel value="3" control={<Radio />} label="条件設定+グリッド" />
+                                                <FormControlLabel value="5" control={<Radio />} label="条件設定+グラフ" />
                                             </RadioGroup>
                                         </Grid>
                                         {/* 第二列 */}
                                         <Grid item xs={12} sm={6}>
                                             <RadioGroup value={radioValues[0]} onChange={(event) => handleRadioChange(0, event.target.value)} sx={{ width: '110%' }}>
-                                                <FormControlLabel value="option4" control={<Radio />} label="グリッド+グラフ" />
-                                                <FormControlLabel value="option5" control={<Radio />} label="グリッドのみ" />
+                                                <FormControlLabel value="2" control={<Radio />} label="グリッド+グラフ" />
+                                                <FormControlLabel value="4" control={<Radio />} label="グリッドのみ" />
                                                 <FormControlLabel value="6" control={<Radio />} label="グラフのみ" />
                                             </RadioGroup>
                                         </Grid>

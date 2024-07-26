@@ -14,6 +14,8 @@ interface MyContextType {
     setisHistoricalActive: (alignment: boolean) => void; // 更新布尔值的函数
     settingsState: SettingsState; // 根据实际情况替换为合适的类型
     setSettingsState: (state: SettingsState) => void; // 根据实际情况替换为合适的类型
+    buttonName:number;
+    setbuttonName:(state: number) => void;
 }
 
 // 创建上下文对象，初始值为 undefined
@@ -23,9 +25,10 @@ const MyContext = createContext<MyContextType | undefined>(undefined);
 export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   // 使用 useState 钩子来管理 isHistoricalActive 状态，初始值为 true
   const [isHistoricalActive, setisHistoricalActive] = useState<boolean>(true);
+  const [buttonName, setbuttonName] = useState<number>(1);
   const [settingsState, setSettingsState] = useState<SettingsState>({
     checkboxStates: Array(7).fill(false), // 7 个复选框的初始状态
-    radioValues: ['option1', 'optionA', 'Arrange'], // 单选框的初始值
+    radioValues: ['1', 'optionA', 'Arrange'], // 单选框的初始值
     colors: [
       '#FFFFFF', '#000000', '#FFFFFF', '#000000', '#d22331', '#d22331',
       '#d22331', '#d22331', '#d22331', '#52a69f', '#52a69f', '#52a69f',
@@ -35,7 +38,7 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     // 使用 MyContext.Provider 组件将上下文值传递给子组件
-    <MyContext.Provider value={{ isHistoricalActive, setisHistoricalActive ,settingsState, setSettingsState}}>
+    <MyContext.Provider value={{ isHistoricalActive, setisHistoricalActive ,settingsState, setSettingsState,buttonName,setbuttonName}}>
       {children} {/* 渲染子组件 */}
     </MyContext.Provider>
   );
