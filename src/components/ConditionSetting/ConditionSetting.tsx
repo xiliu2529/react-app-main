@@ -15,7 +15,13 @@ const ConditionSetting: React.FC = () => {
   const [checkedE, setCheckedE] = useState<boolean>(false);
   const [checkedF, setCheckedF] = useState<boolean>(false);
   const [date, setDate] = useState<string>('');
-
+  const selectedStyle = {
+    '&.Mui-selected': {
+      backgroundColor: '#E8ECF0',
+      color: '#143867',
+      fontWeight: '900',
+    },
+  };
   // 创建一个状态对象来管理每个复选框的选中状态
   const [checkedState, setCheckedState] = React.useState<boolean[]>([
     false, // 复选框 1 的初始状态
@@ -33,12 +39,12 @@ const ConditionSetting: React.FC = () => {
       case '1':
         return <div>
           <Stack direction="row" spacing={1} alignItems="center" className='counter-controls'>
-            <Typography variant="body1">日数</Typography>
+            <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
             <Button
               variant="outlined"
               size="small"
               onClick={handleDecrement}
-              sx={{ padding: 0, width: '30px', height: '10px', minWidth: '10px', minHeight: '20px', fontSize: '16px' }}
+              sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}
             >-</Button>
             <TextField
               variant="outlined"
@@ -46,15 +52,15 @@ const ConditionSetting: React.FC = () => {
               size="small"
               InputProps={{
                 readOnly: true,
-                sx: { padding: 0, '& input': { paddingLeft: 2, height: '5px' } }
+                sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } }
               }}
-              sx={{ width: '40px', '& .MuiOutlinedInput-root': { padding: 0 } }}
+              sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
             />
             <Button
               variant="outlined"
               size="small"
               onClick={handleIncrement}
-              sx={{ padding: 0, width: '30px', height: '10px', minWidth: '10px', minHeight: '20px', fontSize: '16px' }}
+              sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}
             >+</Button>
           </Stack>
         </div>
@@ -62,16 +68,16 @@ const ConditionSetting: React.FC = () => {
         return (
           <div>
             <div>
-              <p style={{ display: 'inline-block', marginRight: '8px' }}>開始日</p>
-              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+              <p style={{ display: 'inline-block', fontSize: '10px' }}>開始日</p>
+              <input className='setDate' type="date" value={date} onChange={(e) => setDate(e.target.value)} />
             </div>
             <Stack direction="row" spacing={1} alignItems="center">
-              <Typography variant="body1">日数</Typography>
+              <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
               <Button
                 variant="outlined"
                 size="small"
                 onClick={handleDecrement}
-                sx={{ padding: 0, width: '30px', height: '10px', minWidth: '10px', minHeight: '20px', fontSize: '16px' }}
+                sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}
               >-</Button>
               <TextField
                 variant="outlined"
@@ -79,15 +85,15 @@ const ConditionSetting: React.FC = () => {
                 size="small"
                 InputProps={{
                   readOnly: true,
-                  sx: { padding: 0, '& input': { paddingLeft: 2, height: '10px' } }
+                  sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } }
                 }}
-                sx={{ width: '50px', '& .MuiOutlinedInput-root': { padding: 0 } }}
+                sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
               />
               <Button
                 variant="outlined"
                 size="small"
                 onClick={handleIncrement}
-                sx={{ padding: 0, width: '30px', height: '10px', minWidth: '10px', minHeight: '20px', fontSize: '16px' }}
+                sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}
               >+</Button>
             </Stack>
           </div>
@@ -96,16 +102,16 @@ const ConditionSetting: React.FC = () => {
         return (
           <div>
             <div>
-              <p style={{ display: 'inline-block', marginRight: '8px' }}>終了日</p>
-              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+              <p style={{ display: 'inline-block', fontSize: '10px' }}>終了日</p>
+              <input className='setDate' type="date" value={date} onChange={(e) => setDate(e.target.value)} />
             </div>
             <Stack direction="row" spacing={1} alignItems="center">
-              <Typography variant="body1">日数</Typography>
+              <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
               <Button
                 variant="outlined"
                 size="small"
                 onClick={handleDecrement}
-                sx={{ padding: 0, width: '30px', height: '10px', minWidth: '10px', minHeight: '20px', fontSize: '16px' }}
+                sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}
               >-</Button>
               <TextField
                 variant="outlined"
@@ -113,34 +119,30 @@ const ConditionSetting: React.FC = () => {
                 size="small"
                 InputProps={{
                   readOnly: true,
-                  sx: { padding: 0, '& input': { paddingLeft: 2, height: '10px' } }
+                  sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } }
                 }}
-                sx={{ width: '50px', '& .MuiOutlinedInput-root': { padding: 0 } }}
+                sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
               />
               <Button
                 variant="outlined"
                 size="small"
                 onClick={handleIncrement}
-                sx={{ padding: 0, width: '30px', height: '10px', minWidth: '10px', minHeight: '20px', fontSize: '16px' }}
+                sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}
               >+</Button>
             </Stack>
           </div>
         )
       case '4':
         return (
-          <Grid container spacing={1} alignItems="center" className='counter-controls'>
+          <Grid container spacing={1} alignItems="center" sx={{ marginTop: '0px' }}>
             <Grid item>
-              <Typography variant="body1">期間</Typography>
+              <Typography variant="body1" sx={{ fontSize: '10px' }}>期間</Typography>
             </Grid>
-            <Grid item>
-              <TextField type="time" variant="outlined" size="small" value={startTime} onChange={handleDateChange(setStartTime)} />
-            </Grid>
+            <input className='setDate' type="date" value={date} onChange={(e) => setDate(e.target.value)} />
             <Grid item>
               <Typography variant="body1">-</Typography>
             </Grid>
-            <Grid item>
-              <TextField type="time" variant="outlined" size="small" value={endTime} onChange={handleDateChange(setEndTime)} />
-            </Grid>
+            <input className='setDate' type="date" value={date} onChange={(e) => setDate(e.target.value)} />
           </Grid>);
       case '5':
         return (
@@ -171,9 +173,6 @@ const ConditionSetting: React.FC = () => {
   const handleChangeE = (event: React.ChangeEvent<HTMLInputElement>) => setCheckedE(event.target.checked);
   const handleChangeF = (event: React.ChangeEvent<HTMLInputElement>) => setCheckedF(event.target.checked);
   const handleCalculate = () => {
-    // 在这里处理点击按钮后的逻辑
-    console.log("按钮被点击了！");
-    // 你可以在这里执行一些计算或提交表单等操作
   };
   const sqhandleChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
     // 创建一个新的状态副本
@@ -185,96 +184,85 @@ const ConditionSetting: React.FC = () => {
   };
 
   return (
-    <div className='commonsp'>
-      <div className='title-1'>銘柄設定</div>
-      <Stack direction="row" spacing={1} alignItems="center">
-        <Typography variant="body1">銘柄入力</Typography>
-        <TextField
-          sx={{
-            width: '60px', height: '30px',
-            '& .MuiInputBase-root': { height: '100%', padding: '0 8px' }
-          }}
-        />
-        <Typography variant="body1">東証プライム</Typography>
-      </Stack>
+    <>
+      <div className='commonsp'>
+        <div className='title-1'>銘柄設定</div>
+        <Stack direction="row" spacing={1} alignItems="center">
+          <Typography variant="body1" sx={{ fontSize: "10px" }}>銘柄入力</Typography>
+          <TextField
+            sx={{
+              width: '60px', height: '30px',
+              '& .MuiInputBase-root': { height: '100%', padding: '0 8px' }
+            }}
+          />
+          <Typography variant="body1" sx={{ fontSize: "10px" }}>東証プライム</Typography>
+        </Stack>
 
-      <div className='title-1'>期間設定</div>
-      <ToggleButtonGroup value={alignment} exclusive onChange={handleAlignment} aria-label="text alignment">
-        <ToggleButton value="1" className="ToggleButton">直近</ToggleButton>
-        <ToggleButton value="2" className="ToggleButton">開始日</ToggleButton>
-        <ToggleButton value="3" className="ToggleButton">終了日</ToggleButton>
-        <ToggleButton value="4" className="ToggleButton">開始終了日</ToggleButton>
-        <ToggleButton value="5" className="ToggleButton">SQ-日</ToggleButton>
-      </ToggleButtonGroup>
-      <div className="content-container">
-        {renderUI()}
-      </div>
-      <div id='title-2' className='title-1'>算出間隔</div>
-      <Stack direction="row" spacing={1} alignItems="center">
-        <p>間隔</p>
-        <Select labelId="demo-simple-select-label" id="demo-simple-select" value={age} label="Age" onChange={handleChange}>
-          <MenuItem value={1}>1</MenuItem>
-          <MenuItem value={5}>5</MenuItem>
-          <MenuItem value={10}>10</MenuItem>
-          <MenuItem value={15}>15</MenuItem>
-          <MenuItem value={30}>30</MenuItem>
-        </Select>
-        <p>分間隔</p>
-      </Stack>
+        <div className='title-1'>期間設定</div>
+        <ToggleButtonGroup value={alignment} exclusive onChange={handleAlignment} aria-label="text alignment">
+          <ToggleButton value="1" className="ToggleButton" sx={selectedStyle}>直近</ToggleButton>
+          <ToggleButton value="2" className="ToggleButton" sx={selectedStyle}>開始日</ToggleButton>
+          <ToggleButton value="3" className="ToggleButton" sx={selectedStyle}>終了日</ToggleButton>
+          <ToggleButton value="4" className="ToggleButton" sx={selectedStyle}> 開始終了日</ToggleButton>
+          <ToggleButton value="5" className="ToggleButton" sx={selectedStyle}>SQ-日</ToggleButton>
+        </ToggleButtonGroup>
+        <div className="content-container">
+          {renderUI()}
+        </div>
+        <div id='title-2' className='title-1'>算出間隔</div>
+        <Stack direction="row" spacing={1} alignItems="center">
+          <p>間隔</p>
+          <Select labelId="demo-simple-select-label" id="demo-simple-select" value={age} label="Age" onChange={handleChange}>
+            <MenuItem value={1}>1</MenuItem>
+            <MenuItem value={5}>5</MenuItem>
+            <MenuItem value={10}>10</MenuItem>
+            <MenuItem value={15}>15</MenuItem>
+            <MenuItem value={30}>30</MenuItem>
+          </Select>
+          <p>分間隔</p>
+        </Stack>
 
-      <Grid container spacing={1} alignItems="center">
-        <Grid item>
-          <Typography variant="body1">開始終了時刻</Typography>
-        </Grid>
-        <Grid item>
-          <TextField type="time" variant="outlined" size="small" value={startTime} onChange={handleDateChange(setStartTime)} />
-        </Grid>
-        <Grid item>
-          <Typography variant="body1">-</Typography>
-        </Grid>
-        <Grid item>
-          <TextField type="time" variant="outlined" size="small" value={endTime} onChange={handleDateChange(setEndTime)} />
-        </Grid>
-      </Grid>
-      <p style={{ marginBottom: 0 }}>個别算出</p>
-      <div style={{ width: '900px', flexDirection: 'row' }}>
-        <Grid container spacing={1} alignItems="center">
-          <Grid item xs={1}>
-            <Typography variant="body1">前場</Typography>
+        <Grid container spacing={1} alignItems="center" sx={{ marginTop: '5px' }}>
+          <Grid item>
+            <Typography variant="body1">開始終了時刻</Typography>
           </Grid>
-          <Grid item xs>
+          <Grid item>
+            <TextField type="time" variant="outlined" sx={{ width: '75px' }} value={startTime} onChange={handleDateChange(setStartTime)} />
+          </Grid>
+          <Grid item>
+            <Typography variant="body1">-</Typography>
+          </Grid>
+          <Grid item>
+            <TextField type="time" variant="outlined" sx={{ width: '75px' }} value={endTime} onChange={handleDateChange(setEndTime)} />
+          </Grid>
+        </Grid>
+        <p style={{ marginBottom: 0 }}>個别算出</p>
+        <div>
+          <Grid container spacing={1} alignItems="center" >
+            <Typography variant="body1" padding='10px' paddingRight='50px'>前場</Typography>
             <FormControlLabel control={<Checkbox checked={checkedA} onChange={handleChangeA} />} label="寄付" />
             <FormControlLabel control={<Checkbox checked={checkedB} onChange={handleChangeB} />} label="引け" />
           </Grid>
-        </Grid>
 
-        <Grid container spacing={1} alignItems="center">
-          <Grid item xs={1}>
-            <Typography variant="body1">後場</Typography>
-          </Grid>
-          <Grid item xs>
+          <Grid container spacing={1} alignItems="center" >
+            <Typography variant="body1" padding='10px' paddingRight='50px'>後場</Typography>
             <FormControlLabel control={<Checkbox checked={checkedC} onChange={handleChangeC} />} label="寄付" />
             <FormControlLabel control={<Checkbox checked={checkedD} onChange={handleChangeD} />} label="引け" />
           </Grid>
-        </Grid>
 
-        <Grid container spacing={1} alignItems="center">
-          <Grid item xs={1}>
-            <Typography variant="body1">イプニング</Typography>
-          </Grid>
-          <Grid item xs>
+          <Grid container spacing={1} alignItems="center" >
+            <Typography variant="body1" padding='10px' paddingRight='13.7px'>イプニング</Typography>
             <FormControlLabel control={<Checkbox checked={checkedE} onChange={handleChangeE} />} label="寄付" />
             <FormControlLabel control={<Checkbox checked={checkedF} onChange={handleChangeF} />} label="引け" />
           </Grid>
-        </Grid>
-      </div>
-
-      <Box display="flex" justifyContent="flex-end">
-        <Button variant="contained" sx={{ backgroundColor: '#143867' }} onClick={handleCalculate}>
+        </div>
+        <Button sx={{ backgroundColor: '#143867', color: '#fff', marginLeft: '200px', borderRadius: '15px', marginTop: '25px' }} onClick={handleCalculate}>
           算出
         </Button>
-      </Box>
-    </div>
+      </div>
+
+
+    </>
   );
 };
 

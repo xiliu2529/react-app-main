@@ -1,12 +1,12 @@
 
 .left-sidebar {
   position: absolute; /* 使用绝对定位 */
-  top: 40px;
+  top: 45px;
   left:10px;
 }
 
 .icon{
-  /* width: 40px; */
+  width: 80px;
   height: auto;
   position: relative; /* 确保 z-index 生效，需要相对定位 */
   z-index: 9999; /* 设置一个较高的 z-index 值 */
