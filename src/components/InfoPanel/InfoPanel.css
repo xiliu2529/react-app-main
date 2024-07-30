@@ -1,15 +1,24 @@
-/* 设置切换按钮组的基本样式 */
+#InfoPanel{
+  margin: 0 10px;
+}
 .toggle-button {
     display: flex;
-    margin-bottom: 16px; /* 按钮与下方内容之间的间距 */
-    margin-top: 1vh;
+    height: 30px;
+    margin: 10px 0 16px;
+  }
+  .customToggleButton{
+    width: 200px;
+    background-color: #fff;
+    border: #fff 1px solid !important;
+    border-radius: 0px !important;
+    border-bottom: #E0E0E0 1px solid !important;
   }
   /* 当按钮被选中时的样式 */
   .customToggleButton.Mui-selected {
     font-weight: bold; /* 选中时字体加粗 */
     background-color: #e0e0e0; /* 选中时背景颜色 */
-    color: #143867;
-    border-bottom: 2px solid #143867; /* 选中时底边框颜色 */
+    color: #143867 !important;
+    border-bottom: 2px solid #143867 !important; /* 选中时底边框颜色 */
   }
   
   /* 消息区域样式 */

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Grid, Paper, Table, TableContainer, TableHead, Box, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import './Grid.css'
-import { useMyContext } from '../../contexts/MyContext'; 
+import { useMyContext } from '../../contexts/MyContext';
 import { useEffect } from 'react';
 
 interface DataItem {
@@ -20,9 +20,9 @@ interface DataItem {
 
 const Grids: React.FC = () => {
   const { settingsState } = useMyContext();
-  console.log('grid',settingsState.colors[1]
+  console.log('grid', settingsState.colors[1]
   );
-  
+
   useEffect(() => {
     if (settingsState) {
       // 假设 settingsState.colors[0] 是你要用作背景色的颜色
@@ -50,27 +50,43 @@ const Grids: React.FC = () => {
     { time: '12:16-12:20', volume1: 32000, distribution1: '2.2%', cumulative1: '49%', volume2: 39000, distribution2: '4400', cumulative2: '69000', difference: '18.5', price: '18.5', volume3: 18.5, vwap: '367' },
     { time: '12:21-12:25', volume1: 32500, distribution1: '2.3%', cumulative1: '49.2%', volume2: 39500, distribution2: '4500', cumulative2: '70000', difference: '19', price: '19', volume3: 19, vwap: '368' },
     { time: '12:26-12:30', volume1: 33000, distribution1: '2.4%', cumulative1: '49.5%', volume2: 40000, distribution2: '4600', cumulative2: '71000', difference: '19.5', price: '19.5', volume3: 19.5, vwap: '369' },
-    { time: '12:31-12:35', volume1: 33500, distribution1: '2.5%', cumulative1: '49.7%', volume2: 40500, distribution2: '4700', cumulative2: '72000', difference: '20', price: '20', volume3: 20, vwap: '370' }
+    { time: '12:31-12:35', volume1: 33500, distribution1: '2.5%', cumulative1: '49.7%', volume2: 40500, distribution2: '4700', cumulative2: '72000', difference: '20', price: '20', volume3: 20, vwap: '370' },
+    { time: '12:31-12:35', volume1: 33500, distribution1: '2.5%', cumulative1: '49.7%', volume2: 40500, distribution2: '4700', cumulative2: '72000', difference: '20', price: '20', volume3: 20, vwap: '370' },
+    { time: '12:31-12:35', volume1: 33500, distribution1: '2.5%', cumulative1: '49.7%', volume2: 40500, distribution2: '4700', cumulative2: '72000', difference: '20', price: '20', volume3: 20, vwap: '370' },
+    { time: '12:31-12:35', volume1: 33500, distribution1: '2.5%', cumulative1: '49.7%', volume2: 40500, distribution2: '4700', cumulative2: '72000', difference: '20', price: '20', volume3: 20, vwap: '370' },
+    { time: '12:31-12:35', volume1: 33500, distribution1: '2.5%', cumulative1: '49.7%', volume2: 40500, distribution2: '4700', cumulative2: '72000', difference: '20', price: '20', volume3: 20, vwap: '370' },
+    { time: '12:31-12:35', volume1: 33500, distribution1: '2.5%', cumulative1: '49.7%', volume2: 40500, distribution2: '4700', cumulative2: '72000', difference: '20', price: '20', volume3: 20, vwap: '370' },
+    { time: '12:31-12:35', volume1: 33500, distribution1: '2.5%', cumulative1: '49.7%', volume2: 40500, distribution2: '4700', cumulative2: '72000', difference: '20', price: '20', volume3: 20, vwap: '370' },
+    { time: '12:31-12:35', volume1: 33500, distribution1: '2.5%', cumulative1: '49.7%', volume2: 40500, distribution2: '4700', cumulative2: '72000', difference: '20', price: '20', volume3: 20, vwap: '370' },
+    { time: '12:31-12:35', volume1: 33500, distribution1: '2.5%', cumulative1: '49.7%', volume2: 40500, distribution2: '4700', cumulative2: '72000', difference: '20', price: '20', volume3: 20, vwap: '370' },
+    { time: '12:31-12:35', volume1: 33500, distribution1: '2.5%', cumulative1: '49.7%', volume2: 40500, distribution2: '4700', cumulative2: '72000', difference: '20', price: '20', volume3: 20, vwap: '370' },
+    { time: '12:31-12:35', volume1: 33500, distribution1: '2.5%', cumulative1: '49.7%', volume2: 40500, distribution2: '4700', cumulative2: '72000', difference: '20', price: '20', volume3: 20, vwap: '370' },
+    { time: '12:31-12:35', volume1: 33500, distribution1: '2.5%', cumulative1: '49.7%', volume2: 40500, distribution2: '4700', cumulative2: '72000', difference: '20', price: '20', volume3: 20, vwap: '370' },
+    { time: '12:31-12:35', volume1: 33500, distribution1: '2.5%', cumulative1: '49.7%', volume2: 40500, distribution2: '4700', cumulative2: '72000', difference: '20', price: '20', volume3: 20, vwap: '370' },
+    { time: '12:31-12:35', volume1: 33500, distribution1: '2.5%', cumulative1: '49.7%', volume2: 40500, distribution2: '4700', cumulative2: '72000', difference: '20', price: '20', volume3: 20, vwap: '370' },
+    { time: '12:31-12:35', volume1: 33500, distribution1: '2.5%', cumulative1: '49.7%', volume2: 40500, distribution2: '4700', cumulative2: '72000', difference: '20', price: '20', volume3: 20, vwap: '370' },
+
   ];
 
   return (
     <Box className='grid-container'>
-      <Box className='grid-container-div' />
       <Grid container direction="column" spacing={1}>
+        <Box className='grid-container-div' />
         <Grid item>
+          <Box className='table-title'>
+            <Typography className="table-title-left">
+              6日平均(05/17-05/24)2024/05/27
+            </Typography>
+            <Typography className="table-title-right">
+              時聞带別最多出来高·偭格
+            </Typography>
+          </Box>
           <TableContainer component={Paper} className="table-container">
-            <Box className='table-title'>
-              <Typography className="table-title-left">
-                6日平均(05/17-05/24)2024/05/27
-              </Typography>
-              <Typography className="table-title-right">
-                時聞带別最多出来高·偭格
-              </Typography>
-            </Box>
+
             <Table stickyHeader>
               <TableHead>
                 <TableRow>
-                  <TableCell className="table-head-cell">時間</TableCell>
+                  <TableCell className="table-head-cell" id='table-head-cell-a'>時間</TableCell>
                   <TableCell className="table-head-cell">出来高</TableCell>
                   <TableCell className="table-head-cell">分布</TableCell>
                   <TableCell className="table-head-cell">累計</TableCell>
@@ -85,19 +101,19 @@ const Grids: React.FC = () => {
               </TableHead>
               <TableBody>
                 {data.map((row, index) => (
-                 <TableRow key={index}>
-                 <TableCell className="table-body-cell-a" >{row.time}</TableCell>
-                 <TableCell className="table-body-cell">{row.volume1}</TableCell>
-                 <TableCell className="table-body-cell">{row.distribution1}</TableCell>
-                 <TableCell className="table-body-cell">{row.cumulative1}</TableCell>
-                 <TableCell className="table-body-cell">{row.volume2}</TableCell>
-                 <TableCell className="table-body-cell">{row.distribution2}</TableCell>
-                 <TableCell className="table-body-cell">{row.cumulative2}</TableCell>
-                 <TableCell className="table-body-cell">{row.difference}</TableCell>
-                 <TableCell className="table-body-cell">{row.price}</TableCell>
-                 <TableCell className="table-body-cell">{row.volume3}</TableCell>
-                 <TableCell className="table-body-cell">{row.vwap}</TableCell>
-             </TableRow>
+                  <TableRow key={index}>
+                    <TableCell className="table-body-cell-a" >{row.time}</TableCell>
+                    <TableCell className="table-body-cell">{row.volume1}</TableCell>
+                    <TableCell className="table-body-cell">{row.distribution1}</TableCell>
+                    <TableCell className="table-body-cell">{row.cumulative1}</TableCell>
+                    <TableCell className="table-body-cell">{row.volume2}</TableCell>
+                    <TableCell className="table-body-cell">{row.distribution2}</TableCell>
+                    <TableCell className="table-body-cell">{row.cumulative2}</TableCell>
+                    <TableCell className="table-body-cell">{row.difference}</TableCell>
+                    <TableCell className="table-body-cell">{row.price}</TableCell>
+                    <TableCell className="table-body-cell">{row.volume3}</TableCell>
+                    <TableCell className="table-body-cell">{row.vwap}</TableCell>
+                  </TableRow>
                 ))}
               </TableBody>
             </Table>

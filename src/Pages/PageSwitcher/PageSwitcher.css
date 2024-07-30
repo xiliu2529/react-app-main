@@ -1,99 +1,119 @@
 .ChartBottom {
-    flex-direction: column;
-    width: 1250px;
+  flex-direction: column;
+  width: 1250px;
 }
-.ChartBottom-top .infoPanelGrid-Grid .table-container{
-    height: 100px;
-    /* 第八页的网格 */
+
+.ChartBottom-top .infoPanelGrid-Grid .table-container {
+  height: 100px;
+  /* 第八页的网格 */
 }
-.ChartBottom-top .infoPanelGrid .toggle-button{
-    margin-left: 150px;
+
+.ChartBottom-top .infoPanelGrid .toggle-button {
+  margin-left: 150px;
 }
-.ChartBottom-top{
-    margin-left: 10px;
-    
+
+.ChartBottom-top {
+  margin-left: 10px;
+
 }
 
 .ConfigChartBottom {
-    display: flex;
-    width: 1000px;
+  display: flex;
+  width: 1000px;
 }
 
-.right-column{
-    width: 100%;
-    margin-left: 10px;
+.right-column {
+  width: 100%;
+  margin-left: 10px;
 }
 
-.right-top .infoPanelGrid-Grid .table-container{
-    height: 100px;
-    /* 第七页的网格 */
+.right-top .infoPanelGrid-Grid .table-container {
+  height: 100px;
+  /* 第七页的网格 */
 }
 
-.GraphPage-InfoPanel .toggle-button{
-    margin-left: 150px;
+.GraphPage-InfoPanel .toggle-button {
+  margin-left: 150px;
 }
-.GraphPage{
-    margin-left: 10px;
+
+.GraphPage {
+  margin-left: 10px;
 }
-.GridChartPage{
-    display: flex;
-    margin-left: 20px;
-    /* 123 */
-  }
-  .GridChartPage-InfoPanel .toggle-button{
-    margin-left:140px
-  }
-  
-  .GridChartPage-GRid .grid-container{
-    width: 600px;
-    height: 430px;
-  }
-  .gridnomi .toggle-button{
-    margin-left: 140px;
+
+.GridChartPage {
+  display: flex;
+  margin-left: 20px;
+  /* 123 */
+}
+
+.GridChartPage-InfoPanel .toggle-button {
+  margin-left: 140px
+}
+
+.GridChartPage-GRid .grid-container {
+  width: 600px;
+  height: 430px;
+}
+
+.gridnomi .toggle-button {
+  margin-left: 140px;
 
 }
-.gridnomi{
-    height: 100%;
-    width: 1250px;
-    margin-left: 20px;
+
+.gridnomi {
+  height: 100%;
+  width: 1250px;
+  margin-left: 20px;
 }
-.InfoPanelHistoricalGrid{
+
+.InfoPanelHistoricalGrid {
   width: 1200px;
-    margin: 10px;
+  margin: 10px;
 }
-.InfoPanelHistoricalGrid .toggle-button{
-    margin-left: 150px;
+
+.InfoPanelHistoricalGrid .toggle-button {
+  margin-left: 150px;
 }
+
 .SettingsChartGridPage {
-    display: flex;
-    /* 将容器的布局模式设置为 flexbox 布局 */
-  }
+
+  display: flex;
+  /* 将容器的布局模式设置为 flexbox 布局 */
+}
+
+.SettingsChartGridPage-InfoPanelGrid {
   
-  .SettingsChartGridPage-InfoPanelGrid {
-    margin-left: 10px;
-    /* 设置子元素之间没有间距 */
-  }
-  .SettingsChartGridPage-InfoPanelGrid .grid-container{
-    width: 610px;
-    
-  }
-  .SettingsChartPage {
-    display: flex; /* 使用 flexbox 布局 */
+  margin-left: 10px;
+  /* 设置子元素之间没有间距 */
 }
-.SettingsChart-InfoPanelChart{
-    margin-left: 10px;
+
+.SettingsChartGridPage-InfoPanelGrid .grid-container {
+  width: 610px;
+
 }
+
+.SettingsChartPage {
+  display: flex;
+  /* 使用 flexbox 布局 */
+}
+
+.SettingsChart-InfoPanelChart {
+  margin-left: 10px;
+}
+
 .SettingsGridPage {
-    display: flex; /* 使用 flexbox 布局 */
-  }
-.SettingsGridPage-InfoPanelGrid{
-    width: 950px;
-    margin-left: 10px;
-    
- 
-   
+  display: flex;
+  /* 使用 flexbox 布局 */
 }
+
+.SettingsGridPage-InfoPanelGrid {
+  width: 950px;
+  margin-left: 10px;
+
+
+
+}
+
 .SettingsGridPage-Grid .table-container {
   height: 68vh;
 }
- 

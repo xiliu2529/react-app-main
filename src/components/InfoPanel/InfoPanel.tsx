@@ -15,7 +15,7 @@ const InfoPanel: React.FC = () => {
       setisHistoricalActive(newAlignment);
     }
   };
-  
+   
   const code = '0000';
   const codeName = 'ああああああ';
   const time = '0000/00/00 ～0000/00/00';
@@ -23,7 +23,7 @@ const InfoPanel: React.FC = () => {
   const executionTime = 'yyyy/mm/dd 00:00';
 
   return (
-    <div>
+    <div id='InfoPanel'>
         <ToggleButtonGroup
         className='toggle-button'
         color="primary"
