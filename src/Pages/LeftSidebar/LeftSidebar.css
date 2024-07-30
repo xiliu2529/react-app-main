@@ -3,6 +3,8 @@
   position: absolute; /* 使用绝对定位 */
   top: 45px;
   left:10px;
+  width: 50px;
+  height: 20px;
 }
 
 .icon{
@@ -13,12 +15,35 @@
   /* margin-top: 1vh; */
 }
 .button-container {
-  border: 1px solid #007bff; /* 边框颜色 */
+  background-color: #fff;
+  /* width: 440px; */
+  /* height: 200px; */
+  border: 1px solid #5a5d60; /* 边框颜色 */
   border-radius: 8px; /* 圆角效果 */
   position: absolute; 
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(4, auto);
-  z-index: 1000; /* 设置一个较高的 z-index 值 */
+  grid-template-columns: repeat(2, auto);
+  gap: 1px;
+  /* grid-template-rows: repeat(4, auto); */
+  z-index: 500; /* 设置一个较高的 z-index 值 */
   margin-top: -7px; /* 使用负值消除空隙 */
+}
+.sidebar-button{
+  height: 30px;
+  width: 210px;
+  margin: 3px 5px;
+  display: flex;
+  align-items: center; /* 垂直居中对齐 */
+  /* justify-content: center; 水平居中对齐 */
+  gap: 1px;
+}
+
+.button-container #close {
+  width: 70px;
+  height: 25px;
+  margin: 0 auto; /* 水平居中 */
+  margin-bottom: 5px;
+  grid-column: span 2; 
+  /* //使 #close 跨越两列 */
+  justify-self: center; /* 在网格中水平居中 */
 }
