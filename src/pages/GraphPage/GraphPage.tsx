@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import Chart from '../common/Chart/Chart';
 import InfoPanel from '../common/InfoPanel/InfoPanel';
 import './GraphPage.css';

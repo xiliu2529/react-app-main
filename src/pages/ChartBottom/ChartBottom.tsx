@@ -1,5 +1,4 @@
 import React from 'react';
-import Grid from '../common/Grid/Grid'
 import InfoPanelGrid from '../common/InfoPanelGrid/InfoPanelGrid'
 import Chart from '../common/Chart/Chart'
 import './ChartBottom.css'

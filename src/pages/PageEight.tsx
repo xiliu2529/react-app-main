@@ -1,8 +1,5 @@
 import React from 'react';
 import C from './common/ConditionSetting/ConditionSetting'
-import InfoPanel from './common/InfoPanel/InfoPanel'
-import Grid from './common/Grid/Grid'
-import Chart from './common/Chart/Chart'
 // import GridChartPage from'./GridChartPage/GridChartPage'
 // import './PageEight.css'
 const PageEight: React.FC = () => {

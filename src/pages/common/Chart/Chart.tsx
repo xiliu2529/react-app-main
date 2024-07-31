@@ -19,7 +19,6 @@ const PageTwo: React.FC<{ height:string | number | null ,width:string | number |
       width:props.width
     },
     title: {
-      text: null // 设置图表标题为空
     },
     xAxis: {
       categories: [

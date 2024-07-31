@@ -18,7 +18,7 @@ const ConditionSetting: React.FC = () => {
   const handleIncrement = () => setValue(prev => prev + 1);
   const handleDecrement = () => setValue(prev => prev - 1);
   const handleChange = (event: SelectChangeEvent) => setAge(event.target.value as string);
-  const handleAlignment = (event: React.MouseEvent<HTMLElement>, newAlignment: string | null) => {
+  const handleAlignment = (_event: React.MouseEvent<HTMLElement>, newAlignment: string | null) => {
     if (newAlignment !== null) setAlignment(newAlignment);
   };
   const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) => setter(event.target.value);

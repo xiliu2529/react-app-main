@@ -1,6 +1,5 @@
 import React from 'react';
 import ConditionSetting from '../common/ConditionSetting/ConditionSetting'
-import Grid from '../common/Grid/Grid'
 import InfoPanelGrid from '../common/InfoPanelGrid/InfoPanelGrid'
 import Chart from '../common/Chart/Chart'
 import './ConfigChartBottom.css'
