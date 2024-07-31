@@ -1,7 +1,8 @@
 import { TextField, Grid, Typography, Button, Stack, ToggleButton, ToggleButtonGroup, MenuItem, Checkbox, Select, FormControlLabel } from '@mui/material';
-import React, { useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
 import './ConditionSetting.css';
+import { useMyContext } from '../../contexts/MyContext';
 
 const ConditionSetting: React.FC = () => {
   const [alignment, setAlignment] = React.useState('1');
@@ -19,6 +20,13 @@ const ConditionSetting: React.FC = () => {
   });
   const [date, setDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<boolean[]>([false, false, false]);
+
+  const { setConditionSettingState } = useMyContext();
+  useEffect(() => {
+    if (setConditionSettingState) {
+      setConditionSettingState({ marketState });
+    }
+  }, [marketState, setConditionSettingState]);
 
   const selectedStyle = {
     '&.Mui-selected': {
@@ -40,6 +48,7 @@ const ConditionSetting: React.FC = () => {
       [key]: event.target.checked,
     });
   };
+
   const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) => setter(event.target.value);
   const sqhandleChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
     const updatedCheckedState = checkedState.map((item, i) => i === index ? event.target.checked : item);
@@ -143,8 +152,9 @@ const ConditionSetting: React.FC = () => {
   };
 
   return (
-    <>
+    <><div className='commonsp-top'>
       <div className='commonsp'>
+        
         <div className='title-1'>銘柄設定</div>
         <Stack direction="row" spacing={1} alignItems="center">
           <Typography variant="body1" sx={{ fontSize: "10px" }}>銘柄入力</Typography>
@@ -215,10 +225,12 @@ const ConditionSetting: React.FC = () => {
             <FormControlLabel control={<Checkbox checked={marketState.eveningClose} onChange={handleCheckboxChange('eveningClose')} />} label="引け" />
           </Grid>
         </div>
-        <Button sx={{ backgroundColor: '#143867', color: '#fff', marginLeft: '200px', borderRadius: '15px', marginTop: '25px' }} onClick={handleCalculate}>
+        </div>  <Button sx={{ backgroundColor: '#143867', color: '#fff', marginLeft: '200px', borderRadius: '15px', marginTop: '25px' }} onClick={handleCalculate}>
           算出
         </Button>
-      </div>
+      
+        </div>
+      
 
 
     </>

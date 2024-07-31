@@ -8,14 +8,29 @@ type SettingsState = {
   radioValues: RadioValue;
   colors: ColorValue;
 };
+type MarketState = {
+  preMarketOpening: boolean;
+  preMarketClose: boolean;
+  postMarketOpening: boolean;
+  postMarketClose: boolean;
+  eveningOpening: boolean;
+  eveningClose: boolean;
+};
+
+type ConditionSettingState = {
+  marketState: MarketState;
+};
+
 // 定义上下文的类型，包含一个布尔值和一个更新函数
 interface MyContextType {
-    isHistoricalActive: boolean; // 当前布尔值的状态
-    setisHistoricalActive: (alignment: boolean) => void; // 更新布尔值的函数
-    settingsState: SettingsState; // 根据实际情况替换为合适的类型
-    setSettingsState: (state: SettingsState) => void; // 根据实际情况替换为合适的类型
-    buttonName:number;
-    setbuttonName:(state: number) => void;
+  isHistoricalActive: boolean; // 当前布尔值的状态
+  setisHistoricalActive: (alignment: boolean) => void; // 更新布尔值的函数
+  settingsState: SettingsState; // 根据实际情况替换为合适的类型
+  setSettingsState: (state: SettingsState) => void; // 根据实际情况替换为合适的类型
+  buttonName: number;
+  setbuttonName: (state: number) => void;
+  conditionSettingState: ConditionSettingState;
+  setConditionSettingState: (state: ConditionSettingState) => void;
 }
 
 // 创建上下文对象，初始值为 undefined
@@ -28,17 +43,39 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [buttonName, setbuttonName] = useState<number>(1);
   const [settingsState, setSettingsState] = useState<SettingsState>({
     checkboxStates: Array(7).fill(false), // 7 个复选框的初始状态
-    radioValues: [ 'optionA', 'Arrange'], // 单选框的初始值
+    radioValues: ['optionA', 'Arrange'], // 单选框的初始值
     colors: [
       '#FFFFFF', '#000000', '#FFFFFF', '#000000', '#d22331', '#d22331',
       '#d22331', '#d22331', '#d22331', '#52a69f', '#52a69f', '#52a69f',
       '#52a69f', '#52a69f', '#596db8', '#5bbcd1', '#7e522e'
     ], // 颜色选择框的初始值
   });
+  const initialConditionSettingState: ConditionSettingState = {
+    marketState: {
+      preMarketOpening: false,
+      preMarketClose: false,
+      postMarketOpening: false,
+      postMarketClose: false,
+      eveningOpening: false,
+      eveningClose: false,
+    },
+  };
+  const [conditionSettingState, setConditionSettingState] = useState<ConditionSettingState>(initialConditionSettingState);
 
   return (
     // 使用 MyContext.Provider 组件将上下文值传递给子组件
-    <MyContext.Provider value={{ isHistoricalActive, setisHistoricalActive ,settingsState, setSettingsState,buttonName,setbuttonName}}>
+    <MyContext.Provider
+      value={{
+        isHistoricalActive,
+        setisHistoricalActive,
+        settingsState,
+        setSettingsState,
+        buttonName,
+        setbuttonName,
+        conditionSettingState,
+        setConditionSettingState,
+      }}
+    >
       {children} {/* 渲染子组件 */}
     </MyContext.Provider>
   );

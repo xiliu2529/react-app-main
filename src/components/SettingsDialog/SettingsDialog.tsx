@@ -20,8 +20,6 @@ type ColorValue = string[];
 
 const SettingsDialog = () => {
     const { setSettingsState } = useMyContext();
-    const { buttonName } = useMyContext(); 
-    console.log('se',buttonName);
     const [open, setOpen] = useState(false); // ダイアログの開閉状態を管理する状態を定義
     const [checkboxStates, setCheckboxStates] = useState<CheckboxState>(
         Array(7).fill(false) // 7つのチェックボックスの初期状態をすべて未選択にする
