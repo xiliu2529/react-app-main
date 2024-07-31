@@ -28,7 +28,7 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [buttonName, setbuttonName] = useState<number>(1);
   const [settingsState, setSettingsState] = useState<SettingsState>({
     checkboxStates: Array(7).fill(false), // 7 个复选框的初始状态
-    radioValues: ['1', 'optionA', 'Arrange'], // 单选框的初始值
+    radioValues: [ 'optionA', 'Arrange'], // 单选框的初始值
     colors: [
       '#FFFFFF', '#000000', '#FFFFFF', '#000000', '#d22331', '#d22331',
       '#d22331', '#d22331', '#d22331', '#52a69f', '#52a69f', '#52a69f',

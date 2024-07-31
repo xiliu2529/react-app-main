@@ -4,6 +4,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import './InfoPanel.css'
 import { useMyContext } from '../../contexts/MyContext'; // 导入上下文
 import { Stack } from '@mui/material';
+import data1 from '../../../public/data/data1.json';
 
 const InfoPanel: React.FC = () => {
   const {isHistoricalActive,setisHistoricalActive} = useMyContext();
@@ -15,9 +16,8 @@ const InfoPanel: React.FC = () => {
       setisHistoricalActive(newAlignment);
     }
   };
+   console.log("data1",data1);
    
-  const code = '0000';
-  const codeName = 'ああああああ';
   const time = '0000/00/00 ～0000/00/00';
   const futuresContract = '日時';
   const executionTime = 'yyyy/mm/dd 00:00';
@@ -44,9 +44,9 @@ const InfoPanel: React.FC = () => {
         <Stack direction="row" spacing={1} alignItems="center">
               
               <span className="label">銘柄コード:</span>
-              <span className="value">{code}</span>
+              <span className="value">{data1.QuoteCode}</span>
               <span className="label">銘柄名:</span>
-              <span className="value">{codeName}</span>
+              <span className="value">{data1.AbbreviatedName}</span>
               <span className="label">期種:</span>
               <span className="value">{futuresContract}</span>
               <span className="label">時間:</span>

@@ -3,6 +3,7 @@ import { Grid, Paper, Table, TableContainer, TableHead, Box, TableBody, TableCel
 import './Grid.css'
 import { useMyContext } from '../../contexts/MyContext';
 import { useEffect } from 'react';
+import data2 from '../../../../国内株式/data2.json'
 
 interface DataItem {
   time: string;
@@ -20,8 +21,7 @@ interface DataItem {
 
 const Grids: React.FC = () => {
   const { settingsState } = useMyContext();
-  console.log('grid', settingsState.colors[1]
-  );
+  console.log('data2', Object.entries(data2) );
 
   useEffect(() => {
     if (settingsState) {
@@ -31,6 +31,7 @@ const Grids: React.FC = () => {
     }
   }, [settingsState]);
   // 假数据作为示例
+
   const data: DataItem[] = [
     { time: '11:01-11:05', volume1: 24067, distribution1: '1%', cumulative1: '46%', volume2: 32554, distribution2: '3455', cumulative2: '54254', difference: '12', price: '12', volume3: 12, vwap: '355' },
     { time: '11:06-11:10', volume1: 28000, distribution1: '2%', cumulative1: '48%', volume2: 34000, distribution2: '3750', cumulative2: '60000', difference: '15', price: '15', volume3: 15, vwap: '360' },
@@ -98,21 +99,42 @@ const Grids: React.FC = () => {
                   <TableCell className="table-head-cell">出来高</TableCell>
                   <TableCell className="table-head-cell">場引けVWAP</TableCell>
                 </TableRow>
+                <TableRow>
+                    <TableCell className="table-body-cell-a">合計</TableCell>
+                    <TableCell className="table-body-cell">{data2.TotalFrame.AverageDaysData.Volume}</TableCell>
+                    <TableCell className="table-body-cell">{data2.TotalFrame.AverageDaysData.Distribution}</TableCell>
+                    <TableCell className="table-body-cell">{data2.TotalFrame.AverageDaysData.Cumulative}</TableCell>
+                    <TableCell className="table-body-cell">{data2.TotalFrame.TodayData.Volume}</TableCell>
+                    <TableCell className="table-body-cell">{data2.TotalFrame.TodayData.Distribution}</TableCell>
+                    <TableCell className="table-body-cell">{data2.TotalFrame.TodayData.Cumulative}</TableCell>
+                    <TableCell className="table-body-cell">{data2.TotalFrame.TodayData.Difference}</TableCell>
+                    <TableCell className="table-body-cell">{data2.TotalFrame.MostVolumeAndPrice.Price}</TableCell>
+                    <TableCell className="table-body-cell">{data2.TotalFrame.MostVolumeAndPrice.Volume}</TableCell>
+                    <TableCell className="table-body-cell">{data2.TotalFrame.CloseVWAP}</TableCell>
+                   
+                  </TableRow>
+                  {/* <TableRow>
+                    <TableCell className="table-body-cell-a">寄付</TableCell>
+                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.AverageDaysData.Volume}</TableCell>
+                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.AverageDaysData.Distribution}</TableCell>
+                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.AverageDaysData.Cumulative}</TableCell>
+                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.TodayData.Volume}</TableCell>
+                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.TodayData.Distribution}</TableCell>
+                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.TodayData.Cumulative}</TableCell>
+                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.TodayData.Difference}</TableCell>
+                  </TableRow> */}
               </TableHead>
               <TableBody>
-                {data.map((row, index) => (
+                { Object.entries(data2.AMTickFrame).map((row, index) => (
                   <TableRow key={index}>
-                    <TableCell className="table-body-cell-a" >{row.time}</TableCell>
-                    <TableCell className="table-body-cell">{row.volume1}</TableCell>
-                    <TableCell className="table-body-cell">{row.distribution1}</TableCell>
-                    <TableCell className="table-body-cell">{row.cumulative1}</TableCell>
-                    <TableCell className="table-body-cell">{row.volume2}</TableCell>
-                    <TableCell className="table-body-cell">{row.distribution2}</TableCell>
-                    <TableCell className="table-body-cell">{row.cumulative2}</TableCell>
-                    <TableCell className="table-body-cell">{row.difference}</TableCell>
-                    <TableCell className="table-body-cell">{row.price}</TableCell>
-                    <TableCell className="table-body-cell">{row.volume3}</TableCell>
-                    <TableCell className="table-body-cell">{row.vwap}</TableCell>
+                    <TableCell className="table-body-cell-a" >{row[0]}</TableCell>
+                    <TableCell className="table-body-cell">{row[1].AverageDaysData.Volume}</TableCell>
+                    <TableCell className="table-body-cell">{row[1].AverageDaysData.Distribution}</TableCell>
+                    <TableCell className="table-body-cell">{row[1].AverageDaysData.Cumulative}</TableCell>
+                    <TableCell className="table-body-cell">{row[1].TodayData.Volume}</TableCell>
+                    <TableCell className="table-body-cell">{row[1].TodayData.Distribution}</TableCell>
+                    <TableCell className="table-body-cell">{row[1].TodayData.Cumulative}</TableCell>
+                    <TableCell className="table-body-cell">{row[1].TodayData.Difference}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

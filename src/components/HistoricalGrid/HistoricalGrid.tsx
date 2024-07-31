@@ -4,6 +4,7 @@ import './HistoricalGrid.css';
 import { useMyContext } from '../../contexts/MyContext'; 
 import { useEffect } from 'react';
 
+
 // 定义数据项接口
 interface DataItem {
     time: string;                   // 時間

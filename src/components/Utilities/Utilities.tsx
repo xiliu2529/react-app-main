@@ -6,7 +6,9 @@ import './Utilities.css'
 
 const Utilities: React.FC = () => {
   
-  const print = () => {}
+  const print = () => {
+    window.print();
+  }
   const help = () => {}
   const favorite = () => {}
   const download = () => {}

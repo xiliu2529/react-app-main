@@ -12,7 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import { Grid } from '@mui/material';
 import './SettingsDialog.css';
 import { useMyContext } from '../../contexts/MyContext';
-import { useEffect } from 'react';
+
 
 type CheckboxState = boolean[];
 type RadioValue = string[];
@@ -27,7 +27,7 @@ const SettingsDialog = () => {
         Array(7).fill(false) // 7つのチェックボックスの初期状態をすべて未選択にする
     );
     // 単一選択ボックスの状態を管理するために配列を使用
-    const [radioValues, setRadioValues] = useState<RadioValue>(['1', 'optionA', 'Arrange']);
+    const [radioValues, setRadioValues] = useState<RadioValue>(['optionA', 'Arrange']);
     // 色選択ボックスの状態を管理するために配列を使用
     const [colors, setColors] = useState<ColorValue>([
         '#FFFFFF', '#000000', '#FFFFFF', '#000000', '#d22331', '#d22331',
@@ -79,11 +79,6 @@ const SettingsDialog = () => {
             '#52a69f', '#52a69f', '#596db8', '#5bbcd1', '#7e522e'
         ]);
     };
-
-    useEffect(() => {
-       let value = buttonName.toString()
-        handleRadioChange(0,value)
-     }, [buttonName]);
     return (
         <div>
             <span className="settings-icon" onClick={ handleOpen}></span>
@@ -98,28 +93,6 @@ const SettingsDialog = () => {
                         <FormControl component="fieldset" sx={{ width: '89%' }}>
                             <Grid className='main-container' container spacing={2}>
                                 <Grid item xs={12} sm={6} className='left-container'>
-                                    <p className='category-title'>表示項目</p>
-                                    <p className='sub-title'>レイアウト</p>
-                                    {/* 单选框组 */}
-                                    <Grid container spacing={2}>
-                                        {/* 第一列 */}
-                                        <Grid item xs={12} sm={6}>
-                                            <RadioGroup value={radioValues[0]} onChange={(event) => handleRadioChange(0, event.target.value)} sx={{ width: '110%' }}>
-                                                <FormControlLabel value="1" control={<Radio />} label="条件設定+グリッド+グラフ" />
-                                                <FormControlLabel value="3" control={<Radio />} label="条件設定+グリッド" />
-                                                <FormControlLabel value="5" control={<Radio />} label="条件設定+グラフ" />
-                                            </RadioGroup>
-                                        </Grid>
-                                        {/* 第二列 */}
-                                        <Grid item xs={12} sm={6}>
-                                            <RadioGroup value={radioValues[0]} onChange={(event) => handleRadioChange(0, event.target.value)} sx={{ width: '110%' }}>
-                                                <FormControlLabel value="2" control={<Radio />} label="グリッド+グラフ" />
-                                                <FormControlLabel value="4" control={<Radio />} label="グリッドのみ" />
-                                                <FormControlLabel value="6" control={<Radio />} label="グラフのみ" />
-                                            </RadioGroup>
-                                        </Grid>
-                                    </Grid>
-                                    <br />
                                     <p className='sub-title'>グリッド</p>
                                     {/* 多选框 */}
                                     <FormControlLabel
@@ -137,7 +110,7 @@ const SettingsDialog = () => {
                                         <p style={{ fontWeight: 'bold' }}>優先表示</p>
 
                                         <RadioGroup
-                                            value={radioValues[1]}
+                                            value={radioValues[0]}
                                             onChange={(event) => handleRadioChange(1, event.target.value)}
                                             sx={{
                                                 display: 'flex',
@@ -167,7 +140,7 @@ const SettingsDialog = () => {
                                     {/* 第二个单选框组 */}
                                     <p className='sub-title'>グラフ</p>
                                     <RadioGroup
-                                        value={radioValues[2]}
+                                        value={radioValues[1]}
                                         onChange={(event) => handleRadioChange(2, event.target.value)}
                                         sx={{
                                             display: 'flex',
