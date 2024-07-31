@@ -3,7 +3,7 @@ import { Grid, Paper, Table, TableContainer, TableHead, Box, TableBody, TableCel
 import './Grid.css'
 import { useMyContext } from '../../contexts/MyContext';
 import { useEffect } from 'react';
-import data2 from '../../../public/data/国内株式/data2.json'
+import data2 from '../../../public/data/data2.json'
 
 const Grids: React.FC = () => {
   const { settingsState, conditionSettingState } = useMyContext();
@@ -73,6 +73,9 @@ const Grids: React.FC = () => {
                     <TableCell className="table-body-cell">{data2.AMOpenTickFrame.TodayData.Distribution}</TableCell>
                     <TableCell className="table-body-cell">{data2.AMOpenTickFrame.TodayData.Cumulative}</TableCell>
                     <TableCell className="table-body-cell">{data2.AMOpenTickFrame.TodayData.Difference}</TableCell>
+                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.MostVolumeAndPrice.Price}</TableCell>
+                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.MostVolumeAndPrice.Volume}</TableCell>
+                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.CloseVWAP}</TableCell>
                   </TableRow>
                 ) : null}
 
@@ -89,35 +92,79 @@ const Grids: React.FC = () => {
                     <TableCell className="table-body-cell">{row[1].TodayData.Distribution}</TableCell>
                     <TableCell className="table-body-cell">{row[1].TodayData.Cumulative}</TableCell>
                     <TableCell className="table-body-cell">{row[1].TodayData.Difference}</TableCell>
+                    <TableCell className="table-body-cell">{row[1].MostVolumeAndPrice.Price}</TableCell>
+                    <TableCell className="table-body-cell">{row[1].MostVolumeAndPrice.Volume}</TableCell>
+                    <TableCell className="table-body-cell">{row[1].CloseVWAP}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
               {conditionSettingState.marketState.preMarketClose ? (
-                  <TableRow>
-                    {/* 前場引け */}
-                    <TableCell className="table-body-cell-a">引け</TableCell>
-                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.AverageDaysData.Volume}</TableCell>
-                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.AverageDaysData.Distribution}</TableCell>
-                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.AverageDaysData.Cumulative}</TableCell>
-                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.TodayData.Volume}</TableCell>
-                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.TodayData.Distribution}</TableCell>
-                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.TodayData.Cumulative}</TableCell>
-                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.TodayData.Difference}</TableCell>
+                <TableRow>
+                  {/* 前場引け */}
+                  <TableCell className="table-body-cell-a">引け</TableCell>
+                  <TableCell className="table-body-cell">{data2.AMCloseTickFrame.AverageDaysData.Volume}</TableCell>
+                  <TableCell className="table-body-cell">{data2.AMCloseTickFrame.AverageDaysData.Distribution}</TableCell>
+                  <TableCell className="table-body-cell">{data2.AMCloseTickFrame.AverageDaysData.Cumulative}</TableCell>
+                  <TableCell className="table-body-cell">{data2.AMCloseTickFrame.TodayData.Volume}</TableCell>
+                  <TableCell className="table-body-cell">{data2.AMCloseTickFrame.TodayData.Distribution}</TableCell>
+                  <TableCell className="table-body-cell">{data2.AMCloseTickFrame.TodayData.Cumulative}</TableCell>
+                  <TableCell className="table-body-cell">{data2.AMCloseTickFrame.TodayData.Difference}</TableCell>
+                  <TableCell className="table-body-cell">{data2.AMCloseTickFrame.MostVolumeAndPrice.Price}</TableCell>
+                  <TableCell className="table-body-cell">{data2.AMCloseTickFrame.MostVolumeAndPrice.Volume}</TableCell>
+                  <TableCell className="table-body-cell">{data2.AMCloseTickFrame.CloseVWAP}</TableCell>
+                </TableRow>
+              ) : null}
+              {conditionSettingState.marketState.postMarketOpening ? (
+                <TableRow>
+                  {/* 后场寄付 */}
+                  <TableCell className="table-body-cell-a">寄付</TableCell>
+                  <TableCell className="table-body-cell">{data2.PMOpenTickFrame.AverageDaysData.Volume}</TableCell>
+                  <TableCell className="table-body-cell">{data2.PMOpenTickFrame.AverageDaysData.Distribution}</TableCell>
+                  <TableCell className="table-body-cell">{data2.PMOpenTickFrame.AverageDaysData.Cumulative}</TableCell>
+                  <TableCell className="table-body-cell">{data2.PMOpenTickFrame.TodayData.Volume}</TableCell>
+                  <TableCell className="table-body-cell">{data2.PMOpenTickFrame.TodayData.Distribution}</TableCell>
+                  <TableCell className="table-body-cell">{data2.PMOpenTickFrame.TodayData.Cumulative}</TableCell>
+                  <TableCell className="table-body-cell">{data2.PMOpenTickFrame.TodayData.Difference}</TableCell>
+                  <TableCell className="table-body-cell">{data2.PMOpenTickFrame.MostVolumeAndPrice.Price}</TableCell>
+                  <TableCell className="table-body-cell">{data2.PMOpenTickFrame.MostVolumeAndPrice.Volume}</TableCell>
+                  <TableCell className="table-body-cell">{data2.PMOpenTickFrame.CloseVWAP}</TableCell>
+                </TableRow>
+              ) : null}
+              <TableBody>
+                {/* 后场 */}
+                {Object.entries(data2.PMTickFrame).map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="table-body-cell-a" >{row[0]}</TableCell>
+                    <TableCell className="table-body-cell">{row[1].AverageDaysData.Volume}</TableCell>
+                    <TableCell className="table-body-cell">{row[1].AverageDaysData.Distribution}</TableCell>
+                    <TableCell className="table-body-cell">{row[1].AverageDaysData.Cumulative}</TableCell>
+                    <TableCell className="table-body-cell">{row[1].TodayData.Volume}</TableCell>
+                    <TableCell className="table-body-cell">{row[1].TodayData.Distribution}</TableCell>
+                    <TableCell className="table-body-cell">{row[1].TodayData.Cumulative}</TableCell>
+                    <TableCell className="table-body-cell">{row[1].TodayData.Difference}</TableCell>
+                    <TableCell className="table-body-cell">{row[1].MostVolumeAndPrice.Price}</TableCell>
+                    <TableCell className="table-body-cell">{row[1].MostVolumeAndPrice.Volume}</TableCell>
+                    <TableCell className="table-body-cell">{row[1].CloseVWAP}</TableCell>
                   </TableRow>
-                ) : null}
-                  {/* {conditionSettingState.marketState.postMarketOpening ? (
-                  <TableRow>
-                    
-                    <TableCell className="table-body-cell-a"></TableCell>
-                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.AverageDaysData.Volume}</TableCell>
-                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.AverageDaysData.Distribution}</TableCell>
-                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.AverageDaysData.Cumulative}</TableCell>
-                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.TodayData.Volume}</TableCell>
-                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.TodayData.Distribution}</TableCell>
-                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.TodayData.Cumulative}</TableCell>
-                    <TableCell className="table-body-cell">{data2.AMOpenTickFrame.TodayData.Difference}</TableCell>
-                  </TableRow>
-                ) : null} */}
+                ))}
+              </TableBody>
+              {conditionSettingState.marketState.postMarketClose ? (
+                <TableRow>
+                  {/* 后场引け */}
+                  <TableCell className="table-body-cell-a">引け</TableCell>
+                  <TableCell className="table-body-cell">{data2.PMCloseTickFrame.AverageDaysData.Volume}</TableCell>
+                  <TableCell className="table-body-cell">{data2.PMCloseTickFrame.AverageDaysData.Distribution}</TableCell>
+                  <TableCell className="table-body-cell">{data2.PMCloseTickFrame.AverageDaysData.Cumulative}</TableCell>
+                  <TableCell className="table-body-cell">{data2.PMCloseTickFrame.TodayData.Volume}</TableCell>
+                  <TableCell className="table-body-cell">{data2.PMCloseTickFrame.TodayData.Distribution}</TableCell>
+                  <TableCell className="table-body-cell">{data2.PMCloseTickFrame.TodayData.Cumulative}</TableCell>
+                  <TableCell className="table-body-cell">{data2.PMCloseTickFrame.TodayData.Difference}</TableCell>
+                  <TableCell className="table-body-cell">{data2.PMCloseTickFrame.MostVolumeAndPrice.Price}</TableCell>
+                  <TableCell className="table-body-cell">{data2.PMCloseTickFrame.MostVolumeAndPrice.Volume}</TableCell>
+                  <TableCell className="table-body-cell">{data2.PMCloseTickFrame.CloseVWAP}</TableCell>
+                </TableRow>
+              ) : null}
+
             </Table>
           </TableContainer>
         </Grid>
