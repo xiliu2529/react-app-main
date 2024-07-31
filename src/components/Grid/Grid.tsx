@@ -3,22 +3,7 @@ import { Grid, Paper, Table, TableContainer, TableHead, Box, TableBody, TableCel
 import './Grid.css'
 import { useMyContext } from '../../contexts/MyContext';
 import { useEffect } from 'react';
-import data2 from '../../../../国内株式/data2.json'
-
-
-interface DataItem {
-  time: string;
-  volume1: number;
-  distribution1: string;
-  cumulative1: string;
-  volume2: number;
-  distribution2: string;
-  cumulative2: string;
-  difference: string;
-  price: string;
-  volume3: number;
-  vwap: string;
-}
+import data2 from '../../../public/data/国内株式/data2.json'
 
 const Grids: React.FC = () => {
   const { settingsState, conditionSettingState } = useMyContext();

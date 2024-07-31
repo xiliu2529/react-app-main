@@ -1,0 +1,14 @@
+{
+	"QuoteCode":"601.2409/O",
+	"AbbreviatedName":"長国     2409",
+	"MarketName":"OSE",
+	"ListedSection":"",
+	"Today":"2024/06/03",
+	"AverageDays":[
+		{"Date":"2024/05/31","TotalVolume":"5784100","HighLowMark":"H","SQMark":"W-SQ"},
+		{"Date":"2024/05/30","TotalVolume":"2958500","HighLowMark":"","SQMark":""},
+		{"Date":"2024/05/29","TotalVolume":"3245700","HighLowMark":"","SQMark":""},
+		{"Date":"2024/05/28","TotalVolume":"2413400","HighLowMark":"L","SQMark":""},
+		{"Date":"2024/05/27","TotalVolume":"2922700","HighLowMark":"","SQMark":""}
+	]
+}
