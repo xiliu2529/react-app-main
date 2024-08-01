@@ -1,5 +1,5 @@
-import { TextField, Grid, Typography, Button, Stack, ToggleButton, ToggleButtonGroup, MenuItem, Checkbox, Select, FormControlLabel } from '@mui/material';
-import React, {useEffect, useState } from 'react';
+import { TextField, Box, Grid, Typography, Button, Stack, ToggleButton, ToggleButtonGroup, MenuItem, Checkbox, Select, FormControlLabel, IconButton } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
 import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
@@ -7,7 +7,8 @@ import { useMyContext } from '../../contexts/MyContext';
 const ConditionSetting: React.FC = () => {
   const [alignment, setAlignment] = React.useState('1');
   const [value, setValue] = useState<number>(0);
-  const [age, setAge] = React.useState('');
+  const [value1, setValue1] = useState<number>(0);
+  const [minutes, setminutes] = React.useState('');
   const [startTime, setStartTime] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
   const [marketState, setMarketState] = useState({
@@ -38,7 +39,7 @@ const ConditionSetting: React.FC = () => {
 
   const handleIncrement = () => setValue(prev => prev + 1);
   const handleDecrement = () => setValue(prev => prev - 1);
-  const handleChange = (event: SelectChangeEvent) => setAge(event.target.value as string);
+  const handleChange = (event: SelectChangeEvent) => setminutes(event.target.value as string);
   const handleAlignment = (_event: React.MouseEvent<HTMLElement>, newAlignment: string | null) => {
     if (newAlignment !== null) setAlignment(newAlignment);
   };
@@ -147,14 +148,30 @@ const ConditionSetting: React.FC = () => {
         return null;
     }
   };
+  const handleChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = Number(e.target.value);
+
+    // 如果输入值小于 1，则设置为 1
+    // 如果输入值大于 30，则设置为 30
+    // 否则，设置为输入的值
+    if (newValue < 1) {
+      setValue1(1);
+    } else if (newValue > 30) {
+      setValue1(30);
+    } else {
+      setValue1(newValue);
+    }
+  };
   const handleCalculate = () => {
     // 算出逻辑
   };
+  console.log(minutes === '1', 'minutes123s');
+
 
   return (
     <><div className='commonsp-top'>
       <div className='commonsp'>
-        
+
         <div className='title-1'>銘柄設定</div>
         <Stack direction="row" spacing={1} alignItems="center">
           <Typography variant="body1" sx={{ fontSize: "10px" }}>銘柄入力</Typography>
@@ -181,7 +198,7 @@ const ConditionSetting: React.FC = () => {
         <div id='title-2' className='title-1'>算出間隔</div>
         <Stack direction="row" spacing={1} alignItems="center">
           <p>間隔</p>
-          <Select labelId="demo-simple-select-label" id="demo-simple-select" value={age} label="Age" onChange={handleChange}>
+          <Select labelId="demo-simple-select-label" id="demo-simple-select" value={minutes} label="minutes" onChange={handleChange}>
             <MenuItem value={1}>1</MenuItem>
             <MenuItem value={5}>5</MenuItem>
             <MenuItem value={10}>10</MenuItem>
@@ -201,9 +218,27 @@ const ConditionSetting: React.FC = () => {
           <Grid item>
             <Typography variant="body1">-</Typography>
           </Grid>
-          <Grid item>
-            <TextField type="time" variant="outlined" sx={{ width: '75px' }} value={endTime} onChange={handleDateChange(setEndTime)} />
-          </Grid>
+          {minutes == '1' ?
+            <Box className="inputContainer">
+              <TextField
+                type="number"
+                value={value1}
+                onChange={handleChange1}
+                inputProps={{
+                  min: 1,
+                  max: 30,
+                  step: 1,
+                }}
+                className="inputField"
+                variant="outlined"
+              />
+            </Box>
+
+            :
+            <Grid item>
+              <TextField type="time" variant="outlined" sx={{ width: '75px' }} value={endTime} onChange={handleDateChange(setEndTime)} />
+            </Grid>}
+
         </Grid>
         <p style={{ marginBottom: 0 }}>個别算出</p>
         <div>
@@ -225,12 +260,12 @@ const ConditionSetting: React.FC = () => {
             <FormControlLabel control={<Checkbox checked={marketState.eveningClose} onChange={handleCheckboxChange('eveningClose')} />} label="引け" />
           </Grid>
         </div>
-        </div>  <Button sx={{ backgroundColor: '#143867', color: '#fff', marginLeft: '200px', borderRadius: '15px', marginTop: '25px' }} onClick={handleCalculate}>
-          算出
-        </Button>
-      
-        </div>
-      
+      </div>  <Button sx={{ backgroundColor: '#143867', color: '#fff', marginLeft: '200px', borderRadius: '15px', marginTop: '25px' }} onClick={handleCalculate}>
+        算出
+      </Button>
+
+    </div>
+
 
 
     </>

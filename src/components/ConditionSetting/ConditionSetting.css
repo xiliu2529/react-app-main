@@ -56,10 +56,15 @@
     margin-top: 10px !important;
   }
 
-  .content-container {
-  
-    /* overflow: auto; 如果内容超过高度，允许滚动 */
-
+  .inputContainer{
+    margin-left: 10px;
+    margin-top: 8px !important;
+      width: 70px;
+  }
+  .MuiOutlinedInput-input {
+    margin-top: 3px !important;
+    padding: 7px !important;
+    height: 10px !important;
   }
 
   .setDate{
