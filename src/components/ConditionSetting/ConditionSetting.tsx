@@ -19,7 +19,8 @@ const ConditionSetting: React.FC = () => {
     eveningOpening: false,
     eveningClose: false,
   });
-  const [date, setDate] = useState<string>('');
+  const [startDate, setstartDate] = useState<string>('');
+  const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<boolean[]>([false, false, false]);
 
   const { setConditionSettingState } = useMyContext();
@@ -57,7 +58,7 @@ const ConditionSetting: React.FC = () => {
   };
   const renderUI = () => {
     switch (alignment) {
-      case '1':
+      case '0':
         return (
           <Stack direction="row" spacing={1} alignItems="center" className='counter-controls'>
             <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
@@ -72,12 +73,33 @@ const ConditionSetting: React.FC = () => {
             <Button variant="outlined" size="small" onClick={handleIncrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>+</Button>
           </Stack>
         );
-      case '2':
+      case '1':
         return (
           <div>
             <div>
               <p style={{ display: 'inline-block', fontSize: '10px' }}>開始日</p>
-              <input className='setDate' type="date" value={date} onChange={handleDateChange(setDate)} />
+              <input className='setDate' type="date" value={startDate} onChange={handleDateChange(setstartDate)} />
+            </div>
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
+              <Button variant="outlined" size="small" onClick={handleDecrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>-</Button>
+              <TextField
+                variant="outlined"
+                value={value}
+                size="small"
+                InputProps={{ readOnly: true, sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
+                sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
+              />
+              <Button variant="outlined" size="small" onClick={handleIncrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>+</Button>
+            </Stack>
+          </div>
+        );
+      case '2':
+        return (
+          <div>
+            <div>
+              <p style={{ display: 'inline-block', fontSize: '10px' }}>終了日</p>
+              <input className='setDate' type="date" value={endDate} onChange={handleDateChange(setendDate)} />
             </div>
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
@@ -95,39 +117,18 @@ const ConditionSetting: React.FC = () => {
         );
       case '3':
         return (
-          <div>
-            <div>
-              <p style={{ display: 'inline-block', fontSize: '10px' }}>終了日</p>
-              <input className='setDate' type="date" value={date} onChange={handleDateChange(setDate)} />
-            </div>
-            <Stack direction="row" spacing={1} alignItems="center">
-              <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
-              <Button variant="outlined" size="small" onClick={handleDecrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>-</Button>
-              <TextField
-                variant="outlined"
-                value={value}
-                size="small"
-                InputProps={{ readOnly: true, sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
-                sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
-              />
-              <Button variant="outlined" size="small" onClick={handleIncrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>+</Button>
-            </Stack>
-          </div>
-        );
-      case '4':
-        return (
           <Grid container spacing={1} alignItems="center" sx={{ marginTop: '0px' }}>
             <Grid item>
               <Typography variant="body1" sx={{ fontSize: '10px' }}>期間</Typography>
             </Grid>
-            <input className='setDate' type="date" value={date} onChange={handleDateChange(setDate)} />
+            <input className='setDate' type="date" value={startDate} onChange={handleDateChange(setstartDate)} />
             <Grid item>
               <Typography variant="body1">-</Typography>
             </Grid>
-            <input className='setDate' type="date" value={date} onChange={handleDateChange(setDate)} />
+            <input className='setDate' type="date" value={endDate} onChange={handleDateChange(setendDate)} />
           </Grid>
         );
-      case '5':
+      case '4':
         return (
           <div>
             <FormControlLabel
@@ -177,8 +178,8 @@ const ConditionSetting: React.FC = () => {
           <Typography variant="body1" sx={{ fontSize: "10px" }}>銘柄入力</Typography>
           <TextField
             sx={{
-              width: '60px', height: '30px',
-              '& .MuiInputBase-root': { height: '100%', padding: '0 8px' }
+              width: '90px', height: '30px',
+              '& .MuiInputBase-root': { height: '100%', padding: '0 0px' }
             }}
           />
           <Typography variant="body1" sx={{ fontSize: "10px" }}>東証プライム</Typography>
@@ -186,11 +187,11 @@ const ConditionSetting: React.FC = () => {
 
         <div className='title-1'>期間設定</div>
         <ToggleButtonGroup value={alignment} exclusive onChange={handleAlignment} aria-label="text alignment">
-          <ToggleButton value="1" className="ToggleButton" sx={selectedStyle}>直近</ToggleButton>
-          <ToggleButton value="2" className="ToggleButton" sx={selectedStyle}>開始日</ToggleButton>
-          <ToggleButton value="3" className="ToggleButton" sx={selectedStyle}>終了日</ToggleButton>
-          <ToggleButton value="4" className="ToggleButton" sx={selectedStyle}> 開始終了日</ToggleButton>
-          <ToggleButton value="5" className="ToggleButton" sx={selectedStyle}>SQ-日</ToggleButton>
+          <ToggleButton value="0" className="ToggleButton" sx={selectedStyle}>直近</ToggleButton>
+          <ToggleButton value="1" className="ToggleButton" sx={selectedStyle}>開始日</ToggleButton>
+          <ToggleButton value="2" className="ToggleButton" sx={selectedStyle}>終了日</ToggleButton>
+          <ToggleButton value="3" className="ToggleButton" sx={selectedStyle}> 開始終了日</ToggleButton>
+          <ToggleButton value="4" className="ToggleButton" sx={selectedStyle}>SQ-日</ToggleButton>
         </ToggleButtonGroup>
         <div className="content-container">
           {renderUI()}
@@ -213,7 +214,7 @@ const ConditionSetting: React.FC = () => {
             <Typography variant="body1">開始終了時刻</Typography>
           </Grid>
           <Grid item>
-            <TextField type="time" variant="outlined" sx={{ width: '75px' }} value={startTime} onChange={handleDateChange(setStartTime)} />
+            <TextField type="time" variant="outlined" sx={{ width: '82px' }} value={startTime} onChange={handleDateChange(setStartTime)} />
           </Grid>
           <Grid item>
             <Typography variant="body1">-</Typography>
@@ -233,10 +234,9 @@ const ConditionSetting: React.FC = () => {
                 variant="outlined"
               />
             </Box>
-
             :
             <Grid item>
-              <TextField type="time" variant="outlined" sx={{ width: '75px' }} value={endTime} onChange={handleDateChange(setEndTime)} />
+              <TextField type="time" variant="outlined" sx={{ width: '82px' }} value={endTime} onChange={handleDateChange(setEndTime)} />
             </Grid>}
 
         </Grid>

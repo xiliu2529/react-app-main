@@ -70,7 +70,7 @@ const SettingsDialog = () => {
     const handleButtonClick = () => {
         // ボタンクリック時の処理
         setCheckboxStates(Array(7).fill(false));
-        setRadioValues(['option1', 'optionA', 'optionX']);
+        setRadioValues(['optionA', 'Arrange']);
         setColors([
             '#FFFFFF', '#000000', '#FFFFFF', '#000000', '#d22331', '#d22331',
             '#d22331', '#d22331', '#d22331', '#52a69f', '#52a69f', '#52a69f',
@@ -109,7 +109,7 @@ const SettingsDialog = () => {
 
                                         <RadioGroup
                                             value={radioValues[0]}
-                                            onChange={(event) => handleRadioChange(1, event.target.value)}
+                                            onChange={(event) => handleRadioChange(0, event.target.value)}
                                             sx={{
                                                 display: 'flex',
                                                 flexDirection: 'row',
@@ -139,7 +139,7 @@ const SettingsDialog = () => {
                                     <p className='sub-title'>グラフ</p>
                                     <RadioGroup
                                         value={radioValues[1]}
-                                        onChange={(event) => handleRadioChange(2, event.target.value)}
+                                        onChange={(event) => handleRadioChange(1, event.target.value)}
                                         sx={{
                                             display: 'flex',
                                             flexDirection: 'row',
