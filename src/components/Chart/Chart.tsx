@@ -10,19 +10,18 @@ import data3 from '../../../public/data/data3.json'
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
   const { settingsState, conditionSettingState } = useMyContext();
   const [checked, setChecked] = useState<boolean>(false); // 状态管理复选框的选中状态
-  const[chattime,setChattime] = useState<string[]>([]);//管理chat的x轴时间
   // const[chattime,setChattime] = useState<string[]>([]);//管理chat的柱
   // const[chattime,setChattime] = useState<string[]>([]);//管理chat的线
+  const [hasAddedData, setHasAddedData] = useState(false);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked); // 更新复选框的状态
+  };
 
 
-  
-  
-  
+
   let display = settingsState.radioValues[1] === "Arrange" //切换1/2个表
-
   // 前场时间
-  let timeFrames = Object.keys(data3.AMTickFrame);
-  let startTimes = timeFrames.map(timeFrame => timeFrame.split('-')[0]);
+  let startTimes = Object.keys(data3.AMTickFrame).map(timeFrame => timeFrame.split('-')[0]);
   //当天分布前场
   let TDistribution = Object.values(data3.AMTickFrame).map(
     (tick) => tick.TodayChart.Distribution
@@ -40,11 +39,10 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   let ACumulative = Object.values(data3.AMTickFrame).map(
     (tick) => tick.AverageDaysChart.Cumulative
   ).map(dist => parseFloat(dist));
- 
-  
+
+
   // 后场时间
-  const timeFrames2 = Object.keys(data3.PMTickFrame);
-  const startTimes2 = timeFrames2.map(timeFrames2 => timeFrames2.split('-')[0]);
+  const startTimes2 = Object.keys(data3.PMTickFrame).map(timeFrames2 => timeFrames2.split('-')[0]);
   //当天分布后场
   const TDistribution2 = Object.values(data3.PMTickFrame).map(
     (tick) => tick.TodayChart.Distribution
@@ -61,55 +59,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   let ACumulative2 = Object.values(data3.PMTickFrame).map(
     (tick) => tick.AverageDaysChart.Cumulative
   ).map(dist => parseFloat(dist));
- 
-//当天前寄分布
-console.log(data3.AMOpenTickFrame.TodayChart.Distribution);
-//当天前寄累计
-console.log(data3.AMOpenTickFrame.TodayChart.Cumulative);
-//当天前引分布
-console.log(data3.AMCloseTickFrame.TodayChart.Distribution);
-//当天前引累计
-console.log(data3.AMCloseTickFrame.TodayChart.Cumulative);
 
-
-  console.log('chattime',chattime);
-  
-  
-
-
-  useEffect(() => {
-    //前寄
-    if (conditionSettingState.marketState.preMarketOpening) {
-      startTimes.unshift("寄付");
-      TDistribution.unshift(Number(data3.AMOpenTickFrame.TodayChart.Distribution))
-      TCumulative.unshift(Number(data3.AMOpenTickFrame.TodayChart.Cumulative))
-      ADistribution.unshift(Number(data3.AMOpenTickFrame.AverageDaysChart.Distribution))
-      ACumulative.unshift(Number(data3.AMOpenTickFrame.AverageDaysChart.Cumulative))
-    }else{
-      const time = startTimes.concat(startTimes2)
-      setChattime(time)
-     
-      
-    }
-    //前引  
-    if (conditionSettingState.marketState.preMarketClose) {
-      startTimes.push ("引け");
-      TDistribution.push(Number(data3.AMOpenTickFrame.AverageDaysChart.Distribution))
-      TCumulative.push(Number(data3.AMOpenTickFrame.AverageDaysChart.Cumulative))
-      ADistribution.push(Number(data3.AMOpenTickFrame.AverageDaysChart.Distribution))
-      ACumulative.push(Number(data3.AMOpenTickFrame.AverageDaysChart.Cumulative))
-    //后寄
-    
-    }
-  }, [conditionSettingState]);
-
-
-
-
-  // 处理复选框的变化事件
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked); // 更新复选框的状态
-  };
   // 2个
   const chartOptions: Highcharts.Options = {
     chart: {
@@ -122,7 +72,7 @@ console.log(data3.AMCloseTickFrame.TodayChart.Cumulative);
       text: '1' // 图表标题
     },
     xAxis: {
-      categories:startTimes,
+      categories: startTimes,
       crosshair: true, // 启用十字准线
       labels: {
         style: {
@@ -164,27 +114,28 @@ console.log(data3.AMCloseTickFrame.TodayChart.Cumulative);
     series: [{
       type: 'column', // 数据系列类型为柱状图
       color: '#FF0000', // 柱状图颜色
-      yAxis: 0, // 使用第一个 Y 轴
-      // data: TDistribution
+      yAxis: 0, // 使用第一个 Y 轴.
+      name: '当日分布',
+      data: TDistribution
     }, {
       type: 'column', // 数据系列类型为柱状图
       color: '#00ff40', // 柱状图颜色
+      name: '历史分布',
       yAxis: 0, // 使用第一个 Y 轴
-      // data: TCumulative
+      data: ADistribution
     }, {
-      name: '线图1', // 数据系列名称
+      name: '当日累计', // 数据系列名称
       type: 'spline', // 数据系列类型为折线图
       yAxis: 0, // 使用第一个 Y 轴
-      // data: ADistribution, // 数据来源
+      data: TCumulative, // 数据来源
       tooltip: {
         valueSuffix: '%' // 提示框后缀
       }
     }, {
-      name: '线图2', // 数据系列名称
+      name: '历史累计', // 数据系列名称
       type: 'spline', // 数据系列类型为折线图
       yAxis: 1, // 使用第二个 Y 轴
-      data: [1,1,1,1,1,1,1,1,1]// 数据来源
-      // data: ACumulative// 数据来源
+      data: ACumulative// 数据来源
     }]
   };
 
@@ -307,41 +258,85 @@ console.log(data3.AMCloseTickFrame.TodayChart.Cumulative);
       verticalAlign: 'top', // 图例垂直对齐方式
     },
     series: [{
+      name: '分布',
       type: 'column', // 数据系列类型为柱状图
       color: '#00ff40', // 柱状图颜色
       yAxis: 0, // 使用第一个 Y 轴
       data: ADistribution // 数据来源
     }, {
-      name: '线图2', // 数据系列名称
+      name: '柱图', // 数据系列名称
       type: 'spline', // 数据系列类型为折线图
       yAxis: 1, // 使用第二个 Y 轴
       data: ACumulative // 数据来源
     }]
   };
-  // 使用 useEffect 钩子在组件挂载时创建图表  
   useEffect(() => {
-    setTimeout(() => {
-      const container = document.getElementById('chart-container'); // 获取图表容器元素
-      if (container) {
-        container.innerHTML = ''; // 清空容器内容
-        Highcharts.chart('chart-container', { ...chartOptions, chart: { height: props.height, width: props.width, backgroundColor: settingsState.colors[2] } }); // 创建图表
-      }
-      if (display) {
-        const container1 = document.getElementById('chart-container1'); // 获取图表容器元素 1
-        const container2 = document.getElementById('chart-container2'); // 获取图表容器元素 2
-        
-        if (container1) {
-          container1.innerHTML = ''; // 清空容器内容
-          Highcharts.chart('chart-container1', { ...chartOptions1, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width, backgroundColor: settingsState.colors[2], } }); // 创建图表 1
-        }
-        if (container2) {
-          container2.innerHTML = ''; // 清空容器内容
-          Highcharts.chart('chart-container2', { ...chartOptions2, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width, backgroundColor: settingsState.colors[2] } }); // 创建图表 2
-        }
-      }
+    //前寄
+    if (conditionSettingState.marketState.preMarketOpening && !startTimes.includes("寄付")) {
+      startTimes.unshift("寄付");
+      TDistribution.unshift(Number(data3.AMOpenTickFrame.TodayChart.Distribution));
+      TCumulative.unshift(Number(data3.AMOpenTickFrame.TodayChart.Cumulative));
+      ADistribution.unshift(Number(data3.AMOpenTickFrame.AverageDaysChart.Distribution));
+      ACumulative.unshift(Number(data3.AMOpenTickFrame.AverageDaysChart.Cumulative));
+    }
+  //前引
+    if (conditionSettingState.marketState.preMarketClose && !startTimes.includes("引け")) {
+      startTimes.push("引け");
+      TDistribution.push(Number(data3.AMCloseTickFrame.TodayChart.Distribution));
+      TCumulative.push(Number(data3.AMCloseTickFrame.TodayChart.Cumulative));
+      ADistribution.push(Number(data3.AMCloseTickFrame.AverageDaysChart.Distribution));
+      ACumulative.push(Number(data3.AMCloseTickFrame.AverageDaysChart.Cumulative));
+    }
+    //后寄
+    if (conditionSettingState.marketState.postMarketOpening && !startTimes2.includes("寄付")) {
+      startTimes2.unshift("寄付");
+      TDistribution2.unshift(Number(data3.PMOpenTickFrame.TodayChart.Distribution));
+      TCumulative2.unshift(Number(data3.PMOpenTickFrame.TodayChart.Cumulative));
+      ADistribution2.unshift(Number(data3.PMOpenTickFrame.AverageDaysChart.Distribution));
+      ACumulative2.unshift(Number(data3.PMOpenTickFrame.AverageDaysChart.Cumulative));
+    }
+    //后引
+    if (conditionSettingState.marketState.postMarketClose && !startTimes2.includes("引け")) {
+      startTimes2.push("引け");
+      TDistribution2.push(Number(data3.PMCloseTickFrame.TodayChart.Distribution));
+      TCumulative2.push(Number(data3.PMCloseTickFrame.TodayChart.Cumulative));
+      ADistribution2.push(Number(data3.PMCloseTickFrame.AverageDaysChart.Distribution));
+      ACumulative2.push(Number(data3.PMCloseTickFrame.AverageDaysChart.Cumulative));
+    }
+    // 确保不重复添加额外的数据
+    if (startTimes2.length > 0 && !startTimes.slice(-startTimes2.length).every((val, idx) => val === startTimes2[idx])) {
+      startTimes.push(...startTimes2);
+      TDistribution.push(...TDistribution2);
+      TCumulative.push(...TCumulative2);
+      ADistribution.push(...ADistribution2);
+      ACumulative.push(...ACumulative2);
+    }
+  }, [conditionSettingState,settingsState]);
 
-    }, 0); // 确保 DOM 渲染完成
-  }, [display, settingsState, conditionSettingState]); // 依赖项：checked 状态和图表的高度、宽度
+
+  useEffect(() => {
+    // 处理图表创建和更新
+    const container = document.getElementById('chart-container');
+    if (container) {
+      container.innerHTML = ''; // 清空容器内容
+       Highcharts.chart('chart-container', { ...chartOptions, chart: { height: props.height, width: props.width, backgroundColor: settingsState.colors[2] } });
+    }
+
+    if (display) {
+      const container1 = document.getElementById('chart-container1');
+      const container2 = document.getElementById('chart-container2');
+
+      if (container1) {
+        container1.innerHTML = '';
+      Highcharts.chart('chart-container1', { ...chartOptions1, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width, backgroundColor: settingsState.colors[2] } });
+      }
+      if (container2) {
+        container2.innerHTML = '';
+        Highcharts.chart('chart-container2', { ...chartOptions2, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width, backgroundColor: settingsState.colors[2] } });
+      }
+    }
+  
+  }, [display,settingsState,conditionSettingState]); // 依赖项：checked 状态和图表的高度、宽度
 
   return (
     <div>
