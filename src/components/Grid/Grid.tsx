@@ -7,7 +7,6 @@ import data2 from '../../data/data2.json'
 
 const Grids: React.FC = () => {
   const { settingsState, conditionSettingState } = useMyContext();
-  console.log('conditionSe1234123ttingState', conditionSettingState);
 
   useEffect(() => {
     if (settingsState) {

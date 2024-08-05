@@ -16,7 +16,6 @@ const InfoPanel: React.FC = () => {
       setisHistoricalActive(newAlignment);
     }
   };
-   console.log("data1",data1);
    
   const time = '0000/00/00 ～0000/00/00';
   const futuresContract = '日時';

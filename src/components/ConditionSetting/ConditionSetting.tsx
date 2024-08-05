@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
 import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
-
+// import {PostType,fetchData } from '../../api/api';
 const ConditionSetting: React.FC = () => {
   const [alignment, setAlignment] = React.useState('1');
   const [value, setValue] = useState<number>(0);
@@ -22,8 +22,23 @@ const ConditionSetting: React.FC = () => {
   const [startDate, setstartDate] = useState<string>('');
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<boolean[]>([false, false, false]);
-
+  // const [posts, setPosts] = useState<PostType[]>([]);
   const { setConditionSettingState } = useMyContext();
+  
+//   useEffect(() => {
+//     const loadData = async () => {
+//       try {
+//         const data = await fetchData(); // 调用 API 函数
+//         setPosts(data); // 存储文章数据
+//       } catch (err) {
+//       } finally {
+//       }
+//     };
+
+//     loadData(); // 调用数据加载函数
+//   }, []); // 空依赖数组表示只在组件加载时调用
+// console.log('posts',posts);
+
   useEffect(() => {
     if (setConditionSettingState) {
       setConditionSettingState({ marketState });
@@ -37,6 +52,7 @@ const ConditionSetting: React.FC = () => {
       fontWeight: '900',
     },
   };
+
 
   const handleIncrement = () => setValue(prev => prev + 1);
   const handleDecrement = () => setValue(prev => prev - 1);
@@ -166,7 +182,6 @@ const ConditionSetting: React.FC = () => {
   const handleCalculate = () => {
     // 算出逻辑
   };
-  console.log(minutes === '1', 'minutes123s');
 
 
   return (
