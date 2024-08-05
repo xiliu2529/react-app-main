@@ -4,7 +4,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import './InfoPanel.css'
 import { useMyContext } from '../../contexts/MyContext'; // 导入上下文
 import { Stack } from '@mui/material';
-import data1 from '../../../public/data/data1.json';
+import data1 from '../../data/data1.json';
 
 const InfoPanel: React.FC = () => {
   const {isHistoricalActive,setisHistoricalActive} = useMyContext();

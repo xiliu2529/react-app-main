@@ -3,7 +3,7 @@ import { Grid, Paper, Table, TableContainer, TableHead, Box, TableBody, TableCel
 import './Grid.css'
 import { useMyContext } from '../../contexts/MyContext';
 import { useEffect } from 'react';
-import data2 from '../../../public/data/data2.json'
+import data2 from '../../data/data2.json'
 
 const Grids: React.FC = () => {
   const { settingsState, conditionSettingState } = useMyContext();

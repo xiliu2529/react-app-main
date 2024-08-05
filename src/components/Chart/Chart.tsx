@@ -3,7 +3,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Highcharts from 'highcharts';
 import { useMyContext } from '../../contexts/MyContext';
-import data3 from '../../../public/data/data3.json'
+import data3 from '../../data/data3.json'
 
 
 // 定义 Chart 组件
