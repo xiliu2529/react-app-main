@@ -132,7 +132,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     setChartData(data)
   }, [settingsState, conditionSettingState,display]);
 
-  console.log(chartData, 'chartData');
   // 2个
 
   useEffect(() => {
@@ -263,13 +262,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
   }, [display, settingsState, conditionSettingState,chartState,chartData]); // 依赖项：checked 状态和图表的高度、宽度
 
-  const a = chartState.xAxisLabels
-  const b = chartState.todayCumulative
-  const c = chartState.todayDistribution
-  console.log('abc',a,b,c);
-  console.log('chartState',chartState);
-  console.log('chartData',chartData);
-  
   const chartOptions: Highcharts.Options = {
     chart: {
       type: 'column', // 图表类型为柱状图
@@ -358,7 +350,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       text: '今天' // 图表标题
     },
     xAxis: {
-      categories: a,
+      categories: chartState.xAxisLabels,
       crosshair: true, // 启用十字准线
       labels: {
         style: {
@@ -401,7 +393,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       type: 'column', // 数据系列类型为柱状图
       color: '#FF0000', // 柱状图颜色
       yAxis: 0, // 使用第一个 Y 轴
-      data: c // 数据来源
+      data: chartState.todayDistribution // 数据来源
       , tooltip: {
         valueSuffix: '%' // 提示框后缀
       }
@@ -409,7 +401,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       name: '累計', // 数据系列名称
       type: 'spline', // 数据系列类型为折线图
       yAxis: 1, // 使用第一个 Y 轴
-      data: b, // 数据来源
+      data: chartState.todayCumulative, // 数据来源
       tooltip: {
         valueSuffix: '%' // 提示框后缀
       }

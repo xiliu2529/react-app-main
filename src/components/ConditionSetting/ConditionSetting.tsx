@@ -4,6 +4,61 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
 // import {PostType,fetchData } from '../../api/api';
+
+interface RequestPayload {
+  Code: string; // 集計対象のコード
+  HistoricalSetting: HistoricalSetting;
+  CalculationSetting: CalculationSetting;
+  ViewSetting: ViewSetting;
+}
+
+interface HistoricalSetting {
+  Category: string; // 取得種別
+  Range: Range;
+}
+
+interface Range {
+  DateFrom: string; // 開始日
+  DateTo: string; // 終了日
+  Days: string; // 日数
+  SQ: SQ;
+}
+
+interface SQ {
+  LargeSQ: string; // L-SQ日
+  SmallSQ: string; // S-SQ日
+  WeeklySQ: string; // W-SQ日
+}
+
+interface CalculationSetting {
+  Category: string; // 算出間隔
+  Range: CalculationRange;
+  Individual: IndividualCalculation;
+}
+
+interface CalculationRange {
+  TimeFrom: string; // 開始時刻
+  TimeTo: string; // 終了時刻
+  Minutes: string; // 分数
+}
+
+interface IndividualCalculation {
+  AM: TimeSetting;
+  PM: TimeSetting;
+  Evening: TimeSetting;
+}
+
+interface TimeSetting {
+  OpenTick: string; // 寄付
+  CloseTick: string; // 引け
+}
+
+interface ViewSetting {
+  MostVolumeAndPriceType: string; // 時間帯別最多出来高・価格の優先表示（高値、安値）の指定
+  PercentageOfDayType: string; // 当日出来高分布を百分率で表示の指定
+}
+
+
 const ConditionSetting: React.FC = () => {
   const [alignment, setAlignment] = React.useState('1');
   const [value, setValue] = useState<number>(0);
@@ -25,7 +80,51 @@ const ConditionSetting: React.FC = () => {
   // const [posts, setPosts] = useState<PostType[]>([]);
   const { setConditionSettingState } = useMyContext();
   
-//   useEffect(() => {
+  const a: RequestPayload = {
+    Code: "12345", // 集計対象のコード
+    HistoricalSetting: {
+      Category: "0", // 取得種別
+      Range: {
+        DateFrom: "2024/01/01", // 開始日
+        DateTo: "2024/12/31", // 終了日
+        Days: "30", // 日数
+        SQ: {
+          LargeSQ: "1", // L-SQ日
+          SmallSQ: "0", // S-SQ日
+          WeeklySQ: "1" // W-SQ日
+        }
+      }
+    },
+    CalculationSetting: {
+      Category: "2", // 算出間隔
+      Range: {
+        TimeFrom: "09:00", // 開始時刻
+        TimeTo: "17:00", // 終了時刻
+        Minutes: "15" // 分数
+      },
+      Individual: {
+        AM: {
+          OpenTick: "1", // 寄付
+          CloseTick: "0" // 引け
+        },
+        PM: {
+          OpenTick: "0", // 寄付
+          CloseTick: "1" // 引け
+        },
+        Evening: {
+          OpenTick: "1", // 寄付
+          CloseTick: "0" // 引け
+        }
+      }
+    },
+    ViewSetting: {
+      MostVolumeAndPriceType: "0", // 時間帯別最多出来高・価格の優先表示（高値、安値）の指定
+      PercentageOfDayType: "1" // 当日出来高分布を百分率で表示の指定
+    }
+  };
+  
+
+  //   useEffect(() => {
 //     const loadData = async () => {
 //       try {
 //         const data = await fetchData(); // 调用 API 函数

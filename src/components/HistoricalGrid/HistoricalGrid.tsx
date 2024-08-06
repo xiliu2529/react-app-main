@@ -3,47 +3,13 @@ import { Grid, Paper, Table, TableContainer, TableHead, TableBody, TableCell, Ta
 import './HistoricalGrid.css';
 import { useMyContext } from '../../contexts/MyContext';
 import { useEffect } from 'react';
-import data4 from '../../../src/data/data4.json';
+// import data4 from '../../../src/data/data4.json';
+// import data4 from '../../../src/data/101.1/data4.json';
+import data4 from '../../../src/data//601.1/data4.json';
 
-interface TimeSlotData {
-  Volume?: string;
-  Distribution?: string;
-}
-
-interface AMTickFrame {
-  [timeSlot: string]: TimeSlotData;
-}
-
-interface PMTickFrame {
-  [timeSlot: string]: TimeSlotData;
-}
-
-
-interface Frame {
-  Volume: string;
-  Distribution: string;
-}
-
-interface DayData {
-  TotalFrame: Frame;
-  AMTickFrame: AMTickFrame;
-  PMTickFrame: PMTickFrame;
-  AMOpenTickFrame: Frame;
-  AMCloseTickFrame: Frame;
-  PMOpenTickFrame: Frame;
-  PMCloseTickFrame: Frame;
-}
-
-interface DataType {
-  [date: string]: DayData;
-}
-const data4Typed = data4 as DataType;
 
 const HistoricalGrid: React.FC = () => {
   const { settingsState, conditionSettingState } = useMyContext();
-  console.log('conditionSettingState', conditionSettingState.marketState);
-
-
   useEffect(() => {
     if (settingsState) {
       document.documentElement.style.setProperty('--cell-bg-color', settingsState.colors[0]);
@@ -51,45 +17,58 @@ const HistoricalGrid: React.FC = () => {
     }
   }, [settingsState]);
 
-  const extractDates = (jsonData: DataType) => Object.keys(jsonData);
-
-  const extractTotalFrame = (data: DataType) =>
+  const extractDates = (jsonData: any) => Object.keys(jsonData);
+  const extractTotalFrame = (data: any) =>
     Object.entries(data).map(([date, dayData]) => ({
       date,
       volume: dayData.TotalFrame.Volume,
       distribution: dayData.TotalFrame.Distribution,
     }));
 
-  const extractTimeSlots = (data: DataType, frameType: 'AMTickFrame' | 'PMTickFrame') => {
+  const extractTimeSlots = (data: any, frameType:any) => {
     const timeSlotsSet = new Set<string>();
+
+    if (data) {
     Object.values(data).forEach(dayData => {
-      Object.keys(dayData[frameType]).forEach(timeSlot => {
-        timeSlotsSet.add(timeSlot);
-      });
+      // 确保 dayData 和 dayData[frameType] 已定义
+      if (dayData && dayData[frameType]) {
+        Object.keys(dayData[frameType]).forEach(timeSlot => {
+          timeSlotsSet.add(timeSlot);
+        });
+      }
     });
-    return Array.from(timeSlotsSet);
+  }
+  return Array.from(timeSlotsSet);
   };
 
-  const getTimeSlotData = (timeSlot: string, frameType: 'AMTickFrame' | 'PMTickFrame') =>
-    extractDates(data4Typed).map(date => {
-      const timeSlotData = data4Typed[date]?.[frameType]?.[timeSlot] || {};
+  const getTimeSlotData = (timeSlot: string, frameType: any) =>
+    extractDates(data4).map(date => {
+      const timeSlotData = data4[date]?.[frameType]?.[timeSlot] || {};
       return {
         volume: timeSlotData.Volume || '-',
         distribution: timeSlotData.Distribution || '-',
       };
     });
 
+  const getEveningOpenTickFrame = () =>
+    extractDates(data4).map(date => {
+      const data = data4[date]?.EveningOpenTickFrame || {};
+      return {
+        volume: data.Volume || '-',
+        distribution: data.Distribution || '-',
+      };
+    });
   const getAMOpenTickFrameData = () =>
-    extractDates(data4Typed).map(date => {
-      const data = data4Typed[date]?.AMOpenTickFrame || {};
+    extractDates(data4).map(date => {
+      const data = data4[date]?.AMOpenTickFrame || {};
       return {
         volume: data.Volume || '-',
         distribution: data.Distribution || '-',
       };
     });
   const getPMOpenTickFrameData = () =>
-    extractDates(data4Typed).map(date => {
-      const data = data4Typed[date]?.PMOpenTickFrame || {};
+    extractDates(data4).map(date => {
+      const data = data4[date]?.PMOpenTickFrame || {};
       return {
         volume: data.Volume || '-',
         distribution: data.Distribution || '-',
@@ -97,8 +76,17 @@ const HistoricalGrid: React.FC = () => {
     });
 
   const getAMCloseTickFrameData = () =>
-    extractDates(data4Typed).map(date => {
-      const data = data4Typed[date]?.AMCloseTickFrame || {};
+    extractDates(data4).map(date => {
+      const data = data4[date]?.AMCloseTickFrame || {};
+      return {
+        volume: data.Volume || '-',
+        distribution: data.Distribution || '-',
+      };
+    });
+
+  const getEveningCloseTickFrame = () =>
+    extractDates(data4).map(date => {
+      const data = data4[date]?.EveningCloseTickFrame || {};
       return {
         volume: data.Volume || '-',
         distribution: data.Distribution || '-',
@@ -106,19 +94,21 @@ const HistoricalGrid: React.FC = () => {
     });
 
   const getPMCloseTickFrameData = () =>
-    extractDates(data4Typed).map(date => {
-      const data = data4Typed[date]?.PMCloseTickFrame || {};
+    extractDates(data4).map(date => {
+      const data = data4[date]?.PMCloseTickFrame || {};
       return {
         volume: data.Volume || '-',
         distribution: data.Distribution || '-',
       };
     });
 
-  const dates = extractDates(data4Typed);
-  const totalFrame = extractTotalFrame(data4Typed);
-  const timeSlots = extractTimeSlots(data4Typed, 'AMTickFrame');
-  const timeSlots2 = extractTimeSlots(data4Typed, 'PMTickFrame');
-  const renderTimeSlotRows = (slots: string[], frameType: 'AMTickFrame' | 'PMTickFrame') =>
+  const dates = extractDates(data4);
+  const totalFrame = extractTotalFrame(data4);
+  const timeSlots = extractTimeSlots(data4, 'EveningTickFrame');
+  const timeSlots1 = extractTimeSlots(data4, 'AMTickFrame');
+  const timeSlots2 = extractTimeSlots(data4, 'PMTickFrame');
+  
+  const renderTimeSlotRows = (slots: string[], frameType: any) =>
     slots.map((timeSlot, index) => (
       <TableRow key={index}>
         <TableCell className="custom-table-cell">{timeSlot}</TableCell>
@@ -169,6 +159,31 @@ const HistoricalGrid: React.FC = () => {
                   ))}
                 </TableRow>
 
+                {conditionSettingState.marketState.eveningOpening  &&  data4['2024/05/27'].EveningOpenTickFrame ?
+                  <TableRow>
+                    <TableCell className="custom-table-cell">寄付</TableCell>
+                    {getEveningOpenTickFrame().map((data, index) => (
+                      <React.Fragment key={index}>
+                        <TableCell className="custom-table-cell-a">{data.volume}</TableCell>
+                        <TableCell className="custom-table-cell-a">{data.distribution}</TableCell>
+                      </React.Fragment>
+                    ))}
+                  </TableRow> : null}
+
+
+                { data4['2024/05/27'].EveningOpenTickFrame ? renderTimeSlotRows(timeSlots, 'EveningTickFrame') :null}
+
+                {conditionSettingState.marketState.eveningClose && data4['2024/05/27'].EveningCloseTickFrame ?
+                  <TableRow>
+                    <TableCell className="custom-table-cell">引け</TableCell>
+                    {getEveningCloseTickFrame().map((data, index) => (
+                      <React.Fragment key={index}>
+                        <TableCell className="custom-table-cell-a">{data.volume}</TableCell>
+                        <TableCell className="custom-table-cell-a">{data.distribution}</TableCell>
+                      </React.Fragment>
+                    ))}
+                  </TableRow> : null
+                }
                 {/* 新添加的 AMOpenTickFrame 数据行 */}
                 {conditionSettingState.marketState.preMarketOpening ?
                   <TableRow>
@@ -181,7 +196,7 @@ const HistoricalGrid: React.FC = () => {
                     ))}
                   </TableRow> : null}
 
-                {renderTimeSlotRows(timeSlots, 'AMTickFrame')}
+                {renderTimeSlotRows(timeSlots1, 'AMTickFrame')}
                 {/* 新添加的 AMCloseTickFrame 数据行 */}
                 {conditionSettingState.marketState.preMarketClose ?
                   <TableRow>
@@ -194,7 +209,7 @@ const HistoricalGrid: React.FC = () => {
                     ))}
                   </TableRow> : null
                 }
-                {conditionSettingState.marketState.postMarketOpening ?
+                {conditionSettingState.marketState.postMarketOpening && data4['2024/05/27'].PMOpenTickFrame?
                   <TableRow >
                     <TableCell className="custom-table-cell">寄付</TableCell>
                     {getPMOpenTickFrameData().map((data, index) => (
@@ -205,8 +220,8 @@ const HistoricalGrid: React.FC = () => {
                     ))}
                   </TableRow>
                   : null}
-                {renderTimeSlotRows(timeSlots2, 'PMTickFrame')}
-                {conditionSettingState.marketState.postMarketClose ?
+                {data4['2024/05/27'].PMTickFrame ? renderTimeSlotRows(timeSlots2, 'PMTickFrame'):null}
+                {conditionSettingState.marketState.postMarketClose && data4['2024/05/27'].PMCloseTickFrame ?
                   <TableRow>
                     <TableCell className="custom-table-cell">引け</TableCell>
                     {getPMCloseTickFrameData().map((data, index) => (
