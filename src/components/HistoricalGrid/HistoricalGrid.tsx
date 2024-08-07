@@ -29,9 +29,7 @@ interface TickFrameData {
 }
 
 
-interface Data {
-  [date: string]: DayData;
-}
+
 const HistoricalGrid: React.FC = () => {
   const { settingsState, conditionSettingState } = useMyContext();
   type Data4Type = {
