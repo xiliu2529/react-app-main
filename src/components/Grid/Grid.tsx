@@ -34,6 +34,7 @@ const Grids: React.FC = () => {
       <TableCell className="table-body-cell">{data.CloseVWAP}</TableCell>
     </TableRow>
   );
+  const headerTexts = ['時間', '出来高', '分布', '累計', '出来高', '分布', '累計', '差', '価格', '出来高', '場引けVWAP'];
 
   React.useEffect(() => {
     if (settingsState) {
@@ -55,29 +56,34 @@ const Grids: React.FC = () => {
             <Table stickyHeader>
               <TableHead>
                 <TableRow>
-                  {['時間', '出来高', '分布', '累計', '出来高', '分布', '累計', '差', '価格', '出来高', '場引けVWAP'].map((text, index) => (
-                    <TableCell key={index} className="table-head-cell">{text}</TableCell>
+                  {headerTexts.map((text, index) => (
+                    <TableCell
+                      key={index}
+                      className={`table-head-cell ${text === '出来高' ? 'highlight-cell' : ''}`}
+                    >
+                      {text}
+                    </TableCell>
                   ))}
                 </TableRow>
               </TableHead>
 
               <TableBody>
                 <TableRow>
-                <TableCell className="table-body-cell-a">合計</TableCell>
-                {data2.TotalFrame ? [
-                  data2.TotalFrame.AverageDaysData.Volume,
-                  data2.TotalFrame.AverageDaysData.Distribution,
-                  data2.TotalFrame.AverageDaysData.Cumulative,
-                  data2.TotalFrame.TodayData.Volume,
-                  data2.TotalFrame.TodayData.Distribution,
-                  data2.TotalFrame.TodayData.Cumulative,
-                  data2.TotalFrame.TodayData.Difference,
-                  data2.TotalFrame.MostVolumeAndPrice.Price,
-                  data2.TotalFrame.MostVolumeAndPrice.Volume,
-                  data2.TotalFrame.CloseVWAP
-                ].map((item, index) => (
-                  <TableCell key={index} className="table-body-cell">{item}</TableCell>
-                )) : null}
+                  <TableCell className="table-body-cell-a">合計</TableCell>
+                  {data2.TotalFrame ? [
+                    data2.TotalFrame.AverageDaysData.Volume,
+                    data2.TotalFrame.AverageDaysData.Distribution,
+                    data2.TotalFrame.AverageDaysData.Cumulative,
+                    data2.TotalFrame.TodayData.Volume,
+                    data2.TotalFrame.TodayData.Distribution,
+                    data2.TotalFrame.TodayData.Cumulative,
+                    data2.TotalFrame.TodayData.Difference,
+                    data2.TotalFrame.MostVolumeAndPrice.Price,
+                    data2.TotalFrame.MostVolumeAndPrice.Volume,
+                    data2.TotalFrame.CloseVWAP
+                  ].map((item, index) => (
+                    <TableCell key={index} className="table-body-cell">{item}</TableCell>
+                  )) : null}
                 </TableRow>
 
                 {conditionSettingState.marketState.eveningOpening && data2.EveningOpenTickFrame && (

@@ -279,7 +279,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
     },
     title: {
-      text: '1'
+      text: undefined
     },
     xAxis: {
       categories: chartState.xAxisLabels,

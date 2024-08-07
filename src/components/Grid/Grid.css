@@ -8,7 +8,6 @@
     width: 100%;
     overflow-x: auto;
 }
-
 .table-title {
     display: flex;
     justify-content: space-between;
@@ -29,7 +28,7 @@
 .table-body-cell-a, .table-body-cell   {
     border: 1px solid #ddd;
     padding: 5px !important;
-    text-align: center!important;
+    text-align: right!important;
     font-size: 15px !important;
     white-space: nowrap;
 
@@ -51,3 +50,16 @@
     background-color: var(--cell-bg-color);
     color:var(--cell-color) !important;
   }
+
+  .highlight-cell{
+    min-width: 100px;
+    background-color: #f3f3f3 !important;
+    border: 1px solid #ddd;
+    padding: 5px 5px !important;
+    text-align: center !important;
+    white-space: nowrap;
+    font-size: 15px !important;
+  }
+  .table-head-cell:first-of-type, .table-body-cell-a:first-of-type, .table-body-cell:first-of-type {
+    text-align: center !important;
+}
