@@ -13,8 +13,6 @@ const Grids: React.FC = () => {
   const { settingsState, conditionSettingState } = useMyContext();
   console.log('conditionSettingState',conditionSettingState.inputValue);
   let data2: GridDisplayData={
-  // @ts-ignore
-   
   }
   if (conditionSettingState.inputValue === '6501') {
     data2 = c;
