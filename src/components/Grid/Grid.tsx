@@ -14,7 +14,7 @@ const Grids: React.FC = () => {
   console.log('conditionSettingState',conditionSettingState.inputValue);
   let data2: GridDisplayData={
   // @ts-ignore
-    TotalFrame:{},
+   
   }
   if (conditionSettingState.inputValue === '6501') {
     data2 = c;
@@ -63,6 +63,7 @@ const TableRowComponent = ({ data, label }: { data: any; label: string }) => (
                     <TableCell key={index} className="table-head-cell">{text}</TableCell>
                   ))}
                 </TableRow>
+                </TableHead>
                 <TableRow>
                   <TableCell className="table-head-cell">合計</TableCell>
                   {data2.TotalFrame ? [
@@ -80,7 +81,6 @@ const TableRowComponent = ({ data, label }: { data: any; label: string }) => (
                     <TableCell key={index} className="table-body-cell">{item}</TableCell>
                   )): null}
                 </TableRow>
-              </TableHead>
               <TableBody>
                 {conditionSettingState.marketState.eveningOpening && data2.EveningOpenTickFrame && (
                   <TableRowComponent data={data2.EveningOpenTickFrame} label="寄付" />
