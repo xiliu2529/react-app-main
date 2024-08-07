@@ -1,27 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-type CheckboxState = boolean[];
-type RadioValue = string[];
-type ColorValue = string[];
-type SettingsState = {
-  checkboxStates: CheckboxState;
-  radioValues: RadioValue;
-  colors: ColorValue;
-};
-type MarketState = {
-  preMarketOpening: boolean;
-  preMarketClose: boolean;
-  postMarketOpening: boolean;
-  postMarketClose: boolean;
-  eveningOpening: boolean;
-  eveningClose: boolean;
-};
-
-type ConditionSettingState = {
-  marketState: MarketState,
-  inputValue:string,
-};
-
 interface MyContextType {
   isHistoricalActive: boolean; 
   setisHistoricalActive: (alignment: boolean) => void; 
