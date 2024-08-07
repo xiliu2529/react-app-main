@@ -28,12 +28,28 @@ interface TickFrameData {
   Distribution: string;
 }
 
+
 interface Data {
   [date: string]: DayData;
 }
 const HistoricalGrid: React.FC = () => {
   const { settingsState, conditionSettingState } = useMyContext();
-  let data4 = {}
+  type Data4Type = {
+    [date: string]: {
+      TotalFrame?: {
+        Volume: string;
+        Distribution: string;
+      };
+      EveningOpenTickFrame?: any; // 替换 `any` 为实际类型
+      EveningCloseTickFrame?:any;
+      PMOpenTickFrame?:any;
+      PMTickFrame?:any;
+      PMCloseTickFrame?:any;
+
+    };
+  };
+  
+  let data4: Data4Type = {};
   if (conditionSettingState.inputValue === '6501') {
     data4 = a;
   } else if (conditionSettingState.inputValue === '101.1') {
@@ -53,14 +69,14 @@ const HistoricalGrid: React.FC = () => {
   }, [settingsState]);
 
   const extractDates = (jsonData: any) => Object.keys(jsonData);
-  const extractTotalFrame = (data: Data) =>
+  const extractTotalFrame = (data: Data4Type) =>
     Object.entries(data).map(([date, dayData]) => ({
       date,
-      volume: dayData.TotalFrame.Volume,
-      distribution: dayData.TotalFrame.Distribution,
+      volume: dayData.TotalFrame?.Volume || '-',
+      distribution: dayData.TotalFrame?.Distribution || '-',
     }));
 
-  const extractTimeSlots = (data: Data, frameType: string) => {
+  const extractTimeSlots = (data: Data4Type, frameType: string) => {
     const timeSlotsSet = new Set<string>();
 
     Object.values(data).forEach(dayData => {
