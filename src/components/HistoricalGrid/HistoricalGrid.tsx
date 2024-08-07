@@ -3,13 +3,13 @@ import { Grid, Paper, Table, TableContainer, TableHead, TableBody, TableCell, Ta
 import './HistoricalGrid.css';
 import { useMyContext } from '../../contexts/MyContext';
 import { useEffect } from 'react';
-// import data4 from '../../../src/data/data4.json';
-// import data4 from '../../../src/data/101.1/data4.json';
-import data4 from '../../../src/data//601.1/data4.json';
+import a from '../../../src/data/data4.json';
+import b from '../../../src/data/101.1/data4.json';
+import c from '../../../src/data//601.1/data4.json';
 
 interface DayData {
   TotalFrame: {
-    Volume: string; 
+    Volume: string;
     Distribution: string;
   };
   EveningOpenTickFrame?: TickFrameData;
@@ -33,6 +33,18 @@ interface Data {
 }
 const HistoricalGrid: React.FC = () => {
   const { settingsState, conditionSettingState } = useMyContext();
+  let data4 = {}
+  if (conditionSettingState.inputValue === '6501') {
+    data4 = a;
+  } else if (conditionSettingState.inputValue === '101.1') {
+    data4 = b;
+  } else if (conditionSettingState.inputValue === '601.1') {
+    data4 = c;
+  }
+  const dates1 = Object.keys(data4);
+  console.log('dates1', dates1);
+  console.log('data4', Object.keys(data4).length);
+
   useEffect(() => {
     if (settingsState) {
       document.documentElement.style.setProperty('--cell-bg-color', settingsState.colors[0]);
@@ -48,21 +60,21 @@ const HistoricalGrid: React.FC = () => {
       distribution: dayData.TotalFrame.Distribution,
     }));
 
-    const extractTimeSlots = (data: Data, frameType: string) => {
-      const timeSlotsSet = new Set<string>();
-    
-      Object.values(data).forEach(dayData => {
-        // @ts-ignore
-        const frameData = dayData[frameType] as Record<string, TickFrameData> | undefined;
-        if (frameData) {
-          Object.keys(frameData).forEach(timeSlot => {
-            timeSlotsSet.add(timeSlot);
-          });
-        }
-      });
-    
-      return Array.from(timeSlotsSet);
-    };
+  const extractTimeSlots = (data: Data, frameType: string) => {
+    const timeSlotsSet = new Set<string>();
+
+    Object.values(data).forEach(dayData => {
+      // @ts-ignore
+      const frameData = dayData[frameType] as Record<string, TickFrameData> | undefined;
+      if (frameData) {
+        Object.keys(frameData).forEach(timeSlot => {
+          timeSlotsSet.add(timeSlot);
+        });
+      }
+    });
+
+    return Array.from(timeSlotsSet);
+  };
 
   const getTimeSlotData = (timeSlot: string, frameType: any) =>
     extractDates(data4).map(date => {
@@ -137,7 +149,7 @@ const HistoricalGrid: React.FC = () => {
   const timeSlots = extractTimeSlots(data4, 'EveningTickFrame');
   const timeSlots1 = extractTimeSlots(data4, 'AMTickFrame');
   const timeSlots2 = extractTimeSlots(data4, 'PMTickFrame');
-  
+
   const renderTimeSlotRows = (slots: string[], frameType: any) =>
     slots.map((timeSlot, index) => (
       <TableRow key={index}>
@@ -161,21 +173,38 @@ const HistoricalGrid: React.FC = () => {
               <TableHead>
                 <TableRow>
                   <TableCell className="custom-header-cell"></TableCell>
-                  {dates.map((date, index) => (
-                    <React.Fragment key={index}>
-                      <TableCell className="custom-header-cell">{date}</TableCell>
+                  {Object.keys(data4).length == 0 ? (
+                    <>
                       <TableCell className="custom-header-cell"></TableCell>
-                    </React.Fragment>
-                  ))}
+                      <TableCell className="custom-header-cell"></TableCell>
+                    </>
+                  ) : (
+                    dates.map((date, index) => (
+                      <React.Fragment key={index}>
+                        <TableCell className="custom-header-cell">{date}</TableCell>
+                        <TableCell className="custom-header-cell"></TableCell>
+                      </React.Fragment>
+                    ))
+                  )}
+
                 </TableRow>
                 <TableRow>
                   <TableCell className="custom-table-cell">時間</TableCell>
-                  {dates.map((_, index) => (
-                    <React.Fragment key={index}>
+                  {Object.keys(data4).length == 0 ? (
+                    <>
                       <TableCell className="custom-table-cell">出来高</TableCell>
                       <TableCell className="custom-table-cell">分布</TableCell>
-                    </React.Fragment>
-                  ))}
+                    </>
+                  ) : (
+                    dates.map((_, index) => (
+                      <React.Fragment key={index}>
+                        <TableCell className="custom-table-cell">出来高</TableCell>
+                        <TableCell className="custom-table-cell">分布</TableCell>
+                      </React.Fragment>
+                    ))
+                  )}
+
+
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -189,7 +218,7 @@ const HistoricalGrid: React.FC = () => {
                   ))}
                 </TableRow>
 
-                {conditionSettingState.marketState.eveningOpening  &&  data4['2024/05/27'].EveningOpenTickFrame ?
+                {conditionSettingState.marketState.eveningOpening && Object.keys(data4).length != 0 && data4[dates1[0]].EveningOpenTickFrame ?
                   <TableRow>
                     <TableCell className="custom-table-cell">寄付</TableCell>
                     {getEveningOpenTickFrame().map((data, index) => (
@@ -201,9 +230,9 @@ const HistoricalGrid: React.FC = () => {
                   </TableRow> : null}
 
 
-                { data4['2024/05/27'].EveningOpenTickFrame ? renderTimeSlotRows(timeSlots, 'EveningTickFrame') :null}
+                {Object.keys(data4).length != 0 && data4[dates1[0]].EveningOpenTickFrame ? renderTimeSlotRows(timeSlots, 'EveningTickFrame') : null}
 
-                {conditionSettingState.marketState.eveningClose && data4['2024/05/27'].EveningCloseTickFrame ?
+                {conditionSettingState.marketState.eveningClose && Object.keys(data4).length != 0 && data4[dates1[0]].EveningCloseTickFrame ?
                   <TableRow>
                     <TableCell className="custom-table-cell">引け</TableCell>
                     {getEveningCloseTickFrame().map((data, index) => (
@@ -237,7 +266,7 @@ const HistoricalGrid: React.FC = () => {
                     ))}
                   </TableRow> : null
                 }
-                {conditionSettingState.marketState.postMarketOpening && data4['2024/05/27'].PMOpenTickFrame?
+                {conditionSettingState.marketState.postMarketOpening && Object.keys(data4).length != 0 && data4[dates1[0]].PMOpenTickFrame ?
                   <TableRow >
                     <TableCell className="custom-table-cell">寄付</TableCell>
                     {getPMOpenTickFrameData().map((data, index) => (
@@ -248,8 +277,8 @@ const HistoricalGrid: React.FC = () => {
                     ))}
                   </TableRow>
                   : null}
-                {data4['2024/05/27'].PMTickFrame ? renderTimeSlotRows(timeSlots2, 'PMTickFrame'):null}
-                {conditionSettingState.marketState.postMarketClose && data4['2024/05/27'].PMCloseTickFrame ?
+                {Object.keys(data4).length != 0 && data4[dates1[0]].PMTickFrame ? renderTimeSlotRows(timeSlots2, 'PMTickFrame') : null}
+                {conditionSettingState.marketState.postMarketClose && Object.keys(data4).length != 0 && data4[dates1[0]].PMCloseTickFrame ?
                   <TableRow>
                     <TableCell className="custom-table-cell">引け</TableCell>
                     {getPMCloseTickFrameData().map((data, index) => (

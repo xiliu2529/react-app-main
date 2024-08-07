@@ -3,9 +3,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Highcharts from 'highcharts';
 import { useMyContext } from '../../contexts/MyContext';
-import data3 from '../../data/601.1/data3.json'
-// import data3 from '../../data/101.1/data3.json'
-// import data3 from '../../data/data3.json'
+import a from '../../data/601.1/data3.json'
+import b from '../../data/101.1/data3.json'
+import c from '../../data/data3.json'
 
 interface ChartData {
   timeLabels: string[];
@@ -34,6 +34,15 @@ interface ChartState {
 
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
   const { settingsState, conditionSettingState } = useMyContext();
+  let data3 = {
+  }
+  if (conditionSettingState.inputValue === '6501') {
+    data3 = c;
+  } else if (conditionSettingState.inputValue === '101.1') {
+    data3 = b;
+  } else if (conditionSettingState.inputValue === '601.1') {
+    data3 = a;
+  }
   const [checked, setChecked] = useState<boolean>(false);
   const [chartState, setChartState] = useState<ChartState>({
     xAxisLabels: [],

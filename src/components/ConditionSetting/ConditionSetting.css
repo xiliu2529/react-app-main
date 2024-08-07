@@ -5,7 +5,6 @@
   height: 70%;
 }
 .commonsp {
-    /* width: 30vw; */
     margin-top: 40px;
     margin-left: 10px;
     padding: 10px;
@@ -14,7 +13,6 @@
     border-radius: 8px;
     width: 270px;
     height: 430px;
-    /* height: 70%; */
     background-color: #fff;
     
 }
@@ -37,7 +35,6 @@
     border-radius: 8px;
 }
  .ToggleButton {
-    /* height: 30px; */
     font-size: 9px !important;
     padding: 5px 10px !important;
     width: 54px;
@@ -54,7 +51,6 @@
   }
   .MuiInputBase-input[type="time"] {
     font-size: 14px;
-    /* width: 120px; */
   }
   .counter-controls{
     margin-top: 10px !important;
@@ -72,8 +68,6 @@
   }
 
   .setDate{
-
-    /* margin: 3px; */
     margin-left: 5px;
     margin-bottom: 10px;
     margin-top: 10px;

@@ -8,11 +8,9 @@ import b from '../../data/101.1/data2.json';
 import c from '../../data/data2.json';
 
 
-
 const Grids: React.FC = () => {
   const { settingsState, conditionSettingState } = useMyContext();
-  console.log('conditionSettingState',conditionSettingState.inputValue);
-  let data2: GridDisplayData={
+  let data2: GridDisplayData = {
   }
   if (conditionSettingState.inputValue === '6501') {
     data2 = c;
@@ -21,21 +19,21 @@ const Grids: React.FC = () => {
   } else if (conditionSettingState.inputValue === '601.1') {
     data2 = a;
   }
-const TableRowComponent = ({ data, label }: { data: any; label: string }) => (
-  <TableRow>
-    <TableCell className="table-body-cell-a">{label}</TableCell>
-    <TableCell className="table-body-cell">{data.AverageDaysData.Volume}</TableCell>
-    <TableCell className="table-body-cell">{data.AverageDaysData.Distribution}</TableCell>
-    <TableCell className="table-body-cell">{data.AverageDaysData.Cumulative}</TableCell>
-    <TableCell className="table-body-cell">{data.TodayData.Volume}</TableCell>
-    <TableCell className="table-body-cell">{data.TodayData.Distribution}</TableCell>
-    <TableCell className="table-body-cell">{data.TodayData.Cumulative}</TableCell>
-    <TableCell className="table-body-cell">{data.TodayData.Difference}</TableCell>
-    <TableCell className="table-body-cell">{data.MostVolumeAndPrice.Price}</TableCell>
-    <TableCell className="table-body-cell">{data.MostVolumeAndPrice.Volume}</TableCell>
-    <TableCell className="table-body-cell">{data.CloseVWAP}</TableCell>
-  </TableRow>
-);
+  const TableRowComponent = ({ data, label }: { data: any; label: string }) => (
+    <TableRow>
+      <TableCell className="table-body-cell-a">{label}</TableCell>
+      <TableCell className="table-body-cell">{data.AverageDaysData.Volume}</TableCell>
+      <TableCell className="table-body-cell">{data.AverageDaysData.Distribution}</TableCell>
+      <TableCell className="table-body-cell">{data.AverageDaysData.Cumulative}</TableCell>
+      <TableCell className="table-body-cell">{data.TodayData.Volume}</TableCell>
+      <TableCell className="table-body-cell">{data.TodayData.Distribution}</TableCell>
+      <TableCell className="table-body-cell">{data.TodayData.Cumulative}</TableCell>
+      <TableCell className="table-body-cell">{data.TodayData.Difference}</TableCell>
+      <TableCell className="table-body-cell">{data.MostVolumeAndPrice.Price}</TableCell>
+      <TableCell className="table-body-cell">{data.MostVolumeAndPrice.Volume}</TableCell>
+      <TableCell className="table-body-cell">{data.CloseVWAP}</TableCell>
+    </TableRow>
+  );
 
   React.useEffect(() => {
     if (settingsState) {
@@ -61,25 +59,27 @@ const TableRowComponent = ({ data, label }: { data: any; label: string }) => (
                     <TableCell key={index} className="table-head-cell">{text}</TableCell>
                   ))}
                 </TableRow>
-                </TableHead>
-                <TableRow>
-                  <TableCell className="table-head-cell">合計</TableCell>
-                  {data2.TotalFrame ? [
-                    data2.TotalFrame.AverageDaysData.Volume,
-                    data2.TotalFrame.AverageDaysData.Distribution,
-                    data2.TotalFrame.AverageDaysData.Cumulative,
-                    data2.TotalFrame.TodayData.Volume,
-                    data2.TotalFrame.TodayData.Distribution,
-                    data2.TotalFrame.TodayData.Cumulative,
-                    data2.TotalFrame.TodayData.Difference,
-                    data2.TotalFrame.MostVolumeAndPrice.Price,
-                    data2.TotalFrame.MostVolumeAndPrice.Volume,
-                    data2.TotalFrame.CloseVWAP
-                  ].map((item, index) => (
-                    <TableCell key={index} className="table-body-cell">{item}</TableCell>
-                  )): null}
-                </TableRow>
+              </TableHead>
+
               <TableBody>
+                <TableRow>
+                <TableCell className="table-body-cell-a">合計</TableCell>
+                {data2.TotalFrame ? [
+                  data2.TotalFrame.AverageDaysData.Volume,
+                  data2.TotalFrame.AverageDaysData.Distribution,
+                  data2.TotalFrame.AverageDaysData.Cumulative,
+                  data2.TotalFrame.TodayData.Volume,
+                  data2.TotalFrame.TodayData.Distribution,
+                  data2.TotalFrame.TodayData.Cumulative,
+                  data2.TotalFrame.TodayData.Difference,
+                  data2.TotalFrame.MostVolumeAndPrice.Price,
+                  data2.TotalFrame.MostVolumeAndPrice.Volume,
+                  data2.TotalFrame.CloseVWAP
+                ].map((item, index) => (
+                  <TableCell key={index} className="table-body-cell">{item}</TableCell>
+                )) : null}
+                </TableRow>
+
                 {conditionSettingState.marketState.eveningOpening && data2.EveningOpenTickFrame && (
                   <TableRowComponent data={data2.EveningOpenTickFrame} label="寄付" />
                 )}
