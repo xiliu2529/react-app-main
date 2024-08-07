@@ -1,6 +1,9 @@
 *{
   font-size: 12px;
 }
+.commonsp-top{
+  height: 70%;
+}
 .commonsp {
     /* width: 30vw; */
     margin-top: 40px;
@@ -11,6 +14,7 @@
     border-radius: 8px;
     width: 270px;
     height: 430px;
+    /* height: 70%; */
     background-color: #fff;
     
 }
@@ -46,7 +50,7 @@
     padding-right: 30px;
   }
   .MuiInputBase-input[type="time"] {
-    padding: 4px; /* 适当调整输入框的内边距 */
+    padding: 4px; 
   }
   .MuiInputBase-input[type="time"] {
     font-size: 14px;

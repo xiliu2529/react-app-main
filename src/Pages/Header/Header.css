@@ -1,16 +1,15 @@
-
-.body{
+.body {
   width: 100%;
 }
+
 .header {
   height: 36px;
   background-color: #143867;
-  /* padding-left:19px; */
   display: flex;
-  grid-column: 1 / -1; /* 占据所有列 */
-  width: 100%; /* 确保宽度占满 */
-  align-items: center; /* 使子元素在交叉轴上居中 */
-  justify-content: space-between; /* 使子元素在主轴上两端对齐 */
+  grid-column: 1 / -1;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .quick {
@@ -19,16 +18,16 @@
   font-weight: bold;
   display: flex;
   margin-left: 30px;
-  align-items: center; /* 使元素在交叉轴上居中 */
+  align-items: center;
 }
 
 .settings-icon {
-  width: 24px; /* 你可以根据需要调整图标的宽度 */
-  height: 24px; /* 你可以根据需要调整图标的高度 */
-  background-image: url('../../img/settings.svg'); /* 替换为你的图标路径 */
+  width: 24px;
+  height: 24px;
+  background-image: url('../../img/settings.svg');
   background-size: contain;
   background-repeat: no-repeat;
   cursor: pointer;
-  margin-left: auto; /* 自动填充左侧空间，右对齐 */
-  padding-right:500px ;
+  margin-left: auto;
+  padding-right: 500px;
 }

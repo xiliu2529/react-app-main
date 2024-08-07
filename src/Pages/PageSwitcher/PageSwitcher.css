@@ -5,7 +5,6 @@
 
 .ChartBottom-top .infoPanelGrid-Grid .table-container {
   height: 100px;
-  /* 第八页的网格 */
 }
 
 .ChartBottom-top .infoPanelGrid .toggle-button {
@@ -29,7 +28,6 @@
 
 .right-top .infoPanelGrid-Grid .table-container {
   height: 100px;
-  /* 第七页的网格 */
 }
 
 .GraphPage-InfoPanel .toggle-button {
@@ -43,7 +41,6 @@
 .GridChartPage {
   display: flex;
   margin-left: 20px;
-  /* 123 */
 }
 
 .GridChartPage-InfoPanel .toggle-button {
@@ -76,13 +73,11 @@
 
 .SettingsChartGridPage {
   display: flex;
-  /* 将容器的布局模式设置为 flexbox 布局 */
 }
 
 .SettingsChartGridPage-InfoPanelGrid {
   
   margin-left: 10px;
-  /* 设置子元素之间没有间距 */
 }
 
 .SettingsChartGridPage-InfoPanelGrid .grid-container {
@@ -92,7 +87,6 @@
 
 .SettingsChartPage {
   display: flex;
-  /* 使用 flexbox 布局 */
 }
 
 .SettingsChart-InfoPanelChart {
@@ -101,7 +95,6 @@
 
 .SettingsGridPage {
   display: flex;
-  /* 使用 flexbox 布局 */
 }
 
 .SettingsGridPage-InfoPanelGrid {

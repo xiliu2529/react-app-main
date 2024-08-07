@@ -1,49 +1,44 @@
-
 .left-sidebar {
-  position: absolute; /* 使用绝对定位 */
+  position: absolute;
   top: 45px;
-  left:10px;
+  left: 10px;
   width: 50px;
   height: 20px;
 }
 
-.icon{
+.icon {
   width: 80px;
   height: auto;
-  position: relative; /* 确保 z-index 生效，需要相对定位 */
-  z-index: 9999; /* 设置一个较高的 z-index 值 */
-  /* margin-top: 1vh; */
+  position: relative;
+  z-index: 9999;
 }
+
 .button-container {
   background-color: #fff;
-  /* width: 440px; */
-  /* height: 200px; */
-  border: 1px solid #5a5d60; /* 边框颜色 */
-  border-radius: 8px; /* 圆角效果 */
-  position: absolute; 
+  border: 1px solid #5a5d60;
+  border-radius: 8px;
+  position: absolute;
   display: grid;
   grid-template-columns: repeat(2, auto);
   gap: 1px;
-  /* grid-template-rows: repeat(4, auto); */
-  z-index: 500; /* 设置一个较高的 z-index 值 */
-  margin-top: -7px; /* 使用负值消除空隙 */
+  z-index: 500;
+  margin-top: -7px;
 }
-.sidebar-button{
+
+.sidebar-button {
   height: 30px;
   width: 210px;
   margin: 3px 5px;
   display: flex;
-  align-items: center; /* 垂直居中对齐 */
-  /* justify-content: center; 水平居中对齐 */
+  align-items: center;
   gap: 1px;
 }
 
 .button-container #close {
   width: 70px;
   height: 25px;
-  margin: 0 auto; /* 水平居中 */
+  margin: 0 auto;
   margin-bottom: 5px;
-  grid-column: span 2; 
-  /* //使 #close 跨越两列 */
-  justify-self: center; /* 在网格中水平居中 */
+  grid-column: span 2;
+  justify-self: center;
 }

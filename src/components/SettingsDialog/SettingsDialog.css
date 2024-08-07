@@ -3,71 +3,71 @@
 }
 
 .main-container {
-  margin-left: 10px; /* 降低左侧边距，适应小屏幕 */
-  margin-right: 10px; /* 降低右侧边距，适应小屏幕 */
-  min-width: 320px; /* 设置最小宽度 */
-  max-width: 1200px; /* 设置最大宽度 */
+  margin-left: 10px;
+  margin-right: 10px;
+  min-width: 320px; 
+  max-width: 1200px; 
 }
 
 .inline-container {
   display: flex;
   align-items: center;
   padding-left: 30px;
-  padding-right: 10px; /* 减少右侧填充 */
-  min-width: 100px; /* 设置最小宽度 */
+  padding-right: 10px;
+  min-width: 100px; 
 }
 
 .wrapper {
   display: flex;
   align-items: center;
-  flex-wrap: wrap; /* 允许容器换行 */
-  min-width: 200px; /* 设置最小宽度 */
-  max-width: 100%; /* 设置最大宽度为父容器的100% */
+  flex-wrap: wrap; 
+  min-width: 200px;
+  max-width: 100%;
 }
 
 .wrapper p {
-  margin-right: 5px; /* 减少段落之间的间距 */
-  margin-bottom: 5px; /* 减少段落底部的间距 */
+  margin-right: 5px;
+  margin-bottom: 5px;
 }
 
 .color-picker-column input {
   margin-top: 2px;
-  width: 80px; /* 减少颜色选择器的宽度 */
-  min-width: 50px; /* 设置最小宽度 */
-  max-width: 120px; /* 设置最大宽度 */
+  width: 80px;
+  min-width: 50px;
+  max-width: 120px;
 }
 
 .text-column {
   margin-top: 10px;
-  font-size: 14px; /* 减小字体大小 */
-  margin-bottom: 9px; /* 减少文字列之间的间距 */
-  min-width: 100px; /* 设置最小宽度 */
-  max-width: 400px; /* 设置最大宽度 */
+  font-size: 14px; 
+  margin-bottom: 9px;
+  min-width: 100px;
+  max-width: 400px; 
 }
 
 .header-p {
-  white-space: nowrap; /* 避免标题换行 */
-  margin: 0; /* 清除段落的外边距 */
-  text-align: center; /* 将文本居中 */
+  white-space: nowrap; 
+  margin: 0;
+  text-align: center;
   margin-top: -20px;
 
   margin-bottom: 10px;
-  min-width: 50px; /* 设置最小宽度 */
-  max-width: 600px; /* 设置最大宽度 */
+  min-width: 50px;
+  max-width: 600px;
 }
 
 .container {
   display: flex;
   align-items: center;
-  flex-wrap: wrap; /* 允许容器换行 */
-  min-width: 300px; /* 设置最小宽度 */
-  max-width: 100%; /* 设置最大宽度为父容器的100% */
+  flex-wrap: wrap; 
+  min-width: 300px;
+  max-width: 100%; 
 }
 
 .inline-element {
-  margin-right: 10px; /* 减少元素之间的间距 */
-  min-width: 100px; /* 设置最小宽度 */
-  max-width: 200px; /* 设置最大宽度 */
+  margin-right: 10px; 
+  min-width: 100px; 
+  max-width: 200px;
 }
 
 .settings-icon {
@@ -75,37 +75,37 @@
   background-size: contain;
   background-repeat: no-repeat;
   cursor: pointer;
-  padding-right: 30px; /* 减少右侧填充 */
-  min-width: 30px; /* 设置最小宽度 */
-  max-width: 60px; /* 设置最大宽度 */
+  padding-right: 30px; 
+  min-width: 30px;
+  max-width: 60px; 
 }
 
 
 .category-title {
-  position: relative; /* 设置相对定位，以便于后面绝对定位伪元素 */
-  font-weight: bold; /* 加粗 */
-  font-size: 1.2em; /* 增大字号 */
-  padding-left: 10px; /* 左侧填充 */
-  min-width: 150px; /* 设置最小宽度 */
-  max-width: 100%; /* 设置最大宽度为父容器的100% */
+  position: relative;
+  font-weight: bold; 
+  font-size: 1.2em; 
+  padding-left: 10px; 
+  min-width: 150px; 
+  max-width: 100%; 
 }
 
 .category-title::before {
-  content: ""; /* 必须有 content 属性才能显示伪元素 */
+  content: ""; 
   position: absolute;
   top: 0;
   left: 0;
-  width: 5px; /* 竖线宽度 */
-  height: 100%; /* 高度与父元素高度相同 */
+  width: 5px;
+  height: 100%; 
   background-color: #143867; 
-  border-radius: 5px; /* 圆角半径 */
+  border-radius: 5px; 
 }
 
 .sub-title {
   font-weight: bold; 
   margin: 5px;
-  min-width: 100px; /* 设置最小宽度 */
-  max-width: 300px; /* 设置最大宽度 */
+  min-width: 100px;
+  max-width: 300px;
 }
 
 .custom-button {
@@ -113,6 +113,6 @@
   color: gray;
   border: 2px solid gray;
   margin-right: 30px;
-  min-width: 80px; /* 设置最小宽度 */
-  max-width: 150px; /* 设置最大宽度 */
+  min-width: 80px;
+  max-width: 150px;
 }

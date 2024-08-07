@@ -1,9 +1,7 @@
 .custom-table-cell-a, .custom-table-cell  {
-    /* 你可以添加更多样式，比如边框、填充等 */
     border: 1px solid #ddd;
     padding: 0px !important;
     text-align: center!important;
-    /* 内容居中 */
 }
 .custom-table-cell {
     background-color: #e8ecf0 !important;

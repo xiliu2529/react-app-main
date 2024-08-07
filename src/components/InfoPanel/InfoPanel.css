@@ -13,30 +13,27 @@
     border-radius: 0px !important;
     border-bottom: #E0E0E0 1px solid !important;
   }
-  /* 当按钮被选中时的样式 */
   .customToggleButton.Mui-selected {
-    font-weight: bold; /* 选中时字体加粗 */
-    background-color: #e0e0e0; /* 选中时背景颜色 */
+    font-weight: bold; 
+    background-color: #e0e0e0;
     color: #143867 !important;
-    border-bottom: 2px solid #143867 !important; /* 选中时底边框颜色 */
+    border-bottom: 2px solid #143867 !important;
   }
   
-  /* 消息区域样式 */
 .message {
-  align-items: center; /* 垂直居中 */
-  padding-left: 10px; /* 为了给竖线留出空间 */
-  position: relative; /* 相对定位 */
+  align-items: center; 
+  padding-left: 10px; 
+  position: relative; 
 }
-/* 竖线样式 */
 .message::before {
-  content: ''; /* 必须使用 content 属性 */
-  width: 4px; /* 竖线宽度 */
-  height: 100%; /* 竖线高度 */
-  background-color: #143867; /* 竖线颜色 */
-  border-radius: 5px; /* 圆角效果 */
-  position: absolute; /* 绝对定位 */
-  left: 0; /* 向左对齐 */
-  top: 0; /* 从顶部开始 */
+  content: ''; 
+  width: 4px;
+  height: 100%;
+  background-color: #143867;
+  border-radius: 5px;
+  position: absolute; 
+  left: 0; 
+  top: 0;
 }
 .execution-time{
   font-size: 10px;
