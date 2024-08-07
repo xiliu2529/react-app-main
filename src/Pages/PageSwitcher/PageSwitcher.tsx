@@ -111,8 +111,7 @@ export const ChartBottom: React.FC = () => {
   );
 };
 export const HistoryAndSettings: React.FC = () => {
-
-
+  
   return (
     <div className='SettingsGridPage'>
       <div className='SettingsGridPage-ConditionSetting'>

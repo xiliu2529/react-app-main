@@ -125,7 +125,7 @@ const ConditionSetting: React.FC = () => {
     if (setConditionSettingState) {
       setConditionSettingState({ marketState, inputValue });
     }
-  }, [marketState, setConditionSettingState, requestPayload]);
+  }, [marketState, setConditionSettingState]);
   const selectedStyle = {
     '&.Mui-selected': {
       backgroundColor: '#E8ECF0',
@@ -154,6 +154,8 @@ const ConditionSetting: React.FC = () => {
     });
 
   };
+  console.log('requestPayload,', requestPayload);
+
   const handleCalculate = () => {
     setRequestPayload(prevPayload => ({
       ...prevPayload,
@@ -205,11 +207,12 @@ const ConditionSetting: React.FC = () => {
 
   useEffect(() => {
     if (Object.keys(requestPayload).length > 0) {
-      if(isReadyToSend){
-      const isValid = validatePayload(requestPayload);
-      if (isValid) {
+      if (isReadyToSend) {
+        const isValid = validatePayload(requestPayload);
+        if (isValid) {
+        }
       }
-    }}
+    }
   }, [requestPayload]);
 
   const validatePayload = (payload: RequestPayload): boolean => {
