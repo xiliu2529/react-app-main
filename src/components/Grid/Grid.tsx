@@ -1,11 +1,28 @@
 import * as React from 'react';
 import { Grid, Paper, Table, TableContainer, TableHead, Box, TableBody, TableCell, TableRow, Typography } from '@mui/material';
-import './Grid.css'
+import './Grid.css';
+// import { GridDisplayData } from '../../types/gridDisplayData';
 import { useMyContext } from '../../contexts/MyContext';
-// import data2 from '../../data/data2.json';
-// import data2 from '../../data/101.1/data2.json';
-import data2 from '../../data/601.1/data2.json';
+import a from '../../data/601.1/data2.json';
+import b from '../../data/101.1/data2.json';
+import c from '../../data/data2.json';
 
+
+
+const Grids: React.FC = () => {
+  const { settingsState, conditionSettingState } = useMyContext();
+  console.log('conditionSettingState',conditionSettingState.inputValue);
+  let data2: GridDisplayData={
+  // @ts-ignore
+    TotalFrame:{},
+  }
+  if (conditionSettingState.inputValue === '6501') {
+    data2 = c;
+  } else if (conditionSettingState.inputValue === '101.1') {
+    data2 = b;
+  } else if (conditionSettingState.inputValue === '601.1') {
+    data2 = a;
+  }
 const TableRowComponent = ({ data, label }: { data: any; label: string }) => (
   <TableRow>
     <TableCell className="table-body-cell-a">{label}</TableCell>
@@ -22,11 +39,6 @@ const TableRowComponent = ({ data, label }: { data: any; label: string }) => (
   </TableRow>
 );
 
-const Grids: React.FC = () => {
-  const { settingsState, conditionSettingState } = useMyContext();
-  if(!data2){
-    const data2 = []
-  }
   React.useEffect(() => {
     if (settingsState) {
       document.documentElement.style.setProperty('--cell-bg-color', settingsState.colors[0]);
@@ -41,20 +53,18 @@ const Grids: React.FC = () => {
         <Grid item>
           <Box className='table-title'>
             <Typography className="table-title-left">6日平均(05/17-05/24)2024/05/27</Typography>
-            <Typography className="table-title-right">時聞带別最多出来高·偭格</Typography>
+            <Typography className="table-title-right">時聞帯別最多出来高·偭格</Typography>
           </Box>
           <TableContainer component={Paper} className="table-container">
             <Table stickyHeader>
               <TableHead>
                 <TableRow>
-                  {/* 头 */}
                   {['時間', '出来高', '分布', '累計', '出来高', '分布', '累計', '差', '価格', '出来高', '場引けVWAP'].map((text, index) => (
                     <TableCell key={index} className="table-head-cell">{text}</TableCell>
                   ))}
                 </TableRow>
                 <TableRow>
-                 
-                  <TableCell className="table-body-cell-a">合計</TableCell>
+                  <TableCell className="table-head-cell">合計</TableCell>
                   {data2.TotalFrame ? [
                     data2.TotalFrame.AverageDaysData.Volume,
                     data2.TotalFrame.AverageDaysData.Distribution,
@@ -68,7 +78,7 @@ const Grids: React.FC = () => {
                     data2.TotalFrame.CloseVWAP
                   ].map((item, index) => (
                     <TableCell key={index} className="table-body-cell">{item}</TableCell>
-                  )):null}
+                  )): null}
                 </TableRow>
               </TableHead>
               <TableBody>

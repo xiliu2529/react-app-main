@@ -5,24 +5,22 @@
     border-radius: 2px;
     background-color: #fff;
     height: 482px;
+    width: 100%;
+    overflow-x: auto;
 }
-.table-container{
-    height:460px !important;
-}
+
 .table-title {
     display: flex;
     justify-content: space-between;
 
 }
 .table-title-left {
-    font-size: 10px;
     color: #2d70d4;
     padding-left: 90px;
     white-space: nowrap;
 }
 
 .table-title-right {
-    font-size: 10px;
     color: #2d70d4;
     padding-right: 90px;
     white-space: nowrap;
@@ -30,16 +28,19 @@
 
 .table-body-cell-a, .table-body-cell   {
     border: 1px solid #ddd;
-    padding: 0px !important;
+    padding: 5px !important;
     text-align: center!important;
-    /* 内容居中 */
+    font-size: 15px !important;
+    white-space: nowrap;
+
 }
-/* 背景色为灰色的表头单元格 */
 .table-head-cell{
     background-color: #f3f3f3 !important;
     border: 1px solid #ddd;
     padding: 5px 0px !important;
     text-align: center !important;
+    white-space: nowrap;
+ 
   }
   .table-body-cell-a ,#table-head-cell-a{
     background-color: #f3f3f3 !important;

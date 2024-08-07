@@ -2,7 +2,7 @@ import React  from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import './InfoPanel.css'
-import { useMyContext } from '../../contexts/MyContext'; // 导入上下文
+import { useMyContext } from '../../contexts/MyContext';
 import { Stack } from '@mui/material';
 import data1 from '../../data/data1.json';
 

@@ -7,7 +7,30 @@ import { useEffect } from 'react';
 // import data4 from '../../../src/data/101.1/data4.json';
 import data4 from '../../../src/data//601.1/data4.json';
 
+interface DayData {
+  TotalFrame: {
+    Volume: string; 
+    Distribution: string;
+  };
+  EveningOpenTickFrame?: TickFrameData;
+  AMOpenTickFrame?: TickFrameData;
+  PMOpenTickFrame?: TickFrameData;
+  AMCloseTickFrame?: TickFrameData;
+  EveningCloseTickFrame?: TickFrameData;
+  PMCloseTickFrame?: TickFrameData;
+  EveningTickFrame?: Record<string, TickFrameData>;
+  AMTickFrame?: Record<string, TickFrameData>;
+  PMTickFrame?: Record<string, TickFrameData>;
+}
 
+interface TickFrameData {
+  Volume: string;
+  Distribution: string;
+}
+
+interface Data {
+  [date: string]: DayData;
+}
 const HistoricalGrid: React.FC = () => {
   const { settingsState, conditionSettingState } = useMyContext();
   useEffect(() => {
@@ -18,31 +41,32 @@ const HistoricalGrid: React.FC = () => {
   }, [settingsState]);
 
   const extractDates = (jsonData: any) => Object.keys(jsonData);
-  const extractTotalFrame = (data: any) =>
+  const extractTotalFrame = (data: Data) =>
     Object.entries(data).map(([date, dayData]) => ({
       date,
       volume: dayData.TotalFrame.Volume,
       distribution: dayData.TotalFrame.Distribution,
     }));
 
-  const extractTimeSlots = (data: any, frameType:any) => {
-    const timeSlotsSet = new Set<string>();
-
-    if (data) {
-    Object.values(data).forEach(dayData => {
-      // 确保 dayData 和 dayData[frameType] 已定义
-      if (dayData && dayData[frameType]) {
-        Object.keys(dayData[frameType]).forEach(timeSlot => {
-          timeSlotsSet.add(timeSlot);
-        });
-      }
-    });
-  }
-  return Array.from(timeSlotsSet);
-  };
+    const extractTimeSlots = (data: Data, frameType: string) => {
+      const timeSlotsSet = new Set<string>();
+    
+      Object.values(data).forEach(dayData => {
+        // @ts-ignore
+        const frameData = dayData[frameType] as Record<string, TickFrameData> | undefined;
+        if (frameData) {
+          Object.keys(frameData).forEach(timeSlot => {
+            timeSlotsSet.add(timeSlot);
+          });
+        }
+      });
+    
+      return Array.from(timeSlotsSet);
+    };
 
   const getTimeSlotData = (timeSlot: string, frameType: any) =>
     extractDates(data4).map(date => {
+      // @ts-ignore
       const timeSlotData = data4[date]?.[frameType]?.[timeSlot] || {};
       return {
         volume: timeSlotData.Volume || '-',
@@ -52,6 +76,7 @@ const HistoricalGrid: React.FC = () => {
 
   const getEveningOpenTickFrame = () =>
     extractDates(data4).map(date => {
+      // @ts-ignore
       const data = data4[date]?.EveningOpenTickFrame || {};
       return {
         volume: data.Volume || '-',
@@ -60,6 +85,7 @@ const HistoricalGrid: React.FC = () => {
     });
   const getAMOpenTickFrameData = () =>
     extractDates(data4).map(date => {
+      // @ts-ignore
       const data = data4[date]?.AMOpenTickFrame || {};
       return {
         volume: data.Volume || '-',
@@ -68,6 +94,7 @@ const HistoricalGrid: React.FC = () => {
     });
   const getPMOpenTickFrameData = () =>
     extractDates(data4).map(date => {
+      // @ts-ignore
       const data = data4[date]?.PMOpenTickFrame || {};
       return {
         volume: data.Volume || '-',
@@ -77,6 +104,7 @@ const HistoricalGrid: React.FC = () => {
 
   const getAMCloseTickFrameData = () =>
     extractDates(data4).map(date => {
+      // @ts-ignore
       const data = data4[date]?.AMCloseTickFrame || {};
       return {
         volume: data.Volume || '-',
@@ -86,6 +114,7 @@ const HistoricalGrid: React.FC = () => {
 
   const getEveningCloseTickFrame = () =>
     extractDates(data4).map(date => {
+      // @ts-ignore
       const data = data4[date]?.EveningCloseTickFrame || {};
       return {
         volume: data.Volume || '-',
@@ -95,6 +124,7 @@ const HistoricalGrid: React.FC = () => {
 
   const getPMCloseTickFrameData = () =>
     extractDates(data4).map(date => {
+      // @ts-ignore
       const data = data4[date]?.PMCloseTickFrame || {};
       return {
         volume: data.Volume || '-',
@@ -184,7 +214,6 @@ const HistoricalGrid: React.FC = () => {
                     ))}
                   </TableRow> : null
                 }
-                {/* 新添加的 AMOpenTickFrame 数据行 */}
                 {conditionSettingState.marketState.preMarketOpening ?
                   <TableRow>
                     <TableCell className="custom-table-cell">寄付</TableCell>
@@ -197,7 +226,6 @@ const HistoricalGrid: React.FC = () => {
                   </TableRow> : null}
 
                 {renderTimeSlotRows(timeSlots1, 'AMTickFrame')}
-                {/* 新添加的 AMCloseTickFrame 数据行 */}
                 {conditionSettingState.marketState.preMarketClose ?
                   <TableRow>
                     <TableCell className="custom-table-cell">引け</TableCell>

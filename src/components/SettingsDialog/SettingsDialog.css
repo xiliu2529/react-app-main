@@ -15,7 +15,6 @@
   padding-left: 30px;
   padding-right: 10px; /* 减少右侧填充 */
   min-width: 100px; /* 设置最小宽度 */
-  max-width: 100%; /* 设置最大宽度为父容器的100% */
 }
 
 .wrapper {

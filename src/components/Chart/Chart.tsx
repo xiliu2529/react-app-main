@@ -3,9 +3,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Highcharts from 'highcharts';
 import { useMyContext } from '../../contexts/MyContext';
-// import data3 from '../../data/601.1/data3.json'
+import data3 from '../../data/601.1/data3.json'
 // import data3 from '../../data/101.1/data3.json'
-import data3 from '../../data/data3.json'
+// import data3 from '../../data/data3.json'
 
 interface ChartData {
   timeLabels: string[];
@@ -31,10 +31,10 @@ interface ChartState {
   historicalDistribution: number[];
   historicalCumulative: number[];
 }
-// 定义 Chart 组件
+
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
   const { settingsState, conditionSettingState } = useMyContext();
-  const [checked, setChecked] = useState<boolean>(false); // 状态管理复选框的选中状态
+  const [checked, setChecked] = useState<boolean>(false);
   const [chartState, setChartState] = useState<ChartState>({
     xAxisLabels: [],
     todayDistribution: [],
@@ -61,13 +61,12 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked); // 更新复选框的状态
+    setChecked(event.target.checked);
   };
-  let display = settingsState.radioValues[1] === "Arrange" //切换1/2个表
+  let display = settingsState.radioValues[1] === "Arrange"
 
   useEffect(() => {
     const processData = () => {
-      // 初始化数据
       let timeLabels: string[] = [];
       let todayDistribution: number[] = [];
       let todayCumulative: number[] = [];
@@ -86,7 +85,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       let historicalDistribution2: number[] = [];
       let historicalCumulative2: number[] = [];
 
-      // 获取晚上数据
+
       if (data3.EveningTickFrame) {
         timeLabels = Object.keys(data3.EveningTickFrame).map(timeFrame => timeFrame.split('-')[0]);
         todayDistribution = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.TodayChart.Distribution));
@@ -94,7 +93,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         historicalDistribution = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.AverageDaysChart.Distribution));
         historicalCumulative = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.AverageDaysChart.Cumulative));
       }
-      // 获取前场数据
       if (data3.AMTickFrame) {
         timeLabels1 = Object.keys(data3.AMTickFrame).map(timeFrame => timeFrame.split('-')[0]);
         todayDistribution1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.TodayChart.Distribution));
@@ -102,7 +100,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         historicalDistribution1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.AverageDaysChart.Distribution));
         historicalCumulative1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.AverageDaysChart.Cumulative));
       }
-      // 获取后场数据
       if (data3.PMTickFrame) {
         timeLabels2 = Object.keys(data3.PMTickFrame).map(timeFrames2 => timeFrames2.split('-')[0]);
         todayDistribution2 = Object.values(data3.PMTickFrame).map(tick => parseFloat(tick.TodayChart.Distribution));
@@ -130,12 +127,10 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     };
     const data = processData();
     setChartData(data)
-  }, [settingsState, conditionSettingState,display]);
+  }, [settingsState, conditionSettingState, display]);
 
-  // 2个
 
   useEffect(() => {
-    //晚寄
     if (conditionSettingState.marketState.eveningOpening && data3.EveningOpenTickFrame) {
       setChartData(prevState => ({
         ...prevState,
@@ -146,20 +141,18 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         historicalCumulative: [Number(data3.EveningOpenTickFrame.AverageDaysChart.Cumulative), ...prevState.historicalCumulative],
       }));
     }
-    //晚引
     if (conditionSettingState.marketState.eveningClose && data3.EveningCloseTickFrame) {
       setChartData(prevState => ({
         ...prevState,
-        timeLabels: [...prevState.timeLabels,'引け'],
-        todayDistribution: [ ...prevState.todayDistribution,Number(data3.EveningCloseTickFrame.TodayChart.Distribution)],
-        todayCumulative: [Number(...prevState.todayDistribution,data3.EveningCloseTickFrame.TodayChart.Cumulative)],
-        historicalDistribution: [ ...prevState.historicalDistribution,Number(data3.EveningCloseTickFrame.AverageDaysChart.Distribution)],
-        historicalCumulative: [...prevState.historicalCumulative,Number(data3.EveningOpenTickFrame.AverageDaysChart.Cumulative)],
+        timeLabels: [...prevState.timeLabels, '引け'],
+        todayDistribution: [...prevState.todayDistribution, Number(data3.EveningCloseTickFrame.TodayChart.Distribution)],
+        todayCumulative: [Number(...prevState.todayDistribution, data3.EveningCloseTickFrame.TodayChart.Cumulative)],
+        historicalDistribution: [...prevState.historicalDistribution, Number(data3.EveningCloseTickFrame.AverageDaysChart.Distribution)],
+        historicalCumulative: [...prevState.historicalCumulative, Number(data3.EveningOpenTickFrame.AverageDaysChart.Cumulative)],
       }));
     }
 
-    //前寄
-    if (conditionSettingState.marketState.preMarketOpening ) {
+    if (conditionSettingState.marketState.preMarketOpening) {
       setChartData(prevState => ({
         ...prevState,
         timeLabels1: ['寄付', ...prevState.timeLabels1],
@@ -171,19 +164,17 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
 
     }
-    //前引
     if (conditionSettingState.marketState.preMarketClose) {
       setChartData(prevState => ({
         ...prevState,
-        timeLabels1: [...prevState.timeLabels1,'引け'],
-        todayDistribution1: [ ...prevState.todayDistribution1,Number(data3.AMOpenTickFrame.TodayChart.Distribution)],
-        todayCumulative1: [Number(...prevState.todayDistribution1,data3.AMOpenTickFrame.TodayChart.Cumulative)],
-        historicalDistribution1: [ ...prevState.historicalDistribution1,Number(data3.AMOpenTickFrame.AverageDaysChart.Distribution)],
-        historicalCumulative1: [...prevState.historicalCumulative1,Number(data3.AMOpenTickFrame.AverageDaysChart.Cumulative)],
+        timeLabels1: [...prevState.timeLabels1, '引け'],
+        todayDistribution1: [...prevState.todayDistribution1, Number(data3.AMOpenTickFrame.TodayChart.Distribution)],
+        todayCumulative1: [Number(...prevState.todayDistribution1, data3.AMOpenTickFrame.TodayChart.Cumulative)],
+        historicalDistribution1: [...prevState.historicalDistribution1, Number(data3.AMOpenTickFrame.AverageDaysChart.Distribution)],
+        historicalCumulative1: [...prevState.historicalCumulative1, Number(data3.AMOpenTickFrame.AverageDaysChart.Cumulative)],
       }));
 
     }
-    //后寄
     if (conditionSettingState.marketState.postMarketOpening && data3.PMOpenTickFrame) {
       setChartData(prevState => ({
         ...prevState,
@@ -196,19 +187,18 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
 
     }
-    //后引
     if (conditionSettingState.marketState.postMarketClose && data3.PMCloseTickFrame) {
       setChartData(prevState => ({
         ...prevState,
-        timeLabels2: [...prevState.timeLabels2,'引け'],
-        todayDistribution2: [ ...prevState.todayDistribution2,Number(data3.PMCloseTickFrame.TodayChart.Distribution)],
-        todayCumulative2: [Number(...prevState.todayDistribution2,data3.PMCloseTickFrame.TodayChart.Cumulative)],
-        historicalDistribution2: [ ...prevState.historicalDistribution2,Number(data3.PMCloseTickFrame.AverageDaysChart.Distribution)],
-        historicalCumulative2: [...prevState.historicalCumulative2,Number(data3.PMCloseTickFrame.AverageDaysChart.Cumulative)],
+        timeLabels2: [...prevState.timeLabels2, '引け'],
+        todayDistribution2: [...prevState.todayDistribution2, Number(data3.PMCloseTickFrame.TodayChart.Distribution)],
+        todayCumulative2: [Number(...prevState.todayDistribution2, data3.PMCloseTickFrame.TodayChart.Cumulative)],
+        historicalDistribution2: [...prevState.historicalDistribution2, Number(data3.PMCloseTickFrame.AverageDaysChart.Distribution)],
+        historicalCumulative2: [...prevState.historicalCumulative2, Number(data3.PMCloseTickFrame.AverageDaysChart.Cumulative)],
       }));
 
     }
-  }, [conditionSettingState, settingsState,display]);
+  }, [conditionSettingState, settingsState, display]);
   useEffect(() => {
     setChartState({
       xAxisLabels: [
@@ -237,14 +227,16 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         ...(chartData.historicalCumulative2 || []),
       ],
     });
-    // 其他逻辑...
   }, [chartData]);
   useEffect(() => {
-    // 处理图表创建和更新
     const container = document.getElementById('chart-container');
     if (container) {
-      container.innerHTML = ''; // 清空容器内容
-      Highcharts.chart('chart-container', { ...chartOptions, chart: { height: props.height, width: props.width, backgroundColor: settingsState.colors[2] } });
+      container.innerHTML = '';
+      Highcharts.chart('chart-container', {
+        ...chartOptions, accessibility: {
+          enabled: false 
+        }, chart: { height: props.height, width: props.width, backgroundColor: settingsState.colors[2] }
+      });
     }
     if (display) {
       const container1 = document.getElementById('chart-container1');
@@ -252,29 +244,37 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
       if (container1) {
         container1.innerHTML = '';
-        Highcharts.chart('chart-container1', { ...chartOptions1, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width, backgroundColor: settingsState.colors[2] } });
+        Highcharts.chart('chart-container1', {
+          ...chartOptions1, accessibility: {
+            enabled: false 
+          }, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width, backgroundColor: settingsState.colors[2] }
+        });
       }
       if (container2) {
         container2.innerHTML = '';
-        Highcharts.chart('chart-container2', { ...chartOptions2, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width, backgroundColor: settingsState.colors[2] } });
+        Highcharts.chart('chart-container2', {
+          ...chartOptions2, accessibility: {
+            enabled: false 
+          }, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width, backgroundColor: settingsState.colors[2] }
+        });
       }
     }
 
-  }, [display, settingsState, conditionSettingState,chartState,chartData]); // 依赖项：checked 状态和图表的高度、宽度
+  }, [display, settingsState, conditionSettingState, chartState, chartData]);
 
   const chartOptions: Highcharts.Options = {
     chart: {
-      type: 'column', // 图表类型为柱状图
-      height: '4000px', // 图表高度
-      width: '600px',   // 图表宽度
+      type: 'column',
+      height: '4000px',
+      width: '600px',
 
     },
     title: {
-      text: '1' // 图表标题
+      text: '1'
     },
     xAxis: {
       categories: chartState.xAxisLabels,
-      crosshair: true, // 启用十字准线
+      crosshair: true,
       labels: {
         style: {
           color: settingsState.colors[3]
@@ -286,7 +286,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         style: {
           color: settingsState.colors[3]
         },
-        format: '{value}%', // Y 轴标签格式
+        format: '{value}%',
       }, title: {
         text: undefined
       }
@@ -295,63 +295,62 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         style: {
           color: settingsState.colors[3]
         },
-        format: '{value} %', // Y 轴标签格式
+        format: '{value} %',
 
       },
-      opposite: true, // 将此 Y 轴放在右边
+      opposite: true,
       title: {
         text: undefined
       }
     }],
 
     tooltip: {
-      shared: true // 启用共享提示
+      shared: true
     },
     legend: {
-      align: 'left', // 图例对齐方式
-      verticalAlign: 'top', // 图例垂直对齐方式
-      backgroundColor: Highcharts.defaultOptions.legend?.backgroundColor || 'rgba(255,255,255,0.25)' // 图例背景颜色
+      align: 'left',
+      verticalAlign: 'top',
+      backgroundColor: Highcharts.defaultOptions.legend?.backgroundColor || 'rgba(255,255,255,0.25)'
     },
     series: [{
-      type: 'column', // 数据系列类型为柱状图
-      color: '#FF0000', // 柱状图颜色
-      yAxis: 0, // 使用第一个 Y 轴.
-      name: '当日分布',
+      type: 'column',
+      color: '#FF0000',
+      yAxis: 0,
+      showInLegend: false,
       data: chartState.todayDistribution
     }, {
-      type: 'column', // 数据系列类型为柱状图
-      color: '#00ff40', // 柱状图颜色
-      name: '历史分布',
-      yAxis: 0, // 使用第一个 Y 轴
+      type: 'column',
+      color: '#00ff40',
+      yAxis: 0,
+      showInLegend: false,
       data: chartState.historicalDistribution
     }, {
-      name: '当日累计', // 数据系列名称
-      type: 'spline', // 数据系列类型为折线图
-      yAxis: 0, // 使用第一个 Y 轴
-      data: chartState.todayCumulative, // 数据来源
+      showInLegend: false,
+      type: 'spline',
+      yAxis: 0,
+      data: chartState.todayCumulative,
       tooltip: {
-        valueSuffix: '%' // 提示框后缀
+        valueSuffix: '%'
       }
     }, {
-      name: '历史累计', // 数据系列名称
-      type: 'spline', // 数据系列类型为折线图
-      yAxis: 1, // 使用第二个 Y 轴
-      data: chartState.historicalCumulative// 数据来源
+      showInLegend: false,
+      type: 'spline',
+      yAxis: 1,
+      data: chartState.historicalCumulative
     }]
   };
-  // // 今天
   const chartOptions1: Highcharts.Options = {
     chart: {
-      type: 'column', // 图表类型为柱状图
-      height: '200px', // 图表高度
-      width: '600px',  // 图表宽度
+      type: 'column',
+      height: '200px',
+      width: '600px',
     },
     title: {
-      text: '今天' // 图表标题
+      text: ''
     },
     xAxis: {
       categories: chartState.xAxisLabels,
-      crosshair: true, // 启用十字准线
+      crosshair: true,
       labels: {
         style: {
           color: settingsState.colors[3]
@@ -363,7 +362,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         style: {
           color: settingsState.colors[3]
         },
-        format: '{value}%', // Y 轴标签格式
+        format: '{value}%',
       }, title: {
         text: undefined
       }
@@ -372,55 +371,55 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         style: {
           color: settingsState.colors[3]
         },
-        format: '{value} %', // Y 轴标签格式
+        format: '{value} %',
 
       },
-      opposite: true, // 将此 Y 轴放在右边
+      opposite: true,
       title: {
         text: undefined
       }
     }],
     tooltip: {
-      shared: true // 启用共享提示
+      shared: true
     },
     legend: {
-      align: 'left', // 图例对齐方式
-      verticalAlign: 'top', // 图例垂直对齐方式
-      backgroundColor: Highcharts.defaultOptions.legend?.backgroundColor || 'rgba(255,255,255,0.25)' // 图例背景颜色
+      align: 'left',
+      verticalAlign: 'top',
+      backgroundColor: Highcharts.defaultOptions.legend?.backgroundColor || 'rgba(255,255,255,0.25)'
     },
     series: [{
-      name: '分布',
-      type: 'column', // 数据系列类型为柱状图
-      color: '#FF0000', // 柱状图颜色
-      yAxis: 0, // 使用第一个 Y 轴
-      data: chartState.todayDistribution // 数据来源
+      showInLegend: false,
+      type: 'column',
+      color: '#FF0000',
+      yAxis: 0,
+      data: chartState.todayDistribution
       , tooltip: {
-        valueSuffix: '%' // 提示框后缀
+        valueSuffix: '%'
       }
     }, {
-      name: '累計', // 数据系列名称
-      type: 'spline', // 数据系列类型为折线图
-      yAxis: 1, // 使用第一个 Y 轴
-      data: chartState.todayCumulative, // 数据来源
+      showInLegend: false,
+      type: 'spline',
+      yAxis: 1,
+      data: chartState.todayCumulative,
       tooltip: {
-        valueSuffix: '%' // 提示框后缀
+        valueSuffix: '%'
       }
     }]
   };
-  // //以前
+
   const chartOptions2: Highcharts.Options = {
     chart: {
-      type: 'column', // 图表类型为柱状图
-      height: '200px', // 图表高度
-      width: '600px', // 图表宽度
+      type: 'column',
+      height: '200px',
+      width: '600px',
     },
 
     title: {
-      text: '历史' // 图表标题
+      text: ''
     },
     xAxis: {
       categories: chartState.xAxisLabels,
-      crosshair: true, // 启用十字准线
+      crosshair: true,
       labels: {
         style: {
           color: settingsState.colors[3]
@@ -432,7 +431,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         style: {
           color: settingsState.colors[3]
         },
-        format: '{value}%', // Y 轴标签格式
+        format: '{value}%',
       }, title: {
         text: undefined
       }
@@ -441,41 +440,41 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         style: {
           color: settingsState.colors[3]
         },
-        format: '{value} %', // Y 轴标签格式
+        format: '{value} %',
 
       },
-      opposite: true, // 将此 Y 轴放在右边
+      opposite: true,
       title: {
         text: undefined
       }
     }],
     tooltip: {
-      shared: true // 启用共享提示
+      shared: true
     },
     legend: {
-      align: 'left', // 图例对齐方式
-      verticalAlign: 'top', // 图例垂直对齐方式
+      align: 'left',
+      verticalAlign: 'top',
     },
     series: [{
-      name: '分布',
-      type: 'column', // 数据系列类型为柱状图
-      color: '#00ff40', // 柱状图颜色
-      yAxis: 0, // 使用第一个 Y 轴
-      data: chartState.historicalDistribution // 数据来源
+      showInLegend: false,
+      type: 'column',
+      color: '#00ff40',
+      yAxis: 0,
+      data: chartState.historicalDistribution
     }, {
-      name: '柱图', // 数据系列名称
-      type: 'spline', // 数据系列类型为折线图
-      yAxis: 1, // 使用第二个 Y 轴
-      data: chartState.historicalCumulative // 数据来源
+      showInLegend: false,
+      type: 'spline',
+      yAxis: 1,
+      data: chartState.historicalCumulative
     }]
   };
   return (
     <div>
       <FormControlLabel
-        className='chart-top' // 为 FormControlLabel 组件添加自定义样式
-        control={<Checkbox checked={checked} onChange={handleChange} />} // 渲染复选框
-        label="当日の価格チャートを表示" // 复选框标签
-        labelPlacement="start" // 标签放置位置
+        className='chart-top'
+        control={<Checkbox checked={checked} onChange={handleChange} />}
+        label="当日の価格チャートを表示"
+        labelPlacement="start"
       />
       <div>
         {display ? (
@@ -491,4 +490,4 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   );
 };
 
-export default Chart; // 导出 Chart 组件
+export default Chart; 

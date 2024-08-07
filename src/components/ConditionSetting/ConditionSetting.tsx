@@ -1,4 +1,4 @@
-import { TextField, Box, Grid, Typography, Button, Stack, ToggleButton, ToggleButtonGroup, MenuItem, Checkbox, Select, FormControlLabel, IconButton } from '@mui/material';
+import { TextField, Box, Grid, Typography, Button, Stack, ToggleButton, ToggleButtonGroup, MenuItem, Checkbox, Select, FormControlLabel } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
 import './ConditionSetting.css';
@@ -16,7 +16,6 @@ interface HistoricalSetting {
   Category: string; // 取得種別
   Range: Range;
 }
-
 interface Range {
   DateFrom: string; // 開始日
   DateTo: string; // 終了日
@@ -41,7 +40,6 @@ interface CalculationRange {
   TimeTo: string; // 終了時刻
   Minutes: string; // 分数
 }
-
 interface IndividualCalculation {
   AM: TimeSetting;
   PM: TimeSetting;
@@ -58,10 +56,10 @@ interface ViewSetting {
   PercentageOfDayType: string; // 当日出来高分布を百分率で表示の指定
 }
 
-
 const ConditionSetting: React.FC = () => {
+  const [inputValue, setInputValue] = useState<string>('');
   const [alignment, setAlignment] = React.useState('1');
-  const [value, setValue] = useState<number>(0);
+  const [days, setDays] = useState<number>(1);
   const [value1, setValue1] = useState<number>(0);
   const [minutes, setminutes] = React.useState('');
   const [startTime, setStartTime] = useState<string>('');
@@ -76,74 +74,59 @@ const ConditionSetting: React.FC = () => {
   });
   const [startDate, setstartDate] = useState<string>('');
   const [endDate, setendDate] = useState<string>('');
-  const [checkedState, setCheckedState] = React.useState<boolean[]>([false, false, false]);
-  // const [posts, setPosts] = useState<PostType[]>([]);
-  const { setConditionSettingState } = useMyContext();
+  const [checkedState, setCheckedState] = React.useState<string[]>(['0', '0', '0']);
+  const { setConditionSettingState,settingsState } = useMyContext();
   
-  const a: RequestPayload = {
-    Code: "12345", // 集計対象のコード
+  const [isReadyToSend, setIsReadyToSend] = useState(false);
+  const [requestPayload, setRequestPayload] = useState<RequestPayload>({
+    Code: '',
     HistoricalSetting: {
-      Category: "0", // 取得種別
+      Category: '',
       Range: {
-        DateFrom: "2024/01/01", // 開始日
-        DateTo: "2024/12/31", // 終了日
-        Days: "30", // 日数
+        DateFrom: '',
+        DateTo: '',
+        Days: '',
         SQ: {
-          LargeSQ: "1", // L-SQ日
-          SmallSQ: "0", // S-SQ日
-          WeeklySQ: "1" // W-SQ日
-        }
-      }
+          LargeSQ: '',
+          SmallSQ: '',
+          WeeklySQ: '',
+        },
+      },
     },
     CalculationSetting: {
-      Category: "2", // 算出間隔
+      Category: '',
       Range: {
-        TimeFrom: "09:00", // 開始時刻
-        TimeTo: "17:00", // 終了時刻
-        Minutes: "15" // 分数
+        TimeFrom: '',
+        TimeTo: '',
+        Minutes: '',
       },
       Individual: {
         AM: {
-          OpenTick: "1", // 寄付
-          CloseTick: "0" // 引け
+          OpenTick: '',
+          CloseTick: '',
         },
         PM: {
-          OpenTick: "0", // 寄付
-          CloseTick: "1" // 引け
+          OpenTick: '',
+          CloseTick: '',
         },
         Evening: {
-          OpenTick: "1", // 寄付
-          CloseTick: "0" // 引け
-        }
-      }
+          OpenTick: '',
+          CloseTick: '',
+        },
+      },
     },
     ViewSetting: {
-      MostVolumeAndPriceType: "0", // 時間帯別最多出来高・価格の優先表示（高値、安値）の指定
-      PercentageOfDayType: "1" // 当日出来高分布を百分率で表示の指定
-    }
-  };
+      MostVolumeAndPriceType: '',
+      PercentageOfDayType: '',
+    },
+  });
+  const today = new Date().toISOString().split('T')[0];
   
-
-  //   useEffect(() => {
-//     const loadData = async () => {
-//       try {
-//         const data = await fetchData(); // 调用 API 函数
-//         setPosts(data); // 存储文章数据
-//       } catch (err) {
-//       } finally {
-//       }
-//     };
-
-//     loadData(); // 调用数据加载函数
-//   }, []); // 空依赖数组表示只在组件加载时调用
-// console.log('posts',posts);
-
   useEffect(() => {
     if (setConditionSettingState) {
-      setConditionSettingState({ marketState });
+      setConditionSettingState({ marketState,inputValue});
     }
-  }, [marketState, setConditionSettingState]);
-
+  }, [marketState, setConditionSettingState,requestPayload]);
   const selectedStyle = {
     '&.Mui-selected': {
       backgroundColor: '#E8ECF0',
@@ -151,25 +134,146 @@ const ConditionSetting: React.FC = () => {
       fontWeight: '900',
     },
   };
-
-
-  const handleIncrement = () => setValue(prev => prev + 1);
-  const handleDecrement = () => setValue(prev => prev - 1);
+  const convertBoolToString = (value: boolean): string => value ? '1' : '0';
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+  const handleIncrement = () => setDays(prev => prev + 1);
+  const handleDecrement = () => setDays(prev => prev - 1);
+  
   const handleChange = (event: SelectChangeEvent) => setminutes(event.target.value as string);
+
   const handleAlignment = (_event: React.MouseEvent<HTMLElement>, newAlignment: string | null) => {
     if (newAlignment !== null) setAlignment(newAlignment);
+   
   };
+
   const handleCheckboxChange = (key: keyof typeof marketState) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setMarketState({
       ...marketState,
       [key]: event.target.checked,
     });
+    
+  };
+  const handleCalculate = () => {
+    setRequestPayload(prevPayload => ({
+      ...prevPayload,
+      Code:inputValue,
+      HistoricalSetting: {
+        Category: alignment,
+        Range: {
+          DateFrom: startDate,
+          DateTo: endDate,
+          Days: String(days),
+          SQ: {
+            LargeSQ: checkedState[0],
+            SmallSQ: checkedState[1],
+            WeeklySQ: checkedState[2],
+          },
+        },
+      },
+      CalculationSetting: {
+        Category: minutes,
+        Range: {
+          TimeFrom: startTime,
+          TimeTo: endTime,
+          Minutes: String(value1),
+        },
+        Individual: {
+          AM: {
+            OpenTick: convertBoolToString(marketState.preMarketOpening),
+            CloseTick: convertBoolToString(marketState.preMarketClose),
+          },
+          PM: {
+            OpenTick: convertBoolToString(marketState.postMarketOpening),
+            CloseTick: convertBoolToString(marketState.postMarketClose),
+          },
+          Evening: {
+            OpenTick: convertBoolToString(marketState.eveningOpening),
+            CloseTick: convertBoolToString(marketState.eveningClose),
+          },
+        },
+      },
+      ViewSetting: {
+        MostVolumeAndPriceType: settingsState.radioValues[0],
+        PercentageOfDayType:convertBoolToString(settingsState.checkboxStates[3]) ,
+      },
+
+    }));
+  };
+  useEffect(() => {
+    const performAction = async () => {
+        
+      // 在发送请求之前进行值的判断
+      if (isReadyToSend) {
+        try {
+          // const response = await fetch('https://api.example.com/endpoint', {
+          //   method: 'POST',
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //   },
+          //   body: JSON.stringify(requestPayload),
+          // });
+          // const data = await response.json();
+          // console.log(data);
+        } catch (error) {
+          console.error('Error:', error);
+        }
+        setIsReadyToSend(false);
+      }
+    };
+
+    if (Object.keys(requestPayload).length > 0 ) {
+      const isValid = validatePayload(requestPayload);
+      if (isValid) {
+        setIsReadyToSend(true);
+      } else {
+      }
+    }
+    performAction();
+  }, [requestPayload]); 
+
+  const validatePayload = (payload: RequestPayload): boolean => {
+    if (!payload.Code) {
+      console.warn('コードが必須です');
+      return false;
+    }
+    const category = payload.HistoricalSetting.Category;
+    if (category === '1' && !payload.HistoricalSetting.Range.DateFrom) {
+      console.warn('開始日が必須です');
+      return false;
+    }
+    if (category === '2' && !payload.HistoricalSetting.Range.DateTo) {
+      console.warn('終了日が必須です');
+      return false;
+    }
+    if (category === '3' && !payload.HistoricalSetting.Range.DateTo && !payload.HistoricalSetting.Range.DateFrom) {
+      console.warn('開始日と終了日が必須です');
+      return false;
+    }
+    return true;
   };
 
+
   const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) => setter(event.target.value);
-  const sqhandleChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    const updatedCheckedState = checkedState.map((item, i) => i === index ? event.target.checked : item);
-    setCheckedState(updatedCheckedState);
+  const handleStartTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newStartTime = event.target.value;
+    if (!endTime || newStartTime <= endTime) {
+      setStartTime(newStartTime);
+    }
+  };
+
+  const handleEndTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newEndTime = event.target.value;
+    if (!startTime || newEndTime >= startTime) {
+      setEndTime(newEndTime);
+    }
+  };
+  const sqhandleChange = (index: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedState(prevState => ({
+      ...prevState,
+      [index]: event.target.checked
+    }));
   };
   const renderUI = () => {
     switch (alignment) {
@@ -180,7 +284,7 @@ const ConditionSetting: React.FC = () => {
             <Button variant="outlined" size="small" onClick={handleDecrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>-</Button>
             <TextField
               variant="outlined"
-              value={value}
+              value={days}
               size="small"
               InputProps={{ readOnly: true, sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
               sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
@@ -193,14 +297,14 @@ const ConditionSetting: React.FC = () => {
           <div>
             <div>
               <p style={{ display: 'inline-block', fontSize: '10px' }}>開始日</p>
-              <input className='setDate' type="date" value={startDate} onChange={handleDateChange(setstartDate)} />
+              <input className='setDate' type="date" value={startDate} max={today}  onChange={handleDateChange(setstartDate)} />
             </div>
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
               <Button variant="outlined" size="small" onClick={handleDecrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>-</Button>
               <TextField
                 variant="outlined"
-                value={value}
+                value={days}
                 size="small"
                 InputProps={{ readOnly: true, sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
                 sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
@@ -221,7 +325,7 @@ const ConditionSetting: React.FC = () => {
               <Button variant="outlined" size="small" onClick={handleDecrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>-</Button>
               <TextField
                 variant="outlined"
-                value={value}
+                value={days}
                 size="small"
                 InputProps={{ readOnly: true, sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
                 sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
@@ -236,26 +340,26 @@ const ConditionSetting: React.FC = () => {
             <Grid item>
               <Typography variant="body1" sx={{ fontSize: '10px' }}>期間</Typography>
             </Grid>
-            <input className='setDate' type="date" value={startDate} onChange={handleDateChange(setstartDate)} />
+            <input className='setDate' type="date" value={startDate}  max={today}  onChange={handleDateChange(setstartDate)} />
             <Grid item>
               <Typography variant="body1">-</Typography>
             </Grid>
-            <input className='setDate' type="date" value={endDate} onChange={handleDateChange(setendDate)} />
+            <input className='setDate' type="date" value={endDate}  min={startDate}   onChange={handleDateChange(setendDate)} />
           </Grid>
         );
       case '4':
         return (
           <div>
             <FormControlLabel
-              control={<Checkbox checked={checkedState[0]} onChange={sqhandleChange(0)} />}
+              control={<Checkbox value={checkedState[0]} onChange={sqhandleChange('1')} />}
               label={<span style={{ fontSize: '10px' }}>Large-SQ</span>}
             />
             <FormControlLabel
-              control={<Checkbox checked={checkedState[1]} onChange={sqhandleChange(1)} />}
+              control={<Checkbox value={checkedState[1]} onChange={sqhandleChange('1')} />}
               label={<span style={{ fontSize: '10px' }}>Small-SQ</span>}
             />
             <FormControlLabel
-              control={<Checkbox checked={checkedState[2]} onChange={sqhandleChange(2)} />}
+              control={<Checkbox value={checkedState[2]} onChange={sqhandleChange('1')} />}
               label={<span style={{ fontSize: '10px' }}>Weekly-SQ</span>}
             />
           </div>
@@ -267,9 +371,6 @@ const ConditionSetting: React.FC = () => {
   const handleChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(e.target.value);
 
-    // 如果输入值小于 1，则设置为 1
-    // 如果输入值大于 30，则设置为 30
-    // 否则，设置为输入的值
     if (newValue < 1) {
       setValue1(1);
     } else if (newValue > 30) {
@@ -278,10 +379,6 @@ const ConditionSetting: React.FC = () => {
       setValue1(newValue);
     }
   };
-  const handleCalculate = () => {
-    // 算出逻辑
-  };
-
 
   return (
     <><div className='commonsp-top'>
@@ -295,6 +392,8 @@ const ConditionSetting: React.FC = () => {
               width: '90px', height: '30px',
               '& .MuiInputBase-root': { height: '100%', padding: '0 0px' }
             }}
+            value={inputValue}
+            onChange={handleInputChange}
           />
           <Typography variant="body1" sx={{ fontSize: "10px" }}>東証プライム</Typography>
         </Stack>
@@ -314,11 +413,11 @@ const ConditionSetting: React.FC = () => {
         <Stack direction="row" spacing={1} alignItems="center">
           <p>間隔</p>
           <Select labelId="demo-simple-select-label" id="demo-simple-select" value={minutes} label="minutes" onChange={handleChange}>
-            <MenuItem value={1}>1</MenuItem>
-            <MenuItem value={5}>5</MenuItem>
-            <MenuItem value={10}>10</MenuItem>
-            <MenuItem value={15}>15</MenuItem>
-            <MenuItem value={30}>30</MenuItem>
+            <MenuItem value={0}>1</MenuItem>
+            <MenuItem value={1}>5</MenuItem>
+            <MenuItem value={2}>10</MenuItem>
+            <MenuItem value={3}>15</MenuItem>
+            <MenuItem value={4}>30</MenuItem>
           </Select>
           <p>分間隔</p>
         </Stack>
@@ -328,12 +427,12 @@ const ConditionSetting: React.FC = () => {
             <Typography variant="body1">開始終了時刻</Typography>
           </Grid>
           <Grid item>
-            <TextField type="time" variant="outlined" sx={{ width: '82px' }} value={startTime} onChange={handleDateChange(setStartTime)} />
+            <TextField type="time" variant="outlined" sx={{ width: '82px' }}  value={startTime} onChange={handleStartTimeChange} />
           </Grid>
           <Grid item>
             <Typography variant="body1">-</Typography>
           </Grid>
-          {minutes == '1' ?
+          {minutes == '0  ' ?
             <Box className="inputContainer">
               <TextField
                 type="number"
@@ -350,7 +449,7 @@ const ConditionSetting: React.FC = () => {
             </Box>
             :
             <Grid item>
-              <TextField type="time" variant="outlined" sx={{ width: '82px' }} value={endTime} onChange={handleDateChange(setEndTime)} />
+              <TextField type="time" variant="outlined" sx={{ width: '82px' }}  value={endTime} onChange={handleEndTimeChange} />
             </Grid>}
 
         </Grid>

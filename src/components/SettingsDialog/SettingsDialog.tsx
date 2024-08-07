@@ -13,11 +13,9 @@ import { Grid } from '@mui/material';
 import './SettingsDialog.css';
 import { useMyContext } from '../../contexts/MyContext';
 
-
 type CheckboxState = boolean[];
 type RadioValue = string[];
 type ColorValue = string[];
-
 const SettingsDialog = () => {
     const { setSettingsState } = useMyContext();
     const [open, setOpen] = useState(false); // ダイアログの開閉状態を管理する状態を定義
@@ -25,7 +23,7 @@ const SettingsDialog = () => {
         Array(7).fill(false) // 7つのチェックボックスの初期状態をすべて未選択にする
     );
     // 単一選択ボックスの状態を管理するために配列を使用
-    const [radioValues, setRadioValues] = useState<RadioValue>(['optionA', 'Arrange']);
+    const [radioValues, setRadioValues] = useState<RadioValue>(['0', 'Arrange']);
     // 色選択ボックスの状態を管理するために配列を使用
     const [colors, setColors] = useState<ColorValue>([
         '#FFFFFF', '#000000', '#FFFFFF', '#000000', '#d22331', '#d22331',
@@ -53,16 +51,16 @@ const SettingsDialog = () => {
     };
     const handleOpen = () => {
         setOpen(true); // ダイアログを開く処理
-        sethandleTransaction({checkboxStates,radioValues,colors})
+        sethandleTransaction({ checkboxStates, radioValues, colors })
 
     };
-    const handleClose = (value:boolean) => {
-        if(!value){
+    const handleClose = (value: boolean) => {
+        if (!value) {
             setCheckboxStates(handleTransaction.checkboxStates);
             setRadioValues(handleTransaction.radioValues);
             setColors(handleTransaction.colors);
-        }else{
-            setSettingsState({checkboxStates,radioValues,colors})
+        } else {
+            setSettingsState({ checkboxStates, radioValues, colors })
         }
         setOpen(false);
 
@@ -70,7 +68,7 @@ const SettingsDialog = () => {
     const handleButtonClick = () => {
         // ボタンクリック時の処理
         setCheckboxStates(Array(7).fill(false));
-        setRadioValues(['optionA', 'Arrange']);
+        setRadioValues(['0', 'Arrange']);
         setColors([
             '#FFFFFF', '#000000', '#FFFFFF', '#000000', '#d22331', '#d22331',
             '#d22331', '#d22331', '#d22331', '#52a69f', '#52a69f', '#52a69f',
@@ -79,20 +77,21 @@ const SettingsDialog = () => {
     };
     return (
         <div>
-            <span className="settings-icon" onClick={ handleOpen}></span>
-            {/* 对话框组件 */}
-            <Dialog open={open}  onClose={() => handleClose(false)} maxWidth="lg" fullWidth  sx={{ zIndex: 9999 }}>
-                {/* 对话框标题 */}
+            <span className="settings-icon" onClick={handleOpen}></span>
+            <Dialog open={open} onClose={() => handleClose(false)} maxWidth="lg" fullWidth sx={{
+                zIndex: 9999,
+                '& .MuiDialog-paper': {
+                    width: '80%',
+                    transform: 'scale(0.9)',
+                }
+            }}>
                 <DialogTitle sx={{ backgroundColor: '#143867', color: '#fff' }}>オプション設定</DialogTitle>
-
-                {/* 对话框内容 */}
                 <DialogContent dividers>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <FormControl component="fieldset" sx={{ width: '89%' }}>
                             <Grid className='main-container' container spacing={2}>
                                 <Grid item xs={12} sm={6} className='left-container'>
                                     <p className='sub-title'>グリッド</p>
-                                    {/* 多选框 */}
                                     <FormControlLabel
                                         control={<Checkbox checked={checkboxStates[0]} onChange={() => handleCheckboxChange(0)} />}
                                         label="場引け出来高を表示"
@@ -100,10 +99,8 @@ const SettingsDialog = () => {
                                     <div></div>
                                     <FormControlLabel
                                         control={<Checkbox checked={checkboxStates[1]} onChange={() => handleCheckboxChange(1)} />}
-                                        label="時間带别最多出来高·価格老表示"
+                                        label="時間帯別最多出来高·価格を表示"
                                     />
-
-                                    {/* 第一个单选框组 */}
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                         <p style={{ fontWeight: 'bold' }}>優先表示</p>
 
@@ -115,18 +112,17 @@ const SettingsDialog = () => {
                                                 flexDirection: 'row',
                                                 justifyContent: 'flex-start',
                                                 alignItems: 'center',
-                                                marginLeft: '20px'  // 向右移动的距离
+                                                marginLeft: '20px'
                                             }}
                                         >
-                                            <FormControlLabel value="optionA" control={<Radio />} label="高値" />
-                                            <FormControlLabel value="optionB" control={<Radio />} label="安値" />
+                                            <FormControlLabel value="0" control={<Radio />} label="高値" />
+                                            <FormControlLabel value="1" control={<Radio />} label="安値" />
                                         </RadioGroup>
                                     </div>
 
 
-                                    {/* 第二个多选框 */}
                                     <FormControlLabel
-                                        control={<Checkbox checked={checkboxStates[3]} onChange={() => handleCheckboxChange(2)} />}
+                                        control={<Checkbox checked={checkboxStates[2]} onChange={() => handleCheckboxChange(2)} />}
                                         label="場引けVWAPを表示"
                                     />
                                     <div></div>
@@ -135,7 +131,6 @@ const SettingsDialog = () => {
                                         label="当日出来高分布を百分率で表示"
                                     />
                                     <br />
-                                    {/* 第二个单选框组 */}
                                     <p className='sub-title'>グラフ</p>
                                     <RadioGroup
                                         value={radioValues[1]}
@@ -145,7 +140,7 @@ const SettingsDialog = () => {
                                             flexDirection: 'row',
                                             justifyContent: 'flex-start',
                                             alignItems: 'center',
-                                            marginLeft: '20px'  // 向右移动的距离
+                                            marginLeft: '20px'
                                         }}
                                     >
                                         <FormControlLabel value="Arrange" control={<Radio />} label="並ベて表示" />
@@ -161,13 +156,11 @@ const SettingsDialog = () => {
 
                                     <p className='category-title'>色</p>
                                     <p className='sub-title'>グリッド</p>
-                                    {/* 第一个颜色选择器，默认白色 */}
                                     <div className="wrapper">
                                         <span className="inline-container">
                                             <p>背景</p>
                                             <input type="color" value={colors[0]} style={{ width: '100px' }} onChange={(event) => handleColorChange(0, event.target.value)} />
                                         </span>
-                                        {/* 第二个颜色选择器，默认黑色 */}
                                         <span className="inline-container">
                                             <p>文字</p>
                                             <input type="color" value={colors[1]} style={{ width: '100px' }} onChange={(event) => handleColorChange(1, event.target.value)} />
@@ -176,13 +169,11 @@ const SettingsDialog = () => {
 
                                     <p className='sub-title'>グラフ</p>
                                     <div style={{ border: '1px solid #ccc', borderRadius: '5px', padding: '10px' }}>
-                                        {/* 第一个颜色选择器，默认白色 */}
                                         <div className="wrapper">
                                             <span className="inline-container">
                                                 <p>背景</p>
                                                 <input type="color" value={colors[2]} style={{ width: '100px' }} onChange={(event) => handleColorChange(2, event.target.value)} />
                                             </span>
-                                            {/* 第二个颜色选择器，默认黑色 */}
                                             <span className="inline-container">
                                                 <p>文字</p>
                                                 <input type="color" value={colors[3]} style={{ width: '100px' }} onChange={(event) => handleColorChange(3, event.target.value)} />
@@ -193,7 +184,6 @@ const SettingsDialog = () => {
                                             <div style={{ border: '1px solid #ccc', borderRadius: '5px', padding: '10px' }}>
                                                 <Grid container spacing={2}>
                                                     <Grid item xs={12}>
-                                                        {/* 这里放上方的标题 */}
                                                     </Grid>
                                                     <Grid item xs={2.5} >
                                                         <div className="text-column">前場</div>
@@ -203,7 +193,6 @@ const SettingsDialog = () => {
                                                         <div className="text-column">引け</div>
                                                     </Grid>
                                                     <Grid item xs={2.5}>
-                                                        {/* 将每个颜色选择器列移到这里 */}
                                                         <p className="header-p">当日</p>
                                                         <div className="color-picker-column">
                                                             <input type="color" value={colors[4]} onChange={(event) => handleColorChange(4, event.target.value)} />
@@ -223,7 +212,6 @@ const SettingsDialog = () => {
                                                     </Grid>
                                                     <Grid item xs={2.5}>
                                                         <p className="header-p">過去平均</p>
-                                                        {/* 将每个颜色选择器列移到这里 */}
                                                         <div className="color-picker-column">
                                                             <input type="color" value={colors[9]} onChange={(event) => handleColorChange(9, event.target.value)} />
                                                         </div>
@@ -287,7 +275,6 @@ const SettingsDialog = () => {
 
 
 
-                {/* 对话框操作按钮 */}
                 <DialogActions>
                     <Button onClick={() => handleClose(true)} style={{ backgroundColor: '#143867', color: 'white' }}>OK</Button>
                     <Button onClick={() => handleClose(false)} style={{ border: '2px solid #143867', backgroundColor: 'white', color: '#143867' }}>キャンセル</Button>
