@@ -3,6 +3,7 @@
 }
 .infoPanelGrid{
     height: 594px;
+    width: 100%;
     border: #e0e0e0 1px solid;
 }
 

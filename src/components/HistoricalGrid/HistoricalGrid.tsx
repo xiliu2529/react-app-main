@@ -42,8 +42,6 @@ const HistoricalGrid: React.FC = () => {
     data4 = c;
   }
   const dates1 = Object.keys(data4);
-  console.log('dates1', dates1);
-  console.log('data4', Object.keys(data4).length);
 
   useEffect(() => {
     if (settingsState) {

@@ -34,15 +34,15 @@ const Grids: React.FC = () => {
       <TableCell className="table-body-cell">{data.CloseVWAP}</TableCell>
     </TableRow>
   );
-  const headerTexts = ['時間', '出来高', '分布', '累計', '出来高', '分布', '累計', '差', '価格', '出来高', '場引けVWAP'];
 
   React.useEffect(() => {
     if (settingsState) {
       document.documentElement.style.setProperty('--cell-bg-color', settingsState.colors[0]);
       document.documentElement.style.setProperty('--cell-color', settingsState.colors[1]);
+      document.documentElement.style.setProperty('--hide-last-column', settingsState.checkboxStates[2] ? 'table-cell' : 'none');
     }
   }, [settingsState]);
-
+  const headerTexts = ['時間', '出来高', '分布', '累計', '出来高', '分布', '累計', '差', '価格', '出来高', '場引けVWAP'];
   return (
     <Box className='grid-container'>
       <Grid container direction="column" spacing={1}>
@@ -57,12 +57,12 @@ const Grids: React.FC = () => {
               <TableHead>
                 <TableRow>
                   {headerTexts.map((text, index) => (
-                    <TableCell
-                      key={index}
-                      className={`table-head-cell ${text === '出来高' ? 'highlight-cell' : ''}`}
-                    >
-                      {text}
-                    </TableCell>
+                      <TableCell
+                        key={index}
+                        className={`table-head-cell ${text === '出来高' ? 'highlight-cell' : ''}`}
+                      >
+                        {text}
+                      </TableCell>
                   ))}
                 </TableRow>
               </TableHead>
@@ -118,6 +118,9 @@ const Grids: React.FC = () => {
                 ))}
                 {conditionSettingState.marketState.postMarketClose && data2.PMCloseTickFrame && (
                   <TableRowComponent data={data2.PMCloseTickFrame} label="引け" />
+                )}
+                {data2.PMCloseSessionFrame && (
+                  <TableRowComponent data={data2.PMCloseSessionFrame} label="後場合計" />
                 )}
               </TableBody>
             </Table>

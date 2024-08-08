@@ -5,7 +5,6 @@
     border-radius: 2px;
     background-color: #fff;
     height: 482px;
-    width: 100%;
     overflow-x: auto;
 }
 .table-title {
@@ -62,4 +61,16 @@
   }
   .table-head-cell:first-of-type, .table-body-cell-a:first-of-type, .table-body-cell:first-of-type {
     text-align: center !important;
+}
+
+.table-head-cell:nth-of-type(-n+4),
+.table-body-cell-a:nth-of-type(-n+4),
+.table-body-cell:nth-of-type(-n+4) {
+  background-color: #f3f3f3;
+    
+}
+.table-head-cell:nth-last-of-type(1),
+.table-body-cell-a:nth-last-of-type(1),
+.table-body-cell:nth-last-of-type(1) {
+  display: var(--hide-last-column);
 }

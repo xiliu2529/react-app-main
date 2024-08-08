@@ -3,10 +3,6 @@
   width: 1250px;
 }
 
-.ChartBottom-top .infoPanelGrid-Grid .table-container {
-  height: 100px;
-}
-
 .ChartBottom-top .infoPanelGrid .toggle-button {
   margin-left: 150px;
 }
@@ -26,9 +22,6 @@
   margin-left: 10px;
 }
 
-.right-top .infoPanelGrid-Grid .table-container {
-  height: 100px;
-}
 
 .GraphPage-InfoPanel .toggle-button {
   margin-left: 150px;

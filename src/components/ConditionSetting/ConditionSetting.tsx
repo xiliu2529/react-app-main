@@ -122,8 +122,6 @@ const ConditionSetting: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
   useEffect(() => {
     if (setConditionSettingState) {
-      console.log('inputValue',inputValue,marketState);
-      
       setConditionSettingState({ marketState,inputValue});
     }
   }, [marketState, setConditionSettingState,requestPayload]);
@@ -155,7 +153,6 @@ const ConditionSetting: React.FC = () => {
     });
 
   };
-  console.log('requestPayload,', requestPayload);
 
   const handleCalculate = () => {
     setRequestPayload(prevPayload => ({

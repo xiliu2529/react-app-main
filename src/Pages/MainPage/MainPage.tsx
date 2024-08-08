@@ -1,4 +1,3 @@
-// Layout.tsx
 import React, { useState } from 'react';
 import './MainPage.css';
 import Header from '../Header/Header';
@@ -15,12 +14,10 @@ import {
   HistoryAndSettings,
   HistoricalData
 } from '../PageSwitcher/PageSwitcher'; 
-import { useMyContext } from '../../contexts/MyContext'; // 导入上下文提供者
+import { useMyContext } from '../../contexts/MyContext'; 
 const MainPage: React.FC = () => {
-  // 定义状态来存储从 LeftSidebar 组件传递过来的值和显示状态
   const [clickedButton, setClickedButton] = useState<number | null>(null);
-  const { isHistoricalActive} = useMyContext(); // 获取上下文中的 alignment
-  // 定义处理函数，用于接收从 LeftSidebar 组件传递过来的值，并控制 MainContent 的显示状态
+  const { isHistoricalActive} = useMyContext(); 
   const handleButtonClick = (buttonName: number) => {
     setClickedButton(buttonName);
   };
@@ -34,8 +31,6 @@ const MainPage: React.FC = () => {
       </div>
     </div>
   );
-
-  // 根据接收到的值显示不同的内容
   function renderContent() {
     if (!isHistoricalActive) {
       switch (clickedButton) {
