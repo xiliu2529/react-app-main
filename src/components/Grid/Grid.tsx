@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Grid, Paper, Table, TableContainer, TableHead, Box, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import './Grid.css';
-// import { GridDisplayData } from '../../types/gridDisplayData';
 import { useMyContext } from '../../contexts/MyContext';
 import a from '../../data/601.1/data2.json';
 import b from '../../data/101.1/data2.json';

@@ -24,7 +24,7 @@ const HistoricalGrid: React.FC = () => {
         Volume: string;
         Distribution: string;
       };
-      EveningOpenTickFrame?: any; // 替换 `any` 为实际类型
+      EveningOpenTickFrame?: any; 
       EveningCloseTickFrame?:any;
       PMOpenTickFrame?:any;
       PMTickFrame?:any;
