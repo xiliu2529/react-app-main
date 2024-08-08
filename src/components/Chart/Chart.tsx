@@ -36,6 +36,8 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   const { settingsState, conditionSettingState } = useMyContext();
   let data3 = {
   }
+  console.log('conditionSettingState.inputValue',conditionSettingState.inputValue);
+  
   if (conditionSettingState.inputValue === '6501') {
     data3 = c;
   } else if (conditionSettingState.inputValue === '101.1') {

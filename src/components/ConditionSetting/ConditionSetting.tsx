@@ -120,12 +120,13 @@ const ConditionSetting: React.FC = () => {
     },
   });
   const today = new Date().toISOString().split('T')[0];
-
   useEffect(() => {
     if (setConditionSettingState) {
-      setConditionSettingState({ marketState, inputValue });
+      console.log('inputValue',inputValue,marketState);
+      
+      setConditionSettingState({ marketState,inputValue});
     }
-  }, [marketState, setConditionSettingState]);
+  }, [marketState, setConditionSettingState,requestPayload]);
   const selectedStyle = {
     '&.Mui-selected': {
       backgroundColor: '#E8ECF0',
