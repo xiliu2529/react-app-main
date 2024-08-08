@@ -55,7 +55,6 @@ const ConditionSetting: React.FC = () => {
 
   };
 
-  console.log('marketState',marketState);
   
   const handleCheckboxChange = (key: keyof typeof marketState) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setMarketState({
@@ -124,34 +123,28 @@ const ConditionSetting: React.FC = () => {
     }
   }, [requestPayload]);
 
-
-  // useEffect(() => {
-  //   console.log('requestPayload', requestPayload);
-
-  //   setRequestPayload(requestPayload)
-  //   setInputValue(requestPayload.Code)
-  //   setAlignment(requestPayload.HistoricalSetting.Category)
-  //   setstartDate(requestPayload.HistoricalSetting.Range.DateFrom)
-  //   setendDate(requestPayload.HistoricalSetting.Range.DateTo)
-  //   setDays(Number(requestPayload.HistoricalSetting.Range.Days))
-  //   setCheckedState([requestPayload.HistoricalSetting.Range.SQ.LargeSQ, requestPayload.HistoricalSetting.Range.SQ.SmallSQ, requestPayload.HistoricalSetting.Range.SQ.WeeklySQ])
-  //   setminutes(requestPayload.CalculationSetting.Category)
-  //   setStartTime(requestPayload.CalculationSetting.Range.TimeFrom)
-  //   setEndTime(requestPayload.CalculationSetting.Range.TimeTo)
-  //   setValue1(Number(requestPayload.CalculationSetting.Range.Minutes))
-  //   setMarketState({
-  //     preMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.OpenTick),
-  //     preMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.CloseTick),
-  //     postMarketOpening:convertToBoolean(requestPayload.CalculationSetting.Individual.PM.OpenTick),
-  //     postMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.CloseTick),
-  //     eveningOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.OpenTick),
-  //     eveningClose: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.CloseTick),
-  //   })
-
-
-
-
-  // }, [isHistoricalActive, buttonName]);
+  useEffect(() => {
+    setRequestPayload(requestPayload)
+    setInputValue(requestPayload.Code)
+    // setInputValue(a)
+    setAlignment(requestPayload.HistoricalSetting.Category)
+    setstartDate(requestPayload.HistoricalSetting.Range.DateFrom)
+    setendDate(requestPayload.HistoricalSetting.Range.DateTo)
+    setDays(Number(requestPayload.HistoricalSetting.Range.Days))
+    setCheckedState([requestPayload.HistoricalSetting.Range.SQ.LargeSQ, requestPayload.HistoricalSetting.Range.SQ.SmallSQ, requestPayload.HistoricalSetting.Range.SQ.WeeklySQ])
+    setminutes(requestPayload.CalculationSetting.Category)
+    setStartTime(requestPayload.CalculationSetting.Range.TimeFrom)
+    setEndTime(requestPayload.CalculationSetting.Range.TimeTo)
+    setValue1(Number(requestPayload.CalculationSetting.Range.Minutes))
+    setMarketState({
+      preMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.OpenTick),
+      preMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.CloseTick),
+      postMarketOpening:convertToBoolean(requestPayload.CalculationSetting.Individual.PM.OpenTick),
+      postMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.CloseTick),
+      eveningOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.OpenTick),
+      eveningClose: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.CloseTick),
+    })
+  }, [isHistoricalActive, buttonName]);
 
 
 
@@ -317,7 +310,7 @@ const ConditionSetting: React.FC = () => {
             value={inputValue}
             onChange={handleInputChange}
           />
-          <Typography variant="body1" sx={{ fontSize: "10px" }}>東証プライム</Typography>
+        
         </Stack>
 
         <div className='title-1'>期間設定</div>

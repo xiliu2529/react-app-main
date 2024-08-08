@@ -5,10 +5,14 @@ import { useMyContext } from '../../contexts/MyContext';
 import a from '../../data/601.1/data2.json';
 import b from '../../data/101.1/data2.json';
 import c from '../../data/data2.json';
+import d from '../../data/data1.json';
+
 
 
 const Grids: React.FC = () => {
-  const { settingsState, requestPayload,conditionSettingState } = useMyContext();
+  const { settingsState, requestPayload, conditionSettingState } = useMyContext();
+  console.log('settingsState', settingsState.checkboxStates[1]);
+
   let data2: GridDisplayData = {
   }
   if (requestPayload.Code === '6501') {
@@ -39,6 +43,7 @@ const Grids: React.FC = () => {
       document.documentElement.style.setProperty('--cell-bg-color', settingsState.colors[0]);
       document.documentElement.style.setProperty('--cell-color', settingsState.colors[1]);
       document.documentElement.style.setProperty('--hide-last-column', settingsState.checkboxStates[2] ? 'table-cell' : 'none');
+      document.documentElement.style.setProperty('--hide-last-columns', settingsState.checkboxStates[1] ? 'table-cell' : 'none');
     }
   }, [settingsState]);
   const headerTexts = ['時間', '出来高', '分布', '累計', '出来高', '分布', '累計', '差', '価格', '出来高', '場引けVWAP'];
@@ -47,21 +52,52 @@ const Grids: React.FC = () => {
       <Grid container direction="column" spacing={1}>
         <Box className='grid-container-div' />
         <Grid item>
-          <Box className='table-title'>
-            <Typography className="table-title-left">6日平均(05/17-05/24)2024/05/27</Typography>
-            <Typography className="table-title-right">時聞帯別最多出来高·偭格</Typography>
-          </Box>
+          {/* <Box className='table-title'>
+            <Typography id="table-title-lefta">6日平均(05/17-05/24)</Typography>
+            <Typography id="table-title-leftb">{d.Today}</Typography>
+            {settingsState.checkboxStates[1] && 
+            (<Typography id="table-title-right">時間帯別最多出来高·価格</Typography>)}
+
+          </Box> */}
           <TableContainer component={Paper} className="table-container">
             <Table stickyHeader>
               <TableHead>
+              <TableRow>
+              <TableCell className='table-title'>
+              </TableCell>
+              <TableCell className='table-title'>
+              6日平均(05/17-05/24)
+              </TableCell>
+              <TableCell className='table-title'>
+              </TableCell>
+              <TableCell className='table-title'>
+              </TableCell>
+              <TableCell className='table-title'>
+                {d.Today}
+              </TableCell>
+              <TableCell className='table-title'>
+              </TableCell>
+              <TableCell className='table-title'>
+              </TableCell>
+              <TableCell className='table-title'>
+              </TableCell>
+              <TableCell className='table-title' id='table-title-right'>
+              時間帯別最多出来高·価格
+              </TableCell>
+              <TableCell className='table-title'>
+              </TableCell>
+              <TableCell className='table-title'>
+              </TableCell>
+              </TableRow>
+
                 <TableRow>
                   {headerTexts.map((text, index) => (
-                      <TableCell
-                        key={index}
-                        className={`table-head-cell ${text === '出来高' ? 'highlight-cell' : ''}`}
-                      >
-                        {text}
-                      </TableCell>
+                    <TableCell
+                      key={index}
+                      className={`table-head-cell ${text === '出来高' ? 'highlight-cell' : ''}`}
+                    >
+                      {text}
+                    </TableCell>
                   ))}
                 </TableRow>
               </TableHead>
@@ -94,7 +130,7 @@ const Grids: React.FC = () => {
                 {conditionSettingState.marketState.eveningClose && data2.EveningCloseTickFrame && (
                   <TableRowComponent data={data2.EveningCloseTickFrame} label="引け" />
                 )}
-                {data2.EveningCloseSessionFrame && (
+                {data2.EveningCloseSessionFrame && settingsState.checkboxStates[0] && (
                   <TableRowComponent data={data2.EveningCloseSessionFrame} label="イブニング合計" />
                 )}
                 {conditionSettingState.marketState.preMarketOpening && data2.AMOpenTickFrame && (
@@ -106,7 +142,7 @@ const Grids: React.FC = () => {
                 {conditionSettingState.marketState.preMarketClose && data2.AMCloseTickFrame && (
                   <TableRowComponent data={data2.AMCloseTickFrame} label="引け" />
                 )}
-                {data2.AMCloseSessionFrame && (
+                {data2.AMCloseSessionFrame && settingsState.checkboxStates[0] && (
                   <TableRowComponent data={data2.AMCloseSessionFrame} label="前場合計" />
                 )}
                 {conditionSettingState.marketState.postMarketOpening && data2.PMOpenTickFrame && (
@@ -118,7 +154,7 @@ const Grids: React.FC = () => {
                 {conditionSettingState.marketState.postMarketClose && data2.PMCloseTickFrame && (
                   <TableRowComponent data={data2.PMCloseTickFrame} label="引け" />
                 )}
-                {data2.PMCloseSessionFrame && (
+                {data2.PMCloseSessionFrame && settingsState.checkboxStates[0] && (
                   <TableRowComponent data={data2.PMCloseSessionFrame} label="後場合計" />
                 )}
               </TableBody>

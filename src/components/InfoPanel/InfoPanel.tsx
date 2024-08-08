@@ -17,8 +17,6 @@ const InfoPanel: React.FC = () => {
     }
   };
    
-  const time = '0000/00/00 ～0000/00/00';
-  const futuresContract = '日時';
   const executionTime = 'yyyy/mm/dd 00:00';
 
   return (
@@ -46,10 +44,8 @@ const InfoPanel: React.FC = () => {
               <span className="value">{data1.QuoteCode}</span>
               <span className="label">銘柄名:</span>
               <span className="value">{data1.AbbreviatedName}</span>
-              <span className="label">期種:</span>
-              <span className="value">{futuresContract}</span>
-              <span className="label">時間:</span>
-              <span className="value">{time}</span>
+              <span className="value">{data1.MarketName}</span>
+              <span className="value">{data1.ListedSection}</span>
           </Stack>
           <p className="execution-time">実行時間: {executionTime}</p>
         </div>
