@@ -7,21 +7,7 @@ import a from '../../../src/data/data4.json';
 import b from '../../../src/data/101.1/data4.json';
 import c from '../../../src/data//601.1/data4.json';
 
-interface DayData {
-  TotalFrame: {
-    Volume: string;
-    Distribution: string;
-  };
-  EveningOpenTickFrame?: TickFrameData;
-  AMOpenTickFrame?: TickFrameData;
-  PMOpenTickFrame?: TickFrameData;
-  AMCloseTickFrame?: TickFrameData;
-  EveningCloseTickFrame?: TickFrameData;
-  PMCloseTickFrame?: TickFrameData;
-  EveningTickFrame?: Record<string, TickFrameData>;
-  AMTickFrame?: Record<string, TickFrameData>;
-  PMTickFrame?: Record<string, TickFrameData>;
-}
+
 
 interface TickFrameData {
   Volume: string;

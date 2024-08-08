@@ -31,13 +31,49 @@ interface ChartState {
   historicalDistribution: number[];
   historicalCumulative: number[];
 }
+type ChartDatax = {
+  Distribution: string;
+  Cumulative: string;
+  ClosePrice?: string;
+};
+
+type TimeFrameData = {
+  AverageDaysChart?: ChartDatax;
+  TodayChart?: ChartDatax;
+};
+
+type TimeFrames = {
+  [key: string]: TimeFrameData;
+};
+
+type TickFrame = {
+  EveningOpenTickFrame?: TimeFrameData;
+  EveningTickFrame?: TimeFrames;
+  EveningCloseTickFrame?: TimeFrameData;
+  AMOpenTickFrame?: TimeFrameData;
+  AMTickFrame?: TimeFrames;
+  AMCloseTickFrame?: TimeFrameData;
+  PMOpenTickFrame?: TimeFrameData;
+  PMTickFrame?: TimeFrames;
+  PMCloseTickFrame?: TimeFrameData;
+};
 
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
   const { settingsState, conditionSettingState } = useMyContext();
-  let data3 = {
+  let data3 :TickFrame= {
+    EveningOpenTickFrame: {
+      AverageDaysChart: {
+          Distribution: "",
+          Cumulative: "",
+          ClosePrice: ""
+      },
+      TodayChart: {
+          Distribution: "",
+          Cumulative: "",
+          ClosePrice: ""
+      }}
+
   }
-  console.log('conditionSettingState.inputValue',conditionSettingState.inputValue);
-  
   if (conditionSettingState.inputValue === '6501') {
     data3 = c;
   } else if (conditionSettingState.inputValue === '101.1') {
@@ -99,24 +135,24 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
       if (data3.EveningTickFrame) {
         timeLabels = Object.keys(data3.EveningTickFrame).map(timeFrame => timeFrame.split('-')[0]);
-        todayDistribution = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.TodayChart.Distribution));
-        todayCumulative = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.TodayChart.Cumulative));
-        historicalDistribution = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.AverageDaysChart.Distribution));
-        historicalCumulative = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.AverageDaysChart.Cumulative));
+        todayDistribution = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.TodayChart!.Distribution));
+        todayCumulative = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.TodayChart!.Cumulative));
+        historicalDistribution = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.AverageDaysChart!.Distribution));
+        historicalCumulative = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.AverageDaysChart!.Cumulative));
       }
       if (data3.AMTickFrame) {
         timeLabels1 = Object.keys(data3.AMTickFrame).map(timeFrame => timeFrame.split('-')[0]);
-        todayDistribution1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.TodayChart.Distribution));
-        todayCumulative1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.TodayChart.Cumulative));
-        historicalDistribution1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.AverageDaysChart.Distribution));
-        historicalCumulative1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.AverageDaysChart.Cumulative));
+        todayDistribution1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.TodayChart!.Distribution));
+        todayCumulative1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.TodayChart!.Cumulative));
+        historicalDistribution1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.AverageDaysChart!.Distribution));
+        historicalCumulative1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.AverageDaysChart!.Cumulative));
       }
       if (data3.PMTickFrame) {
         timeLabels2 = Object.keys(data3.PMTickFrame).map(timeFrames2 => timeFrames2.split('-')[0]);
-        todayDistribution2 = Object.values(data3.PMTickFrame).map(tick => parseFloat(tick.TodayChart.Distribution));
-        todayCumulative2 = Object.values(data3.PMTickFrame).map(tick => parseFloat(tick.TodayChart.Cumulative));
-        historicalDistribution2 = Object.values(data3.PMTickFrame).map(tick => parseFloat(tick.AverageDaysChart.Distribution));
-        historicalCumulative2 = Object.values(data3.PMTickFrame).map(tick => parseFloat(tick.AverageDaysChart.Cumulative));
+        todayDistribution2 = Object.values(data3.PMTickFrame).map(tick => parseFloat(tick.TodayChart!.Distribution));
+        todayCumulative2 = Object.values(data3.PMTickFrame).map(tick => parseFloat(tick.TodayChart!.Cumulative));
+        historicalDistribution2 = Object.values(data3.PMTickFrame).map(tick => parseFloat(tick.AverageDaysChart!.Distribution));
+        historicalCumulative2 = Object.values(data3.PMTickFrame).map(tick => parseFloat(tick.AverageDaysChart!.Cumulative));
       }
       return {
         timeLabels,
@@ -146,20 +182,20 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       setChartData(prevState => ({
         ...prevState,
         timeLabels: ['寄付', ...prevState.timeLabels],
-        todayDistribution: [Number(data3.EveningOpenTickFrame.TodayChart.Distribution), ...prevState.todayDistribution],
-        todayCumulative: [Number(data3.EveningOpenTickFrame.TodayChart.Cumulative), ...prevState.todayDistribution],
-        historicalDistribution: [Number(data3.EveningOpenTickFrame.AverageDaysChart.Distribution), ...prevState.historicalDistribution],
-        historicalCumulative: [Number(data3.EveningOpenTickFrame.AverageDaysChart.Cumulative), ...prevState.historicalCumulative],
+        todayDistribution: [Number(data3.EveningOpenTickFrame!.TodayChart!.Distribution), ...prevState.todayDistribution],
+        todayCumulative: [Number(data3.EveningOpenTickFrame!.TodayChart!.Cumulative), ...prevState.todayDistribution],
+        historicalDistribution: [Number(data3.EveningOpenTickFrame!.AverageDaysChart!.Distribution), ...prevState.historicalDistribution],
+        historicalCumulative: [Number(data3.EveningOpenTickFrame!.AverageDaysChart!.Cumulative), ...prevState.historicalCumulative],
       }));
     }
     if (conditionSettingState.marketState.eveningClose && data3.EveningCloseTickFrame) {
       setChartData(prevState => ({
         ...prevState,
         timeLabels: [...prevState.timeLabels, '引け'],
-        todayDistribution: [...prevState.todayDistribution, Number(data3.EveningCloseTickFrame.TodayChart.Distribution)],
-        todayCumulative: [Number(...prevState.todayDistribution, data3.EveningCloseTickFrame.TodayChart.Cumulative)],
-        historicalDistribution: [...prevState.historicalDistribution, Number(data3.EveningCloseTickFrame.AverageDaysChart.Distribution)],
-        historicalCumulative: [...prevState.historicalCumulative, Number(data3.EveningOpenTickFrame.AverageDaysChart.Cumulative)],
+        todayDistribution: [...prevState.todayDistribution, Number(data3.EveningCloseTickFrame!.TodayChart!.Distribution)],
+        todayCumulative: [Number(...prevState.todayDistribution, data3.EveningCloseTickFrame!.TodayChart!.Cumulative)],
+        historicalDistribution: [...prevState.historicalDistribution, Number(data3.EveningCloseTickFrame!.AverageDaysChart!.Distribution)],
+        historicalCumulative: [...prevState.historicalCumulative, Number(data3.EveningOpenTickFrame!.AverageDaysChart!.Cumulative)],
       }));
     }
 
@@ -167,10 +203,10 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       setChartData(prevState => ({
         ...prevState,
         timeLabels1: ['寄付', ...prevState.timeLabels1],
-        todayDistribution1: [Number(data3.AMOpenTickFrame.TodayChart.Distribution), ...prevState.todayDistribution1],
-        todayCumulative1: [Number(data3.AMOpenTickFrame.TodayChart.Cumulative), ...prevState.todayDistribution1],
-        historicalDistribution1: [Number(data3.AMOpenTickFrame.AverageDaysChart.Distribution), ...prevState.historicalDistribution1],
-        historicalCumulative1: [Number(data3.AMOpenTickFrame.AverageDaysChart.Cumulative), ...prevState.historicalCumulative1],
+        todayDistribution1: [Number(data3.AMOpenTickFrame!.TodayChart!.Distribution), ...prevState.todayDistribution1],
+        todayCumulative1: [Number(data3.AMOpenTickFrame!.TodayChart!.Cumulative), ...prevState.todayDistribution1],
+        historicalDistribution1: [Number(data3.AMOpenTickFrame!.AverageDaysChart!.Distribution), ...prevState.historicalDistribution1],
+        historicalCumulative1: [Number(data3.AMOpenTickFrame!.AverageDaysChart!.Cumulative), ...prevState.historicalCumulative1],
       }));
 
 
@@ -179,10 +215,10 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       setChartData(prevState => ({
         ...prevState,
         timeLabels1: [...prevState.timeLabels1, '引け'],
-        todayDistribution1: [...prevState.todayDistribution1, Number(data3.AMOpenTickFrame.TodayChart.Distribution)],
-        todayCumulative1: [Number(...prevState.todayDistribution1, data3.AMOpenTickFrame.TodayChart.Cumulative)],
-        historicalDistribution1: [...prevState.historicalDistribution1, Number(data3.AMOpenTickFrame.AverageDaysChart.Distribution)],
-        historicalCumulative1: [...prevState.historicalCumulative1, Number(data3.AMOpenTickFrame.AverageDaysChart.Cumulative)],
+        todayDistribution1: [...prevState.todayDistribution1, Number(data3.AMOpenTickFrame!.TodayChart!.Distribution)],
+        todayCumulative1: [Number(...prevState.todayDistribution1, data3.AMOpenTickFrame!.TodayChart!.Cumulative)],
+        historicalDistribution1: [...prevState.historicalDistribution1, Number(data3.AMOpenTickFrame!.AverageDaysChart!.Distribution)],
+        historicalCumulative1: [...prevState.historicalCumulative1, Number(data3.AMOpenTickFrame!.AverageDaysChart!.Cumulative)],
       }));
 
     }
@@ -190,10 +226,10 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       setChartData(prevState => ({
         ...prevState,
         timeLabels2: ['寄付', ...prevState.timeLabels2],
-        todayDistribution2: [Number(data3.PMOpenTickFrame.TodayChart.Distribution), ...prevState.todayDistribution2],
-        todayCumulative2: [Number(data3.PMOpenTickFrame.TodayChart.Cumulative), ...prevState.todayDistribution2],
-        historicalDistribution2: [Number(data3.PMOpenTickFrame.AverageDaysChart.Distribution), ...prevState.historicalDistribution2],
-        historicalCumulative2: [Number(data3.PMOpenTickFrame.AverageDaysChart.Cumulative), ...prevState.historicalCumulative2],
+        todayDistribution2: [Number(data3.PMOpenTickFrame!.TodayChart!.Distribution), ...prevState.todayDistribution2],
+        todayCumulative2: [Number(data3.PMOpenTickFrame!.TodayChart!.Cumulative), ...prevState.todayDistribution2],
+        historicalDistribution2: [Number(data3.PMOpenTickFrame!.AverageDaysChart!.Distribution), ...prevState.historicalDistribution2],
+        historicalCumulative2: [Number(data3.PMOpenTickFrame!.AverageDaysChart!.Cumulative), ...prevState.historicalCumulative2],
       }));
 
 
@@ -202,10 +238,10 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       setChartData(prevState => ({
         ...prevState,
         timeLabels2: [...prevState.timeLabels2, '引け'],
-        todayDistribution2: [...prevState.todayDistribution2, Number(data3.PMCloseTickFrame.TodayChart.Distribution)],
-        todayCumulative2: [Number(...prevState.todayDistribution2, data3.PMCloseTickFrame.TodayChart.Cumulative)],
-        historicalDistribution2: [...prevState.historicalDistribution2, Number(data3.PMCloseTickFrame.AverageDaysChart.Distribution)],
-        historicalCumulative2: [...prevState.historicalCumulative2, Number(data3.PMCloseTickFrame.AverageDaysChart.Cumulative)],
+        todayDistribution2: [...prevState.todayDistribution2, Number(data3.PMCloseTickFrame!.TodayChart!.Distribution)],
+        todayCumulative2: [Number(...prevState.todayDistribution2, data3.PMCloseTickFrame!.TodayChart!.Cumulative)],
+        historicalDistribution2: [...prevState.historicalDistribution2, Number(data3.PMCloseTickFrame!.AverageDaysChart!.Distribution)],
+        historicalCumulative2: [...prevState.historicalCumulative2, Number(data3.PMCloseTickFrame!.AverageDaysChart!.Cumulative)],
       }));
 
     }
