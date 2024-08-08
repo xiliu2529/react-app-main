@@ -17,7 +17,7 @@ interface TickFrameData {
 
 
 const HistoricalGrid: React.FC = () => {
-  const { settingsState, conditionSettingState } = useMyContext();
+  const { settingsState, conditionSettingState,requestPayload } = useMyContext();
   type Data4Type = {
     [date: string]: {
       TotalFrame?: {
@@ -34,11 +34,11 @@ const HistoricalGrid: React.FC = () => {
   };
   
   let data4: Data4Type = {};
-  if (conditionSettingState.inputValue === '6501') {
+  if (requestPayload.Code === '6501') {
     data4 = a;
-  } else if (conditionSettingState.inputValue === '101.1') {
+  } else if (requestPayload.Code === '101.1') {
     data4 = b;
-  } else if (conditionSettingState.inputValue === '601.1') {
+  } else if (requestPayload.Code === '601.1') {
     data4 = c;
   }
   const dates1 = Object.keys(data4);

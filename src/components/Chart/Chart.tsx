@@ -59,7 +59,7 @@ type TickFrame = {
 };
 
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
-  const { settingsState, conditionSettingState } = useMyContext();
+  const { settingsState, conditionSettingState ,requestPayload} = useMyContext();
   let data3 :TickFrame= {
     EveningOpenTickFrame: {
       AverageDaysChart: {
@@ -74,11 +74,11 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       }}
 
   }
-  if (conditionSettingState.inputValue === '6501') {
+  if (requestPayload.Code === '6501') {
     data3 = c;
-  } else if (conditionSettingState.inputValue === '101.1') {
+  } else if (requestPayload.Code === '101.1') {
     data3 = b;
-  } else if (conditionSettingState.inputValue === '601.1') {
+  } else if (requestPayload.Code === '601.1') {
     data3 = a;
   }
   const [checked, setChecked] = useState<boolean>(false);
@@ -199,7 +199,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       }));
     }
 
-    if (conditionSettingState.marketState.preMarketOpening) {
+    if (conditionSettingState.marketState.preMarketOpening && data3.AMOpenTickFrame) {
       setChartData(prevState => ({
         ...prevState,
         timeLabels1: ['寄付', ...prevState.timeLabels1],
@@ -208,10 +208,10 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         historicalDistribution1: [Number(data3.AMOpenTickFrame!.AverageDaysChart!.Distribution), ...prevState.historicalDistribution1],
         historicalCumulative1: [Number(data3.AMOpenTickFrame!.AverageDaysChart!.Cumulative), ...prevState.historicalCumulative1],
       }));
-
-
     }
-    if (conditionSettingState.marketState.preMarketClose) {
+
+  
+    if (conditionSettingState.marketState.preMarketClose  && data3.AMOpenTickFrame) {
       setChartData(prevState => ({
         ...prevState,
         timeLabels1: [...prevState.timeLabels1, '引け'],

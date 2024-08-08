@@ -9,14 +9,14 @@ import c from '../../data/data2.json';
 
 
 const Grids: React.FC = () => {
-  const { settingsState, conditionSettingState } = useMyContext();
+  const { settingsState, requestPayload,conditionSettingState } = useMyContext();
   let data2: GridDisplayData = {
   }
-  if (conditionSettingState.inputValue === '6501') {
+  if (requestPayload.Code === '6501') {
     data2 = c;
-  } else if (conditionSettingState.inputValue === '101.1') {
+  } else if (requestPayload.Code === '101.1') {
     data2 = b;
-  } else if (conditionSettingState.inputValue === '601.1') {
+  } else if (requestPayload.Code === '601.1') {
     data2 = a;
   }
   const TableRowComponent = ({ data, label }: { data: any; label: string }) => (

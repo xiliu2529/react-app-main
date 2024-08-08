@@ -4,60 +4,10 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
 
-interface RequestPayload {
-  Code: string; // 集計対象のコード
-  HistoricalSetting: HistoricalSetting;
-  CalculationSetting: CalculationSetting;
-  ViewSetting: ViewSetting;
-}
-
-interface HistoricalSetting {
-  Category: string; // 取得種別
-  Range: Range;
-}
-interface Range {
-  DateFrom: string; // 開始日
-  DateTo: string; // 終了日
-  Days: string; // 日数
-  SQ: SQ;
-}
-
-interface SQ {
-  LargeSQ: string; // L-SQ日
-  SmallSQ: string; // S-SQ日
-  WeeklySQ: string; // W-SQ日
-}
-
-interface CalculationSetting {
-  Category: string; // 算出間隔
-  Range: CalculationRange;
-  Individual: IndividualCalculation;
-}
-
-interface CalculationRange {
-  TimeFrom: string; // 開始時刻
-  TimeTo: string; // 終了時刻
-  Minutes: string; // 分数
-}
-interface IndividualCalculation {
-  AM: TimeSetting;
-  PM: TimeSetting;
-  Evening: TimeSetting;
-}
-
-interface TimeSetting {
-  OpenTick: string; // 寄付
-  CloseTick: string; // 引け
-}
-
-interface ViewSetting {
-  MostVolumeAndPriceType: string; // 時間帯別最多出来高・価格の優先表示（高値、安値）の指定
-  PercentageOfDayType: string; // 当日出来高分布を百分率で表示の指定
-}
 
 const ConditionSetting: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
-  const [alignment, setAlignment] = React.useState('1');
+  const [alignment, setAlignment] = React.useState('0');
   const [days, setDays] = useState<number>(1);
   const [value1, setValue1] = useState<number>(0);
   const [minutes, setminutes] = React.useState('');
@@ -74,57 +24,15 @@ const ConditionSetting: React.FC = () => {
   const [startDate, setstartDate] = useState<string>('');
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['0', '0', '0']);
-  const { setConditionSettingState, settingsState } = useMyContext();
-
+  const { setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload, settingsState } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
-  const [requestPayload, setRequestPayload] = useState<RequestPayload>({
-    Code: '',
-    HistoricalSetting: {
-      Category: '',
-      Range: {
-        DateFrom: '',
-        DateTo: '',
-        Days: '',
-        SQ: {
-          LargeSQ: '',
-          SmallSQ: '',
-          WeeklySQ: '',
-        },
-      },
-    },
-    CalculationSetting: {
-      Category: '',
-      Range: {
-        TimeFrom: '',
-        TimeTo: '',
-        Minutes: '',
-      },
-      Individual: {
-        AM: {
-          OpenTick: '',
-          CloseTick: '',
-        },
-        PM: {
-          OpenTick: '',
-          CloseTick: '',
-        },
-        Evening: {
-          OpenTick: '',
-          CloseTick: '',
-        },
-      },
-    },
-    ViewSetting: {
-      MostVolumeAndPriceType: '',
-      PercentageOfDayType: '',
-    },
-  });
   const today = new Date().toISOString().split('T')[0];
   useEffect(() => {
     if (setConditionSettingState) {
-      setConditionSettingState({ marketState,inputValue});
+      setConditionSettingState({ marketState, inputValue });
     }
-  }, [marketState, setConditionSettingState,requestPayload]);
+
+  }, [marketState, setConditionSettingState, requestPayload,]);
   const selectedStyle = {
     '&.Mui-selected': {
       backgroundColor: '#E8ECF0',
@@ -133,19 +41,22 @@ const ConditionSetting: React.FC = () => {
     },
   };
   const convertBoolToString = (value: boolean): string => value ? '1' : '0';
+  const convertToBoolean = (value: string): boolean => {
+    return value === '1';
+  };
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
   const handleIncrement = () => setDays(prev => prev + 1);
   const handleDecrement = () => setDays(prev => prev - 1);
-
   const handleChange = (event: SelectChangeEvent) => setminutes(event.target.value as string);
-
   const handleAlignment = (_event: React.MouseEvent<HTMLElement>, newAlignment: string | null) => {
     if (newAlignment !== null) setAlignment(newAlignment);
 
   };
 
+  console.log('marketState',marketState);
+  
   const handleCheckboxChange = (key: keyof typeof marketState) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setMarketState({
       ...marketState,
@@ -154,9 +65,9 @@ const ConditionSetting: React.FC = () => {
 
   };
 
+
   const handleCalculate = () => {
-    setRequestPayload(prevPayload => ({
-      ...prevPayload,
+    setRequestPayload({
       Code: inputValue,
       HistoricalSetting: {
         Category: alignment,
@@ -198,7 +109,7 @@ const ConditionSetting: React.FC = () => {
         PercentageOfDayType: convertBoolToString(settingsState.checkboxStates[3]),
       },
 
-    }));
+    });
     setIsReadyToSend(true)
 
   };
@@ -212,6 +123,37 @@ const ConditionSetting: React.FC = () => {
       }
     }
   }, [requestPayload]);
+
+
+  // useEffect(() => {
+  //   console.log('requestPayload', requestPayload);
+
+  //   setRequestPayload(requestPayload)
+  //   setInputValue(requestPayload.Code)
+  //   setAlignment(requestPayload.HistoricalSetting.Category)
+  //   setstartDate(requestPayload.HistoricalSetting.Range.DateFrom)
+  //   setendDate(requestPayload.HistoricalSetting.Range.DateTo)
+  //   setDays(Number(requestPayload.HistoricalSetting.Range.Days))
+  //   setCheckedState([requestPayload.HistoricalSetting.Range.SQ.LargeSQ, requestPayload.HistoricalSetting.Range.SQ.SmallSQ, requestPayload.HistoricalSetting.Range.SQ.WeeklySQ])
+  //   setminutes(requestPayload.CalculationSetting.Category)
+  //   setStartTime(requestPayload.CalculationSetting.Range.TimeFrom)
+  //   setEndTime(requestPayload.CalculationSetting.Range.TimeTo)
+  //   setValue1(Number(requestPayload.CalculationSetting.Range.Minutes))
+  //   setMarketState({
+  //     preMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.OpenTick),
+  //     preMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.CloseTick),
+  //     postMarketOpening:convertToBoolean(requestPayload.CalculationSetting.Individual.PM.OpenTick),
+  //     postMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.CloseTick),
+  //     eveningOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.OpenTick),
+  //     eveningClose: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.CloseTick),
+  //   })
+
+
+
+
+  // }, [isHistoricalActive, buttonName]);
+
+
 
   const validatePayload = (payload: RequestPayload): boolean => {
     if (!payload.Code) {

@@ -9,6 +9,9 @@ interface MyContextType {
   setbuttonName: (state: number) => void;
   conditionSettingState: ConditionSettingState;
   setConditionSettingState: (state: ConditionSettingState) => void;
+  requestPayload: RequestPayload; 
+  setRequestPayload: (state: RequestPayload) => void;
+
 }
 
 const MyContext = createContext<MyContextType | undefined>(undefined);
@@ -37,7 +40,50 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     inputValue:'',
   };
   const [conditionSettingState, setConditionSettingState] = useState<ConditionSettingState>(initialConditionSettingState);
-
+  const [requestPayload, setRequestPayload] = useState<RequestPayload>(
+    {
+      Code: '',
+      HistoricalSetting: {
+        Category: '',
+        Range: {
+          DateFrom: '',
+          DateTo: '',
+          Days: '',
+          SQ: {
+            LargeSQ: '',
+            SmallSQ: '',
+            WeeklySQ: '',
+          },
+        },
+      },
+      CalculationSetting: {
+        Category: '',
+        Range: {
+          TimeFrom: '',
+          TimeTo: '',
+          Minutes: '',
+        },
+        Individual: {
+          AM: {
+            OpenTick: '',
+            CloseTick: '',
+          },
+          PM: {
+            OpenTick: '',
+            CloseTick: '',
+          },
+          Evening: {
+            OpenTick: '',
+            CloseTick: '',
+          },
+        },
+      },
+      ViewSetting: {
+        MostVolumeAndPriceType: '',
+        PercentageOfDayType: '',
+      },
+    }
+  );
   return (
     <MyContext.Provider
       value={{
@@ -49,6 +95,8 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         setbuttonName,
         conditionSettingState,
         setConditionSettingState,
+        requestPayload,
+        setRequestPayload
       }}
     >
       {children} 

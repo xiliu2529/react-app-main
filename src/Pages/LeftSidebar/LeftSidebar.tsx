@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
 import './LeftSidebar.css';
 import icon from '../../img/icon.svg';
-import { useMyContext } from '../../contexts/MyContext'; // 导入上下文
+import { useMyContext } from '../../contexts/MyContext'; 
 
 interface LeftSidebarProps {
   onButtonClick: (buttonName: number) => void;
 }
 
 const LeftSidebar: React.FC<LeftSidebarProps> = ({ onButtonClick }) => {
-  const { isHistoricalActive } = useMyContext(); // 获取上下文中的 alignment
+  const { isHistoricalActive } = useMyContext(); 
   const { setbuttonName } = useMyContext();
-  const [isOpen, setIsOpen] = useState(false); // 用于控制对话框的显示和隐藏
+  const [isOpen, setIsOpen] = useState(false); 
 
   const handleIconClick = () => {
-    setIsOpen(!isOpen); // 切换对话框的显示状态
+    setIsOpen(!isOpen); 
   };
 
   const handleClose = () => {
-    setIsOpen(false); // 关闭对话框
+    setIsOpen(false);
   };
 
   const handleButtonClick = (buttonName: number) => {
