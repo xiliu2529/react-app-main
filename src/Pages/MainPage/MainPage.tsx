@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import './MainPage.css';
 import Header from '../Header/Header';
 import LeftSidebar from '../LeftSidebar/LeftSidebar';
@@ -14,26 +13,24 @@ import {
   HistoryAndSettings,
   HistoricalData
 } from '../PageSwitcher/PageSwitcher'; 
-import { useMyContext } from '../../contexts/MyContext'; 
+import { useMyContext, } from '../../contexts/MyContext'; 
 const MainPage: React.FC = () => {
-  const [clickedButton, setClickedButton] = useState<number | null>(null);
-  const { isHistoricalActive} = useMyContext(); 
-  const handleButtonClick = (buttonName: number) => {
-    setClickedButton(buttonName);
-  };
+  const { isHistoricalActive,buttonName} = useMyContext(); 
+
+
  
   return (
     <div className="layout">
       <Header />
       <div className="body">
-        <LeftSidebar onButtonClick={handleButtonClick}/>
+        <LeftSidebar/>
         {renderContent()}
       </div>
     </div>
   );
   function renderContent() {
     if (!isHistoricalActive) {
-      switch (clickedButton) {
+      switch (buttonName) {
         case 9:
           return <HistoryAndSettings />;
         case 10:
@@ -42,7 +39,7 @@ const MainPage: React.FC = () => {
           return <HistoryAndSettings />;
       }
     }
-    switch (clickedButton) {
+    switch (buttonName) {
       case 0:
         return <SettingsChartGridPage />;
       case 1:
