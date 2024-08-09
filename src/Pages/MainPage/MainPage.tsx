@@ -16,8 +16,6 @@ import {
 import { useMyContext, } from '../../contexts/MyContext'; 
 const MainPage: React.FC = () => {
   const { isHistoricalActive,buttonName} = useMyContext(); 
-
-
  
   return (
     <div className="layout">

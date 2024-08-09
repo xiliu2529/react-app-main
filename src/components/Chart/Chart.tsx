@@ -335,7 +335,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       }
     }
 
-  }, [display, settingsState, conditionSettingState, chartState, chartData,checked]);
+  }, [display, settingsState, conditionSettingState, chartState, chartData, checked]);
 
   const chartOptions: Highcharts.Options = {
     chart: {
@@ -383,7 +383,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
           color: settingsState.colors[3]
         },
         format: '{value} ',
-        enabled: false 
+        enabled: false
 
       },
       opposite: true,
@@ -425,7 +425,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       type: 'spline',
       yAxis: 1,
       data: chartState.historicalCumulative
-    }  , {
+    }, {
       showInLegend: false,
       type: 'spline',
       yAxis: 2,
@@ -433,6 +433,9 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       visible: checked,
 
     }]
+    , credits: {
+      enabled: false
+    }
   };
   const chartOptions1: Highcharts.Options = {
     chart: {
@@ -524,7 +527,9 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       visible: checked,
 
     }
-    ]
+    ], credits: {
+      enabled: false
+    }
   };
 
   const chartOptions2: Highcharts.Options = {
@@ -587,6 +592,9 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       yAxis: 1,
       data: chartState.historicalCumulative
     }]
+    ,   credits: {
+      enabled: false
+    }
   };
   return (
     <div>
