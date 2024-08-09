@@ -114,7 +114,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     historicalDistribution2: [],
     historicalCumulative2: [],
   });
-console.log('visible: checked,',checked,);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);

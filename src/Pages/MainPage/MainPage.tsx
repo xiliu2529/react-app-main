@@ -31,17 +31,15 @@ const MainPage: React.FC = () => {
   function renderContent() {
     if (!isHistoricalActive) {
       switch (buttonName) {
-        case 9:
+        case 1:
           return <HistoryAndSettings />;
-        case 10:
+        case 2:
           return <HistoricalData />;
         default:
           return <HistoryAndSettings />;
       }
     }
     switch (buttonName) {
-      case 0:
-        return <SettingsChartGridPage />;
       case 1:
         return <SettingsChartGridPage />;
       case 2:
