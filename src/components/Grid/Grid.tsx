@@ -11,7 +11,6 @@ import d from '../../data/data1.json';
 
 const Grids: React.FC = () => {
   const { settingsState, requestPayload, conditionSettingState } = useMyContext();
-  console.log('settingsState', settingsState.checkboxStates[1]);
 
   let data2: GridDisplayData = {
   }

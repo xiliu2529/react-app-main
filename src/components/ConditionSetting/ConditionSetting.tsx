@@ -4,7 +4,6 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
 
-
 const ConditionSetting: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [alignment, setAlignment] = React.useState('0');
@@ -24,7 +23,7 @@ const ConditionSetting: React.FC = () => {
   const [startDate, setstartDate] = useState<string>('');
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['0', '0', '0']);
-  const { setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload, settingsState } = useMyContext();
+  const { setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload,setshowModal,showModal, settingsState } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const today = new Date().toISOString().split('T')[0];
   useEffect(() => {
@@ -54,7 +53,6 @@ const ConditionSetting: React.FC = () => {
     if (newAlignment !== null) setAlignment(newAlignment);
 
   };
-
   
   const handleCheckboxChange = (key: keyof typeof marketState) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setMarketState({
@@ -63,7 +61,6 @@ const ConditionSetting: React.FC = () => {
     });
 
   };
-
 
   const handleCalculate = () => {
     setRequestPayload({
@@ -109,10 +106,57 @@ const ConditionSetting: React.FC = () => {
       },
 
     });
+    
     setIsReadyToSend(true)
 
   };
 
+  useEffect(() => {
+      setshowModal({
+      Code: inputValue,
+      HistoricalSetting: {
+        Category: alignment,
+        Range: {
+          DateFrom: startDate,
+          DateTo: endDate,
+          Days: String(days),
+          SQ: {
+            LargeSQ: checkedState[0],
+            SmallSQ: checkedState[1],
+            WeeklySQ: checkedState[2],
+          },
+        },
+      },
+      CalculationSetting: {
+        Category: minutes,
+        Range: {
+          TimeFrom: startTime,
+          TimeTo: endTime,
+          Minutes: String(value1),
+        },
+        Individual: {
+          AM: {
+            OpenTick: convertBoolToString(marketState.preMarketOpening),
+            CloseTick: convertBoolToString(marketState.preMarketClose),
+          },
+          PM: {
+            OpenTick: convertBoolToString(marketState.postMarketOpening),
+            CloseTick: convertBoolToString(marketState.postMarketClose),
+          },
+          Evening: {
+            OpenTick: convertBoolToString(marketState.eveningOpening),
+            CloseTick: convertBoolToString(marketState.eveningClose),
+          },
+        },
+      },
+      ViewSetting: {
+        MostVolumeAndPriceType: settingsState.radioValues[0],
+        PercentageOfDayType: convertBoolToString(settingsState.checkboxStates[3]),
+      },
+
+    });
+  }, [inputValue,alignment,startDate,endDate,days,checkedState,minutes,startTime,endTime,value1,marketState]);
+ 
   useEffect(() => {
     if (Object.keys(requestPayload).length > 0) {
       if (isReadyToSend) {
@@ -124,25 +168,24 @@ const ConditionSetting: React.FC = () => {
   }, [requestPayload]);
 
   useEffect(() => {
-    setRequestPayload(requestPayload)
-    setInputValue(requestPayload.Code)
+    setInputValue(showModal.Code)
     // setInputValue(a)
-    setAlignment(requestPayload.HistoricalSetting.Category)
-    setstartDate(requestPayload.HistoricalSetting.Range.DateFrom)
-    setendDate(requestPayload.HistoricalSetting.Range.DateTo)
-    setDays(Number(requestPayload.HistoricalSetting.Range.Days))
-    setCheckedState([requestPayload.HistoricalSetting.Range.SQ.LargeSQ, requestPayload.HistoricalSetting.Range.SQ.SmallSQ, requestPayload.HistoricalSetting.Range.SQ.WeeklySQ])
-    setminutes(requestPayload.CalculationSetting.Category)
-    setStartTime(requestPayload.CalculationSetting.Range.TimeFrom)
-    setEndTime(requestPayload.CalculationSetting.Range.TimeTo)
-    setValue1(Number(requestPayload.CalculationSetting.Range.Minutes))
+    setAlignment(showModal.HistoricalSetting.Category)
+    setstartDate(showModal.HistoricalSetting.Range.DateFrom)
+    setendDate(showModal.HistoricalSetting.Range.DateTo)
+    setDays(Number(showModal.HistoricalSetting.Range.Days))
+    setCheckedState([showModal.HistoricalSetting.Range.SQ.LargeSQ, showModal.HistoricalSetting.Range.SQ.SmallSQ, showModal.HistoricalSetting.Range.SQ.WeeklySQ])
+    setminutes(showModal.CalculationSetting.Category)
+    setStartTime(showModal.CalculationSetting.Range.TimeFrom)
+    setEndTime(showModal.CalculationSetting.Range.TimeTo)
+    setValue1(Number(showModal.CalculationSetting.Range.Minutes))
     setMarketState({
-      preMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.OpenTick),
-      preMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.CloseTick),
-      postMarketOpening:convertToBoolean(requestPayload.CalculationSetting.Individual.PM.OpenTick),
-      postMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.CloseTick),
-      eveningOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.OpenTick),
-      eveningClose: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.CloseTick),
+      preMarketOpening: convertToBoolean(showModal.CalculationSetting.Individual.AM.OpenTick),
+      preMarketClose: convertToBoolean(showModal.CalculationSetting.Individual.AM.CloseTick),
+      postMarketOpening:convertToBoolean(showModal.CalculationSetting.Individual.PM.OpenTick),
+      postMarketClose: convertToBoolean(showModal.CalculationSetting.Individual.PM.CloseTick),
+      eveningOpening: convertToBoolean(showModal.CalculationSetting.Individual.Evening.OpenTick),
+      eveningClose: convertToBoolean(showModal.CalculationSetting.Individual.Evening.CloseTick),
     })
   }, [isHistoricalActive, buttonName]);
 

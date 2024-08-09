@@ -11,7 +11,8 @@ interface MyContextType {
   setConditionSettingState: (state: ConditionSettingState) => void;
   requestPayload: RequestPayload; 
   setRequestPayload: (state: RequestPayload) => void;
-
+  showModal:RequestPayload
+  setshowModal: (state: RequestPayload) => void;
 }
 
 const MyContext = createContext<MyContextType | undefined>(undefined);
@@ -84,6 +85,50 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       },
     }
   );
+  const [showModal, setshowModal] = useState<RequestPayload>(
+    {
+      Code: '',
+      HistoricalSetting: {
+        Category: '',
+        Range: {
+          DateFrom: '',
+          DateTo: '',
+          Days: '',
+          SQ: {
+            LargeSQ: '',
+            SmallSQ: '',
+            WeeklySQ: '',
+          },
+        },
+      },
+      CalculationSetting: {
+        Category: '',
+        Range: {
+          TimeFrom: '',
+          TimeTo: '',
+          Minutes: '',
+        },
+        Individual: {
+          AM: {
+            OpenTick: '',
+            CloseTick: '',
+          },
+          PM: {
+            OpenTick: '',
+            CloseTick: '',
+          },
+          Evening: {
+            OpenTick: '',
+            CloseTick: '',
+          },
+        },
+      },
+      ViewSetting: {
+        MostVolumeAndPriceType: '',
+        PercentageOfDayType: '',
+      },
+    }
+  );
   return (
     <MyContext.Provider
       value={{
@@ -96,7 +141,10 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         conditionSettingState,
         setConditionSettingState,
         requestPayload,
-        setRequestPayload
+        setRequestPayload,
+        showModal,
+        setshowModal,
+
       }}
     >
       {children} 
