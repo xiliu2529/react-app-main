@@ -114,6 +114,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     historicalDistribution2: [],
     historicalCumulative2: [],
   });
+console.log('visible: checked,',checked,);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
@@ -335,10 +336,10 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       }
     }
 
-  }, [display, settingsState, conditionSettingState, chartState, chartData]);
+  }, [display, settingsState, conditionSettingState, chartState, chartData,checked]);
 
-  console.log('chartState',chartState);
-  
+  console.log('chartState', chartState);
+
   const chartOptions: Highcharts.Options = {
     chart: {
       type: 'column',
@@ -373,6 +374,19 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
           color: settingsState.colors[3]
         },
         format: '{value} %',
+
+      },
+      opposite: true,
+      title: {
+        text: undefined
+      }
+    }, {
+      labels: {
+        style: {
+          color: settingsState.colors[3]
+        },
+        format: '{value} ',
+        enabled: false 
 
       },
       opposite: true,
@@ -414,6 +428,13 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       type: 'spline',
       yAxis: 1,
       data: chartState.historicalCumulative
+    }  , {
+      showInLegend: false,
+      type: 'spline',
+      yAxis: 2,
+      data: chartState.ClosePrice,
+      visible: checked,
+
     }]
   };
   const chartOptions1: Highcharts.Options = {
@@ -443,7 +464,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       }, title: {
         text: undefined
       }
-    }, 
+    },
     {
       labels: {
         style: {
@@ -463,7 +484,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
           color: settingsState.colors[3]
         },
         format: '{value} ',
-        enabled: false // 隐藏标签
+        enabled: false
 
       },
       opposite: true,
@@ -471,7 +492,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         text: undefined
       }
     }
-  ],
+    ],
     tooltip: {
       shared: true
     },
@@ -498,14 +519,15 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         valueSuffix: '%'
       }
     }
-    , {
+      , {
       showInLegend: false,
       type: 'spline',
       yAxis: 2,
       data: chartState.ClosePrice,
-      
+      visible: checked,
+
     }
-  ]
+    ]
   };
 
   const chartOptions2: Highcharts.Options = {
