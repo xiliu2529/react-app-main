@@ -11,16 +11,19 @@ interface ChartData {
   timeLabels: string[];
   todayDistribution: number[];
   todayCumulative: number[];
+  closePrice: number[];
   historicalDistribution: number[];
   historicalCumulative: number[];
   timeLabels1: string[];
   todayDistribution1: number[];
   todayCumulative1: number[];
+  closePrice1: number[];
   historicalDistribution1: number[];
   historicalCumulative1: number[];
   timeLabels2: string[];
   todayDistribution2: number[];
   todayCumulative2: number[];
+  closePrice2: number[];
   historicalDistribution2: number[];
   historicalCumulative2: number[];
 }
@@ -30,6 +33,7 @@ interface ChartState {
   todayCumulative: number[];
   historicalDistribution: number[];
   historicalCumulative: number[];
+  ClosePrice: number[];
 }
 type ChartDatax = {
   Distribution: string;
@@ -59,19 +63,19 @@ type TickFrame = {
 };
 
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
-  const { settingsState, conditionSettingState ,requestPayload} = useMyContext();
-  let data3 :TickFrame= {
+  const { settingsState, conditionSettingState, requestPayload } = useMyContext();
+  let data3: TickFrame = {
     EveningOpenTickFrame: {
       AverageDaysChart: {
-          Distribution: "",
-          Cumulative: "",
-          ClosePrice: ""
+        Distribution: "",
+        Cumulative: "",
       },
       TodayChart: {
-          Distribution: "",
-          Cumulative: "",
-          ClosePrice: ""
-      }}
+        Distribution: "",
+        Cumulative: "",
+        ClosePrice: "",
+      }
+    }
 
   }
   if (requestPayload.Code === '6501') {
@@ -88,21 +92,25 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     todayCumulative: [],
     historicalDistribution: [],
     historicalCumulative: [],
+    ClosePrice: [],
   });
   const [chartData, setChartData] = useState<ChartData>({
     timeLabels: [],
     todayDistribution: [],
     todayCumulative: [],
+    closePrice: [],
     historicalDistribution: [],
     historicalCumulative: [],
     timeLabels1: [],
     todayDistribution1: [],
     todayCumulative1: [],
+    closePrice1: [],
     historicalDistribution1: [],
     historicalCumulative1: [],
     timeLabels2: [],
     todayDistribution2: [],
     todayCumulative2: [],
+    closePrice2: [],
     historicalDistribution2: [],
     historicalCumulative2: [],
   });
@@ -117,18 +125,21 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       let timeLabels: string[] = [];
       let todayDistribution: number[] = [];
       let todayCumulative: number[] = [];
+      let closePrice: number[] = [];
       let historicalDistribution: number[] = [];
       let historicalCumulative: number[] = [];
 
       let timeLabels1: string[] = [];
       let todayDistribution1: number[] = [];
       let todayCumulative1: number[] = [];
+      let closePrice1: number[] = [];
       let historicalDistribution1: number[] = [];
       let historicalCumulative1: number[] = [];
 
       let timeLabels2: string[] = [];
       let todayDistribution2: number[] = [];
       let todayCumulative2: number[] = [];
+      let closePrice2: number[] = [];
       let historicalDistribution2: number[] = [];
       let historicalCumulative2: number[] = [];
 
@@ -137,6 +148,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         timeLabels = Object.keys(data3.EveningTickFrame).map(timeFrame => timeFrame.split('-')[0]);
         todayDistribution = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.TodayChart!.Distribution));
         todayCumulative = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.TodayChart!.Cumulative));
+        closePrice = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.TodayChart!.ClosePrice!));
         historicalDistribution = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.AverageDaysChart!.Distribution));
         historicalCumulative = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.AverageDaysChart!.Cumulative));
       }
@@ -144,6 +156,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         timeLabels1 = Object.keys(data3.AMTickFrame).map(timeFrame => timeFrame.split('-')[0]);
         todayDistribution1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.TodayChart!.Distribution));
         todayCumulative1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.TodayChart!.Cumulative));
+        closePrice1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.TodayChart!.ClosePrice!));
         historicalDistribution1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.AverageDaysChart!.Distribution));
         historicalCumulative1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.AverageDaysChart!.Cumulative));
       }
@@ -151,6 +164,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         timeLabels2 = Object.keys(data3.PMTickFrame).map(timeFrames2 => timeFrames2.split('-')[0]);
         todayDistribution2 = Object.values(data3.PMTickFrame).map(tick => parseFloat(tick.TodayChart!.Distribution));
         todayCumulative2 = Object.values(data3.PMTickFrame).map(tick => parseFloat(tick.TodayChart!.Cumulative));
+        closePrice2 = Object.values(data3.PMTickFrame).map(tick => parseFloat(tick.TodayChart!.ClosePrice!));
         historicalDistribution2 = Object.values(data3.PMTickFrame).map(tick => parseFloat(tick.AverageDaysChart!.Distribution));
         historicalCumulative2 = Object.values(data3.PMTickFrame).map(tick => parseFloat(tick.AverageDaysChart!.Cumulative));
       }
@@ -158,16 +172,19 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         timeLabels,
         todayDistribution,
         todayCumulative,
+        closePrice,
         historicalDistribution,
         historicalCumulative,
         timeLabels1,
         todayDistribution1,
         todayCumulative1,
+        closePrice1,
         historicalDistribution1,
         historicalCumulative1,
         timeLabels2,
         todayDistribution2,
         todayCumulative2,
+        closePrice2,
         historicalDistribution2,
         historicalCumulative2,
       };
@@ -183,7 +200,8 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         ...prevState,
         timeLabels: ['寄付', ...prevState.timeLabels],
         todayDistribution: [Number(data3.EveningOpenTickFrame!.TodayChart!.Distribution), ...prevState.todayDistribution],
-        todayCumulative: [Number(data3.EveningOpenTickFrame!.TodayChart!.Cumulative), ...prevState.todayDistribution],
+        todayCumulative: [Number(data3.EveningOpenTickFrame!.TodayChart!.Cumulative), ...prevState.todayCumulative],
+        closePrice: [Number(data3.EveningOpenTickFrame!.TodayChart!.ClosePrice), ...prevState.closePrice],
         historicalDistribution: [Number(data3.EveningOpenTickFrame!.AverageDaysChart!.Distribution), ...prevState.historicalDistribution],
         historicalCumulative: [Number(data3.EveningOpenTickFrame!.AverageDaysChart!.Cumulative), ...prevState.historicalCumulative],
       }));
@@ -193,7 +211,8 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         ...prevState,
         timeLabels: [...prevState.timeLabels, '引け'],
         todayDistribution: [...prevState.todayDistribution, Number(data3.EveningCloseTickFrame!.TodayChart!.Distribution)],
-        todayCumulative: [Number(...prevState.todayDistribution, data3.EveningCloseTickFrame!.TodayChart!.Cumulative)],
+        todayCumulative: [...prevState.todayCumulative, Number(data3.EveningCloseTickFrame!.TodayChart!.Cumulative)],
+        closePrice: [...prevState.closePrice, Number(data3.EveningCloseTickFrame!.TodayChart!.ClosePrice)],
         historicalDistribution: [...prevState.historicalDistribution, Number(data3.EveningCloseTickFrame!.AverageDaysChart!.Distribution)],
         historicalCumulative: [...prevState.historicalCumulative, Number(data3.EveningOpenTickFrame!.AverageDaysChart!.Cumulative)],
       }));
@@ -204,19 +223,21 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         ...prevState,
         timeLabels1: ['寄付', ...prevState.timeLabels1],
         todayDistribution1: [Number(data3.AMOpenTickFrame!.TodayChart!.Distribution), ...prevState.todayDistribution1],
-        todayCumulative1: [Number(data3.AMOpenTickFrame!.TodayChart!.Cumulative), ...prevState.todayDistribution1],
+        todayCumulative1: [Number(data3.AMOpenTickFrame!.TodayChart!.Cumulative), ...prevState.todayCumulative1],
+        closePrice1: [Number(data3.AMOpenTickFrame!.TodayChart!.ClosePrice), ...prevState.closePrice1],
         historicalDistribution1: [Number(data3.AMOpenTickFrame!.AverageDaysChart!.Distribution), ...prevState.historicalDistribution1],
         historicalCumulative1: [Number(data3.AMOpenTickFrame!.AverageDaysChart!.Cumulative), ...prevState.historicalCumulative1],
       }));
     }
 
-  
-    if (conditionSettingState.marketState.preMarketClose  && data3.AMOpenTickFrame) {
+
+    if (conditionSettingState.marketState.preMarketClose && data3.AMOpenTickFrame) {
       setChartData(prevState => ({
         ...prevState,
         timeLabels1: [...prevState.timeLabels1, '引け'],
         todayDistribution1: [...prevState.todayDistribution1, Number(data3.AMOpenTickFrame!.TodayChart!.Distribution)],
-        todayCumulative1: [Number(...prevState.todayDistribution1, data3.AMOpenTickFrame!.TodayChart!.Cumulative)],
+        todayCumulative1: [...prevState.todayCumulative1, Number(data3.AMOpenTickFrame!.TodayChart!.Cumulative)],
+        closePrice1: [...prevState.closePrice1, Number(data3.AMOpenTickFrame!.TodayChart!.ClosePrice)],
         historicalDistribution1: [...prevState.historicalDistribution1, Number(data3.AMOpenTickFrame!.AverageDaysChart!.Distribution)],
         historicalCumulative1: [...prevState.historicalCumulative1, Number(data3.AMOpenTickFrame!.AverageDaysChart!.Cumulative)],
       }));
@@ -227,7 +248,8 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         ...prevState,
         timeLabels2: ['寄付', ...prevState.timeLabels2],
         todayDistribution2: [Number(data3.PMOpenTickFrame!.TodayChart!.Distribution), ...prevState.todayDistribution2],
-        todayCumulative2: [Number(data3.PMOpenTickFrame!.TodayChart!.Cumulative), ...prevState.todayDistribution2],
+        todayCumulative2: [Number(data3.PMOpenTickFrame!.TodayChart!.Cumulative), ...prevState.todayCumulative2],
+        closePrice2: [Number(data3.PMOpenTickFrame!.TodayChart!.ClosePrice), ...prevState.closePrice2],
         historicalDistribution2: [Number(data3.PMOpenTickFrame!.AverageDaysChart!.Distribution), ...prevState.historicalDistribution2],
         historicalCumulative2: [Number(data3.PMOpenTickFrame!.AverageDaysChart!.Cumulative), ...prevState.historicalCumulative2],
       }));
@@ -239,7 +261,8 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         ...prevState,
         timeLabels2: [...prevState.timeLabels2, '引け'],
         todayDistribution2: [...prevState.todayDistribution2, Number(data3.PMCloseTickFrame!.TodayChart!.Distribution)],
-        todayCumulative2: [Number(...prevState.todayDistribution2, data3.PMCloseTickFrame!.TodayChart!.Cumulative)],
+        todayCumulative2: [...prevState.todayCumulative2, Number(data3.PMCloseTickFrame!.TodayChart!.Cumulative)],
+        closePrice2: [...prevState.closePrice2, Number(data3.PMCloseTickFrame!.TodayChart!.ClosePrice)],
         historicalDistribution2: [...prevState.historicalDistribution2, Number(data3.PMCloseTickFrame!.AverageDaysChart!.Distribution)],
         historicalCumulative2: [...prevState.historicalCumulative2, Number(data3.PMCloseTickFrame!.AverageDaysChart!.Cumulative)],
       }));
@@ -263,6 +286,11 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         ...(chartData.todayCumulative1 || []),
         ...(chartData.todayCumulative2 || []),
       ],
+      ClosePrice: [
+        ...(chartData.closePrice || []),
+        ...(chartData.closePrice1 || []),
+        ...(chartData.closePrice2 || []),
+      ],
       historicalDistribution: [
         ...(chartData.historicalDistribution || []),
         ...(chartData.historicalDistribution1 || []),
@@ -281,7 +309,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       container.innerHTML = '';
       Highcharts.chart('chart-container', {
         ...chartOptions, accessibility: {
-          enabled: false 
+          enabled: false
         }, chart: { height: props.height, width: props.width, backgroundColor: settingsState.colors[2] }
       });
     }
@@ -293,7 +321,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         container1.innerHTML = '';
         Highcharts.chart('chart-container1', {
           ...chartOptions1, accessibility: {
-            enabled: false 
+            enabled: false
           }, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width, backgroundColor: settingsState.colors[2] }
         });
       }
@@ -301,7 +329,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         container2.innerHTML = '';
         Highcharts.chart('chart-container2', {
           ...chartOptions2, accessibility: {
-            enabled: false 
+            enabled: false
           }, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width, backgroundColor: settingsState.colors[2] }
         });
       }
@@ -309,6 +337,8 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
   }, [display, settingsState, conditionSettingState, chartState, chartData]);
 
+  console.log('chartState',chartState);
+  
   const chartOptions: Highcharts.Options = {
     chart: {
       type: 'column',
@@ -413,7 +443,8 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       }, title: {
         text: undefined
       }
-    }, {
+    }, 
+    {
       labels: {
         style: {
           color: settingsState.colors[3]
@@ -425,7 +456,22 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       title: {
         text: undefined
       }
-    }],
+    },
+    {
+      labels: {
+        style: {
+          color: settingsState.colors[3]
+        },
+        format: '{value} ',
+        enabled: false // 隐藏标签
+
+      },
+      opposite: true,
+      title: {
+        text: undefined
+      }
+    }
+  ],
     tooltip: {
       shared: true
     },
@@ -451,7 +497,15 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       tooltip: {
         valueSuffix: '%'
       }
-    }]
+    }
+    , {
+      showInLegend: false,
+      type: 'spline',
+      yAxis: 2,
+      data: chartState.ClosePrice,
+      
+    }
+  ]
   };
 
   const chartOptions2: Highcharts.Options = {
