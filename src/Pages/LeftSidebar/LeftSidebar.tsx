@@ -29,18 +29,14 @@ const LeftSidebar: React.FC = () => {
     if (checked) {
       buttonName = buttonName - 1
     }
-    console.log('buttonNamebuttonName2', buttonName);
     setbuttonName(buttonName);
     setIsOpen(false);
-
   };
   useEffect(() => {
-    console.log('isInitialMount.current',isInitialMount.current);
     
     if (isInitialMount.current) {
     } else {
-      console.log('checked',checked);
-      console.log('buttonName',buttonName)
+    
       if (checked) {
         setbuttonName(buttonName-1);
         isInitialMount.current = false;
@@ -50,8 +46,6 @@ const LeftSidebar: React.FC = () => {
       }
     }
   }, [checked]);
-  console.log('buttonNamebuttonName2', buttonName);
-
   return (
     <aside className="left-sidebar">
 

@@ -1,13 +1,15 @@
-import React  from 'react';
+import React from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import './InfoPanel.css'
 import { useMyContext } from '../../contexts/MyContext';
 import { Stack } from '@mui/material';
-import data1 from '../../data/data1.json';
+import a from '../../data/601.1/data1.json';
+import b from '../../data/101.1/data1.json';
+import c from '../../data/data1.json';
 
 const InfoPanel: React.FC = () => {
-  const {isHistoricalActive,setisHistoricalActive} = useMyContext();
+  const { isHistoricalActive, setisHistoricalActive, requestPayload } = useMyContext();
   const handleChange1 = (
     _event: React.MouseEvent<HTMLElement>,
     newAlignment: boolean | null,
@@ -16,12 +18,25 @@ const InfoPanel: React.FC = () => {
       setisHistoricalActive(newAlignment);
     }
   };
-   
-  const executionTime = 'yyyy/mm/dd 00:00';
+  let data1 = {
+    QuoteCode: '',
+    AbbreviatedName: '',
+    MarketName: '',
+    ListedSection: '',
+
+  }
+  if (requestPayload.Code === '6501') {
+    data1 = c;
+  } else if (requestPayload.Code === '101.1') {
+    data1 = b;
+  } else if (requestPayload.Code === '601.1') {
+    data1 = a;
+  }
+
 
   return (
     <div id='InfoPanel'>
-        <ToggleButtonGroup
+      <ToggleButtonGroup
         className='toggle-button'
         color="primary"
         value={isHistoricalActive}
@@ -37,20 +52,19 @@ const InfoPanel: React.FC = () => {
         </ToggleButton>
       </ToggleButtonGroup>
 
-        <div className='message'>
+      <div className='message'>
         <Stack direction="row" spacing={1} alignItems="center">
-              
-              <span className="label">銘柄コード:</span>
-              <span className="value">{data1.QuoteCode}</span>
-              <span className="label">銘柄名:</span>
-              <span className="value">{data1.AbbreviatedName}</span>
-              <span className="value">{data1.MarketName}</span>
-              <span className="value">{data1.ListedSection}</span>
-          </Stack>
-          <p className="execution-time">実行時間: {executionTime}</p>
-        </div>
-      
-   
+          <span className="label">銘柄コード:</span>
+          <span className="value">{data1.QuoteCode}</span>
+          <span className="label">銘柄名:</span>
+          <span className="value">{data1.AbbreviatedName}</span>
+          <span className="value">{data1.MarketName}</span>
+          <span className="value">{data1.ListedSection}</span>
+        </Stack>
+        <p className="execution-time">実行時間: { }</p>
+      </div>
+
+
 
     </div>
   );

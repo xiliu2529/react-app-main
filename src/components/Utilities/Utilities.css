@@ -46,7 +46,7 @@
     background-image: url('../../img/bookmark_border_24dp_FFFFFF.svg');
     background-size: contain;
     background-repeat: no-repeat;
-    cursor: pointer;/* 设置最小宽度 */
+    cursor: pointer;
     max-width: 60px; 
 
 

@@ -39,9 +39,17 @@
   font-size: 10px;
   color: #635e5e;
 }
+.message{
+ width: 400px;
+}
+.label{
+  white-space: nowrap; 
+}
 
-
-  
+.value {
+  width: 150px; 
+  white-space: nowrap; 
+}
 
   
   

@@ -338,8 +338,6 @@ console.log('visible: checked,',checked,);
 
   }, [display, settingsState, conditionSettingState, chartState, chartData,checked]);
 
-  console.log('chartState', chartState);
-
   const chartOptions: Highcharts.Options = {
     chart: {
       type: 'column',
