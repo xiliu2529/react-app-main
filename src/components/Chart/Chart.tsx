@@ -85,6 +85,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   } else if (requestPayload.Code === '601.1') {
     data3 = a;
   }
+  
   const [checked, setChecked] = useState<boolean>(false);
   const [chartState, setChartState] = useState<ChartState>({
     xAxisLabels: [],

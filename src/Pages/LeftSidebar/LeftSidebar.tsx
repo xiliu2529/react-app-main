@@ -52,7 +52,6 @@ const LeftSidebar: React.FC = () => {
     }
 
   }, [isHistoricalActive]);
-  console.log('buttonName', buttonName);
 
 
 

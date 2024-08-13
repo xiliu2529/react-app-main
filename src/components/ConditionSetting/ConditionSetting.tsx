@@ -23,15 +23,9 @@ const ConditionSetting: React.FC = () => {
   const [startDate, setstartDate] = useState<string>('');
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['0', '0', '0']);
-  const { setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload,setshowModal,showModal, settingsState } = useMyContext();
+  const { setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const today = new Date().toISOString().split('T')[0];
-  useEffect(() => {
-    if (setConditionSettingState) {
-      setConditionSettingState({ marketState, inputValue });
-    }
-
-  }, [marketState, setConditionSettingState, requestPayload,]);
   const selectedStyle = {
     '&.Mui-selected': {
       backgroundColor: '#E8ECF0',
@@ -47,13 +41,13 @@ const ConditionSetting: React.FC = () => {
     setInputValue(event.target.value);
   };
   const handleIncrement = () => setDays(prev => prev + 1);
-  const handleDecrement = () => setDays(prev => prev - 1);
+  const handleDecrement = () => setDays(prev => (prev > 0 ? prev - 1 : prev));
   const handleChange = (event: SelectChangeEvent) => setminutes(event.target.value as string);
   const handleAlignment = (_event: React.MouseEvent<HTMLElement>, newAlignment: string | null) => {
     if (newAlignment !== null) setAlignment(newAlignment);
 
   };
-  
+
   const handleCheckboxChange = (key: keyof typeof marketState) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setMarketState({
       ...marketState,
@@ -106,13 +100,14 @@ const ConditionSetting: React.FC = () => {
       },
 
     });
-    
     setIsReadyToSend(true)
+    setConditionSettingState({ marketState, inputValue });
+
 
   };
 
   useEffect(() => {
-      setshowModal({
+    setshowModal({
       Code: inputValue,
       HistoricalSetting: {
         Category: alignment,
@@ -155,8 +150,8 @@ const ConditionSetting: React.FC = () => {
       },
 
     });
-  }, [inputValue,alignment,startDate,endDate,days,checkedState,minutes,startTime,endTime,value1,marketState]);
- 
+  }, [inputValue, alignment, startDate, endDate, days, checkedState, minutes, startTime, endTime, value1, marketState]);
+
   useEffect(() => {
     if (Object.keys(requestPayload).length > 0) {
       if (isReadyToSend) {
@@ -182,7 +177,7 @@ const ConditionSetting: React.FC = () => {
     setMarketState({
       preMarketOpening: convertToBoolean(showModal.CalculationSetting.Individual.AM.OpenTick),
       preMarketClose: convertToBoolean(showModal.CalculationSetting.Individual.AM.CloseTick),
-      postMarketOpening:convertToBoolean(showModal.CalculationSetting.Individual.PM.OpenTick),
+      postMarketOpening: convertToBoolean(showModal.CalculationSetting.Individual.PM.OpenTick),
       postMarketClose: convertToBoolean(showModal.CalculationSetting.Individual.PM.CloseTick),
       eveningOpening: convertToBoolean(showModal.CalculationSetting.Individual.Evening.OpenTick),
       eveningClose: convertToBoolean(showModal.CalculationSetting.Individual.Evening.CloseTick),
@@ -353,7 +348,7 @@ const ConditionSetting: React.FC = () => {
             value={inputValue}
             onChange={handleInputChange}
           />
-        
+
         </Stack>
 
         <div className='title-1'>期間設定</div>
@@ -385,7 +380,12 @@ const ConditionSetting: React.FC = () => {
             <Typography variant="body1">開始終了時刻</Typography>
           </Grid>
           <Grid item>
-            <TextField type="time" variant="outlined" sx={{ width: '82px' }} value={startTime} onChange={handleStartTimeChange} />
+            <TextField type="time" variant="outlined" sx={{
+              width: '82px',
+              '& input::-webkit-calendar-picker-indicator': {
+                display: 'none'
+              }
+            }} value={startTime} onChange={handleStartTimeChange} />
           </Grid>
           <Grid item>
             <Typography variant="body1">-</Typography>
@@ -407,7 +407,12 @@ const ConditionSetting: React.FC = () => {
             </Box>
             :
             <Grid item>
-              <TextField type="time" variant="outlined" sx={{ width: '82px' }} value={endTime} onChange={handleEndTimeChange} />
+              <TextField type="time" variant="outlined" sx={{
+                width: '82px',
+                // '& input::-webkit-calendar-picker-indicator': {
+                //   display: 'none'
+                // }
+              }} value={endTime} onChange={handleEndTimeChange} />
             </Grid>}
 
         </Grid>

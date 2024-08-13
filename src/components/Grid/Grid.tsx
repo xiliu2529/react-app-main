@@ -36,9 +36,10 @@ const Grids: React.FC = () => {
       <TableCell className="table-body-cell">{data.CloseVWAP}</TableCell>
     </TableRow>
   );
-
   React.useEffect(() => {
     if (settingsState) {
+
+      
       document.documentElement.style.setProperty('--cell-bg-color', settingsState.colors[0]);
       document.documentElement.style.setProperty('--cell-color', settingsState.colors[1]);
       document.documentElement.style.setProperty('--hide-last-column', settingsState.checkboxStates[2] ? 'table-cell' : 'none');
@@ -51,44 +52,36 @@ const Grids: React.FC = () => {
       <Grid container direction="column" spacing={1}>
         <Box className='grid-container-div' />
         <Grid item>
-          {/* <Box className='table-title'>
-            <Typography id="table-title-lefta">6日平均(05/17-05/24)</Typography>
-            <Typography id="table-title-leftb">{d.Today}</Typography>
-            {settingsState.checkboxStates[1] && 
-            (<Typography id="table-title-right">時間帯別最多出来高·価格</Typography>)}
-
-          </Box> */}
           <TableContainer component={Paper} className="table-container">
             <Table stickyHeader>
               <TableHead>
-              <TableRow>
-              <TableCell className='table-title'>
-              </TableCell>
-              <TableCell className='table-title'>
-              6日平均(05/17-05/24)
-              </TableCell>
-              <TableCell className='table-title'>
-              </TableCell>
-              <TableCell className='table-title'>
-              </TableCell>
-              <TableCell className='table-title'>
-                {d.Today}
-              </TableCell>
-              <TableCell className='table-title'>
-              </TableCell>
-              <TableCell className='table-title'>
-              </TableCell>
-              <TableCell className='table-title'>
-              </TableCell>
-              <TableCell className='table-title' id='table-title-right'>
-              時間帯別最多出来高·価格
-              </TableCell>
-              <TableCell className='table-title'>
-              </TableCell>
-              <TableCell className='table-title'>
-              </TableCell>
-              </TableRow>
-
+                <TableRow>
+                  <TableCell className='table-title'>
+                  </TableCell>
+                  <TableCell className='table-title'>
+                    6日平均(05/17-05/24)
+                  </TableCell>
+                  <TableCell className='table-title'>
+                  </TableCell>
+                  <TableCell className='table-title'>
+                  </TableCell>
+                  <TableCell className='table-title'>
+                    {d.Today}
+                  </TableCell>
+                  <TableCell className='table-title'>
+                  </TableCell>
+                  <TableCell className='table-title'>
+                  </TableCell>
+                  <TableCell className='table-title'>
+                  </TableCell>
+                  <TableCell className='table-title' id='table-title-right'>
+                    時間帯別最多出来高·価格
+                  </TableCell>
+                  <TableCell className='table-title'>
+                  </TableCell>
+                  <TableCell className='table-title'>
+                  </TableCell>
+                </TableRow>
                 <TableRow>
                   {headerTexts.map((text, index) => (
                     <TableCell
@@ -116,7 +109,12 @@ const Grids: React.FC = () => {
                     data2.TotalFrame.MostVolumeAndPrice.Volume,
                     data2.TotalFrame.CloseVWAP
                   ].map((item, index) => (
-                    <TableCell key={index} className="table-body-cell">{item}</TableCell>
+                    <TableCell
+                      key={index}
+                      className={`table-body-cell ${item === '-' ? 'center-align' : ''}`}
+                    >
+                      {item}
+                    </TableCell>
                   )) : null}
                 </TableRow>
 
