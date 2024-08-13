@@ -23,6 +23,7 @@ const ConditionSetting: React.FC = () => {
     eveningOpening: false,
     eveningClose: false,
   });
+  
   const [startDate, setstartDate] = useState<string>('');
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
@@ -123,6 +124,21 @@ const ConditionSetting: React.FC = () => {
 
   };
   useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        handleCalculate();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    // 清理事件监听器
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  useEffect(() => {
     if (minutes== '0') {
       setStartTime2(startTime)
       setEndTime('')
@@ -185,7 +201,6 @@ const ConditionSetting: React.FC = () => {
       }
     }
   }, [requestPayload]);
-
 
   useEffect(() => {
     setInputValue(showModal.Code);
@@ -402,12 +417,7 @@ const ConditionSetting: React.FC = () => {
             <Typography variant="body1">開始終了時刻</Typography>
           </Grid>
           <Grid item>
-            <TextField type="time" variant="outlined" sx={{
-              width: '82px',
-              '& input::-webkit-calendar-picker-indicator': {
-                display: 'none'
-              }
-            }} value={startTime} onChange={handleStartTimeChange} />
+            <TextField type="time" variant="outlined" sx={{width: '82px'}} value={startTime} onChange={handleStartTimeChange} />
           </Grid>
           <Grid item>
             <Typography variant="body1">-</Typography>
@@ -463,7 +473,9 @@ const ConditionSetting: React.FC = () => {
           </Grid>
         </div>
       </div>
-      <Button sx={{ backgroundColor: '#143867', color: '#fff', marginLeft: '200px', borderRadius: '15px', marginTop: '25px' }} onClick={handleCalculate}>
+      
+      <Button  sx={{ backgroundColor: '#143867', color: '#fff', marginLeft: '200px', borderRadius: '15px', marginTop: '25px' }} 
+       onClick={handleCalculate}>
         算出
       </Button>
 

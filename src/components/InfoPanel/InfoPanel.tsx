@@ -58,8 +58,7 @@ const InfoPanel: React.FC = () => {
           <span className="value">{data1.QuoteCode}</span>
           <span className="label">銘柄名:</span>
           <span className="value">{data1.AbbreviatedName}</span>
-          <span className="value">{data1.MarketName}</span>
-          <span className="value">{data1.ListedSection}</span>
+          <span className="value">{data1.MarketName}{data1.ListedSection}</span>
         </Stack>
         <p className="execution-time">実行時間: { }</p>
       </div>

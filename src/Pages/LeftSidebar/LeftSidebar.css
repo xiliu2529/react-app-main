@@ -30,7 +30,7 @@
   grid-template-columns: repeat(2, auto);
   gap: 1px;
   z-index: 500;
-  margin-top: -7px;
+  margin-top: -10px;
 }
 
 .sidebar-button {

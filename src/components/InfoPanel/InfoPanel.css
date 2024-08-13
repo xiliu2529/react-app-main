@@ -40,14 +40,14 @@
   color: #635e5e;
 }
 .message{
- width: 400px;
+ width: 350px;
 }
 .label{
   white-space: nowrap; 
 }
 
 .value {
-  width: 150px; 
+  width: 100px; 
   white-space: nowrap; 
 }
 
