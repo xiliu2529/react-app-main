@@ -8,9 +8,12 @@ const ConditionSetting: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [alignment, setAlignment] = React.useState('0');
   const [days, setDays] = useState<number>(1);
-  const [value1, setValue1] = useState<number>(0);
+  const [value1, setValue1] = useState<number>(30);
   const [minutes, setminutes] = React.useState('');
   const [startTime, setStartTime] = useState<string>('');
+  const [startTime1, setStartTime1] = useState<string>('');
+  const [startTime2, setStartTime2] = useState<string>('');
+
   const [endTime, setEndTime] = useState<string>('');
   const [marketState, setMarketState] = useState({
     preMarketOpening: false,
@@ -21,11 +24,11 @@ const ConditionSetting: React.FC = () => {
     eveningClose: false,
   });
   const [startDate, setstartDate] = useState<string>('');
+  const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['0', '0', '0']);
   const { setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
-  const today = new Date().toISOString().split('T')[0];
   const selectedStyle = {
     '&.Mui-selected': {
       backgroundColor: '#E8ECF0',
@@ -33,6 +36,16 @@ const ConditionSetting: React.FC = () => {
       fontWeight: '900',
     },
   };
+  const getTenDaysAgoDate = (): string => {
+    const today = new Date();
+    const tenDaysAgo = new Date(today);
+    tenDaysAgo.setDate(today.getDate() - 365);
+    const year = tenDaysAgo.getFullYear();
+    const month = String(tenDaysAgo.getMonth() + 1).padStart(2, '0'); // 月份从0开始
+    const day = String(tenDaysAgo.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+  const minDaysAgo = getTenDaysAgoDate();
   const convertBoolToString = (value: boolean): string => value ? '1' : '0';
   const convertToBoolean = (value: string): boolean => {
     return value === '1';
@@ -42,20 +55,24 @@ const ConditionSetting: React.FC = () => {
   };
   const handleIncrement = () => setDays(prev => prev + 1);
   const handleDecrement = () => setDays(prev => (prev > 0 ? prev - 1 : prev));
-  const handleChange = (event: SelectChangeEvent) => setminutes(event.target.value as string);
+  const handleChange = (event: SelectChangeEvent) => {
+    setminutes(event.target.value as string)
+    if(event.target.value == '0'){
+      setStartTime(startTime2)
+    }else{
+      setStartTime(startTime1)
+    }
+  }
   const handleAlignment = (_event: React.MouseEvent<HTMLElement>, newAlignment: string | null) => {
     if (newAlignment !== null) setAlignment(newAlignment);
 
   };
-
   const handleCheckboxChange = (key: keyof typeof marketState) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setMarketState({
       ...marketState,
       [key]: event.target.checked,
     });
-
   };
-
   const handleCalculate = () => {
     setRequestPayload({
       Code: inputValue,
@@ -105,7 +122,14 @@ const ConditionSetting: React.FC = () => {
 
 
   };
-
+  useEffect(() => {
+    if (minutes== '0') {
+      setStartTime2(startTime)
+      setEndTime('')
+    } else {
+      setStartTime1(startTime)
+    }
+  }, [startTime])
   useEffect(() => {
     setshowModal({
       Code: inputValue,
@@ -162,18 +186,18 @@ const ConditionSetting: React.FC = () => {
     }
   }, [requestPayload]);
 
+
   useEffect(() => {
-    setInputValue(showModal.Code)
-    // setInputValue(a)
-    setAlignment(showModal.HistoricalSetting.Category)
-    setstartDate(showModal.HistoricalSetting.Range.DateFrom)
-    setendDate(showModal.HistoricalSetting.Range.DateTo)
-    setDays(Number(showModal.HistoricalSetting.Range.Days))
-    setCheckedState([showModal.HistoricalSetting.Range.SQ.LargeSQ, showModal.HistoricalSetting.Range.SQ.SmallSQ, showModal.HistoricalSetting.Range.SQ.WeeklySQ])
-    setminutes(showModal.CalculationSetting.Category)
-    setStartTime(showModal.CalculationSetting.Range.TimeFrom)
-    setEndTime(showModal.CalculationSetting.Range.TimeTo)
-    setValue1(Number(showModal.CalculationSetting.Range.Minutes))
+    setInputValue(showModal.Code);
+    setAlignment(showModal.HistoricalSetting.Category);
+    setstartDate(showModal.HistoricalSetting.Range.DateFrom);
+    setendDate(showModal.HistoricalSetting.Range.DateTo);
+    setDays(Number(showModal.HistoricalSetting.Range.Days));
+    setCheckedState([showModal.HistoricalSetting.Range.SQ.LargeSQ, showModal.HistoricalSetting.Range.SQ.SmallSQ, showModal.HistoricalSetting.Range.SQ.WeeklySQ]);
+    setminutes(showModal.CalculationSetting.Category);
+    setStartTime(showModal.CalculationSetting.Range.TimeFrom);
+    setEndTime(showModal.CalculationSetting.Range.TimeTo);
+    setValue1(Number(showModal.CalculationSetting.Range.Minutes));
     setMarketState({
       preMarketOpening: convertToBoolean(showModal.CalculationSetting.Individual.AM.OpenTick),
       preMarketClose: convertToBoolean(showModal.CalculationSetting.Individual.AM.CloseTick),
@@ -181,9 +205,9 @@ const ConditionSetting: React.FC = () => {
       postMarketClose: convertToBoolean(showModal.CalculationSetting.Individual.PM.CloseTick),
       eveningOpening: convertToBoolean(showModal.CalculationSetting.Individual.Evening.OpenTick),
       eveningClose: convertToBoolean(showModal.CalculationSetting.Individual.Evening.CloseTick),
-    })
-  }, [isHistoricalActive, buttonName]);
+    });
 
+  }, [isHistoricalActive, buttonName]);
 
 
   const validatePayload = (payload: RequestPayload): boolean => {
@@ -206,8 +230,6 @@ const ConditionSetting: React.FC = () => {
     }
     return true;
   };
-
-
   const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) => setter(event.target.value);
   const handleStartTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newStartTime = event.target.value;
@@ -250,7 +272,7 @@ const ConditionSetting: React.FC = () => {
           <div>
             <div>
               <p style={{ display: 'inline-block', fontSize: '10px' }}>開始日</p>
-              <input className='setDate' type="date" value={startDate} max={today} onChange={handleDateChange(setstartDate)} />
+              <input className='setDate' type="date" value={startDate} min={minDaysAgo} max={today} onChange={handleDateChange(setstartDate)} />
             </div>
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
@@ -391,7 +413,7 @@ const ConditionSetting: React.FC = () => {
             <Typography variant="body1">-</Typography>
           </Grid>
           {minutes == '0  ' ?
-            <Box className="inputContainer">
+            <>  <Box className="inputContainer">
               <TextField
                 type="number"
                 value={value1}
@@ -405,6 +427,10 @@ const ConditionSetting: React.FC = () => {
                 variant="outlined"
               />
             </Box>
+              <Typography sx={{ marginTop: '7px' }}>
+                分
+              </Typography></>
+
             :
             <Grid item>
               <TextField type="time" variant="outlined" sx={{

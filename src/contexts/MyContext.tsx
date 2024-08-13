@@ -85,15 +85,26 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       },
     }
   );
+  const getTenDaysAgoDate = (): string => {
+    const today = new Date();
+    const tenDaysAgo = new Date(today);
+    tenDaysAgo.setDate(today.getDate() - 10);
+    const year = tenDaysAgo.getFullYear();
+    const month = String(tenDaysAgo.getMonth() + 1).padStart(2, '0'); // 月份从0开始
+    const day = String(tenDaysAgo.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+  const today = new Date().toISOString().split('T')[0];
+  const tenDaysAgo = getTenDaysAgoDate();
   const [showModal, setshowModal] = useState<RequestPayload>(
     {
       Code: '',
       HistoricalSetting: {
-        Category: '',
+        Category: '0',
         Range: {
-          DateFrom: '',
-          DateTo: '',
-          Days: '',
+          DateFrom: tenDaysAgo,
+          DateTo: today,
+          Days: '10',
           SQ: {
             LargeSQ: '',
             SmallSQ: '',
@@ -102,11 +113,11 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         },
       },
       CalculationSetting: {
-        Category: '',
+        Category: '3',
         Range: {
           TimeFrom: '',
           TimeTo: '',
-          Minutes: '',
+          Minutes: '30',
         },
         Individual: {
           AM: {
