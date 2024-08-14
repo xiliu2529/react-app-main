@@ -1,6 +1,6 @@
 import './MainPage.css';
-import Header from '../Header/Header';
-import LeftSidebar from '../LeftSidebar/LeftSidebar';
+import Header from '../../components/Header/Header';
+import LeftSidebar from '../../components/LeftSidebar/LeftSidebar';
 import {
   SettingsChartGridPage,
   GridChartPage,
@@ -12,7 +12,7 @@ import {
   ChartBottom,
   HistoryAndSettings,
   HistoricalData
-} from '../PageSwitcher/PageSwitcher'; 
+} from '../../components/PageSwitcher/PageSwitcher'; 
 import { useMyContext, } from '../../contexts/MyContext'; 
 const MainPage: React.FC = () => {
   const { isHistoricalActive,buttonName} = useMyContext(); 
