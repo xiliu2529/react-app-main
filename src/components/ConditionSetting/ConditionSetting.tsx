@@ -74,7 +74,7 @@ const ConditionSetting: React.FC = () => {
       [key]: event.target.checked,
     });
   };
-  const handleCalculate = () => {
+  const handleCalculate = () => { 
     setRequestPayload({
       Code: inputValue,
       HistoricalSetting: {
@@ -121,22 +121,23 @@ const ConditionSetting: React.FC = () => {
     setIsReadyToSend(true)
     setConditionSettingState({ marketState, inputValue });
 
-
   };
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      console.log('enter');
+      
       if (event.key === 'Enter') {
+        console.log('enter1');
+        console.log('inputValue',inputValue);
+        
         handleCalculate();
       }
     };
-
     window.addEventListener('keydown', handleKeyDown);
-
-    // 清理事件监听器
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [inputValue, alignment, startDate, endDate, days, checkedState, minutes, startTime, endTime, value1, marketState, settingsState]);
 
   useEffect(() => {
     if (minutes== '0') {

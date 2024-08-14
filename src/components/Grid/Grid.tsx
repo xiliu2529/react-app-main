@@ -23,23 +23,24 @@ const Grids: React.FC = () => {
   }
   const TableRowComponent = ({ data, label }: { data: any; label: string }) => (
     <TableRow>
+
       <TableCell className="table-body-cell-a">{label}</TableCell>
-      <TableCell className="table-body-cell">{data.AverageDaysData.Volume}</TableCell>
-      <TableCell className="table-body-cell">{data.AverageDaysData.Distribution}</TableCell>
-      <TableCell className="table-body-cell">{data.AverageDaysData.Cumulative}</TableCell>
-      <TableCell className="table-body-cell">{data.TodayData.Volume}</TableCell>
-      <TableCell className="table-body-cell">{data.TodayData.Distribution}</TableCell>
-      <TableCell className="table-body-cell">{data.TodayData.Cumulative}</TableCell>
-      <TableCell className="table-body-cell">{data.TodayData.Difference}</TableCell>
-      <TableCell className="table-body-cell">{data.MostVolumeAndPrice.Price}</TableCell>
-      <TableCell className="table-body-cell">{data.MostVolumeAndPrice.Volume}</TableCell>
-      <TableCell className="table-body-cell">{data.CloseVWAP}</TableCell>
+      <TableCell className={`table-body-cell ${data.AverageDaysData.Volume == "-" ? 'center-align' : ''}`}>{data.AverageDaysData.Volume}</TableCell>
+      <TableCell className={`table-body-cell ${data.AverageDaysData.Distribution == "-" ? 'center-align' : ''}`}>{data.AverageDaysData.Distribution}</TableCell>
+      <TableCell className={`table-body-cell ${data.AverageDaysData.Cumulative == "-" ? 'center-align' : ''}`}>{data.AverageDaysData.Cumulative}</TableCell>
+      <TableCell className={`table-body-cell ${data.TodayData.Volume == "-" ? 'center-align' : ''}`}>{data.TodayData.Volume}</TableCell>
+      <TableCell className={`table-body-cell ${data.TodayData.Distribution == "-" ? 'center-align' : ''}`}>{data.TodayData.Distribution}</TableCell>
+      <TableCell className={`table-body-cell ${data.TodayData.Cumulative == "-" ? 'center-align' : ''}`}>{data.TodayData.Cumulative}</TableCell>
+      <TableCell className={`table-body-cell ${data.TodayData.Difference == "-" ? 'center-align' : ''}`}>{data.TodayData.Difference}</TableCell>
+      <TableCell className={`table-body-cell ${data.MostVolumeAndPrice.Price == "-" ? 'center-align' : ''}`}>{data.MostVolumeAndPrice.Price}</TableCell>
+      <TableCell className={`table-body-cell ${data.MostVolumeAndPrice.Volume == "-" ? 'center-align' : ''}`}>{data.MostVolumeAndPrice.Volume}</TableCell>
+      <TableCell className={`table-body-cell ${data.CloseVWAP == "-" ? 'center-align' : ''}`}>{data.CloseVWAP}</TableCell>
     </TableRow>
   );
   React.useEffect(() => {
     if (settingsState) {
 
-      
+
       document.documentElement.style.setProperty('--cell-bg-color', settingsState.colors[0]);
       document.documentElement.style.setProperty('--cell-color', settingsState.colors[1]);
       document.documentElement.style.setProperty('--hide-last-column', settingsState.checkboxStates[2] ? 'table-cell' : 'none');
@@ -112,7 +113,7 @@ const Grids: React.FC = () => {
                   ].map((item, index) => (
                     <TableCell
                       key={index}
-                      className={`table-body-cell ${item === '-' ? 'center-align' : ''}`}
+                      className={`table-body-cell ${item == "-" ? 'center-align' : ''}`}
                     >
                       {item}
                     </TableCell>
