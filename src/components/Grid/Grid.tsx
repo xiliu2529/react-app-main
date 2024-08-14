@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Paper, Table, TableContainer, TableHead, Box, TableBody, TableCell, TableRow, Typography } from '@mui/material';
+import { Grid, Paper, Table, TableContainer, TableHead, Box, TableBody, TableCell, TableRow } from '@mui/material';
 import './Grid.css';
 import { useMyContext } from '../../contexts/MyContext';
 import a from '../../data/601.1/data2.json';
@@ -21,22 +21,37 @@ const Grids: React.FC = () => {
   } else if (requestPayload.Code === '601.1') {
     data2 = a;
   }
-  const TableRowComponent = ({ data, label }: { data: any; label: string }) => (
-    <TableRow>
+  const TableRowComponent = ({ data, label }: { data: any; label: string }) => {
+    console.log('label', label);
+    console.log('data', data);
+    const dataCopy = JSON.parse(JSON.stringify(data));
+    if (settingsState.checkboxStates[2] && !settingsState.checkboxStates[0] &&
+      (label == 'イブニング合計' || label == '前場合計' || label == '後場合計')
+    ) {
+      dataCopy.TodayData.Volume = '-'
+      // data.TodayData.Distribution = '-'
+      // data.TodayData.Cumulative = '-'
+      // data.TodayData.Difference = '-'
+    }else{
 
-      <TableCell className="table-body-cell-a">{label}</TableCell>
-      <TableCell className={`table-body-cell ${data.AverageDaysData.Volume == "-" ? 'center-align' : ''}`}>{data.AverageDaysData.Volume}</TableCell>
-      <TableCell className={`table-body-cell ${data.AverageDaysData.Distribution == "-" ? 'center-align' : ''}`}>{data.AverageDaysData.Distribution}</TableCell>
-      <TableCell className={`table-body-cell ${data.AverageDaysData.Cumulative == "-" ? 'center-align' : ''}`}>{data.AverageDaysData.Cumulative}</TableCell>
-      <TableCell className={`table-body-cell ${data.TodayData.Volume == "-" ? 'center-align' : ''}`}>{data.TodayData.Volume}</TableCell>
-      <TableCell className={`table-body-cell ${data.TodayData.Distribution == "-" ? 'center-align' : ''}`}>{data.TodayData.Distribution}</TableCell>
-      <TableCell className={`table-body-cell ${data.TodayData.Cumulative == "-" ? 'center-align' : ''}`}>{data.TodayData.Cumulative}</TableCell>
-      <TableCell className={`table-body-cell ${data.TodayData.Difference == "-" ? 'center-align' : ''}`}>{data.TodayData.Difference}</TableCell>
-      <TableCell className={`table-body-cell ${data.MostVolumeAndPrice.Price == "-" ? 'center-align' : ''}`}>{data.MostVolumeAndPrice.Price}</TableCell>
-      <TableCell className={`table-body-cell ${data.MostVolumeAndPrice.Volume == "-" ? 'center-align' : ''}`}>{data.MostVolumeAndPrice.Volume}</TableCell>
-      <TableCell className={`table-body-cell ${data.CloseVWAP == "-" ? 'center-align' : ''}`}>{data.CloseVWAP}</TableCell>
-    </TableRow>
-  );
+    }
+
+    return (
+      <TableRow>
+        <TableCell className="table-body-cell-a">{label}</TableCell>
+        <TableCell className={`table-body-cell ${data.AverageDaysData.Volume == "-" ? 'center-align' : ''}`}>{data.AverageDaysData.Volume}</TableCell>
+        <TableCell className={`table-body-cell ${data.AverageDaysData.Distribution == "-" ? 'center-align' : ''}`}>{data.AverageDaysData.Distribution}</TableCell>
+        <TableCell className={`table-body-cell ${data.AverageDaysData.Cumulative == "-" ? 'center-align' : ''}`}>{data.AverageDaysData.Cumulative}</TableCell>
+        <TableCell className={`table-body-cell ${dataCopy.TodayData.Volume == "-" ? 'center-align' : ''}`}>{dataCopy.TodayData.Volume}</TableCell>
+        <TableCell className={`table-body-cell ${data.TodayData.Distribution == "-" ? 'center-align' : ''}`}>{data.TodayData.Distribution}</TableCell>
+        <TableCell className={`table-body-cell ${data.TodayData.Cumulative == "-" ? 'center-align' : ''}`}>{data.TodayData.Cumulative}</TableCell>
+        <TableCell className={`table-body-cell ${data.TodayData.Difference == "-" ? 'center-align' : ''}`}>{data.TodayData.Difference}</TableCell>
+        <TableCell className={`table-body-cell ${data.MostVolumeAndPrice.Price == "-" ? 'center-align' : ''}`}>{data.MostVolumeAndPrice.Price}</TableCell>
+        <TableCell className={`table-body-cell ${data.MostVolumeAndPrice.Volume == "-" ? 'center-align' : ''}`}>{data.MostVolumeAndPrice.Volume}</TableCell>
+        <TableCell className={`table-body-cell ${data.CloseVWAP == "-" ? 'center-align' : ''}`}>{data.CloseVWAP}</TableCell>
+      </TableRow>
+    )
+  };
   React.useEffect(() => {
     if (settingsState) {
 
@@ -48,6 +63,8 @@ const Grids: React.FC = () => {
       document.documentElement.style.setProperty('--filter-brightness', settingsState.checkboxStates[1] ? 'none' : 'brightness(90%)');
     }
   }, [settingsState]);
+  console.log('settingsState.checkboxStates[2] ', settingsState.checkboxStates[2]);
+
   const headerTexts = ['時間', '出来高', '分布', '累計', '出来高', '分布', '累計', '差', '価格', '出来高', '場引けVWAP'];
   return (
     <Box className='grid-container'>
@@ -129,11 +146,13 @@ const Grids: React.FC = () => {
                 {conditionSettingState.marketState.eveningClose && data2.EveningCloseTickFrame && (
                   <TableRowComponent data={data2.EveningCloseTickFrame} label="引け" />
                 )}
-                {data2.EveningCloseSessionFrame && settingsState.checkboxStates[0] && (
+                {data2.EveningCloseSessionFrame && (
+                  (settingsState.checkboxStates[0] || settingsState.checkboxStates[2]) &&
                   <TableRowComponent data={data2.EveningCloseSessionFrame} label="イブニング合計" />
                 )}
                 {conditionSettingState.marketState.preMarketOpening && data2.AMOpenTickFrame && (
                   <TableRowComponent data={data2.AMOpenTickFrame} label="寄付" />
+
                 )}
                 {data2.AMTickFrame && Object.entries(data2.AMTickFrame).map(([key, value], index) => (
                   <TableRowComponent key={index} data={value} label={key} />
@@ -141,9 +160,10 @@ const Grids: React.FC = () => {
                 {conditionSettingState.marketState.preMarketClose && data2.AMCloseTickFrame && (
                   <TableRowComponent data={data2.AMCloseTickFrame} label="引け" />
                 )}
-                {data2.AMCloseSessionFrame && settingsState.checkboxStates[0] && (
-                  <TableRowComponent data={data2.AMCloseSessionFrame} label="前場合計" />
-                )}
+                {data2.AMCloseSessionFrame &&
+                  (settingsState.checkboxStates[0] || settingsState.checkboxStates[2]) && (
+                    <TableRowComponent data={data2.AMCloseSessionFrame} label="前場合計" />
+                  )}
                 {conditionSettingState.marketState.postMarketOpening && data2.PMOpenTickFrame && (
                   <TableRowComponent data={data2.PMOpenTickFrame} label="寄付" />
                 )}
@@ -153,9 +173,10 @@ const Grids: React.FC = () => {
                 {conditionSettingState.marketState.postMarketClose && data2.PMCloseTickFrame && (
                   <TableRowComponent data={data2.PMCloseTickFrame} label="引け" />
                 )}
-                {data2.PMCloseSessionFrame && settingsState.checkboxStates[0] && (
-                  <TableRowComponent data={data2.PMCloseSessionFrame} label="後場合計" />
-                )}
+                {data2.PMCloseSessionFrame &&
+                  (settingsState.checkboxStates[0] || settingsState.checkboxStates[2]) && (
+                    <TableRowComponent data={data2.PMCloseSessionFrame} label="後場合計" />
+                  )}
               </TableBody>
             </Table>
           </TableContainer>
