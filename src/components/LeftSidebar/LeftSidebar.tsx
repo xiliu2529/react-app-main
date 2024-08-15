@@ -40,7 +40,8 @@ const LeftSidebar: React.FC = () => {
     }
   }, [isHistoricalActive]);
 
-  return (
+  return  (
+ 
     <aside className="left-sidebar">
       <span
         className="icon-container">
