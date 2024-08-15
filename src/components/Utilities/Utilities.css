@@ -63,9 +63,11 @@
 @media print {
   .commonsp-top,.help-button,.header,.left-sidebar{
     display: none;
-    table-layout: auto;
   }
-  
+  .grid-container{
+    width: 1000px !important;
+  }
+
 }
   
 

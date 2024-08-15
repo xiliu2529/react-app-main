@@ -17,22 +17,22 @@ interface TickFrameData {
 
 
 const HistoricalGrid: React.FC = () => {
-  const { settingsState, conditionSettingState,requestPayload } = useMyContext();
+  const { settingsState, conditionSettingState, requestPayload } = useMyContext();
   type Data4Type = {
     [date: string]: {
       TotalFrame?: {
         Volume: string;
         Distribution: string;
       };
-      EveningOpenTickFrame?: any; 
-      EveningCloseTickFrame?:any;
-      PMOpenTickFrame?:any;
-      PMTickFrame?:any;
-      PMCloseTickFrame?:any;
+      EveningOpenTickFrame?: any;
+      EveningCloseTickFrame?: any;
+      PMOpenTickFrame?: any;
+      PMTickFrame?: any;
+      PMCloseTickFrame?: any;
 
     };
   };
-  
+
   let data4: Data4Type = {};
   if (requestPayload.Code === '6501') {
     data4 = a;
@@ -154,8 +154,8 @@ const HistoricalGrid: React.FC = () => {
         <TableCell className="custom-table-cell">{timeSlot}</TableCell>
         {getTimeSlotData(timeSlot, frameType).map((data, i) => (
           <React.Fragment key={i}>
-            <TableCell className="custom-table-cell-a">{data.volume}</TableCell>
-            <TableCell className="custom-table-cell-a">{data.distribution}</TableCell>
+            <TableCell className={`custom-table-cell-a ${data.volume == "-" ? 'center-align' : ''}`}>{data.volume}</TableCell>
+            <TableCell className={`custom-table-cell-a ${data.distribution == "-" ? 'center-align' : ''}`}>{data.distribution}</TableCell>
           </React.Fragment>
         ))}
       </TableRow>
@@ -210,8 +210,9 @@ const HistoricalGrid: React.FC = () => {
                   <TableCell className="custom-table-cell">合計</TableCell>
                   {totalFrame.map((item, index) => (
                     <React.Fragment key={index}>
-                      <TableCell className="custom-table-cell-a">{item.volume}</TableCell>
-                      <TableCell className="custom-table-cell-a">{item.distribution}</TableCell>
+                      <TableCell className={`custom-table-cell-a ${item.volume == "-" ? 'center-align' : ''}`}>{item.volume}</TableCell>
+                      <TableCell className={`custom-table-cell-a ${item.distribution == "-" ? 'center-align' : ''}`}>{item.distribution}</TableCell>
+
                     </React.Fragment>
                   ))}
                 </TableRow>
