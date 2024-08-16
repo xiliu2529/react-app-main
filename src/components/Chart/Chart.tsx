@@ -405,18 +405,21 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       type: 'column',
       color: '#FF0000',
       yAxis: 0,
+      name:'当日 分布',
       showInLegend: false,
       data: chartState.todayDistribution
     }, {
       type: 'column',
       color: '#00ff40',
       yAxis: 0,
+      name:'過去平均 分布',
       showInLegend: false,
       data: chartState.historicalDistribution
     }, {
       showInLegend: false,
       type: 'spline',
       yAxis: 0,
+      name:'当日 累計',
       data: chartState.todayCumulative,
       tooltip: {
         valueSuffix: '%'
@@ -425,10 +428,12 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       showInLegend: false,
       type: 'spline',
       yAxis: 1,
+      name:'過去平均 累計',
       data: chartState.historicalCumulative
     }, {
       showInLegend: false,
       type: 'spline',
+      name:'終値',
       yAxis: 2,
       data: chartState.ClosePrice,
       visible: checked,
@@ -507,6 +512,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       type: 'column',
       color: '#FF0000',
       yAxis: 0,
+      name:'当日 分布',
       data: chartState.todayDistribution
       , tooltip: {
         valueSuffix: '%'
@@ -515,6 +521,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       showInLegend: false,
       type: 'spline',
       yAxis: 1,
+      name:'当日 累計',
       data: chartState.todayCumulative,
       tooltip: {
         valueSuffix: '%'
@@ -524,6 +531,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       showInLegend: false,
       type: 'spline',
       yAxis: 2,
+      name:'終値',
       data: chartState.ClosePrice,
       visible: checked,
 
@@ -586,11 +594,13 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       type: 'column',
       color: '#00ff40',
       yAxis: 0,
+      name:'過去平均 分布',
       data: chartState.historicalDistribution
     }, {
       showInLegend: false,
       type: 'spline',
       yAxis: 1,
+      name:'過去平均 累計',
       data: chartState.historicalCumulative
     }]
     ,   credits: {
