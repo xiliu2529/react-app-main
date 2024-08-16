@@ -64,9 +64,30 @@
   .commonsp-top,.help-button,.header,.left-sidebar{
     display: none;
   }
+
   .grid-container{
+    width: auto !important;
+    height: auto !important;
+  }
+  .table-container{
+    height: auto !important;
+  }
+  .infoPanelGrid{
+    height: auto !important;
     width: 1000px !important;
   }
+  .right-column {
+    display: flex;
+    flex-direction: column; 
+  }
+  
+  .right-bottom {
+   
+    margin-top: 20px; 
+  }
+  
+
+
 
 }
   
