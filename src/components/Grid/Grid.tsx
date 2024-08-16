@@ -22,8 +22,6 @@ const Grids: React.FC = () => {
     data2 = a;
   }
   const TableRowComponent = ({ data, label }: { data: any; label: string }) => {
-    console.log('label', label);
-    console.log('data', data);
     const dataCopy = JSON.parse(JSON.stringify(data));
     if (settingsState.checkboxStates[2] && !settingsState.checkboxStates[0] &&
       (label == 'イブニング合計' || label == '前場合計' || label == '後場合計')
@@ -63,8 +61,6 @@ const Grids: React.FC = () => {
       document.documentElement.style.setProperty('--filter-brightness', settingsState.checkboxStates[1] ? 'none' : 'brightness(90%)');
     }
   }, [settingsState]);
-  console.log('settingsState.checkboxStates[2] ', settingsState.checkboxStates[2]);
-
   const headerTexts = ['時間', '出来高', '分布', '累計', '出来高', '分布', '累計', '差', '価格', '出来高', '場引けVWAP'];
   return (
     <Box className='grid-container'>

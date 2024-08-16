@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
 import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
+import { postData } from '../../api/api';
 
 const ConditionSetting: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
@@ -23,13 +24,15 @@ const ConditionSetting: React.FC = () => {
     eveningOpening: false,
     eveningClose: false,
   });
-  
+
   const [startDate, setstartDate] = useState<string>('');
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['0', '0', '0']);
   const { setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
+  const [response, setResponse] = useState<any>(null);
+
   const selectedStyle = {
     '&.Mui-selected': {
       backgroundColor: '#E8ECF0',
@@ -58,9 +61,9 @@ const ConditionSetting: React.FC = () => {
   const handleDecrement = () => setDays(prev => (prev > 0 ? prev - 1 : prev));
   const handleChange = (event: SelectChangeEvent) => {
     setminutes(event.target.value as string)
-    if(event.target.value == '0'){
+    if (event.target.value == '0') {
       setStartTime(startTime2)
-    }else{
+    } else {
       setStartTime(startTime1)
     }
   }
@@ -74,7 +77,7 @@ const ConditionSetting: React.FC = () => {
       [key]: event.target.checked,
     });
   };
-  const handleCalculate = () => { 
+  const handleCalculate = () => {
     setRequestPayload({
       Code: inputValue,
       HistoricalSetting: {
@@ -124,12 +127,7 @@ const ConditionSetting: React.FC = () => {
   };
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      console.log('enter');
-      
       if (event.key === 'Enter') {
-        console.log('enter1');
-        console.log('inputValue',inputValue);
-        
         handleCalculate();
       }
     };
@@ -140,7 +138,7 @@ const ConditionSetting: React.FC = () => {
   }, [inputValue, alignment, startDate, endDate, days, checkedState, minutes, startTime, endTime, value1, marketState, settingsState]);
 
   useEffect(() => {
-    if (minutes== '0') {
+    if (minutes == '0') {
       setStartTime2(startTime)
       setEndTime('')
     } else {
@@ -198,10 +196,22 @@ const ConditionSetting: React.FC = () => {
       if (isReadyToSend) {
         const isValid = validatePayload(requestPayload);
         if (isValid) {
+
+          const loadPosts = async () => {
+            try {
+              const data = await postData(requestPayload);
+              setResponse(data);
+            } catch (err) {
+              console.error('Failed to post data:', err);
+            }
+          };
+          loadPosts();
         }
       }
     }
   }, [requestPayload]);
+
+  
 
   useEffect(() => {
     setInputValue(showModal.Code);
@@ -418,7 +428,7 @@ const ConditionSetting: React.FC = () => {
             <Typography variant="body1">開始終了時刻</Typography>
           </Grid>
           <Grid item>
-            <TextField type="time" variant="outlined" sx={{width: '82px'}} value={startTime} onChange={handleStartTimeChange} />
+            <TextField type="time" variant="outlined" sx={{ width: '82px' }} value={startTime} onChange={handleStartTimeChange} />
           </Grid>
           <Grid item>
             <Typography variant="body1">-</Typography>
@@ -474,9 +484,9 @@ const ConditionSetting: React.FC = () => {
           </Grid>
         </div>
       </div>
-      
-      <Button  sx={{ backgroundColor: '#143867', color: '#fff', marginLeft: '200px', borderRadius: '15px', marginTop: '25px' }} 
-       onClick={handleCalculate}>
+
+      <Button sx={{ backgroundColor: '#143867', color: '#fff', marginLeft: '200px', borderRadius: '15px', marginTop: '25px' }}
+        onClick={handleCalculate}>
         算出
       </Button>
 
