@@ -64,29 +64,34 @@
   .commonsp-top,.help-button,.header,.left-sidebar{
     display: none;
   }
-
   .grid-container{
     width: auto !important;
     height: auto !important;
   }
   .table-container{
     height: auto !important;
+    width: auto !important;
   }
+
+
   .infoPanelGrid{
     height: auto !important;
-    width: 1000px !important;
+    width: auto !important;
   }
-  .right-column {
-    display: flex;
-    flex-direction: column; 
-  }
-  
-  .right-bottom {
-   
-    margin-top: 20px; 
-  }
-  
+  /* .table-title {
+    font-size: 3px !important;
+    width: 10px !important;
+  } */
+  .highlight-cell {
+    min-width: 50px !important;
 
+
+  
+  
+ 
+
+
+  }
 
 
 }

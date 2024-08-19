@@ -271,6 +271,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
     }
   }, [conditionSettingState, settingsState, display]);
+  
   useEffect(() => {
     setChartState({
       xAxisLabels: [
@@ -339,6 +340,9 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
   }, [display, settingsState, conditionSettingState, chartState, chartData, checked]);
 
+
+  console.log('chartState.todayDistribution',chartState.todayDistribution);
+  
   const chartOptions: Highcharts.Options = {
     chart: {
       type: 'column',

@@ -30,10 +30,8 @@ const Grids: React.FC = () => {
       // data.TodayData.Distribution = '-'
       // data.TodayData.Cumulative = '-'
       // data.TodayData.Difference = '-'
-    }else{
-
+    } else {
     }
-
     return (
       <TableRow>
         <TableCell className="table-body-cell-a">{label}</TableCell>
@@ -64,38 +62,34 @@ const Grids: React.FC = () => {
   const headerTexts = ['時間', '出来高', '分布', '累計', '出来高', '分布', '累計', '差', '価格', '出来高', '場引けVWAP'];
   return (
     <Box className='grid-container'>
-      <Grid container direction="column" spacing={1}>
+      <Grid container direction="column" spacing={0}>
         <Box className='grid-container-div' />
         <Grid item>
-          <TableContainer component={Paper} className="table-container">
+          <TableContainer className="table-container">
             <Table stickyHeader>
               <TableHead>
                 <TableRow>
                   <TableCell className='table-title'>
                   </TableCell>
-                  <TableCell className='table-title'>
+                  <TableCell className='table-title' colSpan={2}>
                     6日平均(05/17-05/24)
                   </TableCell>
+                 
                   <TableCell className='table-title'>
                   </TableCell>
-                  <TableCell className='table-title'>
-                  </TableCell>
-                  <TableCell className='table-title'>
+                  <TableCell className='table-title' colSpan={2}>
                     {d.Today}
                   </TableCell>
+                 
                   <TableCell className='table-title'>
                   </TableCell>
                   <TableCell className='table-title'>
                   </TableCell>
-                  <TableCell className='table-title'>
-                  </TableCell>
-                  <TableCell className='table-title' id='table-title-right'>
+                  <TableCell className='table-title' colSpan={2} id='table-title-right'>
                     時間帯別最多出来高·価格
                   </TableCell>
-                  <TableCell className='table-title'>
-                  </TableCell>
-                  <TableCell className='table-title'>
-                  </TableCell>
+                
+                
                 </TableRow>
                 <TableRow>
                   {headerTexts.map((text, index) => (
