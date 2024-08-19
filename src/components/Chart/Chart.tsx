@@ -64,6 +64,7 @@ type TickFrame = {
 
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
   const { settingsState, conditionSettingState, requestPayload } = useMyContext();
+  
   let data3: TickFrame = {
     EveningOpenTickFrame: {
       AverageDaysChart: {

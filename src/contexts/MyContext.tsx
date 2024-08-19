@@ -90,7 +90,7 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const tenDaysAgo = new Date(today);
     tenDaysAgo.setDate(today.getDate() - 10);
     const year = tenDaysAgo.getFullYear();
-    const month = String(tenDaysAgo.getMonth() + 1).padStart(2, '0'); // 月份从0开始
+    const month = String(tenDaysAgo.getMonth() + 1).padStart(2, '0');
     const day = String(tenDaysAgo.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };

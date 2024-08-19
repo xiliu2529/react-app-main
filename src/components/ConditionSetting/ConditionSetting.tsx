@@ -32,6 +32,10 @@ const ConditionSetting: React.FC = () => {
   const { setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [response, setResponse] = useState<any>(null);
+console.log('startDate',startDate);
+console.log('endDate',endDate);
+console.log('requestPayload',requestPayload);
+
 
   const selectedStyle = {
     '&.Mui-selected': {
@@ -40,12 +44,13 @@ const ConditionSetting: React.FC = () => {
       fontWeight: '900',
     },
   };
+
   const getTenDaysAgoDate = (): string => {
     const today = new Date();
     const tenDaysAgo = new Date(today);
     tenDaysAgo.setDate(today.getDate() - 365);
     const year = tenDaysAgo.getFullYear();
-    const month = String(tenDaysAgo.getMonth() + 1).padStart(2, '0'); // 月份从0开始
+    const month = String(tenDaysAgo.getMonth() + 1).padStart(2, '0');
     const day = String(tenDaysAgo.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
@@ -83,8 +88,8 @@ const ConditionSetting: React.FC = () => {
       HistoricalSetting: {
         Category: alignment,
         Range: {
-          DateFrom: startDate,
-          DateTo: endDate,
+          DateFrom: startDate.split('-').join('/'),
+          DateTo: endDate.split('-').join('/'),
           Days: String(days),
           SQ: {
             LargeSQ: checkedState[0],
@@ -151,8 +156,8 @@ const ConditionSetting: React.FC = () => {
       HistoricalSetting: {
         Category: alignment,
         Range: {
-          DateFrom: startDate,
-          DateTo: endDate,
+          DateFrom: startDate.split('/').join('-'),
+          DateTo: endDate.split('/').join('-'),
           Days: String(days),
           SQ: {
             LargeSQ: checkedState[0],
@@ -191,6 +196,7 @@ const ConditionSetting: React.FC = () => {
     });
   }, [inputValue, alignment, startDate, endDate, days, checkedState, minutes, startTime, endTime, value1, marketState]);
 
+
   useEffect(() => {
     if (Object.keys(requestPayload).length > 0) {
       if (isReadyToSend) {
@@ -211,7 +217,8 @@ const ConditionSetting: React.FC = () => {
     }
   }, [requestPayload]);
 
-  
+
+
 
   useEffect(() => {
     setInputValue(showModal.Code);
@@ -256,7 +263,9 @@ const ConditionSetting: React.FC = () => {
     }
     return true;
   };
-  const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) => setter(event.target.value);
+  const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) =>{
+    setter(event.target.value);
+  }
   const handleStartTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newStartTime = event.target.value;
     if (!endTime || newStartTime <= endTime) {
@@ -270,12 +279,14 @@ const ConditionSetting: React.FC = () => {
       setEndTime(newEndTime);
     }
   };
-  const sqhandleChange = (index: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCheckedState(prevState => ({
-      ...prevState,
-      [index]: event.target.checked
-    }));
+  const sqhandleChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedState(prevState => {
+      const newState = [...prevState];
+      newState[index] = event.target.checked ? '1' : '0';
+      return newState;
+    });
   };
+
   const renderUI = () => {
     switch (alignment) {
       case '0':
@@ -352,15 +363,30 @@ const ConditionSetting: React.FC = () => {
         return (
           <div>
             <FormControlLabel
-              control={<Checkbox value={checkedState[0]} onChange={sqhandleChange('1')} />}
+              control={
+                <Checkbox
+                  checked={checkedState[0] === '1'}
+                  onChange={sqhandleChange(0)}
+                />
+              }
               label={<span style={{ fontSize: '10px' }}>Large-SQ</span>}
             />
             <FormControlLabel
-              control={<Checkbox value={checkedState[1]} onChange={sqhandleChange('1')} />}
+              control={
+                <Checkbox
+                  checked={checkedState[1] === '1'}
+                  onChange={sqhandleChange(1)}
+                />
+              }
               label={<span style={{ fontSize: '10px' }}>Small-SQ</span>}
             />
             <FormControlLabel
-              control={<Checkbox value={checkedState[2]} onChange={sqhandleChange('1')} />}
+              control={
+                <Checkbox
+                  checked={checkedState[2] === '1'}
+                  onChange={sqhandleChange(2)}
+                />
+              }
               label={<span style={{ fontSize: '10px' }}>Weekly-SQ</span>}
             />
           </div>
