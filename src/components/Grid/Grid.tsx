@@ -71,12 +71,11 @@ const Grids: React.FC = () => {
                 <TableRow>
                   <TableCell className='table-title'>
                   </TableCell>
-                  <TableCell className='table-title' colSpan={2}>
+                  <TableCell className='table-title' colSpan={3}>
                     6日平均(05/17-05/24)
                   </TableCell>
                  
-                  <TableCell className='table-title'>
-                  </TableCell>
+                
                   <TableCell className='table-title' colSpan={2}>
                     {d.Today}
                   </TableCell>

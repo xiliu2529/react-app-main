@@ -78,12 +78,9 @@
     height: auto !important;
     width: auto !important;
   }
-  /* .table-title {
-    font-size: 3px !important;
-    width: 10px !important;
-  } */
+ 
   .highlight-cell {
-    min-width: 50px !important;
+    min-width: 60px !important;
 
 
   
