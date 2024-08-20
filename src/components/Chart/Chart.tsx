@@ -9,31 +9,31 @@ import c from '../../data/data3.json'
 
 interface ChartData {
   timeLabels: string[];
-  todayDistribution: number[];
-  todayCumulative: number[];
-  closePrice: number[];
-  historicalDistribution: number[];
-  historicalCumulative: number[];
+  todayDistribution: { y: number; color: string }[]
+  todayCumulative: { y: number; color: string }[]
+  closePrice: { y: number; color: string }[]
+  historicalDistribution: { y: number; color: string }[]
+  historicalCumulative: { y: number; color: string }[]
   timeLabels1: string[];
-  todayDistribution1: number[];
-  todayCumulative1: number[];
-  closePrice1: number[];
-  historicalDistribution1: number[];
-  historicalCumulative1: number[];
+  todayDistribution1: { y: number; color: string }[]
+  todayCumulative1: { y: number; color: string }[]
+  closePrice1: { y: number; color: string }[]
+  historicalDistribution1: { y: number; color: string }[]
+  historicalCumulative1: { y: number; color: string }[]
   timeLabels2: string[];
-  todayDistribution2: number[];
-  todayCumulative2: number[];
-  closePrice2: number[];
-  historicalDistribution2: number[];
-  historicalCumulative2: number[];
+  todayDistribution2: { y: number; color: string }[]
+  todayCumulative2: { y: number; color: string }[]
+  closePrice2: { y: number; color: string }[]
+  historicalDistribution2: { y: number; color: string }[]
+  historicalCumulative2: { y: number; color: string }[]
 }
 interface ChartState {
   xAxisLabels: string[];
-  todayDistribution: number[];
-  todayCumulative: number[];
-  historicalDistribution: number[];
-  historicalCumulative: number[];
-  ClosePrice: number[];
+  todayDistribution: { y: number; color: string }[]
+  todayCumulative: { y: number; color: string }[]
+  historicalDistribution: { y: number; color: string }[]
+  historicalCumulative: { y: number; color: string }[]
+  ClosePrice: { y: number; color: string }[]
 }
 type ChartDatax = {
   Distribution: string;
@@ -64,7 +64,7 @@ type TickFrame = {
 
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
   const { settingsState, conditionSettingState, requestPayload } = useMyContext();
-  
+
   let data3: TickFrame = {
     EveningOpenTickFrame: {
       AverageDaysChart: {
@@ -86,7 +86,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   } else if (requestPayload.Code === '601.1') {
     data3 = a;
   }
-  
+
   const [checked, setChecked] = useState<boolean>(false);
   const [chartState, setChartState] = useState<ChartState>({
     xAxisLabels: [],
@@ -125,50 +125,97 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   useEffect(() => {
     const processData = () => {
       let timeLabels: string[] = [];
-      let todayDistribution: number[] = [];
-      let todayCumulative: number[] = [];
-      let closePrice: number[] = [];
-      let historicalDistribution: number[] = [];
-      let historicalCumulative: number[] = [];
+      let todayDistribution: { y: number; color: string }[] = [];
+      let todayCumulative: { y: number; color: string }[] = [];
+      let closePrice: { y: number; color: string }[] = [];
+      let historicalDistribution: { y: number; color: string }[] = [];
+      let historicalCumulative: { y: number; color: string }[] = [];
 
       let timeLabels1: string[] = [];
-      let todayDistribution1: number[] = [];
-      let todayCumulative1: number[] = [];
-      let closePrice1: number[] = [];
-      let historicalDistribution1: number[] = [];
-      let historicalCumulative1: number[] = [];
+      let todayDistribution1: { y: number; color: string }[] = [];
+      let todayCumulative1: { y: number; color: string }[] = [];
+      let closePrice1: { y: number; color: string }[] = [];
+      let historicalDistribution1: { y: number; color: string }[] = [];
+      let historicalCumulative1: { y: number; color: string }[] = [];
 
       let timeLabels2: string[] = [];
-      let todayDistribution2: number[] = [];
-      let todayCumulative2: number[] = [];
-      let closePrice2: number[] = [];
-      let historicalDistribution2: number[] = [];
-      let historicalCumulative2: number[] = [];
+      let todayDistribution2: { y: number; color: string }[] = [];
+      let todayCumulative2: { y: number; color: string }[] = [];
+      let closePrice2: { y: number; color: string }[] = [];
+      let historicalDistribution2: { y: number; color: string }[] = [];
+      let historicalCumulative2: { y: number; color: string }[] = [];
 
 
       if (data3.EveningTickFrame) {
         timeLabels = Object.keys(data3.EveningTickFrame).map(timeFrame => timeFrame.split('-')[0]);
-        todayDistribution = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.TodayChart!.Distribution));
-        todayCumulative = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.TodayChart!.Cumulative));
-        closePrice = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.TodayChart!.ClosePrice!));
-        historicalDistribution = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.AverageDaysChart!.Distribution));
-        historicalCumulative = Object.values(data3.EveningTickFrame).map(tick => parseFloat(tick.AverageDaysChart!.Cumulative));
+        todayDistribution = Object.values(data3.EveningTickFrame).map(tick => ({
+          y: parseFloat(tick.TodayChart!.Distribution),
+          color: settingsState.colors[6]// 使用一个函数来决定颜色
+        }));
+        todayCumulative = Object.values(data3.EveningTickFrame).map(tick => ({
+          y: parseFloat(tick.TodayChart!.Cumulative),
+          color: '#000' // 使用一个函数来决定颜色
+        }));
+        closePrice = Object.values(data3.EveningTickFrame).map(tick => ({
+          y: parseFloat(tick.TodayChart!.ClosePrice!),
+          color: settingsState.colors[16] // 使用一个函数来决定颜色
+        }));
+        historicalDistribution = Object.values(data3.EveningTickFrame).map(tick => ({
+          y: parseFloat(tick.AverageDaysChart!.Distribution),
+          color: settingsState.colors[11]// 使用一个函数来决定颜色
+        }));
+
+        historicalCumulative = Object.values(data3.EveningTickFrame).map(tick => ({
+          y: parseFloat(tick.AverageDaysChart!.Cumulative),
+          color: '#000' // 使用一个函数来决定颜色
+        }));
       }
+
       if (data3.AMTickFrame) {
         timeLabels1 = Object.keys(data3.AMTickFrame).map(timeFrame => timeFrame.split('-')[0]);
-        todayDistribution1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.TodayChart!.Distribution));
-        todayCumulative1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.TodayChart!.Cumulative));
-        closePrice1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.TodayChart!.ClosePrice!));
-        historicalDistribution1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.AverageDaysChart!.Distribution));
-        historicalCumulative1 = Object.values(data3.AMTickFrame).map(tick => parseFloat(tick.AverageDaysChart!.Cumulative));
+        todayDistribution1 = Object.values(data3.AMTickFrame).map(tick => ({
+          y: parseFloat(tick.TodayChart!.Distribution),
+          color: settingsState.colors[4] // 使用一个函数来决定颜色
+        }));
+        todayCumulative1 = Object.values(data3.AMTickFrame).map(tick => ({
+          y: parseFloat(tick.TodayChart!.Cumulative),
+          color: '#000' // 使用一个函数来决定颜色
+        }));
+        closePrice1 = Object.values(data3.AMTickFrame).map(tick => ({
+          y: parseFloat(tick.TodayChart!.ClosePrice!),
+          color: settingsState.colors[16] // 使用一个函数来决定颜色
+        }));
+        historicalDistribution1 = Object.values(data3.AMTickFrame).map(tick => ({
+          y: parseFloat(tick.AverageDaysChart!.Distribution),
+          color: settingsState.colors[9] // 使用一个函数来决定颜色
+        }));
+        historicalCumulative1 = Object.values(data3.AMTickFrame).map(tick => ({
+          y: parseFloat(tick.AverageDaysChart!.Cumulative),
+          color: '#00FFFF' // 使用一个函数来决定颜色
+        }));
       }
       if (data3.PMTickFrame) {
         timeLabels2 = Object.keys(data3.PMTickFrame).map(timeFrames2 => timeFrames2.split('-')[0]);
-        todayDistribution2 = Object.values(data3.PMTickFrame).map(tick => parseFloat(tick.TodayChart!.Distribution));
-        todayCumulative2 = Object.values(data3.PMTickFrame).map(tick => parseFloat(tick.TodayChart!.Cumulative));
-        closePrice2 = Object.values(data3.PMTickFrame).map(tick => parseFloat(tick.TodayChart!.ClosePrice!));
-        historicalDistribution2 = Object.values(data3.PMTickFrame).map(tick => parseFloat(tick.AverageDaysChart!.Distribution));
-        historicalCumulative2 = Object.values(data3.PMTickFrame).map(tick => parseFloat(tick.AverageDaysChart!.Cumulative));
+        todayDistribution2 = Object.values(data3.PMTickFrame).map(tick => ({
+          y: parseFloat(tick.TodayChart!.Distribution),
+          color: settingsState.colors[5] // 使用一个函数来决定颜色
+        }));
+        todayCumulative2 = Object.values(data3.PMTickFrame).map(tick => ({
+          y: parseFloat(tick.TodayChart!.Cumulative),
+          color: '#000' // 使用一个函数来决定颜色
+        }));
+        closePrice2 = Object.values(data3.PMTickFrame).map(tick => ({
+          y: parseFloat(tick.TodayChart!.ClosePrice!),
+          color: settingsState.colors[16] // 使用一个函数来决定颜色
+        }));
+        historicalDistribution2 = Object.values(data3.PMTickFrame).map(tick => ({
+          y: parseFloat(tick.AverageDaysChart!.Distribution),
+          color: settingsState.colors[10] // 使用一个函数来决定颜色
+        }));
+        historicalCumulative2 = Object.values(data3.PMTickFrame).map(tick => ({
+          y: parseFloat(tick.AverageDaysChart!.Cumulative),
+          color: '#FFA500' // 使用一个函数来决定颜色
+        }));
       }
       return {
         timeLabels,
@@ -195,83 +242,265 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     setChartData(data)
   }, [settingsState, conditionSettingState, display]);
 
-
   useEffect(() => {
     if (conditionSettingState.marketState.eveningOpening && data3.EveningOpenTickFrame) {
       setChartData(prevState => ({
         ...prevState,
         timeLabels: ['寄付', ...prevState.timeLabels],
-        todayDistribution: [Number(data3.EveningOpenTickFrame!.TodayChart!.Distribution), ...prevState.todayDistribution],
-        todayCumulative: [Number(data3.EveningOpenTickFrame!.TodayChart!.Cumulative), ...prevState.todayCumulative],
-        closePrice: [Number(data3.EveningOpenTickFrame!.TodayChart!.ClosePrice), ...prevState.closePrice],
-        historicalDistribution: [Number(data3.EveningOpenTickFrame!.AverageDaysChart!.Distribution), ...prevState.historicalDistribution],
-        historicalCumulative: [Number(data3.EveningOpenTickFrame!.AverageDaysChart!.Cumulative), ...prevState.historicalCumulative],
+        todayDistribution: [
+          {
+            y: Number(data3.EveningOpenTickFrame!.TodayChart!.Distribution),
+            color: settingsState.colors[7] // 默认颜色或根据需要设置
+          },
+          ...prevState.todayDistribution
+        ],
+        todayCumulative: [
+          {
+            y: Number(data3.EveningOpenTickFrame!.TodayChart!.Cumulative),
+            color: '#000' // 默认颜色或根据需要设置
+          },
+          ...prevState.todayCumulative
+        ],
+        closePrice: [
+          {
+            y: Number(data3.EveningOpenTickFrame!.TodayChart!.ClosePrice!),
+            color: settingsState.colors[16] // 默认颜色或根据需要设置
+          },
+          ...prevState.closePrice
+        ],
+        historicalDistribution: [
+          {
+            y: Number(data3.EveningOpenTickFrame!.AverageDaysChart!.Distribution),
+            color: settingsState.colors[12] // 默认颜色或根据需要设置
+          },
+          ...prevState.historicalDistribution
+        ],
+        historicalCumulative: [
+          {
+            y: Number(data3.EveningOpenTickFrame!.AverageDaysChart!.Cumulative),
+            color: '#000' // 默认颜色或根据需要设置
+          },
+          ...prevState.historicalCumulative
+        ],
       }));
     }
     if (conditionSettingState.marketState.eveningClose && data3.EveningCloseTickFrame) {
       setChartData(prevState => ({
         ...prevState,
         timeLabels: [...prevState.timeLabels, '引け'],
-        todayDistribution: [...prevState.todayDistribution, Number(data3.EveningCloseTickFrame!.TodayChart!.Distribution)],
-        todayCumulative: [...prevState.todayCumulative, Number(data3.EveningCloseTickFrame!.TodayChart!.Cumulative)],
-        closePrice: [...prevState.closePrice, Number(data3.EveningCloseTickFrame!.TodayChart!.ClosePrice)],
-        historicalDistribution: [...prevState.historicalDistribution, Number(data3.EveningCloseTickFrame!.AverageDaysChart!.Distribution)],
-        historicalCumulative: [...prevState.historicalCumulative, Number(data3.EveningOpenTickFrame!.AverageDaysChart!.Cumulative)],
+        todayDistribution: [
+          ...prevState.todayDistribution,
+          {
+            y: Number(data3.EveningCloseTickFrame!.TodayChart!.Distribution),
+            color: settingsState.colors[8] // 默认颜色或根据需要设置
+          },
+        ],
+        todayCumulative: [
+          ...prevState.todayCumulative,
+          {
+            y: Number(data3.EveningCloseTickFrame!.TodayChart!.Cumulative),
+            color: '#000' // 默认颜色或根据需要设置
+          }
+
+        ],
+        closePrice: [
+          ...prevState.closePrice,
+          {
+            y: Number(data3.EveningCloseTickFrame!.TodayChart!.ClosePrice!),
+            color: settingsState.colors[16] // 默认颜色或根据需要设置
+          }
+
+        ],
+        historicalDistribution: [
+          ...prevState.historicalDistribution,
+          {
+            y: Number(data3.EveningCloseTickFrame!.AverageDaysChart!.Distribution),
+            color: settingsState.colors[13] // 默认颜色或根据需要设置
+          }
+        ],
+
+        historicalCumulative: [
+          ...prevState.historicalCumulative,
+          {
+            y: Number(data3.EveningCloseTickFrame!.AverageDaysChart!.Cumulative),
+            color: settingsState.colors[11] // 默认颜色或根据需要设置
+          }
+
+        ],
+
       }));
+
     }
 
     if (conditionSettingState.marketState.preMarketOpening && data3.AMOpenTickFrame) {
       setChartData(prevState => ({
         ...prevState,
         timeLabels1: ['寄付', ...prevState.timeLabels1],
-        todayDistribution1: [Number(data3.AMOpenTickFrame!.TodayChart!.Distribution), ...prevState.todayDistribution1],
-        todayCumulative1: [Number(data3.AMOpenTickFrame!.TodayChart!.Cumulative), ...prevState.todayCumulative1],
-        closePrice1: [Number(data3.AMOpenTickFrame!.TodayChart!.ClosePrice), ...prevState.closePrice1],
-        historicalDistribution1: [Number(data3.AMOpenTickFrame!.AverageDaysChart!.Distribution), ...prevState.historicalDistribution1],
-        historicalCumulative1: [Number(data3.AMOpenTickFrame!.AverageDaysChart!.Cumulative), ...prevState.historicalCumulative1],
+        todayDistribution1: [
+          {
+            y: Number(data3.AMOpenTickFrame!.TodayChart!.Distribution),
+            color: settingsState.colors[7] // 默认颜色或根据需要设置
+          },
+          ...prevState.todayDistribution1
+        ],
+        todayCumulative1: [
+          {
+            y: Number(data3.AMOpenTickFrame!.TodayChart!.Cumulative),
+            color: '#000' // 默认颜色或根据需要设置
+          },
+          ...prevState.todayCumulative1
+        ],
+        closePrice1: [
+          {
+            y: Number(data3.AMOpenTickFrame!.TodayChart!.ClosePrice!),
+            color: settingsState.colors[16]// 默认颜色或根据需要设置
+          },
+          ...prevState.closePrice1
+        ],
+        historicalDistribution1: [
+          {
+            y: Number(data3.AMOpenTickFrame!.AverageDaysChart!.Distribution),
+            color: settingsState.colors[12] // 默认颜色或根据需要设置
+          },
+          ...prevState.historicalDistribution1
+        ],
+        historicalCumulative1: [
+          {
+            y: Number(data3.AMOpenTickFrame!.AverageDaysChart!.Cumulative),
+            color: '#00FFFF' // 默认颜色或根据需要设置
+          },
+          ...prevState.historicalCumulative1
+        ],
       }));
     }
 
-
-    if (conditionSettingState.marketState.preMarketClose && data3.AMOpenTickFrame) {
+    if (conditionSettingState.marketState.preMarketClose && data3.AMCloseTickFrame) {
       setChartData(prevState => ({
         ...prevState,
         timeLabels1: [...prevState.timeLabels1, '引け'],
-        todayDistribution1: [...prevState.todayDistribution1, Number(data3.AMOpenTickFrame!.TodayChart!.Distribution)],
-        todayCumulative1: [...prevState.todayCumulative1, Number(data3.AMOpenTickFrame!.TodayChart!.Cumulative)],
-        closePrice1: [...prevState.closePrice1, Number(data3.AMOpenTickFrame!.TodayChart!.ClosePrice)],
-        historicalDistribution1: [...prevState.historicalDistribution1, Number(data3.AMOpenTickFrame!.AverageDaysChart!.Distribution)],
-        historicalCumulative1: [...prevState.historicalCumulative1, Number(data3.AMOpenTickFrame!.AverageDaysChart!.Cumulative)],
-      }));
+        todayDistribution1: [...prevState.todayDistribution1,
+        {
+          y: Number(data3.AMCloseTickFrame!.TodayChart!.Distribution),
+          color: settingsState.colors[8]  // 默认颜色或根据需要设置
+        },
 
+        ],
+        todayCumulative1: [...prevState.todayCumulative1,
+        {
+          y: Number(data3.AMCloseTickFrame!.TodayChart!.Cumulative),
+          color: '#000' // 默认颜色或根据需要设置
+        },
+
+        ],
+        closePrice1: [...prevState.closePrice1,
+        {
+          y: Number(data3.AMCloseTickFrame!.TodayChart!.ClosePrice!),
+          color: settingsState.colors[16] // 默认颜色或根据需要设置
+        },
+
+        ],
+        historicalDistribution1: [...prevState.historicalDistribution1,
+        {
+          y: Number(data3.AMCloseTickFrame!.AverageDaysChart!.Distribution),
+          color: settingsState.colors[13] // 默认颜色或根据需要设置
+        },
+
+        ],
+        historicalCumulative1: [...prevState.historicalCumulative1,
+        {
+          y: Number(data3.AMCloseTickFrame!.AverageDaysChart!.Cumulative),
+          color: '#00FFFF' // 默认颜色或根据需要设置
+        },
+
+        ],
+      }));
     }
     if (conditionSettingState.marketState.postMarketOpening && data3.PMOpenTickFrame) {
       setChartData(prevState => ({
         ...prevState,
         timeLabels2: ['寄付', ...prevState.timeLabels2],
-        todayDistribution2: [Number(data3.PMOpenTickFrame!.TodayChart!.Distribution), ...prevState.todayDistribution2],
-        todayCumulative2: [Number(data3.PMOpenTickFrame!.TodayChart!.Cumulative), ...prevState.todayCumulative2],
-        closePrice2: [Number(data3.PMOpenTickFrame!.TodayChart!.ClosePrice), ...prevState.closePrice2],
-        historicalDistribution2: [Number(data3.PMOpenTickFrame!.AverageDaysChart!.Distribution), ...prevState.historicalDistribution2],
-        historicalCumulative2: [Number(data3.PMOpenTickFrame!.AverageDaysChart!.Cumulative), ...prevState.historicalCumulative2],
+        todayDistribution2: [
+          {
+            y: Number(data3.PMOpenTickFrame!.TodayChart!.Distribution),
+            color: settingsState.colors[7] // 默认颜色或根据需要设置
+          },
+          ...prevState.todayDistribution2
+        ],
+        todayCumulative2: [
+          {
+            y: Number(data3.PMOpenTickFrame!.TodayChart!.Cumulative),
+            color: '#000' // 默认颜色或根据需要设置
+          },
+          ...prevState.todayCumulative2
+        ],
+        closePrice2: [
+          {
+            y: Number(data3.PMOpenTickFrame!.TodayChart!.ClosePrice!),
+            color: settingsState.colors[16] // 默认颜色或根据需要设置
+          },
+          ...prevState.closePrice2
+        ],
+        historicalDistribution2: [
+          {
+            y: Number(data3.PMOpenTickFrame!.AverageDaysChart!.Distribution),
+            color: settingsState.colors[12] // 默认颜色或根据需要设置
+          },
+          ...prevState.historicalDistribution2
+        ],
+        historicalCumulative2: [
+          {
+            y: Number(data3.PMOpenTickFrame!.AverageDaysChart!.Cumulative),
+            color: '#FFA500' // 默认颜色或根据需要设置
+          },
+          ...prevState.historicalCumulative2
+        ],
       }));
-
-
     }
     if (conditionSettingState.marketState.postMarketClose && data3.PMCloseTickFrame) {
       setChartData(prevState => ({
         ...prevState,
         timeLabels2: [...prevState.timeLabels2, '引け'],
-        todayDistribution2: [...prevState.todayDistribution2, Number(data3.PMCloseTickFrame!.TodayChart!.Distribution)],
-        todayCumulative2: [...prevState.todayCumulative2, Number(data3.PMCloseTickFrame!.TodayChart!.Cumulative)],
-        closePrice2: [...prevState.closePrice2, Number(data3.PMCloseTickFrame!.TodayChart!.ClosePrice)],
-        historicalDistribution2: [...prevState.historicalDistribution2, Number(data3.PMCloseTickFrame!.AverageDaysChart!.Distribution)],
-        historicalCumulative2: [...prevState.historicalCumulative2, Number(data3.PMCloseTickFrame!.AverageDaysChart!.Cumulative)],
-      }));
+        todayDistribution2: [...prevState.todayDistribution2,
+        {
+          y: Number(data3.PMCloseTickFrame!.TodayChart!.Distribution),
+          color: settingsState.colors[8] // 默认颜色或根据需要设置
+        },
 
+        ],
+        todayCumulative2: [...prevState.todayCumulative2,
+        {
+          y: Number(data3.PMCloseTickFrame!.TodayChart!.Cumulative),
+          color: '#000' // 默认颜色或根据需要设置
+        },
+
+        ],
+        closePrice2: [...prevState.closePrice2,
+        {
+          y: Number(data3.PMCloseTickFrame!.TodayChart!.ClosePrice!),
+          color: settingsState.colors[16] // 默认颜色或根据需要设置
+        },
+
+        ],
+        historicalDistribution2: [...prevState.historicalDistribution2,
+        {
+          y: Number(data3.PMCloseTickFrame!.AverageDaysChart!.Distribution),
+          color: settingsState.colors[13] // 默认颜色或根据需要设置
+        },
+
+        ],
+        historicalCumulative2: [...prevState.historicalCumulative2,
+        {
+          y: Number(data3.PMCloseTickFrame!.AverageDaysChart!.Cumulative),
+          color: '#FFA500' // 默认颜色或根据需要设置
+        },
+
+        ],
+      }));
     }
+
+
   }, [conditionSettingState, settingsState, display]);
-  
+
   useEffect(() => {
     setChartState({
       xAxisLabels: [
@@ -306,6 +535,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       ],
     });
   }, [chartData]);
+
   useEffect(() => {
     const container = document.getElementById('chart-container');
     if (container) {
@@ -340,9 +570,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
   }, [display, settingsState, conditionSettingState, chartState, chartData, checked]);
 
-
-  console.log('chartState.todayDistribution',chartState.todayDistribution);
-  
   const chartOptions: Highcharts.Options = {
     chart: {
       type: 'column',
@@ -410,21 +637,21 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       type: 'column',
       color: '#FF0000',
       yAxis: 0,
-      name:'当日 分布',
+      name: '当日 分布',
       showInLegend: false,
       data: chartState.todayDistribution
     }, {
       type: 'column',
       color: '#00ff40',
       yAxis: 0,
-      name:'過去平均 分布',
+      name: '過去平均 分布',
       showInLegend: false,
       data: chartState.historicalDistribution
     }, {
       showInLegend: false,
       type: 'spline',
       yAxis: 0,
-      name:'当日 累計',
+      name: '当日 累計',
       data: chartState.todayCumulative,
       tooltip: {
         valueSuffix: '%'
@@ -433,12 +660,12 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       showInLegend: false,
       type: 'spline',
       yAxis: 1,
-      name:'過去平均 累計',
+      name: '過去平均 累計',
       data: chartState.historicalCumulative
     }, {
       showInLegend: false,
       type: 'spline',
-      name:'終値',
+      name: '終値',
       yAxis: 2,
       data: chartState.ClosePrice,
       visible: checked,
@@ -448,6 +675,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       enabled: false
     }
   };
+
   const chartOptions1: Highcharts.Options = {
     chart: {
       type: 'column',
@@ -517,7 +745,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       type: 'column',
       color: '#FF0000',
       yAxis: 0,
-      name:'当日 分布',
+      name: '当日 分布',
       data: chartState.todayDistribution
       , tooltip: {
         valueSuffix: '%'
@@ -526,7 +754,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       showInLegend: false,
       type: 'spline',
       yAxis: 1,
-      name:'当日 累計',
+      name: '当日 累計',
       data: chartState.todayCumulative,
       tooltip: {
         valueSuffix: '%'
@@ -536,7 +764,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       showInLegend: false,
       type: 'spline',
       yAxis: 2,
-      name:'終値',
+      name: '終値',
       data: chartState.ClosePrice,
       visible: checked,
 
@@ -594,24 +822,27 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       align: 'left',
       verticalAlign: 'top',
     },
-    series: [{
-      showInLegend: false,
-      type: 'column',
-      color: '#00ff40',
-      yAxis: 0,
-      name:'過去平均 分布',
-      data: chartState.historicalDistribution
-    }, {
-      showInLegend: false,
-      type: 'spline',
-      yAxis: 1,
-      name:'過去平均 累計',
-      data: chartState.historicalCumulative
-    }]
-    ,   credits: {
+    series: [
+      {
+        showInLegend: false,
+        type: 'column',
+        yAxis: 0,
+        name: '過去平均 分布',
+        data: chartState.historicalDistribution,
+      },
+      {
+        showInLegend: false,
+        type: 'spline',
+        yAxis: 1,
+        name: '過去平均 累計',
+        data: chartState.historicalCumulative,
+      }
+    ]
+    , credits: {
       enabled: false
     }
   };
+
   return (
     <div>
       <FormControlLabel

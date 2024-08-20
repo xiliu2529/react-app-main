@@ -2,7 +2,7 @@
 	"AMOpenTickFrame": {
 	  "AverageDaysChart": {
 		"Distribution": "4.4",
-		"Cumulative": "4.4"
+		"Cumulative": "4"
 	  },
 	  "TodayChart": {
 		"Distribution": "11",
@@ -69,7 +69,7 @@
 	},
 	"AMCloseTickFrame": {
 	  "AverageDaysChart": {
-		"Distribution": "0.1",
+		"Distribution": "50",
 		"Cumulative": "40.8"
 	  },
 	  "TodayChart": {

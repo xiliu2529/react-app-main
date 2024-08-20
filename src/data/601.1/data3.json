@@ -1,7 +1,7 @@
 {
 	"EveningOpenTickFrame":{
 		"AverageDaysChart":{
-			"Distribution":"0.2",
+			"Distribution":"10",
 			"Cumulative":"0.3"
 		},
 		"TodayChart":{
@@ -13,327 +13,53 @@
 	"EveningTickFrame":{
 		"15:30-16:00":{
 			"AverageDaysChart":{
-				"Distribution":"1.9",
+				"Distribution":"20",
 				"Cumulative":"2.2"
 			},
 			"TodayChart":{
-				"Distribution":"2.2",
+				"Distribution":"20",
 				"Cumulative":"2.3",
 				"ClosePrice":"38430"
 			}
 		},
 		"16:01-16:30":{
 			"AverageDaysChart":{
-				"Distribution":"1.9",
+				"Distribution":"20",
 				"Cumulative":"2.2"
 			},
 			"TodayChart":{
-				"Distribution":"2.2",
+				"Distribution":"20",
 				"Cumulative":"2.3",
 				"ClosePrice":"38430"
 			}
 		},
 		"16:31-17:00":{
 			"AverageDaysChart":{
-				"Distribution":"1.9",
+				"Distribution":"20",
 				"Cumulative":"2.2"
 			},
 			"TodayChart":{
-				"Distribution":"2.2",
+				"Distribution":"20",
 				"Cumulative":"2.3",
 				"ClosePrice":"38430"
 			}
 		},
 		"17:01-17:30":{
 			"AverageDaysChart":{
-				"Distribution":"1.9",
+				"Distribution":"20",
 				"Cumulative":"2.2"
 			},
 			"TodayChart":{
-				"Distribution":"2.2",
+				"Distribution":"20",
 				"Cumulative":"2.3",
 				"ClosePrice":"38430"
-			}
-		},
-		"17:31-18:00":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"18:01-18:30":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"18:31-19:00":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"19:01-19:30":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"19:31-20:00":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"20:01-20:30":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"20:31-21:00":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"21:01-21:30":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"21:31-22:00":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"22:01-22:30":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"22:31-23:00":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"23:01-23:30":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"23:31-00:00":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"00:01-00:30":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"00:31-01:00":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"01:01-01:30":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"01:31-02:00":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"02:01-02:30":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"02:31-03:00":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"03:01-03:30":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"03:31-04:00":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"04:01-04:30":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"04:31-05:00":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"05:01-05:30":{
-			"AverageDaysChart":{
-				"Distribution":"1.9",
-				"Cumulative":"2.2"
-			},
-			"TodayChart":{
-				"Distribution":"2.2",
-				"Cumulative":"2.3",
-				"ClosePrice":"38430"
-			}
-		},
-		"05:31-06:00":{
-			"AverageDaysChart":{
-				"Distribution":"0.2",
-				"Cumulative":"25.5"
-			},
-			"TodayChart":{
-				"Distribution":"0.6",
-				"Cumulative":"42.1",
-				"ClosePrice":"38750"
 			}
 		}
+		
 	},
 	"EveningCloseTickFrame":{
 		"AverageDaysChart":{
-			"Distribution":"0.1",
+			"Distribution":"120",
 			"Cumulative":"25.6"
 		},
 		"TodayChart":{
@@ -344,7 +70,7 @@
 	},
 	"AMOpenTickFrame":{
 		"AverageDaysChart":{
-			"Distribution":"0.7",
+			"Distribution":"33",
 			"Cumulative":"26.3"
 		},
 		"TodayChart":{
@@ -356,7 +82,7 @@
 	"AMTickFrame":{
 		"08:45-09:15":{
 			"AverageDaysChart":{
-				"Distribution":"11.1",
+				"Distribution":"30",
 				"Cumulative":"37.4"
 			},
 			"TodayChart":{
@@ -367,7 +93,7 @@
 		},
 		"09:16-09:45":{
 			"AverageDaysChart":{
-				"Distribution":"11.1",
+				"Distribution":"30",
 				"Cumulative":"37.4"
 			},
 			"TodayChart":{
@@ -378,7 +104,7 @@
 		},
 		"09:46-10:15":{
 			"AverageDaysChart":{
-				"Distribution":"11.1",
+				"Distribution":"30",
 				"Cumulative":"37.4"
 			},
 			"TodayChart":{
@@ -389,22 +115,22 @@
 		},
 		"10:16-10:45":{
 			"AverageDaysChart":{
-				"Distribution":"11.1",
+				"Distribution":"30",
 				"Cumulative":"37.4"
 			},
 			"TodayChart":{
-				"Distribution":"11.4",
+				"Distribution":"30",
 				"Cumulative":"54.1",
 				"ClosePrice":"38890"
 			}
 		},
 		"10:46-11:02":{
 			"AverageDaysChart":{
-				"Distribution":"7.9",
+				"Distribution":"30",
 				"Cumulative":"98.1"
 			},
 			"TodayChart":{
-				"Distribution":"0.6",
+				"Distribution":"30",
 				"Cumulative":"42.1",
 				"ClosePrice":"38750"
 			}
@@ -412,7 +138,7 @@
 	},
 	"AMCloseTickFrame":{
 		"AverageDaysChart":{
-			"Distribution":"1.9",
+			"Distribution":"330",
 			"Cumulative":"100.0"
 		},
 		"TodayChart":{
@@ -423,7 +149,7 @@
 	},
 	"PMOpenTickFrame":{
 		"AverageDaysChart":{
-			"Distribution":"0.7",
+			"Distribution":"40",
 			"Cumulative":"26.3"
 		},
 		"TodayChart":{
@@ -435,7 +161,7 @@
 	"PMTickFrame":{
 		"12:30-13:00":{
 			"AverageDaysChart":{
-				"Distribution":"11.1",
+				"Distribution":"45",
 				"Cumulative":"37.4"
 			},
 			"TodayChart":{
@@ -446,7 +172,7 @@
 		},
 		"13:01-13:30":{
 			"AverageDaysChart":{
-				"Distribution":"11.1",
+				"Distribution":"45",
 				"Cumulative":"37.4"
 			},
 			"TodayChart":{
@@ -457,7 +183,7 @@
 		},
 		"13:31-14:00":{
 			"AverageDaysChart":{
-				"Distribution":"11.1",
+				"Distribution":"45",
 				"Cumulative":"37.4"
 			},
 			"TodayChart":{
@@ -468,7 +194,7 @@
 		},
 		"14:01-14:30":{
 			"AverageDaysChart":{
-				"Distribution":"11.1",
+				"Distribution":"45",
 				"Cumulative":"37.4"
 			},
 			"TodayChart":{
@@ -479,7 +205,7 @@
 		},
 		"14:31-15:00":{
 			"AverageDaysChart":{
-				"Distribution":"11.1",
+				"Distribution":"45",
 				"Cumulative":"37.4"
 			},
 			"TodayChart":{
@@ -490,7 +216,7 @@
 		},
 		"15:01-15:02":{
 			"AverageDaysChart":{
-				"Distribution":"7.9",
+				"Distribution":"45",
 				"Cumulative":"98.1"
 			},
 			"TodayChart":{
@@ -502,7 +228,7 @@
 	},
 	"PMCloseTickFrame":{
 		"AverageDaysChart":{
-			"Distribution":"1.9",
+			"Distribution":"450",
 			"Cumulative":"100.0"
 		},
 		"TodayChart":{
