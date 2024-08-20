@@ -32,9 +32,7 @@ const ConditionSetting: React.FC = () => {
   const { setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [response, setResponse] = useState<any>(null);
-console.log('startDate',startDate);
-console.log('endDate',endDate);
-console.log('requestPayload',requestPayload);
+console.log('response',response);
 
 
   const selectedStyle = {

@@ -1,26 +1,73 @@
 import * as React from 'react';
-import { Grid, Paper, Table, TableContainer, TableHead, Box, TableBody, TableCell, TableRow } from '@mui/material';
+import { Grid, Table, TableContainer, TableHead, Box, TableBody, TableCell, TableRow } from '@mui/material';
 import './Grid.css';
 import { useMyContext } from '../../contexts/MyContext';
 import a from '../../data/601.1/data2.json';
 import b from '../../data/101.1/data2.json';
 import c from '../../data/data2.json';
 import d from '../../data/data1.json';
+import d1 from '../../data/101.1/data1.json';
+import d2 from '../../data/601.1/data1.json';
 
+// 定义数据类型
+interface AverageDay {
+  Date: string;
+  TotalVolume: string;
+  HighLowMark: string;
+  SQMark: string;
+}
 
+interface Data {
+  QuoteCode: string;
+  AbbreviatedName: string;
+  MarketName: string;
+  ListedSection: string;
+  Today: string;
+  AverageDays: AverageDay[];
+}
 
 const Grids: React.FC = () => {
   const { settingsState, requestPayload, conditionSettingState } = useMyContext();
 
   let data2: GridDisplayData = {
   }
+  let data1: Data={
+    QuoteCode: '',
+    AbbreviatedName: '',
+    MarketName: '',
+    ListedSection: '',
+    Today: '',
+    AverageDays: []
+  };
   if (requestPayload.Code === '6501') {
     data2 = c;
+    data1 = d;
   } else if (requestPayload.Code === '101.1') {
     data2 = b;
+    data1 = d1;
   } else if (requestPayload.Code === '601.1') {
     data2 = a;
+    data1 = d2;
   }
+  const dates = data1.AverageDays.map(item => item.Date);
+
+    // 获取日期数量
+    const count = dates.length;
+
+    // 提取并格式化日期，去掉年份
+    const formatDate = (date: string) => {
+        const [_year, month, day] = date.split('/');
+        return `${month}/${day}`;
+    };
+
+    // 获取开始日期和结束日期，去掉年份
+    const startDate = dates.length > 0 ? formatDate(dates[dates.length - 1]) : '';
+    const endDate = dates.length > 0 ? formatDate(dates[0]) : '';
+
+    // 生成显示文本
+    const displayText = count > 0 ? `${count}日平均(${startDate}-${endDate})` : '';
+
+console.log(displayText);
   const TableRowComponent = ({ data, label }: { data: any; label: string }) => {
     const dataCopy = JSON.parse(JSON.stringify(data));
     if (settingsState.checkboxStates[2] && !settingsState.checkboxStates[0] &&
@@ -72,12 +119,10 @@ const Grids: React.FC = () => {
                   <TableCell className='table-title'>
                   </TableCell>
                   <TableCell className='table-title' colSpan={3}>
-                    6日平均(05/17-05/24)
+                    {count == 0 ? null:displayText}
                   </TableCell>
-                 
-                
                   <TableCell className='table-title' colSpan={2}>
-                    {d.Today}
+                    {data1.Today}
                   </TableCell>
                  
                   <TableCell className='table-title'>
@@ -176,3 +221,4 @@ const Grids: React.FC = () => {
 };
 
 export default Grids;
+

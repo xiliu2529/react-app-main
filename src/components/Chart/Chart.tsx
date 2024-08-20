@@ -341,7 +341,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   }, [display, settingsState, conditionSettingState, chartState, chartData, checked]);
 
 
-  console.log('chartState.todayDistribution',chartState.todayDistribution);
   
   const chartOptions: Highcharts.Options = {
     chart: {
@@ -595,17 +594,15 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       verticalAlign: 'top',
     },
     series: [{
-      showInLegend: false,
       type: 'column',
       color: '#00ff40',
       yAxis: 0,
-      name:'過去平均 分布',
+      enableMouseTracking: false ,
       data: chartState.historicalDistribution
     }, {
-      showInLegend: false,
       type: 'spline',
       yAxis: 1,
-      name:'過去平均 累計',
+      enableMouseTracking: false ,
       data: chartState.historicalCumulative
     }]
     ,   credits: {
