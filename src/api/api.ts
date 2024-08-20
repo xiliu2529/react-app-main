@@ -20,7 +20,7 @@ export const postData = async (data: object): Promise<[]> => {
         'Content-Type': 'application/json'
       }
     });
-    console.log('Server response:', response);
+    // console.log('Server response:', response);
     return response.data;
   } catch (error) {
     console.error('Error posting data:', error);
