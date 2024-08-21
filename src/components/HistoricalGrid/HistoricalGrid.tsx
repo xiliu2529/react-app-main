@@ -228,7 +228,9 @@ const HistoricalGrid: React.FC = () => {
   }, [griddownload]); 
   const downloadCSV = (data: any[], filename: string) => {
     const csv = Papa.unparse(data);
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const bom = '\uFEFF';
+    const csvWithBom = bom + csv;
+    const blob = new Blob([csvWithBom], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     if (link.download !== undefined) {
       const url = URL.createObjectURL(blob);
@@ -238,8 +240,12 @@ const HistoricalGrid: React.FC = () => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+  
+      // Clean up the URL object
+      URL.revokeObjectURL(url);
     }
   };
+  
 
   return (
     <Box className='grid-container'>

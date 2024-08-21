@@ -200,8 +200,7 @@ const Grids: React.FC = () => {
   const downloadCSV = (filename: string) => {
     const csvData = exportTableToCSV();
   
-    // Ensure the CSV data is encoded in UTF-8 and prepend a BOM (Byte Order Mark)
-    const bom = '\uFEFF'; // BOM for UTF-8
+    const bom = '\uFEFF'; 
     const csvContent = bom + csvData;
   
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
