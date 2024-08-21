@@ -199,12 +199,20 @@ const Grids: React.FC = () => {
 
   const downloadCSV = (filename: string) => {
     const csvData = exportTableToCSV();
-    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+  
+    // Ensure the CSV data is encoded in UTF-8 and prepend a BOM (Byte Order Mark)
+    const bom = '\uFEFF'; // BOM for UTF-8
+    const csvContent = bom + csvData;
+  
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
     link.setAttribute('download', filename);
     link.click();
+  
+    // Cleanup
+    URL.revokeObjectURL(url);
   };
 
   return (
