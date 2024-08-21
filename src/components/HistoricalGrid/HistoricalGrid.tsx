@@ -2,10 +2,11 @@ import * as React from 'react';
 import { Grid, Paper, Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Box } from '@mui/material';
 import './HistoricalGrid.css';
 import { useMyContext } from '../../contexts/MyContext';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import a from '../../../src/data/data4.json';
 import b from '../../../src/data/101.1/data4.json';
 import c from '../../../src/data//601.1/data4.json';
+import Papa from 'papaparse';
 
 
 
@@ -17,7 +18,9 @@ interface TickFrameData {
 
 
 const HistoricalGrid: React.FC = () => {
-  const { settingsState, conditionSettingState, requestPayload } = useMyContext();
+  const { settingsState, conditionSettingState, requestPayload,griddownload ,buttonName} = useMyContext();
+  const isInitialized = useRef(false);
+  const [shouldDownload, setShouldDownload] = React.useState(false);
   type Data4Type = {
     [date: string]: {
       TotalFrame?: {
@@ -73,7 +76,7 @@ const HistoricalGrid: React.FC = () => {
 
     return Array.from(timeSlotsSet);
   };
-
+  
   const getTimeSlotData = (timeSlot: string, frameType: any) =>
     extractDates(data4).map(date => {
       // @ts-ignore
@@ -111,7 +114,6 @@ const HistoricalGrid: React.FC = () => {
         distribution: data.Distribution || '-',
       };
     });
-
   const getAMCloseTickFrameData = () =>
     extractDates(data4).map(date => {
       // @ts-ignore
@@ -121,7 +123,6 @@ const HistoricalGrid: React.FC = () => {
         distribution: data.Distribution || '-',
       };
     });
-
   const getEveningCloseTickFrame = () =>
     extractDates(data4).map(date => {
       // @ts-ignore
@@ -131,7 +132,6 @@ const HistoricalGrid: React.FC = () => {
         distribution: data.Distribution || '-',
       };
     });
-
   const getPMCloseTickFrameData = () =>
     extractDates(data4).map(date => {
       // @ts-ignore
@@ -147,7 +147,6 @@ const HistoricalGrid: React.FC = () => {
   const timeSlots = extractTimeSlots(data4, 'EveningTickFrame');
   const timeSlots1 = extractTimeSlots(data4, 'AMTickFrame');
   const timeSlots2 = extractTimeSlots(data4, 'PMTickFrame');
-
   const renderTimeSlotRows = (slots: string[], frameType: any) =>
     slots.map((timeSlot, index) => (
       <TableRow key={index}>
@@ -160,6 +159,87 @@ const HistoricalGrid: React.FC = () => {
         ))}
       </TableRow>
     ));
+
+  const extractTableData = () => {
+    const rows: any[] = [];
+    rows.push(['', ...dates.flatMap(date => [`${date}`, `${date}`])]);
+    rows.push(['时间', ...dates.flatMap(_date => [`出来高`, `分布`])]);
+    const totalFrameRow = ['合计', ...totalFrame.flatMap(item => [item.volume, item.distribution])];
+    rows.push(totalFrameRow);
+    const addTimeSlotRows = (slots: string[], frameType: string) => {
+      slots.forEach(timeSlot => {
+        const row = [timeSlot, ...getTimeSlotData(timeSlot, frameType).flatMap(item => [item.volume, item.distribution])];
+        rows.push(row);
+      });
+    };
+    if (conditionSettingState.marketState.eveningOpening && data4[dates1[0]]?.EveningOpenTickFrame) {
+      const eveningOpenRow = ['寄付', ...getEveningOpenTickFrame().flatMap(item => [item.volume, item.distribution])];
+      rows.push(eveningOpenRow);
+    }
+    // @ts-ignore
+    if (data4[dates1[0]]?.EveningTickFrame) {
+      addTimeSlotRows(timeSlots, 'EveningTickFrame');
+    }
+    if (conditionSettingState.marketState.eveningClose && data4[dates1[0]]?.EveningCloseTickFrame) {
+      const eveningCloseRow = ['引け', ...getEveningCloseTickFrame().flatMap(item => [item.volume, item.distribution])];
+      rows.push(eveningCloseRow);
+    }
+    // @ts-ignore
+    if (conditionSettingState.marketState.preMarketOpening && data4[dates1[0]]?.AMOpenTickFrame) {
+      const amOpenRow = ['寄付', ...getAMOpenTickFrameData().flatMap(item => [item.volume, item.distribution])];
+      rows.push(amOpenRow);
+    }
+    // @ts-ignore
+    if (data4[dates1[0]]?.AMTickFrame) {
+      addTimeSlotRows(timeSlots1, 'AMTickFrame');
+    }
+    // @ts-ignore
+    if (conditionSettingState.marketState.preMarketClose && data4[dates1[0]]?.AMCloseTickFrame) {
+      const amCloseRow = ['引け', ...getAMCloseTickFrameData().flatMap(item => [item.volume, item.distribution])];
+      rows.push(amCloseRow);
+    }
+    if (conditionSettingState.marketState.postMarketOpening && data4[dates1[0]]?.PMOpenTickFrame) {
+      const pmOpenRow = ['寄付', ...getPMOpenTickFrameData().flatMap(item => [item.volume, item.distribution])];
+      rows.push(pmOpenRow);
+    }
+    if (data4[dates1[0]]?.PMTickFrame) {
+      addTimeSlotRows(timeSlots2, 'PMTickFrame');
+    }
+    if (conditionSettingState.marketState.postMarketClose && data4[dates1[0]]?.PMCloseTickFrame) {
+      const pmCloseRow = ['引け', ...getPMCloseTickFrameData().flatMap(item => [item.volume, item.distribution])];
+      rows.push(pmCloseRow);
+    }
+    return rows;
+  };
+
+  React.useEffect(() => {
+    if (isInitialized.current) {
+      setShouldDownload(true); // 组件初始化完成后，允许下载
+    }
+  }, []); 
+  React.useEffect(() => {
+    if (!isInitialized.current) {
+      isInitialized.current = true;
+      return; 
+    }
+    if (shouldDownload &&  [1, 2, 3, 4, 7, 8].includes(buttonName)) {
+      downloadCSV(extractTableData(), 'grid-data.csv')
+    } 
+  }, [griddownload]); 
+  const downloadCSV = (data: any[], filename: string) => {
+    const csv = Papa.unparse(data);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    if (link.download !== undefined) {
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', filename);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
 
   return (
     <Box className='grid-container'>

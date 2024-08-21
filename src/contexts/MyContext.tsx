@@ -13,6 +13,8 @@ interface MyContextType {
   setRequestPayload: (state: RequestPayload) => void;
   showModal:RequestPayload
   setshowModal: (state: RequestPayload) => void;
+  griddownload:boolean
+  setGriddownload: (alignment: boolean) => void; 
 }
 
 const MyContext = createContext<MyContextType | undefined>(undefined);
@@ -140,6 +142,7 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       },
     }
   );
+  const [griddownload, setGriddownload] = useState<boolean>(false);
   return (
     <MyContext.Provider
       value={{
@@ -155,6 +158,8 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         setRequestPayload,
         showModal,
         setshowModal,
+        griddownload,
+        setGriddownload
 
       }}
     >

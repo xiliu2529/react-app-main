@@ -1,17 +1,21 @@
 import React from 'react';
 import SettingsDialog from '../../components/SettingsDialog/SettingsDialog'
 import './Utilities.css'
+import { useMyContext } from '../../contexts/MyContext';
+
 
 
 
 const Utilities: React.FC = () => {
-  
+  const { setGriddownload,griddownload } = useMyContext();
   const print = () => {
     window.print();
   }
   const help = () => {}
   const favorite = () => {}
-  const download = () => {}
+  const download = () => {
+    setGriddownload(!griddownload)
+  }
 
 
   return (

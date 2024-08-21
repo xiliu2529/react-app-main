@@ -8,8 +8,8 @@ import c from '../../data/data2.json';
 import d from '../../data/data1.json';
 import d1 from '../../data/101.1/data1.json';
 import d2 from '../../data/601.1/data1.json';
+import { useRef } from 'react';
 
-// 定义数据类型
 interface AverageDay {
   Date: string;
   TotalVolume: string;
@@ -27,11 +27,12 @@ interface Data {
 }
 
 const Grids: React.FC = () => {
-  const { settingsState, requestPayload, conditionSettingState } = useMyContext();
-
+  const { settingsState, requestPayload, conditionSettingState, griddownload, buttonName } = useMyContext();
+  const isInitialized = useRef(false);
+  const [shouldDownload, setShouldDownload] = React.useState(false);
   let data2: GridDisplayData = {
   }
-  let data1: Data={
+  let data1: Data = {
     QuoteCode: '',
     AbbreviatedName: '',
     MarketName: '',
@@ -49,34 +50,24 @@ const Grids: React.FC = () => {
     data2 = a;
     data1 = d2;
   }
+
   const dates = data1.AverageDays.map(item => item.Date);
+  const count = dates.length;
+  const formatDate = (date: string) => {
+    const [_year, month, day] = date.split('/');
+    return `${month}/${day}`;
+  };
+  const startDate = dates.length > 0 ? formatDate(dates[dates.length - 1]) : '';
+  const endDate = dates.length > 0 ? formatDate(dates[0]) : '';
 
-    // 获取日期数量
-    const count = dates.length;
+  const displayText = count > 0 ? `${count}日平均(${startDate}-${endDate})` : '';
 
-    // 提取并格式化日期，去掉年份
-    const formatDate = (date: string) => {
-        const [_year, month, day] = date.split('/');
-        return `${month}/${day}`;
-    };
-
-    // 获取开始日期和结束日期，去掉年份
-    const startDate = dates.length > 0 ? formatDate(dates[dates.length - 1]) : '';
-    const endDate = dates.length > 0 ? formatDate(dates[0]) : '';
-
-    // 生成显示文本
-    const displayText = count > 0 ? `${count}日平均(${startDate}-${endDate})` : '';
-
-console.log(displayText);
   const TableRowComponent = ({ data, label }: { data: any; label: string }) => {
     const dataCopy = JSON.parse(JSON.stringify(data));
     if (settingsState.checkboxStates[2] && !settingsState.checkboxStates[0] &&
       (label == 'イブニング合計' || label == '前場合計' || label == '後場合計')
     ) {
       dataCopy.TodayData.Volume = '-'
-      // data.TodayData.Distribution = '-'
-      // data.TodayData.Cumulative = '-'
-      // data.TodayData.Difference = '-'
     } else {
     }
     return (
@@ -107,6 +98,115 @@ console.log(displayText);
     }
   }, [settingsState]);
   const headerTexts = ['時間', '出来高', '分布', '累計', '出来高', '分布', '累計', '差', '価格', '出来高', '場引けVWAP'];
+
+  const exportTableToCSV = () => {
+    const headers = ['', displayText, '', '', data1.Today, '', '', '', '時間帯別最多出来高·価格'];
+    const wrapValue = (value: string | number) => {
+      if (typeof value === 'string' && value.includes(',')) {
+        return `"${value}"`;
+      }
+      return value;
+    };
+    const csvRows: string[] = [];
+    csvRows.push(headers.join(','));
+    csvRows.push(headerTexts.join(','));
+    const totalRow = [
+      '合計',
+      wrapValue(data2.TotalFrame!.AverageDaysData.Volume),
+      wrapValue(data2.TotalFrame!.AverageDaysData.Cumulative),
+      wrapValue(data2.TotalFrame!.AverageDaysData.Distribution),
+      wrapValue(data2.TotalFrame!.TodayData.Volume),
+      wrapValue(data2.TotalFrame!.TodayData.Distribution),
+      wrapValue(data2.TotalFrame!.TodayData.Cumulative),
+      wrapValue(data2.TotalFrame!.TodayData.Difference!),
+      wrapValue(data2.TotalFrame!.MostVolumeAndPrice.Price),
+      wrapValue(data2.TotalFrame!.MostVolumeAndPrice.Volume),
+      wrapValue(data2.TotalFrame!.CloseVWAP)
+    ];
+    csvRows.push(totalRow.join(','));
+    const addRow = (label: string, data: any) => {
+      const row = [
+        label,
+        wrapValue(data.AverageDaysData.Volume),
+        wrapValue(data.AverageDaysData.Distribution),
+        wrapValue(data.AverageDaysData.Cumulative),
+        wrapValue(data.TodayData.Volume),
+        wrapValue(data.TodayData.Distribution),
+        wrapValue(data.TodayData.Cumulative),
+        wrapValue(data.TodayData.Difference),
+        wrapValue(data.MostVolumeAndPrice.Price),
+        wrapValue(data.MostVolumeAndPrice.Volume),
+        wrapValue(data.CloseVWAP)
+      ];
+      csvRows.push(row.join(','));
+    };
+
+    if (conditionSettingState.marketState.eveningOpening && data2.EveningOpenTickFrame) {
+      addRow('寄付', data2.EveningOpenTickFrame);
+    }
+    if (data2.EveningTickFrame) {
+      Object.entries(data2.EveningTickFrame!).forEach(([key, value]) => addRow(key, value));
+    }
+
+    if (conditionSettingState.marketState.eveningClose && data2.EveningCloseTickFrame) {
+      addRow('引け', data2.EveningCloseTickFrame);
+    }
+
+    if (data2.EveningCloseSessionFrame && (settingsState.checkboxStates[0] || settingsState.checkboxStates[2])) {
+      addRow('イブニング合計', data2.EveningCloseSessionFrame);
+    }
+    if (conditionSettingState.marketState.preMarketOpening && data2.AMOpenTickFrame) {
+      addRow('寄付', data2.AMOpenTickFrame);
+    }
+    if (data2.AMTickFrame) {
+      Object.entries(data2.AMTickFrame!).forEach(([key, value]) => addRow(key, value));
+    }
+    if (conditionSettingState.marketState.preMarketClose && data2.AMCloseTickFrame) {
+      addRow('引け', data2.AMCloseTickFrame);
+    }
+    if (data2.AMCloseSessionFrame && (settingsState.checkboxStates[0] || settingsState.checkboxStates[2])) {
+      addRow('前場合計', data2.AMCloseSessionFrame);
+    }
+    if (conditionSettingState.marketState.postMarketOpening && data2.PMOpenTickFrame) {
+      addRow('寄付', data2.PMOpenTickFrame);
+    }
+    if (data2.PMTickFrame) {
+      Object.entries(data2.PMTickFrame!).forEach(([key, value]) => addRow(key, value));
+    }
+    if (conditionSettingState.marketState.postMarketClose && data2.PMCloseTickFrame) {
+      addRow('引け', data2.PMCloseTickFrame);
+    }
+    if (data2.PMCloseSessionFrame && (settingsState.checkboxStates[0] || settingsState.checkboxStates[2])) {
+      addRow('後場合計', data2.PMCloseSessionFrame);
+    }
+
+    return csvRows.join('\n');
+  };
+  React.useEffect(() => {
+    if (isInitialized.current) {
+      setShouldDownload(true);
+    }
+  }, []);
+  React.useEffect(() => {
+    if (!isInitialized.current) {
+      isInitialized.current = true;
+      return;
+    }
+    if (shouldDownload && data2.TotalFrame !== undefined && [1, 2, 3, 4, 7, 8].includes(buttonName)) {
+      downloadCSV('grid-data.csv');
+    }
+  }, [griddownload]);
+
+  const downloadCSV = (filename: string) => {
+    const csvData = exportTableToCSV();
+    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', filename);
+    link.click();
+  };
+
   return (
     <Box className='grid-container'>
       <Grid container direction="column" spacing={0}>
@@ -116,24 +216,18 @@ console.log(displayText);
             <Table stickyHeader>
               <TableHead>
                 <TableRow>
-                  <TableCell className='table-title'>
-                  </TableCell>
+                  <TableCell className='table-title'> </TableCell>
                   <TableCell className='table-title' colSpan={3}>
-                    {count == 0 ? null:displayText}
+                    {count == 0 ? null : displayText}
                   </TableCell>
                   <TableCell className='table-title' colSpan={2}>
                     {data1.Today}
                   </TableCell>
-                 
-                  <TableCell className='table-title'>
-                  </TableCell>
-                  <TableCell className='table-title'>
-                  </TableCell>
+                  <TableCell className='table-title'></TableCell>
+                  <TableCell className='table-title'></TableCell>
                   <TableCell className='table-title' colSpan={2} id='table-title-right'>
                     時間帯別最多出来高·価格
                   </TableCell>
-                
-                
                 </TableRow>
                 <TableRow>
                   {headerTexts.map((text, index) => (
@@ -146,7 +240,6 @@ console.log(displayText);
                   ))}
                 </TableRow>
               </TableHead>
-
               <TableBody>
                 <TableRow>
                   <TableCell className="table-body-cell-a">合計</TableCell>
@@ -217,6 +310,7 @@ console.log(displayText);
         </Grid>
       </Grid>
     </Box>
+
   );
 };
 

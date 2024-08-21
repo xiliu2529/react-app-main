@@ -848,7 +848,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       enabled: false
     }
   };
-  console.log('settingsState.colors[7]',settingsState.colors);
   
   return (
     <div>
