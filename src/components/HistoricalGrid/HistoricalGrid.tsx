@@ -214,7 +214,7 @@ const HistoricalGrid: React.FC = () => {
 
   React.useEffect(() => {
     if (isInitialized.current) {
-      setShouldDownload(true); // 组件初始化完成后，允许下载
+      setShouldDownload(true); 
     }
   }, []); 
   React.useEffect(() => {

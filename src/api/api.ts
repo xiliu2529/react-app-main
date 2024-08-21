@@ -12,7 +12,6 @@ export const fetchData = async (): Promise<[]> => {
   }
 };
 
-// 定义发送 POST 请求的函数
 export const postData = async (data: object): Promise<[]> => {
   try {
     const response = await axios.post<[]>(POSTS_API_URL, data, {
