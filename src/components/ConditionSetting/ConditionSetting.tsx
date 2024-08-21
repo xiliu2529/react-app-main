@@ -31,7 +31,11 @@ const ConditionSetting: React.FC = () => {
   const [checkedState, setCheckedState] = React.useState<string[]>(['0', '0', '0']);
   const { setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
-  const [response, setResponse] = useState<any>(null);
+  const [_response, setResponse] = useState<any>(null);
+  const [validation, setValidation] = useState<{ error: boolean; helperText: string }>({
+    error: false,
+    helperText: '',
+  });
 
 
   const selectedStyle = {
@@ -242,7 +246,7 @@ const ConditionSetting: React.FC = () => {
 
   const validatePayload = (payload: RequestPayload): boolean => {
     if (!payload.Code) {
-      console.warn('コードが必須です');
+      setValidation({ error: true, helperText: 'コードを入力してください' })
       return false;
     }
     const category = payload.HistoricalSetting.Category;
@@ -258,9 +262,11 @@ const ConditionSetting: React.FC = () => {
       console.warn('開始日と終了日が必須です');
       return false;
     }
+    setValidation({ error: false, helperText: '' })
+
     return true;
   };
-  const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) =>{
+  const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setter(event.target.value);
   }
   const handleStartTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -413,16 +419,22 @@ const ConditionSetting: React.FC = () => {
           <Typography variant="body1" sx={{ fontSize: "10px" }}>銘柄入力</Typography>
           <TextField
             sx={{
-              width: '90px', height: '30px',
-              '& .MuiInputBase-root': { height: '100%', padding: '0 0px' }
+              width: '90px', height: '30px', pa: '20px',
+              '& .MuiInputBase-root': { height: '100%', padding: '0 0px', }, '& .MuiFormHelperText-root': {
+                whiteSpace: 'nowrap',
+                margin: '0 0px'
+              }
             }}
+            error={validation.error}
+            helperText={validation.helperText}
             value={inputValue}
             onChange={handleInputChange}
           />
 
+
         </Stack>
 
-        <div className='title-1'>期間設定</div>
+        <div className='title-1' id='title-1-2'>期間設定</div>
         <ToggleButtonGroup value={alignment} exclusive onChange={handleAlignment} aria-label="text alignment">
           <ToggleButton value="0" className="ToggleButton" sx={selectedStyle}>直近</ToggleButton>
           <ToggleButton value="1" className="ToggleButton" sx={selectedStyle}>開始日</ToggleButton>

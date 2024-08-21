@@ -6,6 +6,7 @@ import { useMyContext } from '../../contexts/MyContext';
 import a from '../../data/601.1/data3.json'
 import b from '../../data/101.1/data3.json'
 import c from '../../data/data3.json'
+import './Chart.css';
 
 interface ChartData {
   timeLabels: string[];
@@ -857,6 +858,10 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         label="当日の価格チャートを表示"
         labelPlacement="start"
       />
+
+      <button className='downloadChart'>ダウンロード</button>
+
+
       <div>
         {display ? (
           <>

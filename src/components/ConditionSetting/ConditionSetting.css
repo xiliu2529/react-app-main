@@ -3,7 +3,6 @@
 }
 .commonsp-top{
   height: 100%;
-  /* border: #f00909 1px solid; */
 }
 .commonsp {
     margin-top: 40px;
@@ -23,6 +22,11 @@
     font-weight:600 ; 
     padding: 8px;
 }
+#title-1-2{
+  margin-top: 10px;
+
+}
+
 
 .title-1::before {
     content: '';
