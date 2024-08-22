@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Highcharts from 'highcharts';
+
+import Exporting from 'highcharts/modules/exporting'; //1
+
 import { useMyContext } from '../../contexts/MyContext';
 import a from '../../data/601.1/data3.json'
 import b from '../../data/101.1/data3.json'
@@ -65,6 +68,14 @@ type TickFrame = {
 
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
   const { settingsState, conditionSettingState, requestPayload } = useMyContext();
+  const [showDownloadButton, setshowDownloadButton] = useState<boolean>(false);
+  const chartRef = useRef<Highcharts.Chart | null>(null);
+  const chartRef1 = useRef<Highcharts.Chart | null>(null);
+  const chartRef2 = useRef<Highcharts.Chart | null>(null);
+  //1
+  Exporting(Highcharts);
+
+
 
   let data3: TickFrame = {
     EveningOpenTickFrame: {
@@ -155,11 +166,11 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         }));
         todayCumulative = Object.values(data3.EveningTickFrame).map(tick => ({
           y: parseFloat(tick.TodayChart!.Cumulative),
-          color:  settingsState.colors[14]
+          color: settingsState.colors[14]
         }));
         closePrice = Object.values(data3.EveningTickFrame).map(tick => ({
           y: parseFloat(tick.TodayChart!.ClosePrice!),
-          color: settingsState.colors[16] 
+          color: settingsState.colors[16]
         }));
         historicalDistribution = Object.values(data3.EveningTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Distribution),
@@ -168,7 +179,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
         historicalCumulative = Object.values(data3.EveningTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Cumulative),
-          color: settingsState.colors[15] 
+          color: settingsState.colors[15]
         }));
       }
 
@@ -176,30 +187,30 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         timeLabels1 = Object.keys(data3.AMTickFrame).map(timeFrame => timeFrame.split('-')[0]);
         todayDistribution1 = Object.values(data3.AMTickFrame).map(tick => ({
           y: parseFloat(tick.TodayChart!.Distribution),
-          color: settingsState.colors[4] 
+          color: settingsState.colors[4]
         }));
         todayCumulative1 = Object.values(data3.AMTickFrame).map(tick => ({
           y: parseFloat(tick.TodayChart!.Cumulative),
-          color: settingsState.colors[14] 
+          color: settingsState.colors[14]
         }));
         closePrice1 = Object.values(data3.AMTickFrame).map(tick => ({
           y: parseFloat(tick.TodayChart!.ClosePrice!),
-          color: settingsState.colors[16] 
+          color: settingsState.colors[16]
         }));
         historicalDistribution1 = Object.values(data3.AMTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Distribution),
-          color: settingsState.colors[9] 
+          color: settingsState.colors[9]
         }));
         historicalCumulative1 = Object.values(data3.AMTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Cumulative),
-          color: settingsState.colors[15] 
+          color: settingsState.colors[15]
         }));
       }
       if (data3.PMTickFrame) {
         timeLabels2 = Object.keys(data3.PMTickFrame).map(timeFrames2 => timeFrames2.split('-')[0]);
         todayDistribution2 = Object.values(data3.PMTickFrame).map(tick => ({
           y: parseFloat(tick.TodayChart!.Distribution),
-          color: settingsState.colors[5] 
+          color: settingsState.colors[5]
         }));
         todayCumulative2 = Object.values(data3.PMTickFrame).map(tick => ({
           y: parseFloat(tick.TodayChart!.Cumulative),
@@ -207,15 +218,15 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         }));
         closePrice2 = Object.values(data3.PMTickFrame).map(tick => ({
           y: parseFloat(tick.TodayChart!.ClosePrice!),
-          color: settingsState.colors[16] 
+          color: settingsState.colors[16]
         }));
         historicalDistribution2 = Object.values(data3.PMTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Distribution),
-          color: settingsState.colors[10] 
+          color: settingsState.colors[10]
         }));
         historicalCumulative2 = Object.values(data3.PMTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Cumulative),
-          color: settingsState.colors[15] 
+          color: settingsState.colors[15]
         }));
       }
       return {
@@ -251,35 +262,35 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         todayDistribution: [
           {
             y: Number(data3.EveningOpenTickFrame!.TodayChart!.Distribution),
-            color: settingsState.colors[7] 
+            color: settingsState.colors[7]
           },
           ...prevState.todayDistribution
         ],
         todayCumulative: [
           {
             y: Number(data3.EveningOpenTickFrame!.TodayChart!.Cumulative),
-            color: settingsState.colors[14] 
+            color: settingsState.colors[14]
           },
           ...prevState.todayCumulative
         ],
         closePrice: [
           {
             y: Number(data3.EveningOpenTickFrame!.TodayChart!.ClosePrice!),
-            color: settingsState.colors[16] 
+            color: settingsState.colors[16]
           },
           ...prevState.closePrice
         ],
         historicalDistribution: [
           {
             y: Number(data3.EveningOpenTickFrame!.AverageDaysChart!.Distribution),
-            color: settingsState.colors[12] 
+            color: settingsState.colors[12]
           },
           ...prevState.historicalDistribution
         ],
         historicalCumulative: [
           {
             y: Number(data3.EveningOpenTickFrame!.AverageDaysChart!.Cumulative),
-            color: settingsState.colors[15] 
+            color: settingsState.colors[15]
           },
           ...prevState.historicalCumulative
         ],
@@ -293,14 +304,14 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
           ...prevState.todayDistribution,
           {
             y: Number(data3.EveningCloseTickFrame!.TodayChart!.Distribution),
-            color: settingsState.colors[8] 
+            color: settingsState.colors[8]
           },
         ],
         todayCumulative: [
           ...prevState.todayCumulative,
           {
             y: Number(data3.EveningCloseTickFrame!.TodayChart!.Cumulative),
-            color: settingsState.colors[14] 
+            color: settingsState.colors[14]
           }
 
         ],
@@ -308,7 +319,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
           ...prevState.closePrice,
           {
             y: Number(data3.EveningCloseTickFrame!.TodayChart!.ClosePrice!),
-            color: settingsState.colors[16] 
+            color: settingsState.colors[16]
           }
 
         ],
@@ -316,7 +327,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
           ...prevState.historicalDistribution,
           {
             y: Number(data3.EveningCloseTickFrame!.AverageDaysChart!.Distribution),
-            color: settingsState.colors[13] 
+            color: settingsState.colors[13]
           }
         ],
 
@@ -324,7 +335,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
           ...prevState.historicalCumulative,
           {
             y: Number(data3.EveningCloseTickFrame!.AverageDaysChart!.Cumulative),
-            color: settingsState.colors[15] 
+            color: settingsState.colors[15]
           }
 
         ],
@@ -340,14 +351,14 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         todayDistribution1: [
           {
             y: Number(data3.AMOpenTickFrame!.TodayChart!.Distribution),
-            color: settingsState.colors[7] 
+            color: settingsState.colors[7]
           },
           ...prevState.todayDistribution1
         ],
         todayCumulative1: [
           {
             y: Number(data3.AMOpenTickFrame!.TodayChart!.Cumulative),
-            color: settingsState.colors[14] 
+            color: settingsState.colors[14]
           },
           ...prevState.todayCumulative1
         ],
@@ -361,14 +372,14 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         historicalDistribution1: [
           {
             y: Number(data3.AMOpenTickFrame!.AverageDaysChart!.Distribution),
-            color: settingsState.colors[12] 
+            color: settingsState.colors[12]
           },
           ...prevState.historicalDistribution1
         ],
         historicalCumulative1: [
           {
             y: Number(data3.AMOpenTickFrame!.AverageDaysChart!.Cumulative),
-            color: settingsState.colors[15] 
+            color: settingsState.colors[15]
           },
           ...prevState.historicalCumulative1
         ],
@@ -382,28 +393,28 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         todayDistribution1: [...prevState.todayDistribution1,
         {
           y: Number(data3.AMCloseTickFrame!.TodayChart!.Distribution),
-          color: settingsState.colors[8]  
+          color: settingsState.colors[8]
         },
 
         ],
         todayCumulative1: [...prevState.todayCumulative1,
         {
           y: Number(data3.AMCloseTickFrame!.TodayChart!.Cumulative),
-          color: settingsState.colors[14] 
+          color: settingsState.colors[14]
         },
 
         ],
         closePrice1: [...prevState.closePrice1,
         {
           y: Number(data3.AMCloseTickFrame!.TodayChart!.ClosePrice!),
-          color: settingsState.colors[16] 
+          color: settingsState.colors[16]
         },
 
         ],
         historicalDistribution1: [...prevState.historicalDistribution1,
         {
           y: Number(data3.AMCloseTickFrame!.AverageDaysChart!.Distribution),
-          color: settingsState.colors[13] 
+          color: settingsState.colors[13]
         },
 
         ],
@@ -423,35 +434,35 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         todayDistribution2: [
           {
             y: Number(data3.PMOpenTickFrame!.TodayChart!.Distribution),
-            color: settingsState.colors[7] 
+            color: settingsState.colors[7]
           },
           ...prevState.todayDistribution2
         ],
         todayCumulative2: [
           {
             y: Number(data3.PMOpenTickFrame!.TodayChart!.Cumulative),
-            color: settingsState.colors[14] 
+            color: settingsState.colors[14]
           },
           ...prevState.todayCumulative2
         ],
         closePrice2: [
           {
             y: Number(data3.PMOpenTickFrame!.TodayChart!.ClosePrice!),
-            color: settingsState.colors[16] 
+            color: settingsState.colors[16]
           },
           ...prevState.closePrice2
         ],
         historicalDistribution2: [
           {
             y: Number(data3.PMOpenTickFrame!.AverageDaysChart!.Distribution),
-            color: settingsState.colors[12] 
+            color: settingsState.colors[12]
           },
           ...prevState.historicalDistribution2
         ],
         historicalCumulative2: [
           {
             y: Number(data3.PMOpenTickFrame!.AverageDaysChart!.Cumulative),
-            color: settingsState.colors[15] 
+            color: settingsState.colors[15]
           },
           ...prevState.historicalCumulative2
         ],
@@ -464,35 +475,35 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         todayDistribution2: [...prevState.todayDistribution2,
         {
           y: Number(data3.PMCloseTickFrame!.TodayChart!.Distribution),
-          color: settingsState.colors[8] 
+          color: settingsState.colors[8]
         },
 
         ],
         todayCumulative2: [...prevState.todayCumulative2,
         {
           y: Number(data3.PMCloseTickFrame!.TodayChart!.Cumulative),
-          color: settingsState.colors[14] 
+          color: settingsState.colors[14]
         },
 
         ],
         closePrice2: [...prevState.closePrice2,
         {
           y: Number(data3.PMCloseTickFrame!.TodayChart!.ClosePrice!),
-          color: settingsState.colors[16] 
+          color: settingsState.colors[16]
         },
 
         ],
         historicalDistribution2: [...prevState.historicalDistribution2,
         {
           y: Number(data3.PMCloseTickFrame!.AverageDaysChart!.Distribution),
-          color: settingsState.colors[13] 
+          color: settingsState.colors[13]
         },
 
         ],
         historicalCumulative2: [...prevState.historicalCumulative2,
         {
           y: Number(data3.PMCloseTickFrame!.AverageDaysChart!.Cumulative),
-          color: settingsState.colors[15] 
+          color: settingsState.colors[15]
         },
 
         ],
@@ -541,9 +552,11 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     const container = document.getElementById('chart-container');
     if (container) {
       container.innerHTML = '';
-      Highcharts.chart('chart-container', {
+      chartRef.current = Highcharts.chart('chart-container', {
         ...chartOptions, accessibility: {
           enabled: false
+        }, exporting: {
+          enabled: true
         }, chart: { height: props.height, width: props.width, backgroundColor: settingsState.colors[2] }
       });
     }
@@ -553,7 +566,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
       if (container1) {
         container1.innerHTML = '';
-        Highcharts.chart('chart-container1', {
+        chartRef1.current = Highcharts.chart('chart-container1', {
           ...chartOptions1, accessibility: {
             enabled: false
           }, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width, backgroundColor: settingsState.colors[2] }
@@ -561,7 +574,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       }
       if (container2) {
         container2.innerHTML = '';
-        Highcharts.chart('chart-container2', {
+        chartRef2.current = Highcharts.chart('chart-container2', {
           ...chartOptions2, accessibility: {
             enabled: false
           }, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width, backgroundColor: settingsState.colors[2] }
@@ -569,7 +582,27 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       }
     }
 
-  }, [display, settingsState, conditionSettingState, chartState, chartData, checked]);
+  }, [settingsState, conditionSettingState, chartState, chartData, checked]);
+
+  const handleDownload = (type: string) => {
+    if (chartRef.current) {
+      chartRef.current.exportChart({ type });
+    }
+    if (chartRef1.current) {
+      chartRef1.current.exportChart({ type });
+    }
+    setTimeout(() => {
+  if (chartRef2.current) {
+      chartRef2.current.exportChart({ type });
+    }
+
+    }, 5000); // 延迟1000毫秒
+  };
+ 
+
+
+
+
 
   const chartOptions: Highcharts.Options = {
     chart: {
@@ -654,7 +687,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       yAxis: 0,
       name: '当日 累計',
       data: chartState.todayCumulative,
-      color:settingsState.colors[14],
+      color: settingsState.colors[14],
       tooltip: {
         valueSuffix: '%'
       }
@@ -663,13 +696,13 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       type: 'spline',
       yAxis: 1,
       name: '過去平均 累計',
-      color:settingsState.colors[16],
+      color: settingsState.colors[16],
       data: chartState.historicalCumulative
     }, {
       showInLegend: false,
       type: 'spline',
       name: '終値',
-      color:settingsState.colors[16],
+      color: settingsState.colors[16],
       yAxis: 2,
       data: chartState.ClosePrice,
       visible: checked,
@@ -677,6 +710,14 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     }]
     , credits: {
       enabled: false
+    },
+    exporting: {
+      enabled: true,
+      buttons: {
+        contextButton: {
+          menuItems: ['viewFullscreen', 'printChart', 'downloadPNG', 'downloadJPEG', 'downloadPDF', 'downloadSVG']
+        }
+      }
     }
   };
 
@@ -759,7 +800,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       type: 'spline',
       yAxis: 1,
       name: '当日 累計',
-      color:settingsState.colors[14],
+      color: settingsState.colors[14],
       data: chartState.todayCumulative,
       tooltip: {
         valueSuffix: '%'
@@ -777,7 +818,16 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     }
     ], credits: {
       enabled: false
+    },
+    exporting: {
+      enabled: true,
+      buttons: {
+        contextButton: {
+          menuItems: ['viewFullscreen', 'printChart', 'downloadPNG', 'downloadJPEG', 'downloadPDF', 'downloadSVG']
+        }
+      }
     }
+
   };
 
   const chartOptions2: Highcharts.Options = {
@@ -822,7 +872,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       }
     }],
     tooltip: {
-      shared: true
+      enabled: false
     },
     legend: {
       align: 'left',
@@ -841,31 +891,47 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         type: 'spline',
         yAxis: 1,
         name: '過去平均 累計',
-        color:settingsState.colors[15],
+        color: settingsState.colors[15],
         data: chartState.historicalCumulative,
       }
     ]
     , credits: {
       enabled: false
+    },
+    exporting: {
+      enabled: true,
+      buttons: {
+        contextButton: {
+          menuItems: ['viewFullscreen', 'printChart', 'downloadPNG', 'downloadJPEG', 'downloadPDF', 'downloadSVG']
+        }
+      }
     }
   };
-  
+
   return (
     <div>
-      <FormControlLabel
-        className='chart-top'
-        control={<Checkbox checked={checked} onChange={handleChange} />}
-        label="当日の価格チャートを表示"
-        labelPlacement="start"
-      />
+      <div className="container-chart">
+        <FormControlLabel
+          className='chart-top'
+          control={<Checkbox checked={checked} onChange={handleChange} />}
+          label="当日の価格チャートを表示"
+          labelPlacement="start"
+        />
 
-      <button className='downloadChart'>ダウンロード</button>
-
+        <span className="downloadChart" onClick={() => setshowDownloadButton(!showDownloadButton)} />
+        {showDownloadButton && (
+          <>
+            <span className="downloadPNG" onClick={() => handleDownload('image/png')} />
+            <span className="downloadJPG" onClick={() => handleDownload('image/jpeg')} />
+            <span className="downloadSVG" onClick={() => handleDownload('image/svg+xml')} />
+          </>
+        )}
+      </div>
 
       <div>
         {display ? (
           <>
-            <div id="chart-container1" className='chart'></div>
+            <div id="chart-container1" className="chart" ></div>
             <div id="chart-container2" className='chart'></div>
           </>
         ) : (

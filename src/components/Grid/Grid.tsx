@@ -113,8 +113,8 @@ const Grids: React.FC = () => {
     const totalRow = [
       '合計',
       wrapValue(data2.TotalFrame!.AverageDaysData.Volume),
-      wrapValue(data2.TotalFrame!.AverageDaysData.Cumulative),
       wrapValue(data2.TotalFrame!.AverageDaysData.Distribution),
+      wrapValue(data2.TotalFrame!.AverageDaysData.Cumulative),
       wrapValue(data2.TotalFrame!.TodayData.Volume),
       wrapValue(data2.TotalFrame!.TodayData.Distribution),
       wrapValue(data2.TotalFrame!.TodayData.Cumulative),

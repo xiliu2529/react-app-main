@@ -163,8 +163,8 @@ const HistoricalGrid: React.FC = () => {
   const extractTableData = () => {
     const rows: any[] = [];
     rows.push(['', ...dates.flatMap(date => [`${date}`, `${date}`])]);
-    rows.push(['时间', ...dates.flatMap(_date => [`出来高`, `分布`])]);
-    const totalFrameRow = ['合计', ...totalFrame.flatMap(item => [item.volume, item.distribution])];
+    rows.push(['時間', ...dates.flatMap(_date => [`出来高`, `分布`])]);
+    const totalFrameRow = ['合計', ...totalFrame.flatMap(item => [item.volume, item.distribution])];
     rows.push(totalFrameRow);
     const addTimeSlotRows = (slots: string[], frameType: string) => {
       slots.forEach(timeSlot => {

@@ -255,7 +255,7 @@ const SettingsDialog = () => {
                                             <p className="inline-element">並べて表示</p>
                                             <FormControlLabel
                                                 control={<Checkbox checked={checkboxStates[5]} onChange={() => handleCheckboxChange(5)} />}
-                                                label="当日の色设定を使用する"
+                                                label="当日の色設定を使用する"
                                                 className="inline-element"
                                             />
                                         </div>
@@ -263,7 +263,7 @@ const SettingsDialog = () => {
                                             初期値に戻す</Button>
                                         <FormControlLabel
                                             control={<Checkbox checked={checkboxStates[6]} onChange={() => handleCheckboxChange(6)} />}
-                                            label="すベての面面に適用"
+                                            label="すベての画面に適用"
                                         />
                                     </div>
                                 </Grid>
