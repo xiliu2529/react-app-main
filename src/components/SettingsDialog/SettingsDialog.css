@@ -2,27 +2,18 @@
   font-size: 13px;
 }
 
-.main-container {
-  margin-left: 10px;
-  margin-right: 10px;
-  min-width: 320px; 
-  max-width: 1200px; 
-}
 
 .inline-container {
   display: flex;
   align-items: center;
   padding-left: 30px;
   padding-right: 10px;
-  min-width: 100px; 
 }
 
 .wrapper {
   display: flex;
   align-items: center;
   flex-wrap: wrap; 
-  min-width: 200px;
-  max-width: 100%;
 }
 
 .wrapper p {
@@ -31,43 +22,36 @@
 }
 
 .color-picker-column input {
-  margin-top: 2px;
+
+  margin:0px 10px;
   width: 80px;
-  min-width: 50px;
-  max-width: 120px;
 }
 
 .text-column {
   margin-top: 10px;
+  width: 100px;
   font-size: 14px; 
   margin-bottom: 9px;
-  min-width: 100px;
-  max-width: 400px; 
 }
 
-.header-p {
-  white-space: nowrap; 
-  margin: 0;
+.header-container {
+  margin-left:10px ;
+  display: flex;
+  align-items: center;
+}
+.header-p{
   text-align: center;
-  margin-top: -20px;
-
-  margin-bottom: 10px;
-  min-width: 50px;
-  max-width: 600px;
+  margin:0px 10px;
+  width: 80px;
 }
-
 .container {
   display: flex;
   align-items: center;
   flex-wrap: wrap; 
-  min-width: 300px;
-  max-width: 100%; 
 }
 
 .inline-element {
   margin-right: 10px; 
-  min-width: 100px; 
-  max-width: 200px;
 }
 
 .settings-icon {
@@ -76,8 +60,6 @@
   background-repeat: no-repeat;
   cursor: pointer;
   padding-right: 30px; 
-  min-width: 30px;
-  max-width: 60px; 
 }
 
 
@@ -86,8 +68,6 @@
   font-weight: bold; 
   font-size: 1.2em; 
   padding-left: 10px; 
-  min-width: 150px; 
-  max-width: 100%; 
 }
 
 .category-title::before {
@@ -96,7 +76,6 @@
   top: 0;
   left: 0;
   width: 5px;
-  height: 100%; 
   background-color: #143867; 
   border-radius: 5px; 
 }
@@ -104,8 +83,6 @@
 .sub-title {
   font-weight: bold; 
   margin: 5px;
-  min-width: 100px;
-  max-width: 300px;
 }
 
 .custom-button {
@@ -113,6 +90,4 @@
   color: gray;
   border: 2px solid gray;
   margin-right: 30px;
-  min-width: 80px;
-  max-width: 150px;
 }

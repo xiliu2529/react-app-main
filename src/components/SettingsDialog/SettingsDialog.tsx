@@ -17,7 +17,7 @@ type CheckboxState = boolean[];
 type RadioValue = string[];
 type ColorValue = string[];
 const SettingsDialog = () => {
-    const { setSettingsState} = useMyContext();
+    const { setSettingsState } = useMyContext();
     const [open, setOpen] = useState(false); // ダイアログの開閉状態を管理する状態を定義
     const [checkboxStates, setCheckboxStates] = useState<CheckboxState>(
         Array(7).fill(false) // 7つのチェックボックスの初期状態をすべて未選択にする
@@ -82,15 +82,15 @@ const SettingsDialog = () => {
             <Dialog open={open} onClose={() => handleClose(false)} maxWidth="lg" fullWidth sx={{
                 zIndex: 9999,
                 '& .MuiDialog-paper': {
-                    width: '80%',
-                    transform: 'scale(0.9)',
+                    minWidth: '1300px',
+                    transform: 'scale(0.8)',
                 }
             }}>
                 <DialogTitle sx={{ backgroundColor: '#143867', color: '#fff' }}>オプション設定</DialogTitle>
                 <DialogContent dividers>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <FormControl component="fieldset" sx={{ width: '89%' }}>
-                            <Grid className='main-container' container spacing={2}>
+                        <FormControl component="fieldset" sx={{ width: '900px', }}>
+                            <Grid className='main-container' container spacing={2} wrap="nowrap" >
                                 <Grid item xs={12} sm={6} className='left-container'>
                                     <p className='sub-title'>グリッド</p>
                                     <FormControlLabel
@@ -153,7 +153,7 @@ const SettingsDialog = () => {
                                     />
                                 </Grid >
 
-                                <Grid item xs={12} sm={6} className='right-container'>
+                                <Grid item xs={10} sm={6} className='right-container'>
 
                                     <p className='category-title'>色</p>
                                     <p className='sub-title'>グリッド</p>
@@ -182,54 +182,62 @@ const SettingsDialog = () => {
                                         </div>
                                         <p> 分布</p>
                                         <div>
-                                            <div style={{ border: '1px solid #ccc', borderRadius: '5px', padding: '10px' }}>
-                                                <Grid container spacing={2}>
-                                                    <Grid item xs={12}>
-                                                    </Grid>
-                                                    <Grid item xs={2.5} >
-                                                        <div className="text-column">前場</div>
-                                                        <div className="text-column">後場</div>
-                                                        <div className="text-column">イブニング</div>
-                                                        <div className="text-column">寄付</div>
-                                                        <div className="text-column">引け</div>
-                                                    </Grid>
-                                                    <Grid item xs={2.5}>
-                                                        <p className="header-p">当日</p>
-                                                        <div className="color-picker-column">
-                                                            <input type="color" value={colors[4]} onChange={(event) => handleColorChange(4, event.target.value)} />
-                                                        </div>
-                                                        <div className="color-picker-column">
-                                                            <input type="color" value={colors[5]} onChange={(event) => handleColorChange(5, event.target.value)} />
-                                                        </div>
-                                                        <div className="color-picker-column">
-                                                            <input type="color" value={colors[6]} onChange={(event) => handleColorChange(6, event.target.value)} />
-                                                        </div>
-                                                        <div className="color-picker-column">
-                                                            <input type="color" value={colors[7]} onChange={(event) => handleColorChange(7, event.target.value)} />
-                                                        </div>
-                                                        <div className="color-picker-column">
-                                                            <input type="color" value={colors[8]} onChange={(event) => handleColorChange(8, event.target.value)} />
-                                                        </div>
-                                                    </Grid>
-                                                    <Grid item xs={2.5}>
-                                                        <p className="header-p">過去平均</p>
-                                                        <div className="color-picker-column">
-                                                            <input type="color" value={colors[9]} onChange={(event) => handleColorChange(9, event.target.value)} />
-                                                        </div>
-                                                        <div className="color-picker-column">
-                                                            <input type="color" value={colors[10]} onChange={(event) => handleColorChange(10, event.target.value)} />
-                                                        </div>
-                                                        <div className="color-picker-column">
-                                                            <input type="color" value={colors[11]} onChange={(event) => handleColorChange(11, event.target.value)} />
-                                                        </div>
-                                                        <div className="color-picker-column">
-                                                            <input type="color" value={colors[12]} onChange={(event) => handleColorChange(12, event.target.value)} />
-                                                        </div>
-                                                        <div className="color-picker-column">
-                                                            <input type="color" value={colors[13]} onChange={(event) => handleColorChange(13, event.target.value)} />
-                                                        </div>
-                                                    </Grid>
-                                                </Grid>
+                                            <div style={{ border: '1px solid #ccc', borderRadius: '5px', padding: '10px' ,minWidth:'400px'}}>
+                                                <div className="header-container">
+                                                <div className="text-column"></div>
+                                                    <p className="header-p">当日</p>
+                                                    <p className="header-p">過去平均</p>
+                                                </div>
+
+                                                <div className="header-container">
+                                                <div className="text-column">前場</div>
+                                                <div className="color-picker-column">
+                                                    <input type="color" value={colors[4]} onChange={(event) => handleColorChange(4, event.target.value)} />
+                                                </div>
+                                                <div className="color-picker-column">
+                                                    <input type="color" value={colors[9]} onChange={(event) => handleColorChange(9, event.target.value)} />
+                                                </div>
+                                                </div>
+                                                
+                                                <div className="header-container">
+                                                <div className="text-column">後場</div>
+                                                <div className="color-picker-column">
+                                                    <input type="color" value={colors[5]} onChange={(event) => handleColorChange(5, event.target.value)} />
+                                                </div>
+                                                <div className="color-picker-column">
+                                                    <input type="color" value={colors[10]} onChange={(event) => handleColorChange(10, event.target.value)} />
+                                                </div>
+                                                </div>
+                                                <div className="header-container">
+                                                <div className="text-column">イブニング</div>
+                                                <div className="color-picker-column">
+                                                    <input type="color" value={colors[6]} onChange={(event) => handleColorChange(6, event.target.value)} />
+                                                </div>
+
+                                                <div className="color-picker-column">
+                                                    <input type="color" value={colors[11]} onChange={(event) => handleColorChange(11, event.target.value)} />
+                                                </div>
+                                                </div>
+                                                <div className="header-container">
+                                                <div className="text-column">寄付</div>
+                                                <div className="color-picker-column">
+                                                    <input type="color" value={colors[7]} onChange={(event) => handleColorChange(7, event.target.value)} />
+                                                </div>
+                                                <div className="color-picker-column">
+                                                    <input type="color" value={colors[12]} onChange={(event) => handleColorChange(12, event.target.value)} />
+                                                </div>
+                                                </div>
+                                                <div className="header-container">
+                                                <div className="text-column">引け</div>
+                                                <div className="color-picker-column">
+                                                    <input type="color" value={colors[8]} onChange={(event) => handleColorChange(8, event.target.value)} />
+                                                </div>
+
+                                                <div className="color-picker-column">
+                                                    <input type="color" value={colors[13]} onChange={(event) => handleColorChange(13, event.target.value)} />
+                                                </div>
+                                                </div>
+
                                             </div>
                                             <div className="wrapper">
                                                 <p>累計</p>
