@@ -28,7 +28,7 @@ const ConditionSetting: React.FC = () => {
   const [startDate, setstartDate] = useState<string>('');
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
-  const [checkedState, setCheckedState] = React.useState<string[]>(['0', '0', '0']);
+  const [checkedState, setCheckedState] = React.useState<string[]>(['1', '1', '1']);
   const { setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [_response, setResponse] = useState<any>(null);
@@ -64,7 +64,7 @@ const ConditionSetting: React.FC = () => {
     setInputValue(event.target.value);
   };
   const handleIncrement = () => setDays(prev => prev + 1);
-  const handleDecrement = () => setDays(prev => (prev > 0 ? prev - 1 : prev));
+  const handleDecrement = () => setDays(prev => (prev > 1 ? prev - 1 : prev));
   const handleChange = (event: SelectChangeEvent) => {
     setminutes(event.target.value as string)
     if (event.target.value == '0') {
@@ -267,8 +267,18 @@ const ConditionSetting: React.FC = () => {
     return true;
   };
   const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    setter(event.target.value);
+    const today = new Date().toISOString().split('T')[0];
+    if (setter === setstartDate) {
+      if (today > event.target.value) {
+        setter(today);
+      }
+    } else setter(event.target.value);
+
+
+
   }
+  console.log('startTime',startTime);
+  
   const handleStartTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newStartTime = event.target.value;
     if (!endTime || newStartTime <= endTime) {
@@ -284,6 +294,12 @@ const ConditionSetting: React.FC = () => {
   };
   const sqhandleChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedState(prevState => {
+      const checkedCount = prevState.filter(value => value === '1').length;
+
+      if (checkedCount === 1 && !event.target.checked) {
+        return prevState;
+      }
+
       const newState = [...prevState];
       newState[index] = event.target.checked ? '1' : '0';
       return newState;

@@ -23,7 +23,8 @@ const SettingsDialog = () => {
         Array(7).fill(false) // 7つのチェックボックスの初期状態をすべて未選択にする
     );
     // 単一選択ボックスの状態を管理するために配列を使用
-    const [radioValues, setRadioValues] = useState<RadioValue>(['0', 'Arrange']);
+    const [radioValues, setRadioValues] = useState<RadioValue>(['0', '0']);
+
     // 色選択ボックスの状態を管理するために配列を使用
     const [colors, setColors] = useState<ColorValue>([
         '#FFFFFF', '#000000', '#FFFFFF', '#000000', '#d22331', '#d22331',
@@ -68,7 +69,7 @@ const SettingsDialog = () => {
     const handleButtonClick = () => {
         // ボタンクリック時の処理
         setCheckboxStates(Array(7).fill(false));
-        setRadioValues(['0', 'Arrange']);
+        setRadioValues(['0', '0']);
         setColors([
             '#FFFFFF', '#000000', '#FFFFFF', '#000000', '#d22331', '#d22331',
             '#d22331', '#d22331', '#d22331', '#52a69f', '#52a69f', '#52a69f',
@@ -143,8 +144,8 @@ const SettingsDialog = () => {
                                             marginLeft: '20px'
                                         }}
                                     >
-                                        <FormControlLabel value="Arrange" control={<Radio />} label="並ベて表示" />
-                                        <FormControlLabel value="Overlay" control={<Radio />} label="重ねて表示" />
+                                        <FormControlLabel value="0" control={<Radio />} label="並ベて表示" />
+                                        <FormControlLabel value="1" control={<Radio />} label="重ねて表示" />
                                     </RadioGroup>
                                     <FormControlLabel
                                         control={<Checkbox checked={checkboxStates[4]} onChange={() => handleCheckboxChange(4)} />}

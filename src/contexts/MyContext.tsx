@@ -24,7 +24,7 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [buttonName, setbuttonName] = useState<number>(1);
   const [settingsState, setSettingsState] = useState<SettingsState>({
     checkboxStates: Array(7).fill(false), 
-    radioValues: ['0', 'Arrange'], 
+    radioValues: ['0', '0'], 
     colors: [
       '#FFFFFF', '#000000', '#FFFFFF', '#000000', '#d22331', '#d22331',
       '#d22331', '#d22331', '#d22331', '#52a69f', '#52a69f', '#52a69f',
@@ -108,9 +108,9 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
           DateTo: today,
           Days: '10',
           SQ: {
-            LargeSQ: '',
-            SmallSQ: '',
-            WeeklySQ: '',
+            LargeSQ: '1',
+            SmallSQ: '1',
+            WeeklySQ: '1',
           },
         },
       },

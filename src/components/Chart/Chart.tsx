@@ -3,7 +3,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Highcharts from 'highcharts';
 
-import Exporting from 'highcharts/modules/exporting'; //1
+import Exporting from 'highcharts/modules/exporting';
 
 import { useMyContext } from '../../contexts/MyContext';
 import a from '../../data/601.1/data3.json'
@@ -68,13 +68,11 @@ type TickFrame = {
 
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
   const { settingsState, conditionSettingState, requestPayload } = useMyContext();
-  const [showDownloadButton, setshowDownloadButton] = useState<boolean>(false);
+  // const [showDownloadButton, setshowDownloadButton] = useState<boolean>(false);
   const chartRef = useRef<Highcharts.Chart | null>(null);
   const chartRef1 = useRef<Highcharts.Chart | null>(null);
   const chartRef2 = useRef<Highcharts.Chart | null>(null);
-  //1
   Exporting(Highcharts);
-
 
 
   let data3: TickFrame = {
@@ -132,7 +130,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
-  let display = settingsState.radioValues[1] === "Arrange"
+  let display = settingsState.radioValues[1] === "0"
 
   useEffect(() => {
     const processData = () => {
@@ -548,60 +546,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     });
   }, [chartData]);
 
-  useEffect(() => {
-    const container = document.getElementById('chart-container');
-    if (container) {
-      container.innerHTML = '';
-      chartRef.current = Highcharts.chart('chart-container', {
-        ...chartOptions, accessibility: {
-          enabled: false
-        }, exporting: {
-          enabled: true
-        }, chart: { height: props.height, width: props.width, backgroundColor: settingsState.colors[2] }
-      });
-    }
-    if (display) {
-      const container1 = document.getElementById('chart-container1');
-      const container2 = document.getElementById('chart-container2');
-
-      if (container1) {
-        container1.innerHTML = '';
-        chartRef1.current = Highcharts.chart('chart-container1', {
-          ...chartOptions1, accessibility: {
-            enabled: false
-          }, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width, backgroundColor: settingsState.colors[2] }
-        });
-      }
-      if (container2) {
-        container2.innerHTML = '';
-        chartRef2.current = Highcharts.chart('chart-container2', {
-          ...chartOptions2, accessibility: {
-            enabled: false
-          }, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width, backgroundColor: settingsState.colors[2] }
-        });
-      }
-    }
-
-  }, [settingsState, conditionSettingState, chartState, chartData, checked]);
-
-  const handleDownload = (type: string) => {
-    if (chartRef.current) {
-      chartRef.current.exportChart({ type });
-    }
-    if (chartRef1.current) {
-      chartRef1.current.exportChart({ type });
-    }
-    setTimeout(() => {
-  if (chartRef2.current) {
-      chartRef2.current.exportChart({ type });
-    }
-
-    }, 5000); // 延迟1000毫秒
-  };
- 
-
-
-
 
 
   const chartOptions: Highcharts.Options = {
@@ -713,9 +657,11 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     },
     exporting: {
       enabled: true,
+      fallbackToExportServer: false,
       buttons: {
         contextButton: {
-          menuItems: ['viewFullscreen', 'printChart', 'downloadPNG', 'downloadJPEG', 'downloadPDF', 'downloadSVG']
+          menuItems: ['viewFullscreen', 'printChart', 'downloadPNG', 'downloadJPEG', 'downloadPDF', 'downloadSVG'],
+          y: 10,
         }
       }
     }
@@ -821,9 +767,11 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     },
     exporting: {
       enabled: true,
+      fallbackToExportServer: false,
       buttons: {
         contextButton: {
-          menuItems: ['viewFullscreen', 'printChart', 'downloadPNG', 'downloadJPEG', 'downloadPDF', 'downloadSVG']
+          menuItems: ['viewFullscreen', 'printChart', 'downloadPNG', 'downloadJPEG', 'downloadPDF', 'downloadSVG'],
+          y: 10
         }
       }
     }
@@ -900,14 +848,64 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     },
     exporting: {
       enabled: true,
+      fallbackToExportServer: false,
       buttons: {
         contextButton: {
-          menuItems: ['viewFullscreen', 'printChart', 'downloadPNG', 'downloadJPEG', 'downloadPDF', 'downloadSVG']
+          menuItems: ['viewFullscreen', 'printChart', 'downloadPNG', 'downloadJPEG', 'downloadPDF', 'downloadSVG'],
+          y: 10
         }
       }
     }
   };
 
+  useEffect(() => {
+    const container = document.getElementById('chart-container');
+    const container1 = document.getElementById('chart-container1');
+    const container2 = document.getElementById('chart-container2');
+
+    if (container) {
+      container.innerHTML = '';
+      chartRef.current = Highcharts.chart('chart-container', {
+        ...chartOptions, accessibility: {
+          enabled: false
+        },  chart: { height: props.height, width: props.width, backgroundColor: settingsState.colors[2] }
+      });
+    }
+    if (container1) {
+      container1.innerHTML = '';
+      chartRef1.current = Highcharts.chart('chart-container1', {
+        ...chartOptions1, accessibility: {
+          enabled: false
+        }, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width, backgroundColor: settingsState.colors[2] }
+      });
+    }
+    if (container2) {
+      container2.innerHTML = '';
+      chartRef2.current = Highcharts.chart('chart-container2', {
+        ...chartOptions2, accessibility: {
+          enabled: false
+        }, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width, backgroundColor: settingsState.colors[2] }
+      });
+    }
+
+  }, [settingsState, conditionSettingState, chartState, chartData, checked]);
+
+  // const handleDownload = (type: string) => {
+  //   if (chartRef.current && !display) {
+  //     // @ts-ignore
+  //     chartRef.current.exportChart({ type });
+  //   }
+  //   if (chartRef1.current && display) {
+  //     // @ts-ignore
+  //     chartRef1.current.exportChart({ type });
+  //   }
+  //   setTimeout(() => {
+  //     if (chartRef2.current && display) {
+  //       // @ts-ignore
+  //       chartRef2.current.exportChart({ type });
+  //     }
+  //   }, 3000);
+  // };
   return (
     <div>
       <div className="container-chart">
@@ -918,14 +916,14 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
           labelPlacement="start"
         />
 
-        <span className="downloadChart" onClick={() => setshowDownloadButton(!showDownloadButton)} />
-        {showDownloadButton && (
+        {/* <span className="downloadChart" onClick={() => setshowDownloadButton(!showDownloadButton)} /> */}
+        {/* {showDownloadButton && (
           <>
             <span className="downloadPNG" onClick={() => handleDownload('image/png')} />
             <span className="downloadJPG" onClick={() => handleDownload('image/jpeg')} />
             <span className="downloadSVG" onClick={() => handleDownload('image/svg+xml')} />
           </>
-        )}
+        )} */}
       </div>
 
       <div>
