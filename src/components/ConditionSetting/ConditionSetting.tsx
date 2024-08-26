@@ -267,7 +267,6 @@ const ConditionSetting: React.FC = () => {
       setValidation({ error: false, helperText: '' })
     }
 
-    if (category === '1') {
       if (DateFrom > today.split('-').join('/')) {
         seterrorDate(true)
         return false;
@@ -278,7 +277,6 @@ const ConditionSetting: React.FC = () => {
         console.warn('開始日が必須です');
         return false;
       }
-    }
     if (category === '2' && !DateTo) {
       console.warn('終了日が必須です');
       return false;
