@@ -1,4 +1,4 @@
-import { TextField, Box, Grid, Typography, Button, Stack, ToggleButton, ToggleButtonGroup, MenuItem, Checkbox, Select, FormControlLabel } from '@mui/material';
+import { TextField, Box, Grid, Typography, Button, Stack, ToggleButton, ToggleButtonGroup, MenuItem, Checkbox, Select, FormControlLabel, FormHelperText, FormControl } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
 import './ConditionSetting.css';
@@ -32,10 +32,15 @@ const ConditionSetting: React.FC = () => {
   const { setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [_response, setResponse] = useState<any>(null);
+  const [errorSQ, setErrorSQ] = useState<boolean>(false);
+  const [errorDate, seterrorDate] = useState<boolean>(false);
+  const [errorTime, seterrorTime] = useState<boolean>(false);
+
   const [validation, setValidation] = useState<{ error: boolean; helperText: string }>({
     error: false,
     helperText: '',
   });
+
 
 
   const selectedStyle = {
@@ -213,6 +218,9 @@ const ConditionSetting: React.FC = () => {
             }
           };
           loadPosts();
+
+        } else {
+
         }
       }
     }
@@ -245,61 +253,81 @@ const ConditionSetting: React.FC = () => {
 
 
   const validatePayload = (payload: RequestPayload): boolean => {
+    const category = payload.HistoricalSetting.Category;
+    const DateTo = payload.HistoricalSetting.Range.DateTo
+    const DateFrom = payload.HistoricalSetting.Range.DateFrom
+    const timefrom = payload.CalculationSetting.Range.TimeFrom
+    const timeTo = payload.CalculationSetting.Range.TimeTo
+    console.log('category', category);
+
     if (!payload.Code) {
       setValidation({ error: true, helperText: 'コードを入力してください' })
       return false;
+    } else {
+      setValidation({ error: false, helperText: '' })
     }
-    const category = payload.HistoricalSetting.Category;
-    if (category === '1' && !payload.HistoricalSetting.Range.DateFrom) {
-      console.warn('開始日が必須です');
-      return false;
+
+    if (category === '1') {
+      if (DateFrom > today.split('-').join('/')) {
+        seterrorDate(true)
+        return false;
+      } else {
+        seterrorDate(false)
+      }
+      if (!DateFrom) {
+        console.warn('開始日が必須です');
+        return false;
+      }
     }
-    if (category === '2' && !payload.HistoricalSetting.Range.DateTo) {
+    if (category === '2' && !DateTo) {
       console.warn('終了日が必須です');
       return false;
     }
-    if (category === '3' && !payload.HistoricalSetting.Range.DateTo && !payload.HistoricalSetting.Range.DateFrom) {
-      console.warn('開始日と終了日が必須です');
-      return false;
+    if (category === '3') {
+      if (DateTo < DateFrom) {
+        seterrorDate(true)
+        return false;
+      } else {
+        seterrorDate(false)
+      }
     }
-    setValidation({ error: false, helperText: '' })
+
+    if (category === '4') {
+      const sq = payload.HistoricalSetting.Range.SQ;
+      if (sq.LargeSQ === '0' && sq.SmallSQ === '0' && sq.WeeklySQ === '0') {
+        setErrorSQ(true)
+        return false;
+      } else {
+        setErrorSQ(false)
+      }
+    }
+    if(timefrom > timeTo){
+      seterrorTime(true)
+    }else{
+      seterrorTime(false)
+    }
+
+
 
     return true;
   };
   const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    const today = new Date().toISOString().split('T')[0];
-    if (setter === setstartDate) {
-      if (today > event.target.value) {
-        setter(today);
-      }
-    } else setter(event.target.value);
-
-
-
+    setter(event.target.value);
   }
-  console.log('startTime',startTime);
-  
+
   const handleStartTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newStartTime = event.target.value;
-    if (!endTime || newStartTime <= endTime) {
-      setStartTime(newStartTime);
-    }
+
+    setStartTime(newStartTime);
   };
 
   const handleEndTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newEndTime = event.target.value;
-    if (!startTime || newEndTime >= startTime) {
-      setEndTime(newEndTime);
-    }
+
+    setEndTime(newEndTime);
   };
   const sqhandleChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedState(prevState => {
-      const checkedCount = prevState.filter(value => value === '1').length;
-
-      if (checkedCount === 1 && !event.target.checked) {
-        return prevState;
-      }
-
       const newState = [...prevState];
       newState[index] = event.target.checked ? '1' : '0';
       return newState;
@@ -326,9 +354,11 @@ const ConditionSetting: React.FC = () => {
       case '1':
         return (
           <div>
-            <div>
+            <div style={{ height: "70px" }}>
               <p style={{ display: 'inline-block', fontSize: '10px' }}>開始日</p>
-              <input className='setDate' type="date" value={startDate} min={minDaysAgo} max={today} onChange={handleDateChange(setstartDate)} />
+              <input className='setDate' type="date" value={startDate} min={minDaysAgo} onChange={handleDateChange(setstartDate)} />
+              {errorDate &&
+                <FormHelperText style={{ color: '#d32f2f' }}>開始日が不正です</FormHelperText>}
             </div>
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
@@ -347,7 +377,7 @@ const ConditionSetting: React.FC = () => {
       case '2':
         return (
           <div>
-            <div>
+            <div style={{ height: "70px" }}>
               <p style={{ display: 'inline-block', fontSize: '10px' }}>終了日</p>
               <input className='setDate' type="date" value={endDate} onChange={handleDateChange(setendDate)} />
             </div>
@@ -367,20 +397,25 @@ const ConditionSetting: React.FC = () => {
         );
       case '3':
         return (
-          <Grid container spacing={1} alignItems="center" sx={{ marginTop: '0px' }}>
-            <Grid item>
-              <Typography variant="body1" sx={{ fontSize: '10px' }}>期間</Typography>
+          <div style={{ height: "70px" }}>
+            <Grid container spacing={1} alignItems="center" sx={{ marginTop: '0px' }}>
+              <Grid item>
+                <p style={{ display: 'inline-block', fontSize: '10px' }}>期間</p>
+              </Grid>
+              <input className='setDate' type="date" value={startDate} min={minDaysAgo} onChange={handleDateChange(setstartDate)} />
+
+              <Grid  >
+                <Typography sx={{ marginTop: '10px' }}>―</Typography>
+              </Grid>
+              <input className='setDate' type="date" value={endDate} onChange={handleDateChange(setendDate)} />
             </Grid>
-            <input className='setDate' type="date" value={startDate} max={today} onChange={handleDateChange(setstartDate)} />
-            <Grid item>
-              <Typography variant="body1">-</Typography>
-            </Grid>
-            <input className='setDate' type="date" value={endDate} min={startDate} onChange={handleDateChange(setendDate)} />
-          </Grid>
+            {errorDate &&
+              <FormHelperText style={{ color: '#d32f2f' }}>開始日、終了日が不正です</FormHelperText>}
+          </div>
         );
       case '4':
         return (
-          <div>
+          <div className='SQ-css'>
             <FormControlLabel
               control={
                 <Checkbox
@@ -408,6 +443,11 @@ const ConditionSetting: React.FC = () => {
               }
               label={<span style={{ fontSize: '10px' }}>Weekly-SQ</span>}
             />
+
+            {errorSQ &&
+              <FormHelperText style={{ color: '#d32f2f' }}>SQを選択してください</FormHelperText>}
+
+
           </div>
         );
       default:
@@ -473,7 +513,7 @@ const ConditionSetting: React.FC = () => {
           </Select>
           <p>分間隔</p>
         </Stack>
-
+        <div style={{height:'50px'}}>
         <Grid container spacing={1} alignItems="center" sx={{ marginTop: '5px' }}>
           <Grid item>
             <Typography variant="body1">開始終了時刻</Typography>
@@ -512,36 +552,38 @@ const ConditionSetting: React.FC = () => {
                 // }
               }} value={endTime} onChange={handleEndTimeChange} />
             </Grid>}
-
+          {errorTime &&
+            <FormHelperText style={{ color: '#d32f2f', marginLeft:'10px'}}>開始時刻、終了時刻が不正です</FormHelperText>}
         </Grid>
-        <p style={{ marginBottom: 0 }}>個别算出</p>
-        <div>
-          <Grid container spacing={1} alignItems="center" >
-            <Typography variant="body1" padding='10px' paddingRight='50px'>前場</Typography>
-            <FormControlLabel control={<Checkbox checked={marketState.preMarketOpening} onChange={handleCheckboxChange('preMarketOpening')} />} label="寄付" />
-            <FormControlLabel control={<Checkbox checked={marketState.preMarketClose} onChange={handleCheckboxChange('preMarketClose')} />} label="引け" />
-          </Grid>
-
-          <Grid container spacing={1} alignItems="center" >
-            <Typography variant="body1" padding='10px' paddingRight='50px'>後場</Typography>
-            <FormControlLabel control={<Checkbox checked={marketState.postMarketOpening} onChange={handleCheckboxChange('postMarketOpening')} />} label="寄付" />
-            <FormControlLabel control={<Checkbox checked={marketState.postMarketClose} onChange={handleCheckboxChange('postMarketClose')} />} label="引け" />
-          </Grid>
-
-          <Grid container spacing={1} alignItems="center" >
-            <Typography variant="body1" padding='10px' paddingRight='13.7px'>イブニング</Typography>
-            <FormControlLabel control={<Checkbox checked={marketState.eveningOpening} onChange={handleCheckboxChange('eveningOpening')} />} label="寄付" />
-            <FormControlLabel control={<Checkbox checked={marketState.eveningClose} onChange={handleCheckboxChange('eveningClose')} />} label="引け" />
-          </Grid>
-        </div>
       </div>
+      <p style={{ marginBottom: 0 }}>個别算出</p>
+      <div>
+        <Grid container spacing={1} alignItems="center" >
+          <Typography variant="body1" padding='10px' paddingRight='50px'>前場</Typography>
+          <FormControlLabel control={<Checkbox checked={marketState.preMarketOpening} onChange={handleCheckboxChange('preMarketOpening')} />} label="寄付" />
+          <FormControlLabel control={<Checkbox checked={marketState.preMarketClose} onChange={handleCheckboxChange('preMarketClose')} />} label="引け" />
+        </Grid>
+
+        <Grid container spacing={1} alignItems="center" >
+          <Typography variant="body1" padding='10px' paddingRight='50px'>後場</Typography>
+          <FormControlLabel control={<Checkbox checked={marketState.postMarketOpening} onChange={handleCheckboxChange('postMarketOpening')} />} label="寄付" />
+          <FormControlLabel control={<Checkbox checked={marketState.postMarketClose} onChange={handleCheckboxChange('postMarketClose')} />} label="引け" />
+        </Grid>
+
+        <Grid container spacing={1} alignItems="center" >
+          <Typography variant="body1" padding='10px' paddingRight='13.7px'>イブニング</Typography>
+          <FormControlLabel control={<Checkbox checked={marketState.eveningOpening} onChange={handleCheckboxChange('eveningOpening')} />} label="寄付" />
+          <FormControlLabel control={<Checkbox checked={marketState.eveningClose} onChange={handleCheckboxChange('eveningClose')} />} label="引け" />
+        </Grid>
+      </div>
+    </div>
 
       <Button sx={{ backgroundColor: '#143867', color: '#fff', marginLeft: '200px', borderRadius: '15px', marginTop: '25px' }}
         onClick={handleCalculate}>
         算出
       </Button>
 
-    </div>
+    </div >
 
 
 

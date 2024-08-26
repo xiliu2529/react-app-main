@@ -12,7 +12,7 @@
     border: 1px solid #ccc;
     border-radius: 8px;
     width: 270px;
-    height: 430px;
+    height: 490px;
     background-color: #fff;
     
 }
@@ -25,6 +25,9 @@
 #title-1-2{
   margin-top: 10px;
 
+}
+.SQ-css{
+  height: 60px;
 }
 
 
@@ -74,14 +77,15 @@
 
   .setDate{
     margin-left: 5px;
-    margin-bottom: 10px;
+    margin-right: 5px;
     margin-top: 10px;
     font-size: 12px;
     padding: 3px;
-    width:100px;
+    width:90px;
     border: #143867 2px solid;
     border-radius: 3px;
     height: 20px;
+    
     
   }
   #demo-simple-select{

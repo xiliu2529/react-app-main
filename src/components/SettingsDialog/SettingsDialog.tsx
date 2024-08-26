@@ -82,8 +82,9 @@ const SettingsDialog = () => {
             <Dialog open={open} onClose={() => handleClose(false)} maxWidth="lg" fullWidth sx={{
                 zIndex: 9999,
                 '& .MuiDialog-paper': {
-                    minWidth: '1300px',
-                    transform: 'scale(0.8)',
+                    minWidth: '1100px',
+                    minHeight:'600px',
+                    transform: 'scale(0.7)',
                 }
             }}>
                 <DialogTitle sx={{ backgroundColor: '#143867', color: '#fff' }}>オプション設定</DialogTitle>
