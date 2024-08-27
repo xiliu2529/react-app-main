@@ -29,7 +29,7 @@ const ConditionSetting: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['1', '1', '1']);
-  const { setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse} = useMyContext();
+  const { setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
   const [errorDate, seterrorDate] = useState<boolean>(false);
@@ -39,8 +39,6 @@ const ConditionSetting: React.FC = () => {
     error: false,
     helperText: '',
   });
-
-
 
   const selectedStyle = {
     '&.Mui-selected': {
@@ -247,7 +245,7 @@ const ConditionSetting: React.FC = () => {
     const timeTo = payload.CalculationSetting.Range.TimeTo
     let hasError = false;
     const newValidationState = { error: false, helperText: '' };
-    
+
     if (!payload.Code) {
       newValidationState.error = true;
       newValidationState.helperText = 'コードを入力してください';
@@ -256,8 +254,8 @@ const ConditionSetting: React.FC = () => {
     } else {
       setValidation({ error: false, helperText: '' });
     }
-  
-    const todayFormatted = today.split('-').join('/'); 
+
+    const todayFormatted = today.split('-').join('/');
     if (category === '3' || category === '1') {
       if (DateFrom > todayFormatted) {
         seterrorDate(true);
@@ -266,12 +264,12 @@ const ConditionSetting: React.FC = () => {
         seterrorDate(false);
       }
     }
-  
+
     if (category === '2' && !DateTo) {
       console.warn('終了日が必須です');
       hasError = true;
     }
-  
+
     if (category === '3') {
       if (DateTo < DateFrom) {
         seterrorDate(true);
@@ -280,7 +278,7 @@ const ConditionSetting: React.FC = () => {
         seterrorDate(false);
       }
     }
-  
+
     if (category === '4') {
       const sq = payload.HistoricalSetting.Range.SQ;
       if (sq.LargeSQ === '0' && sq.SmallSQ === '0' && sq.WeeklySQ === '0') {
@@ -290,17 +288,17 @@ const ConditionSetting: React.FC = () => {
         setErrorSQ(false);
       }
     }
-  
+
     if (timefrom > timeTo) {
       seterrorTime(true);
       hasError = true;
     } else {
       seterrorTime(false);
     }
-  
+
     return !hasError;
   };
-  
+
   const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setter(event.target.value);
   }
@@ -328,6 +326,7 @@ const ConditionSetting: React.FC = () => {
     switch (alignment) {
       case '0':
         return (
+          <div style={{ height: "100px" }}>
           <Stack direction="row" spacing={1} alignItems="center" className='counter-controls'>
             <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
             <Button variant="outlined" size="small" onClick={handleDecrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>-</Button>
@@ -340,15 +339,16 @@ const ConditionSetting: React.FC = () => {
             />
             <Button variant="outlined" size="small" onClick={handleIncrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>+</Button>
           </Stack>
+          </div>
         );
       case '1':
         return (
-          <div>
+          <div style={{ height: "110px" }}>
             <div style={{ height: "70px" }}>
               <p style={{ display: 'inline-block', fontSize: '10px' }}>開始日</p>
               <input className='setDate' type="date" value={startDate} min={minDaysAgo} onChange={handleDateChange(setstartDate)} />
               {errorDate &&
-                <FormHelperText style={{ color: '#d32f2f' }}>開始日が不正です</FormHelperText>}
+                <FormHelperText style={{ color: '#d32f2f', marginLeft:'35px'}}>開始日が不正です</FormHelperText>}
             </div>
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
@@ -366,7 +366,7 @@ const ConditionSetting: React.FC = () => {
         );
       case '2':
         return (
-          <div>
+          <div style={{ height: "110px" }}>
             <div style={{ height: "70px" }}>
               <p style={{ display: 'inline-block', fontSize: '10px' }}>終了日</p>
               <input className='setDate' type="date" value={endDate} onChange={handleDateChange(setendDate)} />
@@ -387,7 +387,7 @@ const ConditionSetting: React.FC = () => {
         );
       case '3':
         return (
-          <div style={{ height: "70px" }}>
+          <div style={{ height: "110px" }}>
             <Grid container spacing={1} alignItems="center" sx={{ marginTop: '0px' }}>
               <Grid item>
                 <p style={{ display: 'inline-block', fontSize: '10px' }}>期間</p>
@@ -400,7 +400,7 @@ const ConditionSetting: React.FC = () => {
               <input className='setDate' type="date" value={endDate} onChange={handleDateChange(setendDate)} />
             </Grid>
             {errorDate &&
-              <FormHelperText style={{ color: '#d32f2f' }}>開始日、終了日が不正です</FormHelperText>}
+              <FormHelperText style={{ color: '#d32f2f', marginLeft:'25px' }}>開始日、終了日が不正です</FormHelperText>}
           </div>
         );
       case '4':
@@ -503,72 +503,77 @@ const ConditionSetting: React.FC = () => {
           </Select>
           <p>分間隔</p>
         </Stack>
-        <div style={{height:'50px'}}>
-        <Grid container spacing={1} alignItems="center" sx={{ marginTop: '5px' }}>
-          <Grid item>
-            <Typography variant="body1">開始終了時刻</Typography>
-          </Grid>
-          <Grid item>
-            <TextField type="time" variant="outlined" sx={{ width: '82px' }} value={startTime} onChange={handleStartTimeChange} />
-          </Grid>
-          <Grid item>
-            <Typography variant="body1">-</Typography>
-          </Grid>
-          {minutes == '0  ' ?
-            <>  <Box className="inputContainer">
-              <TextField
-                type="number"
-                value={value1}
-                onChange={handleChange1}
-                inputProps={{
-                  min: 1,
-                  max: 30,
-                  step: 1,
-                }}
-                className="inputField"
-                variant="outlined"
-              />
-            </Box>
-              <Typography sx={{ marginTop: '7px' }}>
-                分
-              </Typography></>
-
-            :
+        <div style={{ height: '50px' }}>
+          <Grid container spacing={1} alignItems="center" sx={{ marginTop: '5px' }}>
             <Grid item>
-              <TextField type="time" variant="outlined" sx={{
-                width: '82px',
-                // '& input::-webkit-calendar-picker-indicator': {
-                //   display: 'none'
-                // }
-              }} value={endTime} onChange={handleEndTimeChange} />
-            </Grid>}
-          {errorTime &&
-            <FormHelperText style={{ color: '#d32f2f', marginLeft:'10px'}}>開始時刻、終了時刻が不正です</FormHelperText>}
-        </Grid>
+              <Typography variant="body1">開始終了時刻</Typography>
+            </Grid>
+            <Grid item>
+              <TextField className='custom-time-input' type="time" variant="outlined" sx={{
+                width: '82px', '& input::-webkit-calendar-picker-indicator': {
+                  cursor: 'pointer'
+                }
+              }} value={startTime} onChange={handleStartTimeChange} />
+            </Grid>
+            <Grid item>
+              <Typography variant="body1">-</Typography>
+            </Grid>
+            {minutes == '0  ' ?
+              <>  <Box className="inputContainer">
+                <TextField
+                  type="number"
+                  value={value1}
+                  onChange={handleChange1}
+                  inputProps={{
+                    min: 1,
+                    max: 30,
+                    step: 1,
+                  }}
+
+                  className="inputField"
+                  variant="outlined"
+                />
+              </Box>
+                <Typography sx={{ marginTop: '7px' }}>
+                  分
+                </Typography></>
+
+              :
+              <Grid item>
+                <TextField className='custom-time-input' type="time" variant="outlined" sx={{
+                  width: '82px',
+                  '& input::-webkit-calendar-picker-indicator': {
+                    cursor: 'pointer'
+                  }
+                }} value={endTime} onChange={handleEndTimeChange} />
+              </Grid>}
+            {errorTime &&
+              <FormHelperText style={{ color: '#d32f2f', marginLeft: '90px' }}>開始時刻、終了時刻が不正です</FormHelperText>}
+          </Grid>
+        </div>
+        <p style={{ marginBottom: 0 }}>個别算出</p>
+        <div>
+          <Grid container spacing={1} alignItems="center" >
+            <Typography variant="body1" padding='10px' paddingRight='50px'>前場</Typography>
+            <FormControlLabel control={<Checkbox checked={marketState.preMarketOpening} onChange={handleCheckboxChange('preMarketOpening')} />} label="寄付" />
+            <FormControlLabel control={<Checkbox checked={marketState.preMarketClose} onChange={handleCheckboxChange('preMarketClose')} />} label="引け" />
+          </Grid>
+
+          <Grid container spacing={1} alignItems="center" >
+            <Typography variant="body1" padding='10px' paddingRight='50px'>後場</Typography>
+            <FormControlLabel control={<Checkbox checked={marketState.postMarketOpening} onChange={handleCheckboxChange('postMarketOpening')} />} label="寄付" />
+            <FormControlLabel control={<Checkbox checked={marketState.postMarketClose} onChange={handleCheckboxChange('postMarketClose')} />} label="引け" />
+          </Grid>
+
+          <Grid container spacing={1} alignItems="center" >
+            <Typography variant="body1" padding='10px' paddingRight='13.7px'>イブニング</Typography>
+            <FormControlLabel control={<Checkbox checked={marketState.eveningOpening} onChange={handleCheckboxChange('eveningOpening')} />} label="寄付" />
+            <FormControlLabel control={<Checkbox checked={marketState.eveningClose} onChange={handleCheckboxChange('eveningClose')} />} label="引け" />
+          </Grid>
+        </div>
       </div>
-      <p style={{ marginBottom: 0 }}>個别算出</p>
-      <div>
-        <Grid container spacing={1} alignItems="center" >
-          <Typography variant="body1" padding='10px' paddingRight='50px'>前場</Typography>
-          <FormControlLabel control={<Checkbox checked={marketState.preMarketOpening} onChange={handleCheckboxChange('preMarketOpening')} />} label="寄付" />
-          <FormControlLabel control={<Checkbox checked={marketState.preMarketClose} onChange={handleCheckboxChange('preMarketClose')} />} label="引け" />
-        </Grid>
 
-        <Grid container spacing={1} alignItems="center" >
-          <Typography variant="body1" padding='10px' paddingRight='50px'>後場</Typography>
-          <FormControlLabel control={<Checkbox checked={marketState.postMarketOpening} onChange={handleCheckboxChange('postMarketOpening')} />} label="寄付" />
-          <FormControlLabel control={<Checkbox checked={marketState.postMarketClose} onChange={handleCheckboxChange('postMarketClose')} />} label="引け" />
-        </Grid>
-
-        <Grid container spacing={1} alignItems="center" >
-          <Typography variant="body1" padding='10px' paddingRight='13.7px'>イブニング</Typography>
-          <FormControlLabel control={<Checkbox checked={marketState.eveningOpening} onChange={handleCheckboxChange('eveningOpening')} />} label="寄付" />
-          <FormControlLabel control={<Checkbox checked={marketState.eveningClose} onChange={handleCheckboxChange('eveningClose')} />} label="引け" />
-        </Grid>
-      </div>
-    </div>
-
-      <Button sx={{ backgroundColor: '#143867', color: '#fff', marginLeft: '200px', borderRadius: '15px', marginTop: '25px' }}
+      <Button sx={{ backgroundColor: '#143867', color: '#fff', marginLeft: '230px', borderRadius: '15px', marginTop: '5px' }}
         onClick={handleCalculate}>
         算出
       </Button>

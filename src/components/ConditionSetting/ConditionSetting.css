@@ -1,94 +1,108 @@
-*{
+* {
   font-size: 12px;
 }
-.commonsp-top{
+
+.commonsp-top {
   height: 100%;
 }
+
 .commonsp {
-    margin-top: 40px;
-    margin-left: 10px;
-    padding: 10px;
-    padding-top: 0px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    width: 270px;
-    height: 490px;
-    background-color: #fff;
-    
+  margin-top: 40px;
+  margin-left: 10px;
+  padding: 10px;
+  padding-top: 0px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 270px;
+  height: 490px;
+  background-color: #fff;
+
 }
 
 .title-1 {
-    position: relative;
-    font-weight:600 ; 
-    padding: 8px;
+  position: relative;
+  font-weight: 600;
+  padding: 8px;
 }
-#title-1-2{
+
+#title-1-2 {
   margin-top: 10px;
 
 }
-.SQ-css{
-  height: 60px;
+
+.SQ-css {
+  height: 110px;
 }
 
 
 .title-1::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 3px;
-    height: 60%;
-    background-color: #143867  !important;
-    border-radius: 8px;
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background-color: #143867 !important;
+  border-radius: 8px;
 }
- .ToggleButton {
-    font-size: 9px !important;
-    padding: 5px 10px !important;
-    width: 54px;
-    white-space: nowrap;
 
-  }
-   
-  #demo-simple-select {
-    padding: 10px;
-    padding-right: 30px;
-  }
-  .MuiInputBase-input[type="time"] {
-    padding: 4px; 
-  }
-  .MuiInputBase-input[type="time"] {
-    font-size: 14px;
-  }
-  .counter-controls{
-    margin-top: 10px !important;
-  }
+.ToggleButton {
+  font-size: 9px !important;
+  padding: 5px 10px !important;
+  width: 54px;
+  white-space: nowrap;
 
-  .inputContainer{
-    margin-left: 10px;
-    margin-top: 8px !important;
-      width: 70px;
-  }
-  .MuiOutlinedInput-input {
-    margin-top: 3px !important;
-    padding: 7px !important;
-    height: 10px !important;
-  }
+}
+7
+#demo-simple-select {
+  padding: 10px;
+  padding-right: 30px;
+}
 
-  .setDate{
-    margin-left: 5px;
-    margin-right: 5px;
-    margin-top: 10px;
-    font-size: 12px;
-    padding: 3px;
-    width:90px;
-    border: #143867 2px solid;
-    border-radius: 3px;
-    height: 20px;
-    
-    
-  }
-  #demo-simple-select{
-    width: 60px;
-    height: 10px;
-  }
+.MuiInputBase-input[type="time"] {
+  padding: 4px;
+}
+
+.MuiInputBase-input[type="time"] {
+  font-size: 14px;
+}
+
+.counter-controls {
+  margin-top: 10px !important;
+}
+
+.inputContainer {
+  margin-left: 10px;
+  margin-top: 8px !important;
+  width: 70px;
+}
+
+.MuiOutlinedInput-input {
+  margin-top: 3px !important;
+  padding: 7px !important;
+  height: 10px !important;
+}
+
+.custom-time-input input{
+  cursor: text ;
+}
+
+.setDate {
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 10px;
+  font-size: 12px;
+  padding: 3px;
+  width: 90px;
+  border: #143867 2px solid;
+  border-radius: 3px;
+  height: 20px;
+
+
+}
+
+#demo-simple-select {
+  width: 60px;
+  height: 10px;
+}

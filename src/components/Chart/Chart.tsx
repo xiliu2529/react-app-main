@@ -89,6 +89,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     }
 
   }
+
   if(response){
   if (requestPayload.Code === '6501') {
     data3 = c;
@@ -322,7 +323,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     };
     const data = processData();
     setChartData(data)
-  }, [settingsState, conditionSettingState, display]);
+  }, [settingsState, conditionSettingState, display,response]);
 
   useEffect(() => {
     if (conditionSettingState.marketState.eveningOpening && data3.EveningOpenTickFrame) {
@@ -581,7 +582,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     }
 
 
-  }, [conditionSettingState, settingsState, display]);
+  }, [conditionSettingState, settingsState, display,]);
 
   useEffect(() => {
     setChartState({
@@ -616,7 +617,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         ...(chartData.historicalCumulative2 || []),
       ],
     });
-  }, [chartData]);
+  }, [chartData,]);
 
 
 
