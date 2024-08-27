@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -12,7 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import { Grid } from '@mui/material';
 import './SettingsDialog.css';
 import { useMyContext } from '../../contexts/MyContext';
-import { postData1 ,fetchData} from '../../api/api';
+import { postData1 } from '../../api/api';
 
 
 type CheckboxState = boolean[];
@@ -20,7 +20,7 @@ type RadioValue = string[];
 type ColorValue = string[];
 
 const SettingsDialog = () => {
-    const [data, setData] = useState<[]>([]);
+    const [_data, setData] = useState<[]>([]);
     const { setSettingsState } = useMyContext();
     const [open, setOpen] = useState(false); // ダイアログの開閉状態を管理する状態を定義
     const [checkboxStates, setCheckboxStates] = useState<CheckboxState>(
@@ -109,11 +109,11 @@ const SettingsDialog = () => {
         setOpen(false);
 
     };
-    const [error, setError] = useState<string | null>(null); 
-    const handlePostData1 = async () => {
-        fetchData()
+    // const [error, setError] = useState<string | null>(null); 
+    // const handlePostData1 = async () => {
+    //     fetchData()
        
-      };
+    //   };
     const handlePostData = async () => {
         // fetchData()
         try {
@@ -349,8 +349,6 @@ const SettingsDialog = () => {
                     <Button onClick={() => handleClose(true)} style={{ backgroundColor: '#143867', color: 'white' }}>OK</Button>
                     <Button onClick={() => handleClose(false)} style={{ border: '2px solid #143867', backgroundColor: 'white', color: '#143867' }}>キャンセル</Button>
                     <button onClick={handlePostData}>Post Data</button>
-                    {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
-      {error && <p>{error}</p>}
                 </DialogActions>
             </Dialog>
         </div>

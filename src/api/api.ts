@@ -2,15 +2,15 @@ import axios from 'axios';
 
 const POSTS_API_URL = 'api/logout/bye.html';
 
-export const fetchData = async (): Promise<[]> => {
-  try {
-    const response = await axios.get<[]>(POSTS_API_URL);
-    return response.data; 
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    throw error;
-  }
-};
+// export const fetchData = async (): Promise<[]> => {
+//   try {
+//     const response = await axios.get<[]>(POSTS_API_URL);
+//     return response.data; 
+//   } catch (error) {
+//     console.error('Error fetching data:', error);
+//     throw error;
+//   }
+// };
 const a = {service_name: "qww", mode: "GET", types: "volumecurve_info"}
 
 export const postData1 =  async (): Promise<any> => { 

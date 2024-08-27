@@ -74,7 +74,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   const chartRef2 = useRef<Highcharts.Chart | null>(null);
   Exporting(Highcharts);
 
-
+  let display = settingsState.radioValues[1] === "0"
   let data3: TickFrame = {
     EveningOpenTickFrame: {
       AverageDaysChart: {
@@ -130,7 +130,76 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
-  let display = settingsState.radioValues[1] === "0"
+
+  const addRightClickExportMenu = (chart: Highcharts.Chart | null, containerId: string) => {
+    const container = document.getElementById(containerId);
+    if (!container || !chart) return;
+
+    container.addEventListener('contextmenu', (event: MouseEvent) => {
+      event.preventDefault(); // デフォルトの右クリックメニューを防止
+
+      // 既存のカスタムメニューを削除（あれば）
+      const existingMenu = document.getElementById('custom-export-menu');
+      if (existingMenu) existingMenu.remove();
+
+      // カスタムメニューを作成
+      const menu = document.createElement('div');
+      menu.id = 'custom-export-menu';
+      menu.style.position = 'absolute';
+      menu.style.top = `${event.clientY}px`;
+      menu.style.left = `${event.clientX}px`;
+      menu.style.backgroundColor = '#fff';
+      menu.style.border = '1px solid #ccc';
+      menu.style.boxShadow = '0 0 5px rgba(0,0,0,0.1)';
+      menu.style.zIndex = '1000';
+
+      // ダウンロードオプションを追加
+      ['PNG', 'JPEG', 'SVG'].forEach((format, index) => {
+        const item = document.createElement('div');
+        item.textContent = `${format} ダウンロード`;
+        item.style.cursor = 'pointer';
+        item.style.textAlign = 'center';
+        item.addEventListener('click', () => {
+          const mimeType = format === 'SVG' ? 'image/svg+xml' : `image/${format.toLowerCase()}`;
+          // @ts-ignore
+          chart.exportChart({
+            type: mimeType,
+            // 确保提供 chartOptions，以便正确导出所选格式
+            chartOptions: {}
+          });
+          menu.remove(); // ダウンロード後にメニューを削除
+        });
+
+        // 各メニュー項目の間に区切り線を追加（最後の項目を除く）
+        if (index < 2) {
+          item.style.borderBottom = '1px solid #e0e0e0'; // 区切り線を追加
+        }
+
+        // ホバー時のエフェクトを追加
+        item.addEventListener('mouseover', () => {
+          item.style.backgroundColor = '#f0f0f0'; // ホバー時の背景色
+        });
+        item.addEventListener('mouseout', () => {
+          item.style.backgroundColor = ''; // ホバー解除時に背景色をリセット
+        });
+
+        menu.appendChild(item);
+      });
+
+      // メニューをページに追加
+      document.body.appendChild(menu);
+
+      // 他の場所をクリックしたときにメニューを削除
+      document.addEventListener('click', function removeMenu() {
+        const menu = document.getElementById('custom-export-menu');
+        if (menu) menu.remove();
+        document.removeEventListener('click', removeMenu);
+      });
+    });
+  };
+
+
+
 
   useEffect(() => {
     const processData = () => {
@@ -656,15 +725,9 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       enabled: false
     },
     exporting: {
-      enabled: true,
-      fallbackToExportServer: false,
-      buttons: {
-        contextButton: {
-          menuItems: ['viewFullscreen', 'printChart', 'downloadPNG', 'downloadJPEG', 'downloadPDF', 'downloadSVG'],
-          y: 10,
-        }
-      }
+      enabled: false,
     }
+
   };
 
   const chartOptions1: Highcharts.Options = {
@@ -762,19 +825,14 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       visible: checked,
 
     }
-    ], credits: {
+    ], 
+    credits: {
       enabled: false
     },
     exporting: {
-      enabled: true,
-      fallbackToExportServer: false,
-      buttons: {
-        contextButton: {
-          menuItems: ['viewFullscreen', 'printChart', 'downloadPNG', 'downloadJPEG', 'downloadPDF', 'downloadSVG'],
-          y: 10
-        }
-      }
+      enabled: false,
     }
+
 
   };
 
@@ -847,14 +905,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       enabled: false
     },
     exporting: {
-      enabled: true,
-      fallbackToExportServer: false,
-      buttons: {
-        contextButton: {
-          menuItems: ['viewFullscreen', 'printChart', 'downloadPNG', 'downloadJPEG', 'downloadPDF', 'downloadSVG'],
-          y: 10
-        }
-      }
+      enabled: false,
     }
   };
 
@@ -868,7 +919,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       chartRef.current = Highcharts.chart('chart-container', {
         ...chartOptions, accessibility: {
           enabled: false
-        },  chart: { height: props.height, width: props.width, backgroundColor: settingsState.colors[2] }
+        }, chart: { height: props.height, width: props.width, backgroundColor: settingsState.colors[2] }
       });
     }
     if (container1) {
@@ -887,25 +938,13 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         }, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width, backgroundColor: settingsState.colors[2] }
       });
     }
+    addRightClickExportMenu(chartRef.current, 'chart-container');
+    addRightClickExportMenu(chartRef1.current, 'chart-container1');
+    addRightClickExportMenu(chartRef2.current, 'chart-container2');
 
   }, [settingsState, conditionSettingState, chartState, chartData, checked]);
 
-  // const handleDownload = (type: string) => {
-  //   if (chartRef.current && !display) {
-  //     // @ts-ignore
-  //     chartRef.current.exportChart({ type });
-  //   }
-  //   if (chartRef1.current && display) {
-  //     // @ts-ignore
-  //     chartRef1.current.exportChart({ type });
-  //   }
-  //   setTimeout(() => {
-  //     if (chartRef2.current && display) {
-  //       // @ts-ignore
-  //       chartRef2.current.exportChart({ type });
-  //     }
-  //   }, 3000);
-  // };
+
   return (
     <div>
       <div className="container-chart">
@@ -915,15 +954,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
           label="当日の価格チャートを表示"
           labelPlacement="start"
         />
-
-        {/* <span className="downloadChart" onClick={() => setshowDownloadButton(!showDownloadButton)} /> */}
-        {/* {showDownloadButton && (
-          <>
-            <span className="downloadPNG" onClick={() => handleDownload('image/png')} />
-            <span className="downloadJPG" onClick={() => handleDownload('image/jpeg')} />
-            <span className="downloadSVG" onClick={() => handleDownload('image/svg+xml')} />
-          </>
-        )} */}
       </div>
 
       <div>
