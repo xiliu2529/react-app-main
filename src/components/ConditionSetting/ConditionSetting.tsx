@@ -1,4 +1,4 @@
-import { TextField, Box, Grid, Typography, Button, Stack, ToggleButton, ToggleButtonGroup, MenuItem, Checkbox, Select, FormControlLabel, FormHelperText, FormControl } from '@mui/material';
+import { TextField, Box, Grid, Typography, Button, Stack, ToggleButton, ToggleButtonGroup, MenuItem, Checkbox, Select, FormControlLabel, FormHelperText } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
 import './ConditionSetting.css';
@@ -258,7 +258,6 @@ const ConditionSetting: React.FC = () => {
     const DateFrom = payload.HistoricalSetting.Range.DateFrom
     const timefrom = payload.CalculationSetting.Range.TimeFrom
     const timeTo = payload.CalculationSetting.Range.TimeTo
-    console.log('category', category);
 
     if (!payload.Code) {
       setValidation({ error: true, helperText: 'コードを入力してください' })
@@ -266,17 +265,18 @@ const ConditionSetting: React.FC = () => {
     } else {
       setValidation({ error: false, helperText: '' })
     }
-
+    if (category === '3' || category === '1') {
       if (DateFrom > today.split('-').join('/')) {
         seterrorDate(true)
         return false;
       } else {
         seterrorDate(false)
       }
-      if (!DateFrom) {
-        console.warn('開始日が必須です');
-        return false;
-      }
+    }
+      // if (!DateFrom) {
+      //   console.warn('開始日が必須です');
+      //   return false;
+      // }
     if (category === '2' && !DateTo) {
       console.warn('終了日が必須です');
       return false;

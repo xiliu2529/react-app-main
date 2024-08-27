@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -12,11 +12,15 @@ import FormControl from '@mui/material/FormControl';
 import { Grid } from '@mui/material';
 import './SettingsDialog.css';
 import { useMyContext } from '../../contexts/MyContext';
+import { postData1 ,fetchData} from '../../api/api';
+
 
 type CheckboxState = boolean[];
 type RadioValue = string[];
 type ColorValue = string[];
+
 const SettingsDialog = () => {
+    const [data, setData] = useState<[]>([]);
     const { setSettingsState } = useMyContext();
     const [open, setOpen] = useState(false); // ダイアログの開閉状態を管理する状態を定義
     const [checkboxStates, setCheckboxStates] = useState<CheckboxState>(
@@ -62,10 +66,64 @@ const SettingsDialog = () => {
             setColors(handleTransaction.colors);
         } else {
             setSettingsState({ checkboxStates, radioValues, colors })
+
+            // const handleLogout = async () => {
+            //     try {
+            //       await logout();
+            //       console.log('Logout successful');
+            //     } catch (error) {
+            //       console.error('Logout failed:', error);
+            //     }
+            //   };
+
+            // const updatedData = settingsState
+            // const fetchDataFromAPI = async () => {
+            //     try {
+            //         const result = await postData('/api/qww_dev/prod/userdata/load', { service_name: "qww", mode: "GET", types: "volumecurve_info" });
+            //         setData(result);
+            //     } catch (error) {
+            //         console.error(error);
+            //     }
+            // };
+
+            // const fetchDataFromAPI1 = async () => {
+            //     try {
+            //         const result = await postData('/api/qww_dev/prod/userdata/store', {
+            //             service_name: "qww",
+            //             mode: "PUT",
+            //             types: "volumecurve_info",
+            //             put_json_data: { test: updatedData }
+            //         });
+            //         setData(result);
+            //     } catch (error) {
+            //         console.error(error);
+            //     }
+            // }; 
+            
+            // handleLogout()
+            // //   fetchDataFromAPI1();
+            //   fetchDataFromAPI();
+            //      handleLogout()
+
         }
         setOpen(false);
 
     };
+    const [error, setError] = useState<string | null>(null); 
+    const handlePostData1 = async () => {
+        fetchData()
+       
+      };
+    const handlePostData = async () => {
+        // fetchData()
+        try {
+          const result = await postData1();
+          setData(result);
+        } catch (err) {
+        }
+      };
+
+    
     const handleButtonClick = () => {
         // ボタンクリック時の処理
         setCheckboxStates(Array(7).fill(false));
@@ -76,6 +134,8 @@ const SettingsDialog = () => {
             '#52a69f', '#52a69f', '#596db8', '#5bbcd1', '#7e522e'
         ]);
     };
+
+
     return (
         <div>
             <span className="settings-icon" onClick={handleOpen}></span>
@@ -83,7 +143,7 @@ const SettingsDialog = () => {
                 zIndex: 9999,
                 '& .MuiDialog-paper': {
                     minWidth: '1100px',
-                    minHeight:'600px',
+                    minHeight: '600px',
                     transform: 'scale(0.7)',
                 }
             }}>
@@ -183,60 +243,60 @@ const SettingsDialog = () => {
                                         </div>
                                         <p> 分布</p>
                                         <div>
-                                            <div style={{ border: '1px solid #ccc', borderRadius: '5px', padding: '10px' ,minWidth:'400px'}}>
+                                            <div style={{ border: '1px solid #ccc', borderRadius: '5px', padding: '10px', minWidth: '400px' }}>
                                                 <div className="header-container">
-                                                <div className="text-column"></div>
+                                                    <div className="text-column"></div>
                                                     <p className="header-p">当日</p>
                                                     <p className="header-p">過去平均</p>
                                                 </div>
 
                                                 <div className="header-container">
-                                                <div className="text-column">前場</div>
-                                                <div className="color-picker-column">
-                                                    <input type="color" value={colors[4]} onChange={(event) => handleColorChange(4, event.target.value)} />
-                                                </div>
-                                                <div className="color-picker-column">
-                                                    <input type="color" value={colors[9]} onChange={(event) => handleColorChange(9, event.target.value)} />
-                                                </div>
-                                                </div>
-                                                
-                                                <div className="header-container">
-                                                <div className="text-column">後場</div>
-                                                <div className="color-picker-column">
-                                                    <input type="color" value={colors[5]} onChange={(event) => handleColorChange(5, event.target.value)} />
-                                                </div>
-                                                <div className="color-picker-column">
-                                                    <input type="color" value={colors[10]} onChange={(event) => handleColorChange(10, event.target.value)} />
-                                                </div>
-                                                </div>
-                                                <div className="header-container">
-                                                <div className="text-column">イブニング</div>
-                                                <div className="color-picker-column">
-                                                    <input type="color" value={colors[6]} onChange={(event) => handleColorChange(6, event.target.value)} />
+                                                    <div className="text-column">前場</div>
+                                                    <div className="color-picker-column">
+                                                        <input type="color" value={colors[4]} onChange={(event) => handleColorChange(4, event.target.value)} />
+                                                    </div>
+                                                    <div className="color-picker-column">
+                                                        <input type="color" value={colors[9]} onChange={(event) => handleColorChange(9, event.target.value)} />
+                                                    </div>
                                                 </div>
 
-                                                <div className="color-picker-column">
-                                                    <input type="color" value={colors[11]} onChange={(event) => handleColorChange(11, event.target.value)} />
-                                                </div>
+                                                <div className="header-container">
+                                                    <div className="text-column">後場</div>
+                                                    <div className="color-picker-column">
+                                                        <input type="color" value={colors[5]} onChange={(event) => handleColorChange(5, event.target.value)} />
+                                                    </div>
+                                                    <div className="color-picker-column">
+                                                        <input type="color" value={colors[10]} onChange={(event) => handleColorChange(10, event.target.value)} />
+                                                    </div>
                                                 </div>
                                                 <div className="header-container">
-                                                <div className="text-column">寄付</div>
-                                                <div className="color-picker-column">
-                                                    <input type="color" value={colors[7]} onChange={(event) => handleColorChange(7, event.target.value)} />
-                                                </div>
-                                                <div className="color-picker-column">
-                                                    <input type="color" value={colors[12]} onChange={(event) => handleColorChange(12, event.target.value)} />
-                                                </div>
-                                                </div>
-                                                <div className="header-container">
-                                                <div className="text-column">引け</div>
-                                                <div className="color-picker-column">
-                                                    <input type="color" value={colors[8]} onChange={(event) => handleColorChange(8, event.target.value)} />
-                                                </div>
+                                                    <div className="text-column">イブニング</div>
+                                                    <div className="color-picker-column">
+                                                        <input type="color" value={colors[6]} onChange={(event) => handleColorChange(6, event.target.value)} />
+                                                    </div>
 
-                                                <div className="color-picker-column">
-                                                    <input type="color" value={colors[13]} onChange={(event) => handleColorChange(13, event.target.value)} />
+                                                    <div className="color-picker-column">
+                                                        <input type="color" value={colors[11]} onChange={(event) => handleColorChange(11, event.target.value)} />
+                                                    </div>
                                                 </div>
+                                                <div className="header-container">
+                                                    <div className="text-column">寄付</div>
+                                                    <div className="color-picker-column">
+                                                        <input type="color" value={colors[7]} onChange={(event) => handleColorChange(7, event.target.value)} />
+                                                    </div>
+                                                    <div className="color-picker-column">
+                                                        <input type="color" value={colors[12]} onChange={(event) => handleColorChange(12, event.target.value)} />
+                                                    </div>
+                                                </div>
+                                                <div className="header-container">
+                                                    <div className="text-column">引け</div>
+                                                    <div className="color-picker-column">
+                                                        <input type="color" value={colors[8]} onChange={(event) => handleColorChange(8, event.target.value)} />
+                                                    </div>
+
+                                                    <div className="color-picker-column">
+                                                        <input type="color" value={colors[13]} onChange={(event) => handleColorChange(13, event.target.value)} />
+                                                    </div>
                                                 </div>
 
                                             </div>
@@ -288,7 +348,9 @@ const SettingsDialog = () => {
                 <DialogActions>
                     <Button onClick={() => handleClose(true)} style={{ backgroundColor: '#143867', color: 'white' }}>OK</Button>
                     <Button onClick={() => handleClose(false)} style={{ border: '2px solid #143867', backgroundColor: 'white', color: '#143867' }}>キャンセル</Button>
-
+                    <button onClick={handlePostData}>Post Data</button>
+                    {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
+      {error && <p>{error}</p>}
                 </DialogActions>
             </Dialog>
         </div>
