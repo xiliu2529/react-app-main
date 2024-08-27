@@ -51,7 +51,7 @@
 }
 
 .inline-element {
-  margin-right: 10px; 
+  margin-right: 50px; 
 }
 
 .settings-icon {
@@ -76,8 +76,9 @@
   top: 0;
   left: 0;
   width: 5px;
+  height: 100%;
   background-color: #143867; 
-  border-radius: 5px; 
+  border-radius: 2px; 
 }
 
 .sub-title {

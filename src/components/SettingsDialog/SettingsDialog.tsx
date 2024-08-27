@@ -24,7 +24,7 @@ const SettingsDialog = () => {
     const { setSettingsState } = useMyContext();
     const [open, setOpen] = useState(false); // ダイアログの開閉状態を管理する状態を定義
     const [checkboxStates, setCheckboxStates] = useState<CheckboxState>(
-        Array(7).fill(false) // 7つのチェックボックスの初期状態をすべて未選択にする
+        Array(6).fill(false) // 7つのチェックボックスの初期状態をすべて未選択にする
     );
     // 単一選択ボックスの状態を管理するために配列を使用
     const [radioValues, setRadioValues] = useState<RadioValue>(['0', '0']);
@@ -143,16 +143,20 @@ const SettingsDialog = () => {
                 zIndex: 9999,
                 '& .MuiDialog-paper': {
                     minWidth: '1100px',
-                    minHeight: '600px',
+                    minHeight: '750px',
                     transform: 'scale(0.7)',
                 }
             }}>
                 <DialogTitle sx={{ backgroundColor: '#143867', color: '#fff' }}>オプション設定</DialogTitle>
                 <DialogContent dividers>
+
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
+
                         <FormControl component="fieldset" sx={{ width: '900px', }}>
                             <Grid className='main-container' container spacing={2} wrap="nowrap" >
                                 <Grid item xs={12} sm={6} className='left-container'>
+                                    
+                                    <p className='category-title'>表示項目</p>
                                     <p className='sub-title'>グリッド</p>
                                     <FormControlLabel
                                         control={<Checkbox checked={checkboxStates[0]} onChange={() => handleCheckboxChange(0)} />}
@@ -301,7 +305,7 @@ const SettingsDialog = () => {
 
                                             </div>
                                             <div className="wrapper">
-                                                <p>累計</p>
+                                                <p style={{width:'50px'}}>累計</p>
                                                 <span className="inline-container">
                                                     <input type="color" value={colors[14]} style={{ width: '100px' }} onChange={(event) => handleColorChange(14, event.target.value)} />
                                                 </span>
@@ -311,7 +315,7 @@ const SettingsDialog = () => {
 
                                             </div>
                                             <div className="wrapper">
-                                                <p>チャート</p>
+                                            <p style={{width:'50px'}}>チャート</p>
                                                 <span className="inline-container">
                                                     <input type="color" value={colors[16]} style={{ width: '100px' }} onChange={(event) => handleColorChange(16, event.target.value)} />
                                                 </span>
@@ -331,10 +335,6 @@ const SettingsDialog = () => {
                                         </div>
                                         <Button variant="contained" onClick={handleButtonClick} style={{ backgroundColor: 'white', color: 'gray', border: '1px solid gray', marginRight: '30px' }}>
                                             初期値に戻す</Button>
-                                        <FormControlLabel
-                                            control={<Checkbox checked={checkboxStates[6]} onChange={() => handleCheckboxChange(6)} />}
-                                            label="すベての画面に適用"
-                                        />
                                     </div>
                                 </Grid>
                             </Grid>
@@ -348,7 +348,6 @@ const SettingsDialog = () => {
                 <DialogActions>
                     <Button onClick={() => handleClose(true)} style={{ backgroundColor: '#143867', color: 'white' }}>OK</Button>
                     <Button onClick={() => handleClose(false)} style={{ border: '2px solid #143867', backgroundColor: 'white', color: '#143867' }}>キャンセル</Button>
-                    <button onClick={handlePostData}>Post Data</button>
                 </DialogActions>
             </Dialog>
         </div>
