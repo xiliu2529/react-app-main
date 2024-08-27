@@ -9,7 +9,7 @@ import b from '../../data/101.1/data1.json';
 import c from '../../data/data1.json';
 
 const InfoPanel: React.FC = () => {
-  const { isHistoricalActive, setisHistoricalActive, requestPayload } = useMyContext();
+  const { isHistoricalActive, setisHistoricalActive, requestPayload ,response} = useMyContext();
   const handleChange1 = (
     _event: React.MouseEvent<HTMLElement>,
     newAlignment: boolean | null,
@@ -25,13 +25,16 @@ const InfoPanel: React.FC = () => {
     ListedSection: '',
 
   }
-  if (requestPayload.Code === '6501') {
+  if(response){
+ if (requestPayload.Code === '6501') {
     data1 = c;
   } else if (requestPayload.Code === '101.1') {
     data1 = b;
   } else if (requestPayload.Code === '601.1') {
     data1 = a;
   }
+  }
+ 
 
 
   return (

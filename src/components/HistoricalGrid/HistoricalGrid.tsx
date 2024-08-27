@@ -18,7 +18,7 @@ interface TickFrameData {
 
 
 const HistoricalGrid: React.FC = () => {
-  const { settingsState, conditionSettingState, requestPayload,griddownload ,buttonName} = useMyContext();
+  const { settingsState, conditionSettingState, requestPayload,griddownload ,buttonName,response} = useMyContext();
   const isInitialized = useRef(false);
   const [shouldDownload, setShouldDownload] = React.useState(false);
   type Data4Type = {
@@ -35,8 +35,9 @@ const HistoricalGrid: React.FC = () => {
 
     };
   };
-
   let data4: Data4Type = {};
+  if(response){
+
   if (requestPayload.Code === '6501') {
     data4 = a;
   } else if (requestPayload.Code === '101.1') {
@@ -44,6 +45,8 @@ const HistoricalGrid: React.FC = () => {
   } else if (requestPayload.Code === '601.1') {
     data4 = c;
   }
+  }
+  
   const dates1 = Object.keys(data4);
 
   useEffect(() => {

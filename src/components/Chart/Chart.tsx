@@ -67,7 +67,7 @@ type TickFrame = {
 };
 
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
-  const { settingsState, conditionSettingState, requestPayload } = useMyContext();
+  const { settingsState, conditionSettingState, requestPayload,response } = useMyContext();
   // const [showDownloadButton, setshowDownloadButton] = useState<boolean>(false);
   const chartRef = useRef<Highcharts.Chart | null>(null);
   const chartRef1 = useRef<Highcharts.Chart | null>(null);
@@ -89,6 +89,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     }
 
   }
+  if(response){
   if (requestPayload.Code === '6501') {
     data3 = c;
   } else if (requestPayload.Code === '101.1') {
@@ -96,6 +97,8 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   } else if (requestPayload.Code === '601.1') {
     data3 = a;
   }
+  }
+
 
   const [checked, setChecked] = useState<boolean>(false);
   const [chartState, setChartState] = useState<ChartState>({

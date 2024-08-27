@@ -29,9 +29,8 @@ const ConditionSetting: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['1', '1', '1']);
-  const { setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState } = useMyContext();
+  const { setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse} = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
-  const [_response, setResponse] = useState<any>(null);
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
   const [errorDate, seterrorDate] = useState<boolean>(false);
   const [errorTime, seterrorTime] = useState<boolean>(false);
@@ -207,17 +206,8 @@ const ConditionSetting: React.FC = () => {
     if (Object.keys(requestPayload).length > 0) {
       if (isReadyToSend) {
         const isValid = validatePayload(requestPayload);
+        setResponse(isValid)
         if (isValid) {
-
-          const loadPosts = async () => {
-            try {
-              const data = await postData(requestPayload);
-              setResponse(data);
-            } catch (err) {
-              console.error('Failed to post data:', err);
-            }
-          };
-          loadPosts();
 
         } else {
 
@@ -225,9 +215,6 @@ const ConditionSetting: React.FC = () => {
       }
     }
   }, [requestPayload]);
-
-
-
 
   useEffect(() => {
     setInputValue(showModal.Code);
@@ -258,57 +245,62 @@ const ConditionSetting: React.FC = () => {
     const DateFrom = payload.HistoricalSetting.Range.DateFrom
     const timefrom = payload.CalculationSetting.Range.TimeFrom
     const timeTo = payload.CalculationSetting.Range.TimeTo
-
+    let hasError = false;
+    const newValidationState = { error: false, helperText: '' };
+    
     if (!payload.Code) {
-      setValidation({ error: true, helperText: 'コードを入力してください' })
-      return false;
+      newValidationState.error = true;
+      newValidationState.helperText = 'コードを入力してください';
+      setValidation(newValidationState);
+      hasError = true;
     } else {
-      setValidation({ error: false, helperText: '' })
+      setValidation({ error: false, helperText: '' });
     }
+  
+    const todayFormatted = today.split('-').join('/'); 
     if (category === '3' || category === '1') {
-      if (DateFrom > today.split('-').join('/')) {
-        seterrorDate(true)
-        return false;
+      if (DateFrom > todayFormatted) {
+        seterrorDate(true);
+        hasError = true;
       } else {
-        seterrorDate(false)
+        seterrorDate(false);
       }
     }
-      // if (!DateFrom) {
-      //   console.warn('開始日が必須です');
-      //   return false;
-      // }
+  
     if (category === '2' && !DateTo) {
       console.warn('終了日が必須です');
-      return false;
+      hasError = true;
     }
+  
     if (category === '3') {
       if (DateTo < DateFrom) {
-        seterrorDate(true)
-        return false;
+        seterrorDate(true);
+        hasError = true;
       } else {
-        seterrorDate(false)
+        seterrorDate(false);
       }
     }
-
+  
     if (category === '4') {
       const sq = payload.HistoricalSetting.Range.SQ;
       if (sq.LargeSQ === '0' && sq.SmallSQ === '0' && sq.WeeklySQ === '0') {
-        setErrorSQ(true)
-        return false;
+        setErrorSQ(true);
+        hasError = true;
       } else {
-        setErrorSQ(false)
+        setErrorSQ(false);
       }
     }
-    if(timefrom > timeTo){
-      seterrorTime(true)
-    }else{
-      seterrorTime(false)
+  
+    if (timefrom > timeTo) {
+      seterrorTime(true);
+      hasError = true;
+    } else {
+      seterrorTime(false);
     }
-
-
-
-    return true;
+  
+    return !hasError;
   };
+  
   const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setter(event.target.value);
   }

@@ -27,7 +27,7 @@ interface Data {
 }
 
 const Grids: React.FC = () => {
-  const { settingsState, requestPayload, conditionSettingState, griddownload, buttonName } = useMyContext();
+  const { settingsState, requestPayload, conditionSettingState, griddownload, buttonName,response } = useMyContext();
   const isInitialized = useRef(false);
   const [shouldDownload, setShouldDownload] = React.useState(false);
   let data2: GridDisplayData = {
@@ -40,7 +40,9 @@ const Grids: React.FC = () => {
     Today: '',
     AverageDays: []
   };
-  if (requestPayload.Code === '6501') {
+
+if(response){
+  if (requestPayload.Code === '6501' ) {
     data2 = c;
     data1 = d;
   } else if (requestPayload.Code === '101.1') {
@@ -50,6 +52,8 @@ const Grids: React.FC = () => {
     data2 = a;
     data1 = d2;
   }
+
+}
 
   const dates = data1.AverageDays.map(item => item.Date);
   const count = dates.length;
@@ -187,6 +191,7 @@ const Grids: React.FC = () => {
       setShouldDownload(true);
     }
   }, []);
+  
   React.useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
