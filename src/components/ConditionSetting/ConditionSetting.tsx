@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
 import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
+// @ts-ignore
+import { VALIDATION_MESSAGES } from '../../constants/validationMessages.js';
+
 // import { postData } from '../../api/api';
 
 const ConditionSetting: React.FC = () => {
@@ -47,6 +50,7 @@ const ConditionSetting: React.FC = () => {
       fontWeight: '900',
     },
   };
+  
 
   const getTenDaysAgoDate = (): string => {
     const today = new Date();
@@ -249,7 +253,7 @@ const ConditionSetting: React.FC = () => {
 
     if (!payload.Code) {
       newValidationState.error = true;
-      newValidationState.helperText = 'コードを入力してください';
+      newValidationState.helperText = VALIDATION_MESSAGES.CODE_REQUIRED;
       setValidation(newValidationState);
       hasError = true;
     } else {
@@ -267,9 +271,19 @@ const ConditionSetting: React.FC = () => {
     }
 
     if (category === '2' && !DateTo) {
-      console.warn('終了日が必須です');
+      seterrorDate(true);
       hasError = true;
+    }else {
+      seterrorDate(false);
     }
+
+    if (category === '1' && !DateTo) {
+      seterrorDate(true);
+      hasError = true;
+    }else {
+      seterrorDate(false);
+    }
+
 
     if (category === '3') {
       if (DateTo < DateFrom) {
@@ -322,6 +336,8 @@ const ConditionSetting: React.FC = () => {
       return newState;
     });
   };
+  console.log("startDate",startDate);
+  
 
   const renderUI = () => {
     switch (alignment) {
@@ -349,7 +365,7 @@ const ConditionSetting: React.FC = () => {
               <p style={{ display: 'inline-block', fontSize: '10px' }}>開始日</p>
               <input className='setDate' type="date" value={startDate} min={minDaysAgo} onChange={handleDateChange(setstartDate)} />
               {errorDate &&
-                <FormHelperText style={{ color: '#d32f2f', marginLeft:'35px'}}>開始日が不正です</FormHelperText>}
+                <FormHelperText style={{ color: '#d32f2f', marginLeft:'35px'}}>{VALIDATION_MESSAGES.INVALID_START_DATE_ONLY}</FormHelperText>}
             </div>
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
@@ -371,6 +387,8 @@ const ConditionSetting: React.FC = () => {
             <div style={{ height: "70px" }}>
               <p style={{ display: 'inline-block', fontSize: '10px' }}>終了日</p>
               <input className='setDate' type="date" value={endDate} onChange={handleDateChange(setendDate)} />
+              {errorDate &&
+                <FormHelperText style={{ color: '#d32f2f', marginLeft:'35px'}}>{VALIDATION_MESSAGES.INVALID_END_DATE_ONLY}</FormHelperText>}
             </div>
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
@@ -401,7 +419,7 @@ const ConditionSetting: React.FC = () => {
               <input className='setDate' type="date" value={endDate} onChange={handleDateChange(setendDate)} />
             </Grid>
             {errorDate &&
-              <FormHelperText style={{ color: '#d32f2f', marginLeft:'25px' }}>開始日、終了日が不正です</FormHelperText>}
+              <FormHelperText style={{ color: '#d32f2f', marginLeft:'25px' }}>{VALIDATION_MESSAGES.INVALID_START_DATE}</FormHelperText>}
           </div>
         );
       case '4':
@@ -436,7 +454,7 @@ const ConditionSetting: React.FC = () => {
             />
 
             {errorSQ &&
-              <FormHelperText style={{ color: '#d32f2f' }}>SQを選択してください</FormHelperText>}
+              <FormHelperText style={{ color: '#d32f2f' }}>{VALIDATION_MESSAGES.SELECT_SQ}</FormHelperText>}
 
 
           </div>
@@ -549,7 +567,7 @@ const ConditionSetting: React.FC = () => {
                 }} value={endTime} onChange={handleEndTimeChange} />
               </Grid>}
             {errorTime &&
-              <FormHelperText style={{ color: '#d32f2f', marginLeft: '90px' }}>開始時刻、終了時刻が不正です</FormHelperText>}
+              <FormHelperText style={{ color: '#d32f2f', marginLeft: '90px' }}>{VALIDATION_MESSAGES.INVALID_START_END_TIME}</FormHelperText>}
           </Grid>
         </div>
         <p style={{ marginBottom: '15px' }}>個别算出</p>
