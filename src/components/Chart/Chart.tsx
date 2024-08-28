@@ -174,7 +174,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
           // @ts-ignore
           chart.exportChart({
             type: mimeType,
-            // 确保提供 chartOptions，以便正确导出所选格式
             chartOptions: {}
           });
           menu.remove(); // ダウンロード後にメニューを削除

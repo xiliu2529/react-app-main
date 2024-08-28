@@ -552,7 +552,7 @@ const ConditionSetting: React.FC = () => {
               <FormHelperText style={{ color: '#d32f2f', marginLeft: '90px' }}>開始時刻、終了時刻が不正です</FormHelperText>}
           </Grid>
         </div>
-        <p style={{ marginBottom: 0 }}>個别算出</p>
+        <p style={{ marginBottom: '15px' }}>個别算出</p>
         <div>
           <Grid container spacing={1} alignItems="center" >
             <Typography variant="body1" padding='10px' paddingRight='50px'>前場</Typography>
