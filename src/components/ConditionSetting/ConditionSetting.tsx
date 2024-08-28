@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
 import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
-import { postData } from '../../api/api';
+// import { postData } from '../../api/api';
 
 const ConditionSetting: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
@@ -206,7 +206,8 @@ const ConditionSetting: React.FC = () => {
         const isValid = validatePayload(requestPayload);
         setResponse(isValid)
         if (isValid) {
-
+          console.log('requestPayload',requestPayload);
+          
         } else {
 
         }

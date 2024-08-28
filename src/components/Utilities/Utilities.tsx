@@ -7,14 +7,17 @@ import { useMyContext } from '../../contexts/MyContext';
 
 
 const Utilities: React.FC = () => {
-  const { setGriddownload,griddownload } = useMyContext();
+  const { setGriddownload ,griddownload,setShouldDownload} = useMyContext();
   const print = () => {
     window.print();
   }
   const help = () => {}
   const favorite = () => {}
+
   const download = () => {
     setGriddownload(!griddownload)
+    setShouldDownload(true)
+    
   }
 
 
