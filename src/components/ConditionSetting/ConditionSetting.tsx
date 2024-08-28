@@ -35,9 +35,9 @@ const ConditionSetting: React.FC = () => {
   const { setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
-  const [errorDate, seterrorDate] = useState<boolean>(false);
+  const [errorDatefrom, seterrorDatefrom] = useState<boolean>(false);
+  const [errorDateto, seterrorDateto] = useState<boolean>(false);
   const [errorTime, seterrorTime] = useState<boolean>(false);
-
   const [validation, setValidation] = useState<{ error: boolean; helperText: string }>({
     error: false,
     helperText: '',
@@ -50,7 +50,7 @@ const ConditionSetting: React.FC = () => {
       fontWeight: '900',
     },
   };
-  
+
 
   const getTenDaysAgoDate = (): string => {
     const today = new Date();
@@ -210,8 +210,8 @@ const ConditionSetting: React.FC = () => {
         const isValid = validatePayload(requestPayload);
         setResponse(isValid)
         if (isValid) {
-          console.log('requestPayload',requestPayload);
-          
+          console.log('requestPayload', requestPayload);
+
         } else {
 
         }
@@ -250,7 +250,7 @@ const ConditionSetting: React.FC = () => {
     const timeTo = payload.CalculationSetting.Range.TimeTo
     let hasError = false;
     const newValidationState = { error: false, helperText: '' };
-
+    const todayFormatted = today.split('-').join('/');
     if (!payload.Code) {
       newValidationState.error = true;
       newValidationState.helperText = VALIDATION_MESSAGES.CODE_REQUIRED;
@@ -259,41 +259,29 @@ const ConditionSetting: React.FC = () => {
     } else {
       setValidation({ error: false, helperText: '' });
     }
+    
 
-    const todayFormatted = today.split('-').join('/');
-    if (category === '3' || category === '1') {
-      if (DateFrom > todayFormatted) {
-        seterrorDate(true);
-        hasError = true;
-      } else {
-        seterrorDate(false);
-      }
-    }
-
+    if (category === '1'){
+     if(!DateFrom || DateFrom >todayFormatted) {
+      seterrorDatefrom(true);
+      hasError = true;
+    } else {
+      seterrorDatefrom(false);
+    }}
     if (category === '2' && !DateTo) {
-      seterrorDate(true);
+      seterrorDateto(true);
       hasError = true;
-    }else {
-      seterrorDate(false);
+    } else {
+      seterrorDateto(false);
     }
-
-    if (category === '1' && !DateTo) {
-      seterrorDate(true);
-      hasError = true;
-    }else {
-      seterrorDate(false);
-    }
-
-
-    if (category === '3') {
-      if (DateTo < DateFrom) {
-        seterrorDate(true);
+    if (category === '3' ) {
+      if (DateTo < DateFrom || !DateFrom ||!DateTo || DateFrom>DateTo) {
+        seterrorDatefrom(true);
         hasError = true;
       } else {
-        seterrorDate(false);
+        seterrorDatefrom(false);
       }
     }
-
     if (category === '4') {
       const sq = payload.HistoricalSetting.Range.SQ;
       if (sq.LargeSQ === '0' && sq.SmallSQ === '0' && sq.WeeklySQ === '0') {
@@ -310,7 +298,6 @@ const ConditionSetting: React.FC = () => {
     } else {
       seterrorTime(false);
     }
-
     return !hasError;
   };
 
@@ -340,29 +327,29 @@ const ConditionSetting: React.FC = () => {
     switch (alignment) {
       case '0':
         return (
-          <div style={{ height: "100px" }}>
-          <Stack direction="row" spacing={1} alignItems="center" className='counter-controls'>
-            <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
-            <Button variant="outlined" size="small" onClick={handleDecrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>-</Button>
-            <TextField
-              variant="outlined"
-              value={days}
-              size="small"
-              InputProps={{ readOnly: true, sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
-              sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
-            />
-            <Button variant="outlined" size="small" onClick={handleIncrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>+</Button>
-          </Stack>
+          <div style={{ height: "80px" }}>
+            <Stack direction="row" spacing={1} alignItems="center" className='counter-controls'>
+              <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
+              <Button variant="outlined" size="small" onClick={handleDecrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>-</Button>
+              <TextField
+                variant="outlined"
+                value={days}
+                size="small"
+                InputProps={{ readOnly: true, sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
+                sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
+              />
+              <Button variant="outlined" size="small" onClick={handleIncrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>+</Button>
+            </Stack>
           </div>
         );
       case '1':
         return (
-          <div style={{ height: "110px" }}>
-            <div style={{ height: "70px" }}>
+          <div style={{ height: "90px" }}>
+            <div style={{ height: "60px" }}>
               <p style={{ display: 'inline-block', fontSize: '10px' }}>開始日</p>
               <input className='setDate' type="date" value={startDate} min={minDaysAgo} onChange={handleDateChange(setstartDate)} />
-              {errorDate &&
-                <FormHelperText style={{ color: '#d32f2f', marginLeft:'35px'}}>{VALIDATION_MESSAGES.INVALID_START_DATE_ONLY}</FormHelperText>}
+              {errorDatefrom &&
+                <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop:0}}>{VALIDATION_MESSAGES.INVALID_START_DATE_ONLY}</FormHelperText>}
             </div>
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
@@ -380,12 +367,12 @@ const ConditionSetting: React.FC = () => {
         );
       case '2':
         return (
-          <div style={{ height: "110px" }}>
-            <div style={{ height: "70px" }}>
+          <div style={{ height: "90px" }}>
+            <div style={{ height: "60px" }}>
               <p style={{ display: 'inline-block', fontSize: '10px' }}>終了日</p>
               <input className='setDate' type="date" value={endDate} onChange={handleDateChange(setendDate)} />
-              {errorDate &&
-                <FormHelperText style={{ color: '#d32f2f', marginLeft:'35px'}}>{VALIDATION_MESSAGES.INVALID_END_DATE_ONLY}</FormHelperText>}
+              {errorDateto &&
+                <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px',marginTop:0 }}>{VALIDATION_MESSAGES.INVALID_END_DATE_ONLY}</FormHelperText>}
             </div>
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
@@ -403,7 +390,7 @@ const ConditionSetting: React.FC = () => {
         );
       case '3':
         return (
-          <div style={{ height: "110px" }}>
+          <div style={{ height: "90px" }}>
             <Grid container spacing={1} alignItems="center" sx={{ marginTop: '0px' }}>
               <Grid item>
                 <p style={{ display: 'inline-block', fontSize: '10px' }}>期間</p>
@@ -415,8 +402,8 @@ const ConditionSetting: React.FC = () => {
               </Grid>
               <input className='setDate' type="date" value={endDate} onChange={handleDateChange(setendDate)} />
             </Grid>
-            {errorDate &&
-              <FormHelperText style={{ color: '#d32f2f', marginLeft:'25px' }}>{VALIDATION_MESSAGES.INVALID_START_DATE}</FormHelperText>}
+            {errorDatefrom &&
+              <FormHelperText style={{ color: '#d32f2f', marginLeft: '25px' ,marginTop:0}}>{VALIDATION_MESSAGES.INVALID_START_DATE}</FormHelperText>}
           </div>
         );
       case '4':
@@ -451,7 +438,7 @@ const ConditionSetting: React.FC = () => {
             />
 
             {errorSQ &&
-              <FormHelperText style={{ color: '#d32f2f' }}>{VALIDATION_MESSAGES.SELECT_SQ}</FormHelperText>}
+              <FormHelperText style={{ color: '#d32f2f',marginTop:0 }}>{VALIDATION_MESSAGES.SELECT_SQ}</FormHelperText>}
 
 
           </div>
@@ -564,10 +551,10 @@ const ConditionSetting: React.FC = () => {
                 }} value={endTime} onChange={handleEndTimeChange} />
               </Grid>}
             {errorTime &&
-              <FormHelperText style={{ color: '#d32f2f', marginLeft: '90px' }}>{VALIDATION_MESSAGES.INVALID_START_END_TIME}</FormHelperText>}
+              <FormHelperText style={{ color: '#d32f2f', marginLeft: '90px', marginTop:0}}>{VALIDATION_MESSAGES.INVALID_START_END_TIME}</FormHelperText>}
           </Grid>
         </div>
-        <p style={{ marginBottom: '15px' }}>個别算出</p>
+        <p style={{ marginBottom: '10px' }}>個别算出</p>
         <div>
           <Grid container spacing={1} alignItems="center" >
             <Typography variant="body1" padding='10px' paddingRight='50px'>前場</Typography>
