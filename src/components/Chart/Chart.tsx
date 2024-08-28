@@ -67,8 +67,10 @@ type TickFrame = {
 };
 
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
-  const { settingsState, conditionSettingState, requestPayload,response } = useMyContext();
-  // const [showDownloadButton, setshowDownloadButton] = useState<boolean>(false);
+  const { settingsState, conditionSettingState, requestPayload,response, } = useMyContext();
+
+  let useDailyColor = settingsState.checkboxStates[5] && settingsState.radioValues[1]==='0'
+
   const chartRef = useRef<Highcharts.Chart | null>(null);
   const chartRef1 = useRef<Highcharts.Chart | null>(null);
   const chartRef2 = useRef<Highcharts.Chart | null>(null);
@@ -250,12 +252,12 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         }));
         historicalDistribution = Object.values(data3.EveningTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Distribution),
-          color: settingsState.colors[11]
+          color: !useDailyColor ? settingsState.colors[11] : settingsState.colors[6]
         }));
 
         historicalCumulative = Object.values(data3.EveningTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Cumulative),
-          color: settingsState.colors[15]
+       color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
         }));
       }
 
@@ -275,11 +277,11 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         }));
         historicalDistribution1 = Object.values(data3.AMTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Distribution),
-          color: settingsState.colors[9]
+          color: !useDailyColor ? settingsState.colors[9] : settingsState.colors[4]
         }));
         historicalCumulative1 = Object.values(data3.AMTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Cumulative),
-          color: settingsState.colors[15]
+       color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
         }));
       }
       if (data3.PMTickFrame) {
@@ -298,11 +300,11 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         }));
         historicalDistribution2 = Object.values(data3.PMTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Distribution),
-          color: settingsState.colors[10]
+          color: !useDailyColor ? settingsState.colors[10] : settingsState.colors[5]
         }));
         historicalCumulative2 = Object.values(data3.PMTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Cumulative),
-          color: settingsState.colors[15]
+       color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
         }));
       }
       return {
@@ -329,6 +331,9 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     const data = processData();
     setChartData(data)
   }, [settingsState, conditionSettingState, display,response]);
+
+  
+
 
   useEffect(() => {
     if (conditionSettingState.marketState.eveningOpening && data3.EveningOpenTickFrame) {
@@ -359,14 +364,14 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         historicalDistribution: [
           {
             y: Number(data3.EveningOpenTickFrame!.AverageDaysChart!.Distribution),
-            color: settingsState.colors[12]
+            color: !useDailyColor ? settingsState.colors[12] : settingsState.colors[7]
           },
           ...prevState.historicalDistribution
         ],
         historicalCumulative: [
           {
             y: Number(data3.EveningOpenTickFrame!.AverageDaysChart!.Cumulative),
-            color: settingsState.colors[15]
+         color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
           },
           ...prevState.historicalCumulative
         ],
@@ -403,7 +408,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
           ...prevState.historicalDistribution,
           {
             y: Number(data3.EveningCloseTickFrame!.AverageDaysChart!.Distribution),
-            color: settingsState.colors[13]
+            color: !useDailyColor ? settingsState.colors[13] : settingsState.colors[8]
           }
         ],
 
@@ -411,7 +416,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
           ...prevState.historicalCumulative,
           {
             y: Number(data3.EveningCloseTickFrame!.AverageDaysChart!.Cumulative),
-            color: settingsState.colors[15]
+         color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
           }
 
         ],
@@ -448,14 +453,14 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         historicalDistribution1: [
           {
             y: Number(data3.AMOpenTickFrame!.AverageDaysChart!.Distribution),
-            color: settingsState.colors[12]
+            color: !useDailyColor ? settingsState.colors[12] : settingsState.colors[7]
           },
           ...prevState.historicalDistribution1
         ],
         historicalCumulative1: [
           {
             y: Number(data3.AMOpenTickFrame!.AverageDaysChart!.Cumulative),
-            color: settingsState.colors[15]
+         color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
           },
           ...prevState.historicalCumulative1
         ],
@@ -490,14 +495,14 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         historicalDistribution1: [...prevState.historicalDistribution1,
         {
           y: Number(data3.AMCloseTickFrame!.AverageDaysChart!.Distribution),
-          color: settingsState.colors[13]
+          color: !useDailyColor ? settingsState.colors[13] : settingsState.colors[8]
         },
 
         ],
         historicalCumulative1: [...prevState.historicalCumulative1,
         {
           y: Number(data3.AMCloseTickFrame!.AverageDaysChart!.Cumulative),
-          color: settingsState.colors[15]
+       color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
         },
 
         ],
@@ -531,14 +536,14 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         historicalDistribution2: [
           {
             y: Number(data3.PMOpenTickFrame!.AverageDaysChart!.Distribution),
-            color: settingsState.colors[12]
+            color: !useDailyColor ? settingsState.colors[12] : settingsState.colors[7]
           },
           ...prevState.historicalDistribution2
         ],
         historicalCumulative2: [
           {
             y: Number(data3.PMOpenTickFrame!.AverageDaysChart!.Cumulative),
-            color: settingsState.colors[15]
+         color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
           },
           ...prevState.historicalCumulative2
         ],
@@ -572,14 +577,14 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         historicalDistribution2: [...prevState.historicalDistribution2,
         {
           y: Number(data3.PMCloseTickFrame!.AverageDaysChart!.Distribution),
-          color: settingsState.colors[13]
+          color: !useDailyColor ? settingsState.colors[13] : settingsState.colors[8]
         },
 
         ],
         historicalCumulative2: [...prevState.historicalCumulative2,
         {
           y: Number(data3.PMCloseTickFrame!.AverageDaysChart!.Cumulative),
-          color: settingsState.colors[15]
+       color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
         },
 
         ],
@@ -906,7 +911,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         type: 'spline',
         yAxis: 1,
         name: '過去平均 累計',
-        color: settingsState.colors[15],
+     color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14],
         data: chartState.historicalCumulative,
       }
     ]

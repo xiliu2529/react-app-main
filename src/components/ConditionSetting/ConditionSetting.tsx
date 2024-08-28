@@ -336,9 +336,6 @@ const ConditionSetting: React.FC = () => {
       return newState;
     });
   };
-  console.log("startDate",startDate);
-  
-
   const renderUI = () => {
     switch (alignment) {
       case '0':
