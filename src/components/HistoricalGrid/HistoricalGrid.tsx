@@ -18,9 +18,8 @@ interface TickFrameData {
 
 
 const HistoricalGrid: React.FC = () => {
-  const { settingsState, conditionSettingState, requestPayload,griddownload ,buttonName,response} = useMyContext();
+  const { settingsState, conditionSettingState, requestPayload,griddownload ,buttonName,response,shouldDownload,setShouldDownload} = useMyContext();
   const isInitialized = useRef(false);
-  const [shouldDownload, setShouldDownload] = React.useState(false);
   type Data4Type = {
     [date: string]: {
       TotalFrame?: {
@@ -215,12 +214,8 @@ const HistoricalGrid: React.FC = () => {
     return rows;
   };
 
-  React.useEffect(() => {
-    if (isInitialized.current) {
-      setShouldDownload(true); 
-    }
-  }, []); 
-  React.useEffect(() => {
+  
+  useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
       return; 
@@ -246,6 +241,8 @@ const HistoricalGrid: React.FC = () => {
   
       // Clean up the URL object
       URL.revokeObjectURL(url);
+      setShouldDownload(false)
+
     }
   };
   

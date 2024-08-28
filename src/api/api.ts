@@ -19,7 +19,7 @@ export const postData1 =  async (): Promise<any> => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Basic UUlLQTExMTU4OlFJS0ExMTE1OA=='
+        // 'Authorization': 'Basic UUlLQTExMTU4OlFJS0ExMTE1OA=='
       },
       body: JSON.stringify(a),
     });
@@ -41,11 +41,12 @@ export const postData1 =  async (): Promise<any> => {
 };
 
 
-export const postData = async (data: object): Promise<[]> => {
+export const postData = async (): Promise<[]> => {
   try {
-    const response = await axios.post<[]>(POSTS_API_URL, data, {
+    const response = await axios.post<[]>(POSTS_API_URL, {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+         'Authorization': 'Basic UUlLQTExMTU4OlFJS0ExMTE1OA=='
       }
     });
     // console.log('Server response:', response);

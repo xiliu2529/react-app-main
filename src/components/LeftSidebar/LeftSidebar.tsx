@@ -51,11 +51,9 @@ const LeftSidebar: React.FC = () => {
             onMouseLeave={() => setButtonContainerVisible(false)} />
         </span>
         <Switch
-          className='switch-button'
-          checked={checked}
-          onChange={handleChange}
-          inputProps={{ 'aria-label': 'Switch demo' }}
-        />
+      checked={checked}
+      onChange={handleChange}
+    />
         <span className="switch-label">条件設定表示</span>
       </span>
 

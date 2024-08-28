@@ -12,7 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import { Grid } from '@mui/material';
 import './SettingsDialog.css';
 import { useMyContext } from '../../contexts/MyContext';
-import { postData1 } from '../../api/api';
+import { postData1,postData } from '../../api/api';
 
 
 type CheckboxState = boolean[];
@@ -20,7 +20,7 @@ type RadioValue = string[];
 type ColorValue = string[];
 
 const SettingsDialog = () => {
-    const [_data, setData] = useState<[]>([]);
+    // const [_data, setData] = useState<[]>([]);
     const { setSettingsState } = useMyContext();
     const [open, setOpen] = useState(false); // ダイアログの開閉状態を管理する状態を定義
     const [checkboxStates, setCheckboxStates] = useState<CheckboxState>(
@@ -67,43 +67,9 @@ const SettingsDialog = () => {
         } else {
             setSettingsState({ checkboxStates, radioValues, colors })
 
-            // const handleLogout = async () => {
-            //     try {
-            //       await logout();
-            //       console.log('Logout successful');
-            //     } catch (error) {
-            //       console.error('Logout failed:', error);
-            //     }
-            //   };
+            postData1()
 
-            // const updatedData = settingsState
-            // const fetchDataFromAPI = async () => {
-            //     try {
-            //         const result = await postData('/api/qww_dev/prod/userdata/load', { service_name: "qww", mode: "GET", types: "volumecurve_info" });
-            //         setData(result);
-            //     } catch (error) {
-            //         console.error(error);
-            //     }
-            // };
-
-            // const fetchDataFromAPI1 = async () => {
-            //     try {
-            //         const result = await postData('/api/qww_dev/prod/userdata/store', {
-            //             service_name: "qww",
-            //             mode: "PUT",
-            //             types: "volumecurve_info",
-            //             put_json_data: { test: updatedData }
-            //         });
-            //         setData(result);
-            //     } catch (error) {
-            //         console.error(error);
-            //     }
-            // }; 
-            
-            // handleLogout()
-            // //   fetchDataFromAPI1();
-            //   fetchDataFromAPI();
-            //      handleLogout()
+            postData()
 
         }
         setOpen(false);
@@ -114,14 +80,14 @@ const SettingsDialog = () => {
     //     fetchData()
        
     //   };
-    const handlePostData = async () => {
-        // fetchData()
-        try {
-          const result = await postData1();
-          setData(result);
-        } catch (err) {
-        }
-      };
+    // const handlePostData = async () => {
+    //     // fetchData()
+    //     try {
+    //       const result = await postData1();
+    //       setData(result);
+    //     } catch (err) {
+    //     }
+    //   };
 
     
     const handleButtonClick = () => {

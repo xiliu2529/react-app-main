@@ -8,7 +8,7 @@ import c from '../../data/data2.json';
 import d from '../../data/data1.json';
 import d1 from '../../data/101.1/data1.json';
 import d2 from '../../data/601.1/data1.json';
-import { useRef } from 'react';
+import { useRef   , useEffect,} from 'react';
 
 interface AverageDay {
   Date: string;
@@ -27,9 +27,9 @@ interface Data {
 }
 
 const Grids: React.FC = () => {
-  const { settingsState, requestPayload, conditionSettingState, griddownload, buttonName,response } = useMyContext();
+  const { settingsState, requestPayload, conditionSettingState, griddownload, buttonName,response,shouldDownload,setShouldDownload } = useMyContext();
   const isInitialized = useRef(false);
-  const [shouldDownload, setShouldDownload] = React.useState(false);
+  
   let data2: GridDisplayData = {
   }
   let data1: Data = {
@@ -41,19 +41,19 @@ const Grids: React.FC = () => {
     AverageDays: []
   };
 
-if(response){
-  if (requestPayload.Code === '6501' ) {
-    data2 = c;
-    data1 = d;
-  } else if (requestPayload.Code === '101.1') {
-    data2 = b;
-    data1 = d1;
-  } else if (requestPayload.Code === '601.1') {
-    data2 = a;
-    data1 = d2;
-  }
+  if (response) {
+    if (requestPayload.Code === '6501') {
+      data2 = c;
+      data1 = d;
+    } else if (requestPayload.Code === '101.1') {
+      data2 = b;
+      data1 = d1;
+    } else if (requestPayload.Code === '601.1') {
+      data2 = a;
+      data1 = d2;
+    }
 
-}
+  }
 
   const dates = data1.AverageDays.map(item => item.Date);
   const count = dates.length;
@@ -90,10 +90,8 @@ if(response){
       </TableRow>
     )
   };
-  React.useEffect(() => {
+  useEffect(() => {
     if (settingsState) {
-
-
       document.documentElement.style.setProperty('--cell-bg-color', settingsState.colors[0]);
       document.documentElement.style.setProperty('--cell-color', settingsState.colors[1]);
       document.documentElement.style.setProperty('--hide-last-column', settingsState.checkboxStates[2] ? 'table-cell' : 'none');
@@ -186,37 +184,36 @@ if(response){
 
     return csvRows.join('\n');
   };
-  React.useEffect(() => {
-    if (isInitialized.current) {
-      setShouldDownload(true);
-    }
-  }, []);
+ 
   
   React.useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
       return;
     }
+    
     if (shouldDownload && data2.TotalFrame !== undefined && [1, 2, 3, 4, 7, 8].includes(buttonName)) {
       downloadCSV('grid-data.csv');
     }
   }, [griddownload]);
+  
 
   const downloadCSV = (filename: string) => {
     const csvData = exportTableToCSV();
-  
-    const bom = '\uFEFF'; 
+
+    const bom = '\uFEFF';
     const csvContent = bom + csvData;
-  
+
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
     link.setAttribute('download', filename);
     link.click();
-  
+
     // Cleanup
     URL.revokeObjectURL(url);
+    setShouldDownload(false)
   };
 
   return (
