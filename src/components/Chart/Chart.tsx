@@ -153,16 +153,22 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       menu.style.top = `${event.clientY}px`;
       menu.style.left = `${event.clientX}px`;
       menu.style.backgroundColor = '#fff';
-      menu.style.border = '1px solid #ccc';
-      menu.style.boxShadow = '0 0 5px rgba(0,0,0,0.1)';
+      menu.style.border = '1px solid #ddd';
+      menu.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+      menu.style.borderRadius = '3px'; // 角を丸くする
       menu.style.zIndex = '1000';
-
+      menu.style.width = '160px'; // 少し幅を広げる
+      menu.style.padding = '10px 0'; // 内側の余白を追加
+      
       // ダウンロードオプションを追加
       ['PNG', 'JPEG', 'SVG'].forEach((format, index) => {
         const item = document.createElement('div');
         item.textContent = `${format} ダウンロード`;
         item.style.cursor = 'pointer';
-        item.style.textAlign = 'center';
+        item.style.textAlign = 'left';
+        item.style.padding = '8px 10px'; // 各項目の上下余白
+        item.style.color = '#333'; // 文字色
+        item.style.transition = 'background-color 0.3s ease'; // 背景色の変化にトランジションを追加
         item.addEventListener('click', () => {
           const mimeType = format === 'SVG' ? 'image/svg+xml' : `image/${format.toLowerCase()}`;
           // @ts-ignore
