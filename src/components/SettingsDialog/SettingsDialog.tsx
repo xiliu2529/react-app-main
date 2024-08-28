@@ -12,7 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import { Grid } from '@mui/material';
 import './SettingsDialog.css';
 import { useMyContext } from '../../contexts/MyContext';
-import { postData1,postData } from '../../api/api';
+// import { postData1,postData } from '../../api/api';
 
 
 type CheckboxState = boolean[];
@@ -67,27 +67,12 @@ const SettingsDialog = () => {
         } else {
             setSettingsState({ checkboxStates, radioValues, colors })
 
-            postData1()
-
-            postData()
+           
 
         }
         setOpen(false);
 
     };
-    // const [error, setError] = useState<string | null>(null); 
-    // const handlePostData1 = async () => {
-    //     fetchData()
-
-    //   };
-    // const handlePostData = async () => {
-    //     // fetchData()
-    //     try {
-    //       const result = await postData1();
-    //       setData(result);
-    //     } catch (err) {
-    //     }
-    //   };
 
     const handleButtonClick = () => {
         // ボタンクリック時の処理
