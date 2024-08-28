@@ -6,8 +6,7 @@
 .inline-container {
   display: flex;
   align-items: center;
-  padding-left: 30px;
-  padding-right: 10px;
+  margin:0px 10px;
 }
 
 .wrapper {

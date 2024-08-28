@@ -1,4 +1,4 @@
-import {  useState } from 'react';
+import { useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -99,7 +99,7 @@ const SettingsDialog = () => {
             //         console.error(error);
             //     }
             // }; 
-            
+
             // handleLogout()
             // //   fetchDataFromAPI1();
             //   fetchDataFromAPI();
@@ -112,18 +112,18 @@ const SettingsDialog = () => {
     // const [error, setError] = useState<string | null>(null); 
     // const handlePostData1 = async () => {
     //     fetchData()
-       
+
     //   };
     const handlePostData = async () => {
         // fetchData()
         try {
-          const result = await postData1();
-          setData(result);
+            const result = await postData1();
+            setData(result);
         } catch (err) {
         }
-      };
+    };
 
-    
+
     const handleButtonClick = () => {
         // ボタンクリック時の処理
         setCheckboxStates(Array(7).fill(false));
@@ -155,7 +155,7 @@ const SettingsDialog = () => {
                         <FormControl component="fieldset" sx={{ width: '900px', }}>
                             <Grid className='main-container' container spacing={2} wrap="nowrap" >
                                 <Grid item xs={12} sm={6} className='left-container'>
-                                    
+
                                     <p className='category-title'>表示項目</p>
                                     <p className='sub-title'>グリッド</p>
                                     <FormControlLabel
@@ -305,7 +305,7 @@ const SettingsDialog = () => {
 
                                             </div>
                                             <div className="wrapper">
-                                                <p style={{width:'50px'}}>累計</p>
+                                                <p style={{ width: '50px' }}>累計</p>
                                                 <span className="inline-container">
                                                     <input type="color" value={colors[14]} style={{ width: '100px' }} onChange={(event) => handleColorChange(14, event.target.value)} />
                                                 </span>
@@ -315,7 +315,7 @@ const SettingsDialog = () => {
 
                                             </div>
                                             <div className="wrapper">
-                                            <p style={{width:'50px'}}>チャート</p>
+                                                <p style={{ width: '50px' }}>チャート</p>
                                                 <span className="inline-container">
                                                     <input type="color" value={colors[16]} style={{ width: '100px' }} onChange={(event) => handleColorChange(16, event.target.value)} />
                                                 </span>
