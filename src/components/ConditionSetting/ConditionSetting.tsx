@@ -5,8 +5,7 @@ import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
 // @ts-ignore
 import { VALIDATION_MESSAGES } from '../../constants/validationMessages.js';
-
-// import { postData } from '../../api/api';
+import { postData1, } from '../../api/api';
 
 const ConditionSetting: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
@@ -89,6 +88,8 @@ const ConditionSetting: React.FC = () => {
       [key]: event.target.checked,
     });
   };
+
+
   const handleCalculate = () => {
     setRequestPayload({
       Code: inputValue,
@@ -137,6 +138,29 @@ const ConditionSetting: React.FC = () => {
     setConditionSettingState({ marketState, inputValue });
 
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await postData1();
+        if (result.body.response !== 'OK') {
+          console.log('no', result);
+        } else {
+          console.log('yes', result);
+          // const result2 = await postData2();
+          // console.log('Result from postData2:', result2);
+        }
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        
+      }
+    };
+    
+    fetchData();
+
+  }, []); 
+
+
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Enter') {
@@ -580,7 +604,7 @@ const ConditionSetting: React.FC = () => {
         onClick={handleCalculate}>
         算出
       </Button>
-
+    
     </div >
 
 

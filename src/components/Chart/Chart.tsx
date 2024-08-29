@@ -159,8 +159,9 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       menu.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
       menu.style.borderRadius = '3px'; // 角を丸くする
       menu.style.zIndex = '1000';
-      menu.style.width = '160px'; // 少し幅を広げる
-      menu.style.padding = '10px 0'; // 内側の余白を追加
+      menu.style.width = '130px'; // 少し幅を広げる
+      menu.style.whiteSpace = 'nowrap';
+ 
       
       // ダウンロードオプションを追加
       ['PNG', 'JPEG', 'SVG'].forEach((format, index) => {

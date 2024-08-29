@@ -23,6 +23,13 @@ const MainPage: React.FC = () => {
       <div className="body">
         <LeftSidebar/>
         {renderContent()}
+        
+      
+       <div
+      
+    >
+    </div>
+
       </div>
     </div>
   );
