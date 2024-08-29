@@ -1,48 +1,55 @@
-// api.ts
-// APIレスポンスの型定義
-export interface ApiResponse<T> {
-  data: T; // レスポンスデータ
-  status: number; // ステータスコード
-}
+import axios from 'axios';
 
-// APIエラーの型定義
-export interface ApiError {
-  message: string; // エラーメッセージ
-  status: number; // ステータスコード
-}
+// const a = { service_name: "qww", mode: "GET", types: "volumecurve_info" };
 
-// APIリクエストを行う関数
-export async function apiRequest<T>(
-  url: string, // リクエストするURL
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET', // HTTPメソッド
-  body?: any, // リクエストボディ（任意）
-  headers?: HeadersInit // リクエストヘッダー（任意）
-): Promise<ApiResponse<T> | ApiError> { // 成功時は ApiResponse<T> を、失敗時は ApiError を返す
+const username = 'QIKA11158';
+const password = 'QIKA11158';
+
+const generateAuthorizationToken = (username: String, password: String) => {
+  const credentials = `${username}:${password}`;
+  return 'Basic ' + btoa(credentials);
+};
+
+const apiClient = axios.create({
+  // baseURL: '/api/qww_dev/prod/',
+  headers: {
+    'Content-Type': 'application/json',
+    //  'Authorization': 'Basic UUlLQTExMTU4OlFJS0ExMTE1OA=='
+    'Authorization': generateAuthorizationToken(username, password),
+    'dataType':'json',
+  },
+  withCredentials: true
+});
+
+export const postData1 = async (): Promise<any> => {
   try {
-    // fetch を使用してリクエストを送信
-    const response = await fetch(url, {
-      method,
-      headers: {
-        'Content-Type': 'application/json', // デフォルトのコンテンツタイプ
-        ...headers, // 任意のヘッダー
-      },
-      body: body ? JSON.stringify(body) : undefined, // ボディが存在する場合は JSON 形式に変換
-    });
-
-    if (!response.ok) {
-      // レスポンスが成功でない場合、エラーメッセージを取得
-      const errorText = await response.text();
-      return { message: errorText, status: response.status };
-    }
-
-    // レスポンスのデータを JSON 形式で取得
-    const data: T = await response.json();
-    return { data, status: response.status };
+    const response = await apiClient.post('api/qrlab/volumeCurve/api/package.do');
+    // console.log('Data posted:', response.data);
+    return response.data;
   } catch (error) {
-    // エラーが発生した場合、エラーメッセージとステータスコードを返す
-    return {
-      message: (error as Error).message,
-      status: 500, // サーバーエラー
-    };
+    console.error('Error posting data:', error);
+    throw error;
   }
-}
+};
+
+const apiClient1 = axios.create({
+  baseURL: '/api2',
+  headers: {
+    'Content-Type': 'application/json',
+    //  'Authorization': 'Basic UUlLQTExMTU4OlFJS0ExMTE1OA=='
+    'Authorization': generateAuthorizationToken(username, password),
+  },
+  withCredentials: true
+  
+});
+
+export const postData2 = async (): Promise<any> => {
+  try {
+    const response = await apiClient1.post('/qww_dev/prod/analyze/request');
+    return response.data;
+  } catch (error) {
+    console.error('Error posting data:', error);
+    throw error;
+  }
+};
+

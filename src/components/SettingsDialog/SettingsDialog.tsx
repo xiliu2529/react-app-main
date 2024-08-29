@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState ,} from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -12,7 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import { Grid } from '@mui/material';
 import './SettingsDialog.css';
 import { useMyContext } from '../../contexts/MyContext';
-// import { postData1,postData } from '../../api/api';
+// import { postData1 } from '../../api/api';
 
 
 type CheckboxState = boolean[];
@@ -67,7 +67,6 @@ const SettingsDialog = () => {
         } else {
             setSettingsState({ checkboxStates, radioValues, colors })
 
-           
 
         }
         setOpen(false);
@@ -84,6 +83,26 @@ const SettingsDialog = () => {
             '#52a69f', '#52a69f', '#596db8', '#5bbcd1', '#7e522e'
         ]);
     };
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //       try {
+    //         const result = await postData1();
+    //         if(result.body.response !== 'OK'){
+    //             console.log("no");
+                
+    //         }else{
+    //             console.log('yes',result);
+
+                
+    //         }
+    //       } catch (err) {
+    //       }
+    //     };
+    //     fetchData();
+
+    //   }, []); 
+
 
 
     return (
@@ -305,3 +324,5 @@ const SettingsDialog = () => {
 };
 
 export default SettingsDialog;
+
+
