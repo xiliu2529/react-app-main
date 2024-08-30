@@ -11,7 +11,15 @@ const Utilities: React.FC = () => {
   const print = () => {
     window.print();
   }
-  const help = () => {}
+  const help = () => {
+       const pdfUrl = '/volumeCurve_help.pdf';
+       const a = document.createElement('a');
+       a.href = pdfUrl;
+       a.download = 'example.pdf'; 
+       document.body.appendChild(a);
+       a.click(); 
+       document.body.removeChild(a);
+  }
   const favorite = () => {}
 
   const download = () => {

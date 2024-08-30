@@ -19,6 +19,9 @@ interface MyContextType {
   setResponse: (alignment: boolean) => void; 
   shouldDownload:boolean
   setShouldDownload: (alignment: boolean) => void; 
+  error: any;
+  setError: (error: any) => void; 
+  
 }
 
 const MyContext = createContext<MyContextType | undefined>(undefined);
@@ -35,6 +38,7 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       '#52a69f', '#52a69f', '#596db8', '#5bbcd1', '#7e522e'
     ],
   });
+  const [error, setError] = useState<string | null>(null); 
   const initialConditionSettingState: ConditionSettingState = {
     marketState: {
       preMarketOpening: false,
@@ -169,7 +173,9 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         response,
         setResponse,
         shouldDownload,
-        setShouldDownload
+        setShouldDownload,
+        error,
+        setError
 
       }}
     >

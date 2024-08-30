@@ -14,8 +14,27 @@ import {
   HistoricalData
 } from '../../components/PageSwitcher/PageSwitcher'; 
 import { useMyContext, } from '../../contexts/MyContext'; 
+import { useEffect, useState } from 'react';
+
+
+
+
+
 const MainPage: React.FC = () => {
-  const { isHistoricalActive,buttonName} = useMyContext(); 
+  const { isHistoricalActive,buttonName,error} = useMyContext(); 
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  useEffect(() => {
+    
+    if (error){
+      if(error.response.status !== 200) {
+      setShowSnackbar(true);
+      const timer = setTimeout(() => {
+        setShowSnackbar(false);
+      }, 5000); // 5秒后自动消失
+
+      return () => clearTimeout(timer); // 清除计时器
+    }}
+  }, [error]);
  
   return (
     <div className="layout">
@@ -23,12 +42,11 @@ const MainPage: React.FC = () => {
       <div className="body">
         <LeftSidebar/>
         {renderContent()}
-        
-      
-       <div
-      
-    >
-    </div>
+        {showSnackbar && (
+          <div className="custom-snackbar">
+            <span>xxxxxxxxx</span>
+          </div>
+        )}
 
       </div>
     </div>

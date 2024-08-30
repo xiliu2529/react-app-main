@@ -31,7 +31,7 @@ const ConditionSetting: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['1', '1', '1']);
-  const { setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse } = useMyContext();
+  const { setError,setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
   const [errorDatefrom, seterrorDatefrom] = useState<boolean>(false);
@@ -49,6 +49,7 @@ const ConditionSetting: React.FC = () => {
       fontWeight: '900',
     },
   };
+
 
 
   const getTenDaysAgoDate = (): string => {
@@ -150,8 +151,8 @@ const ConditionSetting: React.FC = () => {
           // console.log('Result from postData2:', result2);
         }
       } catch (err) {
-        console.error('Error fetching data:', err);
-        
+        console.error('Error fetching data:', );
+        setError(err)
       }
     };
     

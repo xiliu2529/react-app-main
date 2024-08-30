@@ -24,10 +24,8 @@ const apiClient = axios.create({
 export const postData1 = async (): Promise<any> => {
   try {
     const response = await apiClient.post('api/qrlab/volumeCurve/api/package.do');
-    // console.log('Data posted:', response.data);
     return response.data;
   } catch (error) {
-    console.error('Error posting data:', error);
     throw error;
   }
 };
