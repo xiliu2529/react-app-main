@@ -1,6 +1,7 @@
 import './MainPage.css';
 import Header from '../../components/Header/Header';
 import LeftSidebar from '../../components/LeftSidebar/LeftSidebar';
+import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
 import {
   SettingsChartGridPage,
   GridChartPage,
@@ -20,8 +21,9 @@ import { useEffect, useState } from 'react';
 
 
 
+
 const MainPage: React.FC = () => {
-  const { isHistoricalActive,buttonName,error} = useMyContext(); 
+  const { isHistoricalActive,buttonName,error,loading, setLoading} = useMyContext(); 
   const [showSnackbar, setShowSnackbar] = useState(false);
   useEffect(() => {
     
@@ -35,7 +37,9 @@ const MainPage: React.FC = () => {
       return () => clearTimeout(timer); // 清除计时器
     }}
   }, [error]);
- 
+
+
+   
   return (
     <div className="layout">
       <Header />
@@ -47,6 +51,7 @@ const MainPage: React.FC = () => {
             <span>xxxxxxxxx</span>
           </div>
         )}
+          {loading && <LoadingOverlay />}
 
       </div>
     </div>

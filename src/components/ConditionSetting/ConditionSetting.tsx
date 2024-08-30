@@ -31,7 +31,7 @@ const ConditionSetting: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['1', '1', '1']);
-  const { setError,setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse } = useMyContext();
+  const { setLoading, setError, setConditionSettingState, buttonName, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
   const [errorDatefrom, seterrorDatefrom] = useState<boolean>(false);
@@ -49,8 +49,6 @@ const ConditionSetting: React.FC = () => {
       fontWeight: '900',
     },
   };
-
-
 
   const getTenDaysAgoDate = (): string => {
     const today = new Date();
@@ -92,6 +90,7 @@ const ConditionSetting: React.FC = () => {
 
 
   const handleCalculate = () => {
+
     setRequestPayload({
       Code: inputValue,
       HistoricalSetting: {
@@ -133,12 +132,16 @@ const ConditionSetting: React.FC = () => {
         MostVolumeAndPriceType: settingsState.radioValues[0],
         PercentageOfDayType: convertBoolToString(settingsState.checkboxStates[3]),
       },
-
     });
-    setIsReadyToSend(true)
+
+    setIsReadyToSend(true);
     setConditionSettingState({ marketState, inputValue });
 
+
+
+
   };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -151,14 +154,14 @@ const ConditionSetting: React.FC = () => {
           // console.log('Result from postData2:', result2);
         }
       } catch (err) {
-        console.error('Error fetching data:', );
+        console.error('Error fetching data:',);
         setError(err)
       }
     };
-    
+
     fetchData();
 
-  }, []); 
+  }, []);
 
 
 
@@ -233,10 +236,17 @@ const ConditionSetting: React.FC = () => {
     if (Object.keys(requestPayload).length > 0) {
       if (isReadyToSend) {
         const isValid = validatePayload(requestPayload);
+        console.log('isValidx', isValid);
+
         setResponse(isValid)
         if (isValid) {
+          setLoading(true)
           console.log('requestPayload', requestPayload);
 
+          setTimeout(() => {
+      
+            setLoading(false);
+          }, 5000); 
         } else {
 
         }
@@ -284,23 +294,24 @@ const ConditionSetting: React.FC = () => {
     } else {
       setValidation({ error: false, helperText: '' });
     }
-    
 
-    if (category === '1'){
-     if(!DateFrom || DateFrom >todayFormatted) {
-      seterrorDatefrom(true);
-      hasError = true;
-    } else {
-      seterrorDatefrom(false);
-    }}
+
+    if (category === '1') {
+      if (!DateFrom || DateFrom > todayFormatted) {
+        seterrorDatefrom(true);
+        hasError = true;
+      } else {
+        seterrorDatefrom(false);
+      }
+    }
     if (category === '2' && !DateTo) {
       seterrorDateto(true);
       hasError = true;
     } else {
       seterrorDateto(false);
     }
-    if (category === '3' ) {
-      if (DateTo < DateFrom || !DateFrom ||!DateTo || DateFrom>DateTo) {
+    if (category === '3') {
+      if (DateTo < DateFrom || !DateFrom || !DateTo || DateFrom > DateTo) {
         seterrorDatefrom(true);
         hasError = true;
       } else {
@@ -323,6 +334,7 @@ const ConditionSetting: React.FC = () => {
     } else {
       seterrorTime(false);
     }
+
     return !hasError;
   };
 
@@ -374,7 +386,7 @@ const ConditionSetting: React.FC = () => {
               <p style={{ display: 'inline-block', fontSize: '10px' }}>開始日</p>
               <input className='setDate' type="date" value={startDate} min={minDaysAgo} onChange={handleDateChange(setstartDate)} />
               {errorDatefrom &&
-                <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop:0}}>{VALIDATION_MESSAGES.INVALID_START_DATE_ONLY}</FormHelperText>}
+                <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}>{VALIDATION_MESSAGES.INVALID_START_DATE_ONLY}</FormHelperText>}
             </div>
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
@@ -397,7 +409,7 @@ const ConditionSetting: React.FC = () => {
               <p style={{ display: 'inline-block', fontSize: '10px' }}>終了日</p>
               <input className='setDate' type="date" value={endDate} onChange={handleDateChange(setendDate)} />
               {errorDateto &&
-                <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px',marginTop:0 }}>{VALIDATION_MESSAGES.INVALID_END_DATE_ONLY}</FormHelperText>}
+                <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}>{VALIDATION_MESSAGES.INVALID_END_DATE_ONLY}</FormHelperText>}
             </div>
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
@@ -428,7 +440,7 @@ const ConditionSetting: React.FC = () => {
               <input className='setDate' type="date" value={endDate} onChange={handleDateChange(setendDate)} />
             </Grid>
             {errorDatefrom &&
-              <FormHelperText style={{ color: '#d32f2f', marginLeft: '25px' ,marginTop:0}}>{VALIDATION_MESSAGES.INVALID_START_DATE}</FormHelperText>}
+              <FormHelperText style={{ color: '#d32f2f', marginLeft: '25px', marginTop: 0 }}>{VALIDATION_MESSAGES.INVALID_START_DATE}</FormHelperText>}
           </div>
         );
       case '4':
@@ -463,7 +475,7 @@ const ConditionSetting: React.FC = () => {
             />
 
             {errorSQ &&
-              <FormHelperText style={{ color: '#d32f2f',marginTop:0 }}>{VALIDATION_MESSAGES.SELECT_SQ}</FormHelperText>}
+              <FormHelperText style={{ color: '#d32f2f', marginTop: 0 }}>{VALIDATION_MESSAGES.SELECT_SQ}</FormHelperText>}
 
 
           </div>
@@ -576,7 +588,7 @@ const ConditionSetting: React.FC = () => {
                 }} value={endTime} onChange={handleEndTimeChange} />
               </Grid>}
             {errorTime &&
-              <FormHelperText style={{ color: '#d32f2f', marginLeft: '90px', marginTop:0}}>{VALIDATION_MESSAGES.INVALID_START_END_TIME}</FormHelperText>}
+              <FormHelperText style={{ color: '#d32f2f', marginLeft: '90px', marginTop: 0 }}>{VALIDATION_MESSAGES.INVALID_START_END_TIME}</FormHelperText>}
           </Grid>
         </div>
         <p style={{ marginBottom: '10px' }}>個别算出</p>
@@ -605,7 +617,7 @@ const ConditionSetting: React.FC = () => {
         onClick={handleCalculate}>
         算出
       </Button>
-    
+
     </div >
 
 

@@ -1,0 +1,43 @@
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; 
+  }
+  
+  .spinner {
+    border: 8px solid #f3f3f3; 
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .cancel-button {
+    background-color: transparent; /* 透明背景 */
+    border: 2px solid white; /* 白色边框 */
+    color: white; /* 白色字体 */
+    border-radius: 20px; /* 圆角 */
+    cursor: pointer;
+    font-size: 12px;
+    margin-top: 20px; /* 与转圈动画间距 */
+    width: 100px; /* 设置按钮宽度 */
+    height: 30px; /* 设置按钮高度 */
+  }
+  
+  .cancel-button:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* 悬停时的背景色 */
+  }
