@@ -32,9 +32,9 @@ const MainPage: React.FC = () => {
       setShowSnackbar(true);
       const timer = setTimeout(() => {
         setShowSnackbar(false);
-      }, 5000); // 5秒后自动消失
+      }, 5000); 
 
-      return () => clearTimeout(timer); // 清除计时器
+      return () => clearTimeout(timer); 
     }}
   }, [error]);
 

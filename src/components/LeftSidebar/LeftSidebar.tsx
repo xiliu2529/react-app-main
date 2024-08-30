@@ -1,8 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './LeftSidebar.css';
-import icon from '../../img/icon.svg';
+import icon from '../../img/レイアウト切替.svg';
 import { useMyContext } from '../../contexts/MyContext';
 import Switch from '@mui/material/Switch';
+import a from '../../img/グリッド + グラフ(左右).svg'
+import b from '../../img/グリッド + グラフ(上下).svg'
+import c from '../../img/グリッド のみ.svg'
+import d from '../../img/グラフのみ.svg'
 
 const LeftSidebar: React.FC = () => {
   const { isHistoricalActive, setbuttonName, buttonName } = useMyContext();
@@ -46,7 +50,7 @@ const LeftSidebar: React.FC = () => {
       <span
         className="icon-container">
         <span>
-          <img src={icon} alt="Icon" className="icon"
+          <img src={icon} alt="Icon" className="icon" style={{ height:"30px" }}
             onMouseEnter={() => setButtonContainerVisible(true && isHistoricalActive)}
             onMouseLeave={() => setButtonContainerVisible(false)} />
         </span>
@@ -62,28 +66,20 @@ const LeftSidebar: React.FC = () => {
         onMouseEnter={() => setButtonContainerVisible(true && isHistoricalActive)}
         onMouseLeave={() => setButtonContainerVisible(false)}>
           <button className="sidebar-button" onClick={() => handleButtonClick(2)}>
-            <svg width="34" height="24" viewBox="0 0 44 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="34" height="24" fill="#0E0E0E" />
-            </svg>
+          <img src={a} alt="Sidebar Icon" width="30" height="20"style={{ marginRight: '8px' }} />
             グリッド+グラフ(左右)
           </button>
           <button className="sidebar-button" onClick={() => handleButtonClick(8)}>
-            <svg width="34" height="24" viewBox="0 0 44 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="34" height="24" fill="#0E0E0E" />
-            </svg>
+          <img src={b} alt="Sidebar Icon" width="30" height="20" style={{ marginRight: '8px' }}/>
             グリッド+グラフ(上下)
           </button>
           <button className="sidebar-button" onClick={() => handleButtonClick(4)}>
-            <svg width="34" height="24" viewBox="0 0 44 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="34" height="24" fill="#0E0E0E" />
-            </svg>
+          <img src={c} alt="Sidebar Icon" width="30" height="20"style={{ marginRight: '8px' }} />
             グリッドのみ
           </button>
           <button className="sidebar-button" onClick={() => handleButtonClick(6)}>
-            <svg width="34" height="24" viewBox="0 0 44 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="34" height="24" fill="#0E0E0E" />
-            </svg>
-            グラフのみ
+          <img src={d} alt="Sidebar Icon" width="30" height="20" style={{ marginRight: '8px' }}/>
+             グラフのみ
           </button>
         </div>
       )}
