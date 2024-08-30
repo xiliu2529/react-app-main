@@ -47,12 +47,16 @@ const LeftSidebar: React.FC = () => {
   return  (
  
     <aside className="left-sidebar">
-      <span
-        className="icon-container">
-        <span>
-          <img src={icon} alt="Icon" className="icon" style={{ height:"30px" }}
-            onMouseEnter={() => setButtonContainerVisible(true && isHistoricalActive)}
-            onMouseLeave={() => setButtonContainerVisible(false)} />
+      <span className="icon-container">
+        <span className='tabMenu' style={{
+          cursor: isHistoricalActive ? "pointer" : "default",
+          color:isHistoricalActive ? "#143867" : "#5a5d60",
+          }}
+          onMouseEnter={() => setButtonContainerVisible(true && isHistoricalActive)}
+          onMouseLeave={() => setButtonContainerVisible(false)} 
+          >
+          <img src={icon} alt="Icon" className="icon" style={{ height:"15px", marginRight:"10px"}} />
+            レイアウト切替
         </span>
         <Switch
       checked={checked}
