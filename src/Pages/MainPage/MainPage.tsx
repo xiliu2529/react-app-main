@@ -15,7 +15,7 @@ import {
   HistoricalData
 } from '../../components/PageSwitcher/PageSwitcher'; 
 import { useMyContext, } from '../../contexts/MyContext'; 
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 
 
 
@@ -23,8 +23,8 @@ import { useEffect, useState } from 'react';
 
 
 const MainPage: React.FC = () => {
-  const { isHistoricalActive,buttonName,error,loading, setLoading} = useMyContext(); 
-  const [showSnackbar, setShowSnackbar] = useState(false);
+  const { isHistoricalActive,buttonName,loading,} = useMyContext(); 
+  const [showSnackbar,] = useState(false);
 
   // useEffect(() => {
     

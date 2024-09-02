@@ -180,7 +180,7 @@ const ConditionSetting: React.FC = () => {
 
 
 
-   }, []);
+   }, [requestPayload]);
 
 
 
