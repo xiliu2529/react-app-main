@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Grid, Table, TableContainer, TableHead, Box, TableBody, TableCell, TableRow } from '@mui/material';
 import './Grid.css';
 import { useMyContext } from '../../contexts/MyContext';
+import { AverageDay, Data } from '../../types/grid';
 import a from '../../data/601.1/data2.json';
 import b from '../../data/101.1/data2.json';
 import c from '../../data/data2.json';
@@ -10,21 +11,6 @@ import d1 from '../../data/101.1/data1.json';
 import d2 from '../../data/601.1/data1.json';
 import { useRef   , useEffect,} from 'react';
 
-interface AverageDay {
-  Date: string;
-  TotalVolume: string;
-  HighLowMark: string;
-  SQMark: string;
-}
-
-interface Data {
-  QuoteCode: string;
-  AbbreviatedName: string;
-  MarketName: string;
-  ListedSection: string;
-  Today: string;
-  AverageDays: AverageDay[];
-}
 
 const Grids: React.FC = () => {
   const { settingsState, requestPayload, conditionSettingState, griddownload, buttonName,response,shouldDownload,setShouldDownload } = useMyContext();

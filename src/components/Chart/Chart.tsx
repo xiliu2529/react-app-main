@@ -2,7 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Highcharts from 'highcharts';
-
+import {
+  ChartData,
+  ChartState,
+  TickFrame,
+} from '../../types/chartTypes';
 import Exporting from 'highcharts/modules/exporting';
 
 import { useMyContext } from '../../contexts/MyContext';
@@ -11,60 +15,6 @@ import b from '../../data/101.1/data3.json'
 import c from '../../data/data3.json'
 import './Chart.css';
 
-interface ChartData {
-  timeLabels: string[];
-  todayDistribution: { y: number; color: string }[]
-  todayCumulative: { y: number; color: string }[]
-  closePrice: { y: number; color: string }[]
-  historicalDistribution: { y: number; color: string }[]
-  historicalCumulative: { y: number; color: string }[]
-  timeLabels1: string[];
-  todayDistribution1: { y: number; color: string }[]
-  todayCumulative1: { y: number; color: string }[]
-  closePrice1: { y: number; color: string }[]
-  historicalDistribution1: { y: number; color: string }[]
-  historicalCumulative1: { y: number; color: string }[]
-  timeLabels2: string[];
-  todayDistribution2: { y: number; color: string }[]
-  todayCumulative2: { y: number; color: string }[]
-  closePrice2: { y: number; color: string }[]
-  historicalDistribution2: { y: number; color: string }[]
-  historicalCumulative2: { y: number; color: string }[]
-}
-interface ChartState {
-  xAxisLabels: string[];
-  todayDistribution: { y: number; color: string }[]
-  todayCumulative: { y: number; color: string }[]
-  historicalDistribution: { y: number; color: string }[]
-  historicalCumulative: { y: number; color: string }[]
-  ClosePrice: { y: number; color: string }[]
-}
-type ChartDatax = {
-  Distribution: string;
-  Cumulative: string;
-  ClosePrice?: string;
-};
-
-type TimeFrameData = {
-  AverageDaysChart?: ChartDatax;
-  TodayChart?: ChartDatax;
-};
-
-type TimeFrames = {
-  [key: string]: TimeFrameData;
-};
-
-type TickFrame = {
-  EveningOpenTickFrame?: TimeFrameData;
-  EveningTickFrame?: TimeFrames;
-  EveningCloseTickFrame?: TimeFrameData;
-  AMOpenTickFrame?: TimeFrameData;
-  AMTickFrame?: TimeFrames;
-  AMCloseTickFrame?: TimeFrameData;
-  PMOpenTickFrame?: TimeFrameData;
-  PMTickFrame?: TimeFrames;
-  PMCloseTickFrame?: TimeFrameData;
-};
 
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
   const { settingsState, conditionSettingState, requestPayload,response, } = useMyContext();
