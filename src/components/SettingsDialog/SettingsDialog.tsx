@@ -84,26 +84,6 @@ const SettingsDialog = () => {
         ]);
     };
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //       try {
-    //         const result = await postData1();
-    //         if(result.body.response !== 'OK'){
-    //             console.log("no");
-                
-    //         }else{
-    //             console.log('yes',result);
-
-                
-    //         }
-    //       } catch (err) {
-    //       }
-    //     };
-    //     fetchData();
-
-    //   }, []); 
-
-
 
     return (
         <div>

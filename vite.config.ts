@@ -6,13 +6,13 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api2': {
-        target: 'http://11.255.97.33/home/member/',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api2/, ''),
-      },
+      // '/api2': {
+      //   target: 'http://11.255.97.33/home/member/',
+      //   changeOrigin: true,
+      //   rewrite: (path) => path.replace(/^\/api2/, ''),
+      // },
       '/api': {
-        target: 'http://10.163.52.108:8080/home/member/',
+        target: 'http://11.255.97.33/home/member/',
 
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),

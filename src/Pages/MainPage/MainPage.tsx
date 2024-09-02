@@ -25,18 +25,19 @@ import { useEffect, useState } from 'react';
 const MainPage: React.FC = () => {
   const { isHistoricalActive,buttonName,error,loading, setLoading} = useMyContext(); 
   const [showSnackbar, setShowSnackbar] = useState(false);
-  useEffect(() => {
-    
-    if (error){
-      if(error.response.status !== 200) {
-      setShowSnackbar(true);
-      const timer = setTimeout(() => {
-        setShowSnackbar(false);
-      }, 5000); 
 
-      return () => clearTimeout(timer); 
-    }}
-  }, [error]);
+  // useEffect(() => {
+    
+  //   if (error){
+  //     if(error.response.status !== 200) {
+  //     setShowSnackbar(true);
+  //     const timer = setTimeout(() => {
+  //       setShowSnackbar(false);
+  //     }, 5000); 
+
+  //     return () => clearTimeout(timer); 
+  //   }}
+  // }, [error]);
 
 
    

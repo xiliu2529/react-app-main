@@ -5,7 +5,7 @@ import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
 // @ts-ignore
 import { VALIDATION_MESSAGES } from '../../constants/validationMessages.js';
-import { postData1, } from '../../api/api';
+import { fetchAPI, } from '../../api/api';
 
 const ConditionSetting: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
@@ -142,26 +142,47 @@ const ConditionSetting: React.FC = () => {
 
   };
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const result = await postData1();
+  //       if (result.body.response !== 'OK') {
+  //         console.log('no', result);
+  //       } else {
+  //         console.log('yes', result);
+  //         // const result2 = await postData2();
+  //         // console.log('Result from postData2:', result2);
+  //       }
+  //     } catch (err) {
+  //       console.error('Error fetching data:',);
+  //       setError(err)
+  //     }
+  //   };
+
+  //   fetchData();
+
+  // }, []);
+
+  useEffect(() =>{
     const fetchData = async () => {
-      try {
-        const result = await postData1();
-        if (result.body.response !== 'OK') {
-          console.log('no', result);
-        } else {
-          console.log('yes', result);
-          // const result2 = await postData2();
-          // console.log('Result from postData2:', result2);
-        }
-      } catch (err) {
-        console.error('Error fetching data:',);
-        setError(err)
-      }
-    };
+          try {
+            const result = await fetchAPI();
+            console.log('result',result);
+            
+         
+          } catch (err) {
+            console.error('Error fetching data:',err);
+            setError(err)
+          }
+        };
+    
+        fetchData();
 
-    fetchData();
 
-  }, []);
+
+   }, []);
+
+
 
 
 
