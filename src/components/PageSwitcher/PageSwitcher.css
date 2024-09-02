@@ -4,11 +4,11 @@
 }
 
 .ChartBottom-top .infoPanelGrid .toggle-button {
-  margin-left: 260px
+  margin-left: 280px
 }
 
 .ChartBottom-top {
-  margin-left: 10px;
+  margin-left: 20px;
 
 }
 
@@ -24,11 +24,11 @@
 
 
 .GraphPage-InfoPanel .toggle-button {
-  margin-left: 260px
+  margin-left: 280px
 }
 
 .GraphPage {
-  margin-left: 10px;
+  margin-left: 20px;
 }
 
 .GridChartPage {
@@ -37,7 +37,7 @@
 }
 
 .GridChartPage-InfoPanel .toggle-button {
-  margin-left: 260px
+  margin-left: 280px
 }
 
 .GridChartPage-GRid .grid-container {
@@ -45,7 +45,7 @@
 }
 
 .gridnomi .toggle-button {
-  margin-left: 260px
+  margin-left: 280px
 
 }
 
@@ -57,11 +57,10 @@
 
 .InfoPanelHistoricalGrid {
   width: 1200px;
-  margin: 10px;
 }
 
 .InfoPanelHistoricalGrid .toggle-button {
-  margin-left: 260px
+  margin-left: 280px
 }
 
 .SettingsChartGridPage {

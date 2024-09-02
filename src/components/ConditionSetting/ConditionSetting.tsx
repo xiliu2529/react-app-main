@@ -267,7 +267,7 @@ const ConditionSetting: React.FC = () => {
           setTimeout(() => {
       
             setLoading(false);
-          }, 5000); 
+          }, 10000); 
         } else {
 
         }

@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './LeftSidebar.css';
+import { styled } from '@mui/material/styles';
+import Switch, { SwitchProps } from '@mui/material/Switch';
 import icon from '../../img/レイアウト切替.svg';
 import { useMyContext } from '../../contexts/MyContext';
-import Switch from '@mui/material/Switch';
 import a from '../../img/グリッド + グラフ(左右).svg'
 import b from '../../img/グリッド + グラフ(上下).svg'
 import c from '../../img/グリッド のみ.svg'
 import d from '../../img/グラフのみ.svg'
+import { FormControlLabel, FormGroup } from '@mui/material';
 
 const LeftSidebar: React.FC = () => {
   const { isHistoricalActive, setbuttonName, buttonName } = useMyContext();
@@ -44,6 +46,69 @@ const LeftSidebar: React.FC = () => {
     }
   }, [isHistoricalActive]);
 
+  
+const IOSSwitch = styled((props: SwitchProps) => (
+  <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props}
+  checked={checked}
+  onChange={handleChange} />
+))(({ theme }) => ({
+  width: 42,
+  height: 26,
+  padding: 0,
+  '& .MuiSwitch-switchBase': {
+    padding: 0,
+    margin: 2,
+    transitionDuration: '300ms',
+    '&.Mui-checked': {
+      transform: 'translateX(16px)',
+      color: '#fff',
+      '& + .MuiSwitch-track': {
+        backgroundColor: '#0FCFDC',
+        opacity: 1,
+        border: 0,
+        ...theme.applyStyles('dark', {
+          backgroundColor: '#2ECA45',
+        }),
+      },
+      '&.Mui-disabled + .MuiSwitch-track': {
+        opacity: 0.5,
+      },
+    },
+    '&.Mui-focusVisible .MuiSwitch-thumb': {
+      color: '#33cf4d',
+      border: '6px solid #fff',
+    },
+    '&.Mui-disabled .MuiSwitch-thumb': {
+      color: theme.palette.grey[100],
+      ...theme.applyStyles('dark', {
+        color: theme.palette.grey[600],
+      }),
+    },
+    '&.Mui-disabled + .MuiSwitch-track': {
+      opacity: 0.7,
+      ...theme.applyStyles('dark', {
+        opacity: 0.3,
+      }),
+    },
+  },
+  '& .MuiSwitch-thumb': {
+    boxSizing: 'border-box',
+    width: 22,
+    height: 22,
+  },
+  '& .MuiSwitch-track': {
+    borderRadius: 26 / 2,
+    backgroundColor: '#E9E9EA',
+    opacity: 1,
+    transition: theme.transitions.create(['background-color'], {
+      duration: 500,
+    }),
+    ...theme.applyStyles('dark', {
+      backgroundColor: '#39393D',
+    }),
+  },
+}));
+
   return  (
  
     <aside className="left-sidebar">
@@ -51,18 +116,25 @@ const LeftSidebar: React.FC = () => {
         <span className='tabMenu' style={{
           cursor: isHistoricalActive ? "pointer" : "default",
           color:isHistoricalActive ? "#143867" : "#5a5d60",
+          border:isHistoricalActive ? "2px solid #143867":' 2px solid #5a5d60'
           }}
           onMouseEnter={() => setButtonContainerVisible(true && isHistoricalActive)}
           onMouseLeave={() => setButtonContainerVisible(false)} 
           >
-          <img src={icon} alt="Icon" className="icon" style={{ height:"15px", marginRight:"10px"}} />
+          <img src={icon} alt="Icon" className="icon" style={{ 
+            height:"15px",
+             marginRight:"10px",
+            filter: isHistoricalActive ? 'none '  : "grayscale(100%)",
+            }} />
             レイアウト切替
         </span>
-        <Switch
-      checked={checked}
-      onChange={handleChange}
-    />
-        <span className="switch-label">条件設定表示</span>
+     
+     <FormGroup>
+      <FormControlLabel
+        control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
+        label="条件設定表示"
+      />
+    </FormGroup>
       </span>
 
       {isButtonContainerVisible && (

@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 
-
 const apiClient = axios.create({
   // baseURL: '/api/qww_dev/prod/',
   headers: {
@@ -27,32 +26,25 @@ const data = {
 };
 
 export const fetchAPI = async () => {
+  
   try {
     const response = await fetch('http://11.255.97.33/home/member/qww_dev/prod/userdata/load', {
       method: 'POST', 
-      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data) 
+      body: JSON.stringify(data)
     });
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    const contentType = response.headers.get('Content-Type');
-    if (contentType && contentType.includes('application/json')) {
-      const result = await response.json(); 
-      return result;
-    } else {
-      const text = await response.text(); 
-      console.error('Unexpected response format:', text);
-      throw new Error('Unexpected response format');
-    }
+    const result = await response.json(); 
+    return result;
   } catch (error) {
-    console.error('Fetch error:', error); 
-    throw error; 
+    console.error('Fetch error:', error);
+    throw error;
   }
 };
 // const apiClient1 = axios.create({

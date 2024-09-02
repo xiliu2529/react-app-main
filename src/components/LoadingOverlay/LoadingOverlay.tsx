@@ -10,7 +10,8 @@ const LoadingOverlay: React.FC = () => {
   return (
     <div className="loading-overlay">
       <div className="spinner"></div>
-      <button className="cancel-button" onClick={handleCancel}>キャンセル</button>
+      <div className="cancel-test">分析には30秒以上かかる場合があります</div>
+      <button className="cancel-button" onClick={handleCancel}>分析キャンセル</button>
     </div>
   );
 };

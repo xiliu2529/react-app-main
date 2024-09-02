@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Grid, Table, TableContainer, TableHead, Box, TableBody, TableCell, TableRow } from '@mui/material';
 import './Grid.css';
 import { useMyContext } from '../../contexts/MyContext';
-import { AverageDay, Data } from '../../types/grid';
+import {  Data } from '../../types/grid';
 import a from '../../data/601.1/data2.json';
 import b from '../../data/101.1/data2.json';
 import c from '../../data/data2.json';
