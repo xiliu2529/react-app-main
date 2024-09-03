@@ -52,7 +52,8 @@ const IOSSwitch = styled((props: SwitchProps) => (
   checked={checked}
   onChange={handleChange} />
 ))(({ theme }) => ({
-  width: 42,
+  transform: 'scale(0.8)',
+  width: 45,
   height: 26,
   padding: 0,
   '& .MuiSwitch-switchBase': {
@@ -93,7 +94,7 @@ const IOSSwitch = styled((props: SwitchProps) => (
   },
   '& .MuiSwitch-thumb': {
     boxSizing: 'border-box',
-    width: 22,
+    width: 25,
     height: 22,
   },
   '& .MuiSwitch-track': {
