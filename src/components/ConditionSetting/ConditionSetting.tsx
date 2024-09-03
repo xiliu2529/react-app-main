@@ -5,7 +5,7 @@ import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
 // @ts-ignore
 import { VALIDATION_MESSAGES } from '../../constants/validationMessages.js';
-import { fetchAPI, } from '../../api/api';
+import { fetchAPI,fetchAPI1 } from '../../api/api';
 
 const ConditionSetting: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
@@ -49,6 +49,8 @@ const ConditionSetting: React.FC = () => {
       fontWeight: '900',
     },
   };
+  console.log('cun',{settingsState,requestPayload});
+  
 
   const getTenDaysAgoDate = (): string => {
     const today = new Date();
@@ -142,32 +144,12 @@ const ConditionSetting: React.FC = () => {
 
   };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const result = await postData1();
-  //       if (result.body.response !== 'OK') {
-  //         console.log('no', result);
-  //       } else {
-  //         console.log('yes', result);
-  //         // const result2 = await postData2();
-  //         // console.log('Result from postData2:', result2);
-  //       }
-  //     } catch (err) {
-  //       console.error('Error fetching data:',);
-  //       setError(err)
-  //     }
-  //   };
-
-  //   fetchData();
-
-  // }, []);
 
   useEffect(() =>{
     const fetchData = async () => {
           try {
             const result = await fetchAPI();
-            console.log('result',result);
+            console.log('get',result);
             
          
           } catch (err) {
@@ -175,7 +157,10 @@ const ConditionSetting: React.FC = () => {
             setError(err)
           }
         };
-    
+ 
+
+
+        
         fetchData();
 
 
@@ -252,17 +237,30 @@ const ConditionSetting: React.FC = () => {
     });
   }, [inputValue, alignment, startDate, endDate, days, checkedState, minutes, startTime, endTime, value1, marketState]);
 
+  const fetchData1 = async () => {
+    try {
+      const result = await fetchAPI1({settingsState,requestPayload});
+      console.log('post',result);
+      
+   
+    } catch (err) {
+      console.error('Error fetching data:',err);
+      setError(err)
+    }
+  };
 
   useEffect(() => {
     if (Object.keys(requestPayload).length > 0) {
       if (isReadyToSend) {
         const isValid = validatePayload(requestPayload);
         console.log('isValidx', isValid);
+        fetchData1()
 
         setResponse(isValid)
         if (isValid) {
           setLoading(true)
           console.log('requestPayload', requestPayload);
+          
 
           setTimeout(() => {
       
