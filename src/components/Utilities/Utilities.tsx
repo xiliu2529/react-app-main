@@ -12,13 +12,10 @@ const Utilities: React.FC = () => {
     window.print();
   }
   const help = () => {
-    const pdfUrl = '../../public/volumeCurve_help.pdf'; 
-    const a = document.createElement('a');
-    a.href = pdfUrl;
-    a.target = '_blank'; 
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    // const pdfUrl = '../../public/volumeCurve_help.pdf';
+    const pdfUrl = '/volumeCurve_help.pdf'; 
+   
+    window.open(pdfUrl, '_blank');
 }
 
   const favorite = () => {}

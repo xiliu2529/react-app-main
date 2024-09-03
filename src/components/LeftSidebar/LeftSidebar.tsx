@@ -2,12 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import './LeftSidebar.css';
 import { styled } from '@mui/material/styles';
 import Switch, { SwitchProps } from '@mui/material/Switch';
-import icon from '../../img/レイアウト切替.svg';
+import icon from '../../img/LayoutSwitch.svg';
 import { useMyContext } from '../../contexts/MyContext';
-import a from '../../img/グリッド + グラフ(左右).svg'
-import b from '../../img/グリッド + グラフ(上下).svg'
-import c from '../../img/グリッド のみ.svg'
-import d from '../../img/グラフのみ.svg'
+import a from '../../img/GridGraphHorizontal.svg'
+import b from '../../img/GridGraphVertical.svg'
+import c from '../../img/GridOnly.svg'
+import d from '../../img/GraphOnly.svg'
 import { FormControlLabel, FormGroup } from '@mui/material';
 
 const LeftSidebar: React.FC = () => {
@@ -115,14 +115,14 @@ const IOSSwitch = styled((props: SwitchProps) => (
       <span className="icon-container">
         <span className='tabMenu' style={{
           cursor: isHistoricalActive ? "pointer" : "default",
-          color:isHistoricalActive ? "#143867" : "#5a5d60",
-          border:isHistoricalActive ? "2px solid #143867":' 2px solid #5a5d60'
+          color:isHistoricalActive ? "#143867" : "#AAA",
+          border:isHistoricalActive ? "1px solid #143867":' 1px solid #AAA'
           }}
           onMouseEnter={() => setButtonContainerVisible(true && isHistoricalActive)}
           onMouseLeave={() => setButtonContainerVisible(false)} 
           >
           <img src={icon} alt="Icon" className="icon" style={{ 
-            height:"15px",
+            height:"12px",
              marginRight:"10px",
             filter: isHistoricalActive ? 'none '  : "grayscale(100%)",
             }} />

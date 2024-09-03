@@ -174,11 +174,11 @@ const SettingsDialog = () => {
                                     <div className="wrapper">
                                         <span className="inline-container">
                                             <p>背景</p>
-                                            <input type="color" value={colors[0]} style={{ width: '100px' }} onChange={(event) => handleColorChange(0, event.target.value)} />
+                                            <input className="color-picker" type="color" value={colors[0]} style={{ width: '100px' }} onChange={(event) => handleColorChange(0, event.target.value)} />
                                         </span>
                                         <span className="inline-container">
                                             <p>文字</p>
-                                            <input type="color" value={colors[1]} style={{ width: '100px' }} onChange={(event) => handleColorChange(1, event.target.value)} />
+                                            <input className="color-picker" type="color" value={colors[1]} style={{ width: '100px' }} onChange={(event) => handleColorChange(1, event.target.value)} />
                                         </span>
                                     </div>
 
@@ -187,11 +187,11 @@ const SettingsDialog = () => {
                                         <div className="wrapper">
                                             <span className="inline-container">
                                                 <p>背景</p>
-                                                <input type="color" value={colors[2]} style={{ width: '100px' }} onChange={(event) => handleColorChange(2, event.target.value)} />
+                                                <input className="color-picker" type="color" value={colors[2]} style={{ width: '100px', }} onChange={(event) => handleColorChange(2, event.target.value)} />
                                             </span>
                                             <span className="inline-container">
                                                 <p>文字</p>
-                                                <input type="color" value={colors[3]} style={{ width: '100px' }} onChange={(event) => handleColorChange(3, event.target.value)} />
+                                                <input className="color-picker" type="color" value={colors[3]} style={{ width: '100px' }} onChange={(event) => handleColorChange(3, event.target.value)} />
                                             </span>
                                         </div>
                                         <p> 分布</p>
