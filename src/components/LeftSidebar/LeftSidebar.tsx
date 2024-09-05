@@ -11,6 +11,7 @@ import d from '../../img/GraphOnly.svg'
 import { FormControlLabel, FormGroup } from '@mui/material';
 
 const LeftSidebar: React.FC = () => {
+  const [isExpanded , setisExpanded ] = useState<boolean>(false);
   const { isHistoricalActive, setbuttonName, buttonName } = useMyContext();
   const [checked, setChecked] = useState(true);
   const [isButtonContainerVisible, setButtonContainerVisible] = useState(false);
@@ -109,11 +110,17 @@ const LeftSidebar: React.FC = () => {
   }, [isHistoricalActive]);
 
   
+  useEffect(() => {
+    setisExpanded(window.innerWidth > 1400);
+  }, []);
+
+  
 
 
   return  (
  
-    <aside className="left-sidebar">
+    <aside className="left-sidebar"  
+    style={isExpanded ? { transform: 'scale(1.4)', transformOrigin: '0 0', marginRight: '120px'} : { }}>
       <span className="icon-container">
         <span className='tabMenu' style={{
           cursor: isHistoricalActive ? "pointer" : "default",
@@ -141,7 +148,7 @@ const LeftSidebar: React.FC = () => {
 
       {isButtonContainerVisible && (
         <div className="button-container"  
-        onMouseEnter={() => setButtonContainerVisible(true && isHistoricalActive)}
+        onMouseEnter={() => setButtonContainerVisible(isExpanded && isHistoricalActive)}
         onMouseLeave={() => setButtonContainerVisible(false)}>
           <button className="sidebar-button" onClick={() => handleButtonClick(2)}>
           <img src={a} alt="Sidebar Icon" width="30" height="20"style={{ marginRight: '8px' }} />

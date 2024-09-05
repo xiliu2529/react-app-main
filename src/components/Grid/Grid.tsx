@@ -198,7 +198,9 @@ const Grids: React.FC = () => {
 
 
   return (
-    <Box className='grid-container'>
+    <Box className='grid-container' >
+   
+    
       <Grid container direction="column" spacing={0}>
         <Box className='grid-container-div' />
         <Grid item>

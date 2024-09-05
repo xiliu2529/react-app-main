@@ -17,6 +17,8 @@ import './Chart.css';
 
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
   const { settingsState, conditionSettingState, requestPayload,response, } = useMyContext();
+  const [isExpanded , setisExpanded ] = useState<boolean>(false);
+ 
 
   let useDailyColor = settingsState.checkboxStates[5] && settingsState.radioValues[1]==='0'
 
@@ -567,7 +569,9 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       ],
     });
   }, [chartData,]);
-
+ useEffect(() => {
+    setisExpanded(window.innerWidth > 1400);
+  }, []);
   const chartOptions: Highcharts.Options = {
     chart: {
       type: 'column',
@@ -894,8 +898,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
   return (
     <div className='chart' 
-    // style={{ transform: 'scale(1.45)', transformOrigin: '0 0'}}
-    >
+    style={isExpanded ? { transform: 'scale(1.4)', transformOrigin: '0 0', marginRight: '300px'} : { }}>
       <div className="container-chart">
         <FormControlLabel
           className='chart-top'
