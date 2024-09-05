@@ -32,7 +32,7 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isHistoricalActive, setisHistoricalActive] = useState<boolean>(true);
   const [buttonName, setbuttonName] = useState<number>(1);
   const [settingsState, setSettingsState] = useState<SettingsState>({
-    checkboxStates: Array(7).fill(false), 
+    checkboxStates: Array(6).fill(false), 
     radioValues: ['0', '0'], 
     colors: [
       '#FFFFFF', '#000000', '#FFFFFF', '#000000', '#d22331', '#d22331',

@@ -9,7 +9,7 @@ import { fetchAPI,fetchAPI1 } from '../../api/api';
 
 const ConditionSetting: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
-  const [alignment, setAlignment] = React.useState('0');
+  const [alignment, setAlignment] = React.useState('');
   const [days, setDays] = useState<number>(1);
   const [value1, setValue1] = useState<number>(30);
   const [minutes, setminutes] = React.useState('');
@@ -36,12 +36,13 @@ const ConditionSetting: React.FC = () => {
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
   const [errorDatefrom, seterrorDatefrom] = useState<boolean>(false);
   const [errorDateto, seterrorDateto] = useState<boolean>(false);
-  const [errorTime, seterrorTime] = useState<boolean>(false);
+  // const [errorTime, seterrorTime] = useState<boolean>(false);
   const [validation, setValidation] = useState<{ error: boolean; helperText: string }>({
     error: false,
     helperText: '',
   });
 
+  
   const selectedStyle = {
     '&.Mui-selected': {
       backgroundColor: '#E8ECF0',
@@ -49,7 +50,6 @@ const ConditionSetting: React.FC = () => {
       fontWeight: '900',
     },
   };
-  console.log('cun',{settingsState,requestPayload});
   
 
   const getTenDaysAgoDate = (): string => {
@@ -89,7 +89,6 @@ const ConditionSetting: React.FC = () => {
       [key]: event.target.checked,
     });
   };
-
 
   const handleCalculate = () => {
 
@@ -149,7 +148,25 @@ const ConditionSetting: React.FC = () => {
     const fetchData = async () => {
           try {
             const result = await fetchAPI();
-            console.log('get',result);
+            const requestPayload = result.body.response.D.volumecurve_info.showModal;
+            setAlignment(requestPayload.HistoricalSetting.Category);
+            setstartDate(requestPayload.HistoricalSetting.Range.DateFrom.split('/').join('-'));
+            setendDate(requestPayload.HistoricalSetting.Range.DateTo.split('/').join('-'));
+            setDays(Number(requestPayload.HistoricalSetting.Range.Days));
+            setCheckedState([requestPayload.HistoricalSetting.Range.SQ.LargeSQ, requestPayload.HistoricalSetting.Range.SQ.SmallSQ, requestPayload.HistoricalSetting.Range.SQ.WeeklySQ]);
+            setminutes(requestPayload.CalculationSetting.Category);
+            setStartTime(requestPayload.CalculationSetting.Range.TimeFrom);
+            setEndTime(requestPayload.CalculationSetting.Range.TimeTo);
+            setValue1(Number(requestPayload.CalculationSetting.Range.Minutes));
+            setMarketState({
+              preMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.OpenTick),
+              preMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.CloseTick),
+              postMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.OpenTick),
+              postMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.CloseTick),
+              eveningOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.OpenTick),
+              eveningClose: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.CloseTick),
+            });
+
             
          
           } catch (err) {
@@ -157,17 +174,9 @@ const ConditionSetting: React.FC = () => {
             setError(err)
           }
         };
- 
-
-
-        
         fetchData();
 
-
-
-   }, [requestPayload]);
-
-
+   }, []);
 
 
 
@@ -239,9 +248,8 @@ const ConditionSetting: React.FC = () => {
 
   const fetchData1 = async () => {
     try {
-      const result = await fetchAPI1({settingsState,requestPayload});
-      console.log('post',result);
-      
+     await fetchAPI1({showModal,settingsState});
+     console.log('requestPayload Post成功'); 
    
     } catch (err) {
       console.error('Error fetching data:',err);
@@ -253,21 +261,18 @@ const ConditionSetting: React.FC = () => {
     if (Object.keys(requestPayload).length > 0) {
       if (isReadyToSend) {
         const isValid = validatePayload(requestPayload);
-        console.log('isValidx', isValid);
-        fetchData1()
+
+      
 
         setResponse(isValid)
-        if (isValid) {
+        if (isValid) { 
+           fetchData1()
           setLoading(true)
-          console.log('requestPayload', requestPayload);
-          
-
           setTimeout(() => {
       
             setLoading(false);
           }, 10000); 
         } else {
-
         }
       }
     }
@@ -300,8 +305,8 @@ const ConditionSetting: React.FC = () => {
     const category = payload.HistoricalSetting.Category;
     const DateTo = payload.HistoricalSetting.Range.DateTo
     const DateFrom = payload.HistoricalSetting.Range.DateFrom
-    const timefrom = payload.CalculationSetting.Range.TimeFrom
-    const timeTo = payload.CalculationSetting.Range.TimeTo
+    // const timefrom = payload.CalculationSetting.Range.TimeFrom
+    // const timeTo = payload.CalculationSetting.Range.TimeTo
     let hasError = false;
     const newValidationState = { error: false, helperText: '' };
     const todayFormatted = today.split('-').join('/');
@@ -347,12 +352,12 @@ const ConditionSetting: React.FC = () => {
       }
     }
 
-    if (timefrom > timeTo) {
-      seterrorTime(true);
-      hasError = true;
-    } else {
-      seterrorTime(false);
-    }
+    // if (timefrom > timeTo) {
+    //   seterrorTime(true);
+    //   hasError = true;
+    // } else {
+    //   seterrorTime(false);
+    // }
 
     return !hasError;
   };
@@ -380,7 +385,9 @@ const ConditionSetting: React.FC = () => {
     });
   };
   const renderUI = () => {
-    switch (alignment) {
+    const currentAlignment = alignment || '0';
+    
+    switch (currentAlignment) {
       case '0':
         return (
           <div style={{ height: "80px" }}>
@@ -403,7 +410,7 @@ const ConditionSetting: React.FC = () => {
           <div style={{ height: "90px" }}>
             <div style={{ height: "60px" }}>
               <p style={{ display: 'inline-block', fontSize: '10px' }}>開始日</p>
-              <input className='setDate' type="date" value={startDate} min={minDaysAgo} onChange={handleDateChange(setstartDate)} />
+              <input className='setDate' type="date" value={startDate || showModal.HistoricalSetting.Range.DateFrom} min={minDaysAgo} onChange={handleDateChange(setstartDate)} />
               {errorDatefrom &&
                 <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}>{VALIDATION_MESSAGES.INVALID_START_DATE_ONLY}</FormHelperText>}
             </div>
@@ -606,8 +613,8 @@ const ConditionSetting: React.FC = () => {
                   }
                 }} value={endTime} onChange={handleEndTimeChange} />
               </Grid>}
-            {errorTime &&
-              <FormHelperText style={{ color: '#d32f2f', marginLeft: '90px', marginTop: 0 }}>{VALIDATION_MESSAGES.INVALID_START_END_TIME}</FormHelperText>}
+            {/* {errorTime &&
+              <FormHelperText style={{ color: '#d32f2f', marginLeft: '90px', marginTop: 0 }}>{VALIDATION_MESSAGES.INVALID_START_END_TIME}</FormHelperText>} */}
           </Grid>
         </div>
         <p style={{ marginBottom: '10px' }}>個别算出</p>
