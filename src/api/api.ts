@@ -52,3 +52,5 @@ export const fetchAPI1 = async (data1: any) => {
     throw error;
   }
 };
+
+// c
