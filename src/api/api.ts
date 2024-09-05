@@ -6,10 +6,11 @@ const data = {
   types: "volumecurve_info"
 };
 
+const BASE_URL = 'http://11.255.97.33/home/member/';
 
 export const fetchAPI = async () => {
   try {
-    const response = await fetch('http://11.255.97.33/home/member/qww_dev/prod/userdata/load', {
+    const response = await fetch(`${BASE_URL}qww_dev/prod/userdata/load`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -26,9 +27,10 @@ export const fetchAPI = async () => {
     throw error;
   }
 };
+
 export const fetchAPI1 = async (data1: any) => {
   try {
-    const response = await fetch('http://11.255.97.33/home/member/qww_dev/prod/userdata/load', {
+    const response = await fetch(`${BASE_URL}qww_dev/prod/userdata/load`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

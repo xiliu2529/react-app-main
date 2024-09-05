@@ -8,6 +8,7 @@ import { VALIDATION_MESSAGES } from '../../constants/messages.js';
 import { fetchAPI, fetchAPI1 } from '../../api/api';
 
 const ConditionSetting: React.FC = () => {
+  const [isMobile, setIsMobile] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>('');
   const [alignment, setAlignment] = React.useState('');
   const [days, setDays] = useState<number>(1);
@@ -159,6 +160,14 @@ const ConditionSetting: React.FC = () => {
     setIsReadyToSend(true);
     setConditionSettingState({ marketState, inputValue });
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth > 1400);
+      console.log('window.innerWidth',window.innerWidth,window.innerWidth > 1400);
+    };
+    handleResize();
+  }, []);
 
   useEffect(() => {
     //data取る
@@ -496,7 +505,8 @@ const ConditionSetting: React.FC = () => {
 
   return (
     <div className='commonsp-top'
-    //モニター対応　 style={{ transform: 'scale(1.4)', transformOrigin: '0 0', marginRight: '120px' }}
+    //モニター対応
+    style={isMobile ? { transform: 'scale(1.4)', transformOrigin: '0 0', marginRight: '120px'} : { }}
     >
       <div className='commonsp'>
         <div className='title-1'>銘柄設定</div>

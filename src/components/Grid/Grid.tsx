@@ -37,7 +37,6 @@ const Grids: React.FC = () => {
       QvVolumeCurveData = a;
       QvTotalingInfo = d2;
     }
-
   }
 
   const dates = QvTotalingInfo.AverageDays.map(item => item.Date);

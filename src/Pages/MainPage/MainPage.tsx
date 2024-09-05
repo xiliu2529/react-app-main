@@ -13,9 +13,9 @@ import {
   ChartBottom,
   HistoryAndSettings,
   HistoricalData
-} from '../../components/PageSwitcher/PageSwitcher'; 
-import { useMyContext, } from '../../contexts/MyContext'; 
-import {  useState } from 'react';
+} from '../../components/PageSwitcher/PageSwitcher';
+import { useMyContext, } from '../../contexts/MyContext';
+import { useEffect, useState } from 'react';
 
 
 
@@ -23,36 +23,35 @@ import {  useState } from 'react';
 
 
 const MainPage: React.FC = () => {
-  const { isHistoricalActive,buttonName,loading,} = useMyContext(); 
-  const [showSnackbar,] = useState(false);
+  const { isHistoricalActive, buttonName, loading, error } = useMyContext();
+  const [showSnackbar, setShowSnackbar] = useState(false);
 
-  // useEffect(() => {
+  useEffect(() => {
+    console.log('error',error);
     
-  //   if (error){
-  //     if(error.response.status !== 200) {
-  //     setShowSnackbar(true);
-  //     const timer = setTimeout(() => {
-  //       setShowSnackbar(false);
-  //     }, 5000); 
-
-  //     return () => clearTimeout(timer); 
-  //   }}
-  // }, [error]);
+    if (error?.response?.status !== 200) {
+      setShowSnackbar(true);
+      const timer = setTimeout(() => {
+        setShowSnackbar(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
 
 
-   
+
   return (
     <div className="layout">
       <Header />
       <div className="body">
-        <LeftSidebar/>
+        <LeftSidebar />
         {renderContent()}
         {showSnackbar && (
           <div className="custom-snackbar">
-            <span>xxxxxxxxx</span>
+            <span>error</span>
           </div>
         )}
-          {loading && <LoadingOverlay />}
+        {loading && <LoadingOverlay />}
 
       </div>
     </div>

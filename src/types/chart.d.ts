@@ -1,4 +1,3 @@
-// src/types/chartTypes.ts
 
 export interface ChartData {
     timeLabels: string[];
