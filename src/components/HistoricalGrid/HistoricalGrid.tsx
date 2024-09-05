@@ -8,62 +8,53 @@ import b from '../../../src/data/101.1/data4.json';
 import c from '../../../src/data/601.1/data4.json';
 import Papa from 'papaparse';
 
-
-
 interface TickFrameData {
   Volume: string;
   Distribution: string;
 }
+type QvHistoricalDataType = {
+  [date: string]: {
+    TotalFrame?: {
+      Volume: string;
+      Distribution: string;
+    };
+    EveningOpenTickFrame?: any;
+    EveningCloseTickFrame?: any;
+    PMOpenTickFrame?: any;
+    PMTickFrame?: any;
+    PMCloseTickFrame?: any;
 
-
+  };
+};
 
 const HistoricalGrid: React.FC = () => {
-  const { settingsState, conditionSettingState, requestPayload,griddownload ,buttonName,response,shouldDownload,setShouldDownload} = useMyContext();
+  const { settingsState, conditionSettingState, requestPayload, griddownload, buttonName, response, shouldDownload, setShouldDownload } = useMyContext();
   const isInitialized = useRef(false);
-  type Data4Type = {
-    [date: string]: {
-      TotalFrame?: {
-        Volume: string;
-        Distribution: string;
-      };
-      EveningOpenTickFrame?: any;
-      EveningCloseTickFrame?: any;
-      PMOpenTickFrame?: any;
-      PMTickFrame?: any;
-      PMCloseTickFrame?: any;
 
-    };
-  };
-  let data4: Data4Type = {};
-  if(response){
+  let QvHistoricalData: QvHistoricalDataType = {};
+  if (response) {
 
-  if (requestPayload.Code === '6501') {
-    data4 = a;
-  } else if (requestPayload.Code === '101.1') {
-    data4 = b;
-  } else if (requestPayload.Code === '601.1') {
-    data4 = c;
-  }
-  }
-  
-  const dates1 = Object.keys(data4);
-
-  useEffect(() => {
-    if (settingsState) {
-      document.documentElement.style.setProperty('--cell-bg-color', settingsState.colors[0]);
-      document.documentElement.style.setProperty('--cell-color', settingsState.colors[1]);
+    if (requestPayload.Code === '6501') {
+      QvHistoricalData = a;
+    } else if (requestPayload.Code === '101.1') {
+      QvHistoricalData = b;
+    } else if (requestPayload.Code === '601.1') {
+      QvHistoricalData = c;
     }
-  }, [settingsState]);
+  }
+  const dates1 = Object.keys(QvHistoricalData);
+
+
 
   const extractDates = (jsonData: any) => Object.keys(jsonData);
-  const extractTotalFrame = (data: Data4Type) =>
+  const extractTotalFrame = (data: QvHistoricalDataType) =>
     Object.entries(data).map(([date, dayData]) => ({
       date,
       volume: dayData.TotalFrame?.Volume || '-',
       distribution: dayData.TotalFrame?.Distribution || '-',
     }));
 
-  const extractTimeSlots = (data: Data4Type, frameType: string) => {
+  const extractTimeSlots = (data: QvHistoricalDataType, frameType: string) => {
     const timeSlotsSet = new Set<string>();
 
     Object.values(data).forEach(dayData => {
@@ -75,14 +66,13 @@ const HistoricalGrid: React.FC = () => {
         });
       }
     });
-
     return Array.from(timeSlotsSet);
   };
-  
+
   const getTimeSlotData = (timeSlot: string, frameType: any) =>
-    extractDates(data4).map(date => {
+    extractDates(QvHistoricalData).map(date => {
       // @ts-ignore
-      const timeSlotData = data4[date]?.[frameType]?.[timeSlot] || {};
+      const timeSlotData = QvHistoricalData[date]?.[frameType]?.[timeSlot] || {};
       return {
         volume: timeSlotData.Volume || '-',
         distribution: timeSlotData.Distribution || '-',
@@ -90,65 +80,70 @@ const HistoricalGrid: React.FC = () => {
     });
 
   const getEveningOpenTickFrame = () =>
-    extractDates(data4).map(date => {
+    extractDates(QvHistoricalData).map(date => {
       // @ts-ignore
-      const data = data4[date]?.EveningOpenTickFrame || {};
-      return {
-        volume: data.Volume || '-',
-        distribution: data.Distribution || '-',
-      };
-    });
-  const getAMOpenTickFrameData = () =>
-    extractDates(data4).map(date => {
-      // @ts-ignore
-      const data = data4[date]?.AMOpenTickFrame || {};
-      return {
-        volume: data.Volume || '-',
-        distribution: data.Distribution || '-',
-      };
-    });
-  const getPMOpenTickFrameData = () =>
-    extractDates(data4).map(date => {
-      // @ts-ignore
-      const data = data4[date]?.PMOpenTickFrame || {};
-      return {
-        volume: data.Volume || '-',
-        distribution: data.Distribution || '-',
-      };
-    });
-  const getAMCloseTickFrameData = () =>
-    extractDates(data4).map(date => {
-      // @ts-ignore
-      const data = data4[date]?.AMCloseTickFrame || {};
-      return {
-        volume: data.Volume || '-',
-        distribution: data.Distribution || '-',
-      };
-    });
-  const getEveningCloseTickFrame = () =>
-    extractDates(data4).map(date => {
-      // @ts-ignore
-      const data = data4[date]?.EveningCloseTickFrame || {};
-      return {
-        volume: data.Volume || '-',
-        distribution: data.Distribution || '-',
-      };
-    });
-  const getPMCloseTickFrameData = () =>
-    extractDates(data4).map(date => {
-      // @ts-ignore
-      const data = data4[date]?.PMCloseTickFrame || {};
+      const data = QvHistoricalData[date]?.EveningOpenTickFrame || {};
       return {
         volume: data.Volume || '-',
         distribution: data.Distribution || '-',
       };
     });
 
-  const dates = extractDates(data4);
-  const totalFrame = extractTotalFrame(data4);
-  const timeSlots = extractTimeSlots(data4, 'EveningTickFrame');
-  const timeSlots1 = extractTimeSlots(data4, 'AMTickFrame');
-  const timeSlots2 = extractTimeSlots(data4, 'PMTickFrame');
+  const getAMOpenTickFrameData = () =>
+    extractDates(QvHistoricalData).map(date => {
+      // @ts-ignore
+      const data = QvHistoricalData[date]?.AMOpenTickFrame || {};
+      return {
+        volume: data.Volume || '-',
+        distribution: data.Distribution || '-',
+      };
+    });
+    
+  const getPMOpenTickFrameData = () =>
+    extractDates(QvHistoricalData).map(date => {
+      // @ts-ignore
+      const data = QvHistoricalData[date]?.PMOpenTickFrame || {};
+      return {
+        volume: data.Volume || '-',
+        distribution: data.Distribution || '-',
+      };
+    });
+
+  const getAMCloseTickFrameData = () =>
+    extractDates(QvHistoricalData).map(date => {
+      // @ts-ignore
+      const data = QvHistoricalData[date]?.AMCloseTickFrame || {};
+      return {
+        volume: data.Volume || '-',
+        distribution: data.Distribution || '-',
+      };
+    });
+
+  const getEveningCloseTickFrame = () =>
+    extractDates(QvHistoricalData).map(date => {
+      // @ts-ignore
+      const data = QvHistoricalData[date]?.EveningCloseTickFrame || {};
+      return {
+        volume: data.Volume || '-',
+        distribution: data.Distribution || '-',
+      };
+    });
+
+  const getPMCloseTickFrameData = () =>
+    extractDates(QvHistoricalData).map(date => {
+      // @ts-ignore
+      const data = QvHistoricalData[date]?.PMCloseTickFrame || {};
+      return {
+        volume: data.Volume || '-',
+        distribution: data.Distribution || '-',
+      };
+    });
+
+  const dates = extractDates(QvHistoricalData);
+  const totalFrame = extractTotalFrame(QvHistoricalData);
+  const timeSlots = extractTimeSlots(QvHistoricalData, 'EveningTickFrame');
+  const timeSlots1 = extractTimeSlots(QvHistoricalData, 'AMTickFrame');
+  const timeSlots2 = extractTimeSlots(QvHistoricalData, 'PMTickFrame');
   const renderTimeSlotRows = (slots: string[], frameType: any) =>
     slots.map((timeSlot, index) => (
       <TableRow key={index}>
@@ -174,56 +169,45 @@ const HistoricalGrid: React.FC = () => {
         rows.push(row);
       });
     };
-    if (conditionSettingState.marketState.eveningOpening && data4[dates1[0]]?.EveningOpenTickFrame) {
+    if (conditionSettingState.marketState.eveningOpening && QvHistoricalData[dates1[0]]?.EveningOpenTickFrame) {
       const eveningOpenRow = ['寄付', ...getEveningOpenTickFrame().flatMap(item => [item.volume, item.distribution])];
       rows.push(eveningOpenRow);
     }
     // @ts-ignore
-    if (data4[dates1[0]]?.EveningTickFrame) {
+    if (QvHistoricalData[dates1[0]]?.EveningTickFrame) {
       addTimeSlotRows(timeSlots, 'EveningTickFrame');
     }
-    if (conditionSettingState.marketState.eveningClose && data4[dates1[0]]?.EveningCloseTickFrame) {
+    if (conditionSettingState.marketState.eveningClose && QvHistoricalData[dates1[0]]?.EveningCloseTickFrame) {
       const eveningCloseRow = ['引け', ...getEveningCloseTickFrame().flatMap(item => [item.volume, item.distribution])];
       rows.push(eveningCloseRow);
     }
     // @ts-ignore
-    if (conditionSettingState.marketState.preMarketOpening && data4[dates1[0]]?.AMOpenTickFrame) {
+    if (conditionSettingState.marketState.preMarketOpening && QvHistoricalData[dates1[0]]?.AMOpenTickFrame) {
       const amOpenRow = ['寄付', ...getAMOpenTickFrameData().flatMap(item => [item.volume, item.distribution])];
       rows.push(amOpenRow);
     }
     // @ts-ignore
-    if (data4[dates1[0]]?.AMTickFrame) {
+    if (QvHistoricalData[dates1[0]]?.AMTickFrame) {
       addTimeSlotRows(timeSlots1, 'AMTickFrame');
     }
     // @ts-ignore
-    if (conditionSettingState.marketState.preMarketClose && data4[dates1[0]]?.AMCloseTickFrame) {
+    if (conditionSettingState.marketState.preMarketClose && QvHistoricalData[dates1[0]]?.AMCloseTickFrame) {
       const amCloseRow = ['引け', ...getAMCloseTickFrameData().flatMap(item => [item.volume, item.distribution])];
       rows.push(amCloseRow);
     }
-    if (conditionSettingState.marketState.postMarketOpening && data4[dates1[0]]?.PMOpenTickFrame) {
+    if (conditionSettingState.marketState.postMarketOpening && QvHistoricalData[dates1[0]]?.PMOpenTickFrame) {
       const pmOpenRow = ['寄付', ...getPMOpenTickFrameData().flatMap(item => [item.volume, item.distribution])];
       rows.push(pmOpenRow);
     }
-    if (data4[dates1[0]]?.PMTickFrame) {
+    if (QvHistoricalData[dates1[0]]?.PMTickFrame) {
       addTimeSlotRows(timeSlots2, 'PMTickFrame');
     }
-    if (conditionSettingState.marketState.postMarketClose && data4[dates1[0]]?.PMCloseTickFrame) {
+    if (conditionSettingState.marketState.postMarketClose && QvHistoricalData[dates1[0]]?.PMCloseTickFrame) {
       const pmCloseRow = ['引け', ...getPMCloseTickFrameData().flatMap(item => [item.volume, item.distribution])];
       rows.push(pmCloseRow);
     }
     return rows;
   };
-
-  
-  useEffect(() => {
-    if (!isInitialized.current) {
-      isInitialized.current = true;
-      return; 
-    }
-    if (shouldDownload &&  [1, 2, 3, 4, 7, 8].includes(buttonName)) {
-      downloadCSV(extractTableData(), 'grid-data.csv')
-    } 
-  }, [griddownload]); 
   const downloadCSV = (data: any[], filename: string) => {
     const csv = Papa.unparse(data);
     const bom = '\uFEFF';
@@ -238,14 +222,29 @@ const HistoricalGrid: React.FC = () => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-  
-      // Clean up the URL object
       URL.revokeObjectURL(url);
       setShouldDownload(false)
-
     }
   };
-  
+
+  useEffect(() => {
+    if (settingsState) {
+      document.documentElement.style.setProperty('--cell-bg-color', settingsState.colors[0]);
+      document.documentElement.style.setProperty('--cell-color', settingsState.colors[1]);
+    }
+  }, [settingsState]);
+
+  useEffect(() => {
+    if (!isInitialized.current) {
+      isInitialized.current = true;
+      return;
+    }
+    if (shouldDownload && [1, 2, 3, 4, 7, 8].includes(buttonName)) {
+      downloadCSV(extractTableData(), 'grid-data.csv')
+    }
+  }, [griddownload]);
+
+
 
   return (
     <Box className='grid-container'>
@@ -257,7 +256,7 @@ const HistoricalGrid: React.FC = () => {
               <TableHead>
                 <TableRow>
                   <TableCell className="custom-header-cell"></TableCell>
-                  {Object.keys(data4).length == 0 ? (
+                  {Object.keys(QvHistoricalData).length == 0 ? (
                     <>
                       <TableCell className="custom-header-cell"></TableCell>
                       <TableCell className="custom-header-cell"></TableCell>
@@ -274,7 +273,7 @@ const HistoricalGrid: React.FC = () => {
                 </TableRow>
                 <TableRow>
                   <TableCell className="custom-table-cell">時間</TableCell>
-                  {Object.keys(data4).length == 0 ? (
+                  {Object.keys(QvHistoricalData).length == 0 ? (
                     <>
                       <TableCell className="custom-table-cell">出来高</TableCell>
                       <TableCell className="custom-table-cell">分布</TableCell>
@@ -303,7 +302,7 @@ const HistoricalGrid: React.FC = () => {
                   ))}
                 </TableRow>
 
-                {conditionSettingState.marketState.eveningOpening && Object.keys(data4).length != 0 && data4[dates1[0]].EveningOpenTickFrame ?
+                {conditionSettingState.marketState.eveningOpening && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[dates1[0]].EveningOpenTickFrame ?
                   <TableRow>
                     <TableCell className="custom-table-cell">寄付</TableCell>
                     {getEveningOpenTickFrame().map((data, index) => (
@@ -315,9 +314,9 @@ const HistoricalGrid: React.FC = () => {
                   </TableRow> : null}
 
 
-                {Object.keys(data4).length != 0 && data4[dates1[0]].EveningOpenTickFrame ? renderTimeSlotRows(timeSlots, 'EveningTickFrame') : null}
+                {Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[dates1[0]].EveningOpenTickFrame ? renderTimeSlotRows(timeSlots, 'EveningTickFrame') : null}
 
-                {conditionSettingState.marketState.eveningClose && Object.keys(data4).length != 0 && data4[dates1[0]].EveningCloseTickFrame ?
+                {conditionSettingState.marketState.eveningClose && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[dates1[0]].EveningCloseTickFrame ?
                   <TableRow>
                     <TableCell className="custom-table-cell">引け</TableCell>
                     {getEveningCloseTickFrame().map((data, index) => (
@@ -351,7 +350,7 @@ const HistoricalGrid: React.FC = () => {
                     ))}
                   </TableRow> : null
                 }
-                {conditionSettingState.marketState.postMarketOpening && Object.keys(data4).length != 0 && data4[dates1[0]].PMOpenTickFrame ?
+                {conditionSettingState.marketState.postMarketOpening && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[dates1[0]].PMOpenTickFrame ?
                   <TableRow >
                     <TableCell className="custom-table-cell">寄付</TableCell>
                     {getPMOpenTickFrameData().map((data, index) => (
@@ -362,8 +361,8 @@ const HistoricalGrid: React.FC = () => {
                     ))}
                   </TableRow>
                   : null}
-                {Object.keys(data4).length != 0 && data4[dates1[0]].PMTickFrame ? renderTimeSlotRows(timeSlots2, 'PMTickFrame') : null}
-                {conditionSettingState.marketState.postMarketClose && Object.keys(data4).length != 0 && data4[dates1[0]].PMCloseTickFrame ?
+                {Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[dates1[0]].PMTickFrame ? renderTimeSlotRows(timeSlots2, 'PMTickFrame') : null}
+                {conditionSettingState.marketState.postMarketClose && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[dates1[0]].PMCloseTickFrame ?
                   <TableRow>
                     <TableCell className="custom-table-cell">引け</TableCell>
                     {getPMCloseTickFrameData().map((data, index) => (
@@ -373,7 +372,6 @@ const HistoricalGrid: React.FC = () => {
                       </React.Fragment>
                     ))}
                   </TableRow> : null}
-
               </TableBody>
             </Table>
           </TableContainer>

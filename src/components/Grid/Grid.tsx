@@ -2,23 +2,22 @@ import * as React from 'react';
 import { Grid, Table, TableContainer, TableHead, Box, TableBody, TableCell, TableRow } from '@mui/material';
 import './Grid.css';
 import { useMyContext } from '../../contexts/MyContext';
-import {  Data } from '../../types/grid';
+import { Data } from '../../types/grid';
 import a from '../../data/601.1/data2.json';
 import b from '../../data/101.1/data2.json';
 import c from '../../data/data2.json';
 import d from '../../data/data1.json';
 import d1 from '../../data/101.1/data1.json';
 import d2 from '../../data/601.1/data1.json';
-import { useRef   , useEffect,} from 'react';
-
+import { useRef, useEffect, } from 'react';
 
 const Grids: React.FC = () => {
-  const { settingsState, requestPayload, conditionSettingState, griddownload, buttonName,response,shouldDownload,setShouldDownload } = useMyContext();
+  const { settingsState, requestPayload, conditionSettingState, griddownload, buttonName, response, shouldDownload, setShouldDownload } = useMyContext();
   const isInitialized = useRef(false);
-  
-  let data2: GridDisplayData = {
+
+  let QvVolumeCurveData: GridDisplayData = {
   }
-  let data1: Data = {
+  let QvTotalingInfo: Data = {
     QuoteCode: '',
     AbbreviatedName: '',
     MarketName: '',
@@ -29,19 +28,19 @@ const Grids: React.FC = () => {
 
   if (response) {
     if (requestPayload.Code === '6501') {
-      data2 = c;
-      data1 = d;
+      QvVolumeCurveData = c;
+      QvTotalingInfo = d;
     } else if (requestPayload.Code === '101.1') {
-      data2 = b;
-      data1 = d1;
+      QvVolumeCurveData = b;
+      QvTotalingInfo = d1;
     } else if (requestPayload.Code === '601.1') {
-      data2 = a;
-      data1 = d2;
+      QvVolumeCurveData = a;
+      QvTotalingInfo = d2;
     }
 
   }
 
-  const dates = data1.AverageDays.map(item => item.Date);
+  const dates = QvTotalingInfo.AverageDays.map(item => item.Date);
   const count = dates.length;
   const formatDate = (date: string) => {
     const [_year, month, day] = date.split('/');
@@ -49,7 +48,6 @@ const Grids: React.FC = () => {
   };
   const startDate = dates.length > 0 ? formatDate(dates[dates.length - 1]) : '';
   const endDate = dates.length > 0 ? formatDate(dates[0]) : '';
-
   const displayText = count > 0 ? `${count}日平均(${startDate}-${endDate})` : '';
 
   const TableRowComponent = ({ data, label }: { data: any; label: string }) => {
@@ -76,19 +74,9 @@ const Grids: React.FC = () => {
       </TableRow>
     )
   };
-  useEffect(() => {
-    if (settingsState) {
-      document.documentElement.style.setProperty('--cell-bg-color', settingsState.colors[0]);
-      document.documentElement.style.setProperty('--cell-color', settingsState.colors[1]);
-      document.documentElement.style.setProperty('--hide-last-column', settingsState.checkboxStates[2] ? 'table-cell' : 'none');
-      document.documentElement.style.setProperty('--hide-last-columns', settingsState.checkboxStates[1] ? 'table-cell' : 'none');
-      document.documentElement.style.setProperty('--filter-brightness', settingsState.checkboxStates[1] ? 'none' : 'brightness(90%)');
-    }
-  }, [settingsState]);
-  const headerTexts = ['時間', '出来高', '分布', '累計', '出来高', '分布', '累計', '差', '価格', '出来高', '場引けVWAP'];
 
   const exportTableToCSV = () => {
-    const headers = ['', displayText, '', '', data1.Today, '', '', '', '時間帯別最多出来高·価格'];
+    const headers = ['', displayText, '', '', QvTotalingInfo.Today, '', '', '', '時間帯別最多出来高·価格'];
     const wrapValue = (value: string | number) => {
       if (typeof value === 'string' && value.includes(',')) {
         return `"${value}"`;
@@ -100,16 +88,16 @@ const Grids: React.FC = () => {
     csvRows.push(headerTexts.join(','));
     const totalRow = [
       '合計',
-      wrapValue(data2.TotalFrame!.AverageDaysData.Volume),
-      wrapValue(data2.TotalFrame!.AverageDaysData.Distribution),
-      wrapValue(data2.TotalFrame!.AverageDaysData.Cumulative),
-      wrapValue(data2.TotalFrame!.TodayData.Volume),
-      wrapValue(data2.TotalFrame!.TodayData.Distribution),
-      wrapValue(data2.TotalFrame!.TodayData.Cumulative),
-      wrapValue(data2.TotalFrame!.TodayData.Difference!),
-      wrapValue(data2.TotalFrame!.MostVolumeAndPrice.Price),
-      wrapValue(data2.TotalFrame!.MostVolumeAndPrice.Volume),
-      wrapValue(data2.TotalFrame!.CloseVWAP)
+      wrapValue(QvVolumeCurveData.TotalFrame!.AverageDaysData.Volume),
+      wrapValue(QvVolumeCurveData.TotalFrame!.AverageDaysData.Distribution),
+      wrapValue(QvVolumeCurveData.TotalFrame!.AverageDaysData.Cumulative),
+      wrapValue(QvVolumeCurveData.TotalFrame!.TodayData.Volume),
+      wrapValue(QvVolumeCurveData.TotalFrame!.TodayData.Distribution),
+      wrapValue(QvVolumeCurveData.TotalFrame!.TodayData.Cumulative),
+      wrapValue(QvVolumeCurveData.TotalFrame!.TodayData.Difference!),
+      wrapValue(QvVolumeCurveData.TotalFrame!.MostVolumeAndPrice.Price),
+      wrapValue(QvVolumeCurveData.TotalFrame!.MostVolumeAndPrice.Volume),
+      wrapValue(QvVolumeCurveData.TotalFrame!.CloseVWAP)
     ];
     csvRows.push(totalRow.join(','));
     const addRow = (label: string, data: any) => {
@@ -129,61 +117,47 @@ const Grids: React.FC = () => {
       csvRows.push(row.join(','));
     };
 
-    if (conditionSettingState.marketState.eveningOpening && data2.EveningOpenTickFrame) {
-      addRow('寄付', data2.EveningOpenTickFrame);
+    if (conditionSettingState.marketState.eveningOpening && QvVolumeCurveData.EveningOpenTickFrame) {
+      addRow('寄付', QvVolumeCurveData.EveningOpenTickFrame);
     }
-    if (data2.EveningTickFrame) {
-      Object.entries(data2.EveningTickFrame!).forEach(([key, value]) => addRow(key, value));
-    }
-
-    if (conditionSettingState.marketState.eveningClose && data2.EveningCloseTickFrame) {
-      addRow('引け', data2.EveningCloseTickFrame);
+    if (QvVolumeCurveData.EveningTickFrame) {
+      Object.entries(QvVolumeCurveData.EveningTickFrame!).forEach(([key, value]) => addRow(key, value));
     }
 
-    if (data2.EveningCloseSessionFrame && (settingsState.checkboxStates[0] || settingsState.checkboxStates[2])) {
-      addRow('イブニング合計', data2.EveningCloseSessionFrame);
+    if (conditionSettingState.marketState.eveningClose && QvVolumeCurveData.EveningCloseTickFrame) {
+      addRow('引け', QvVolumeCurveData.EveningCloseTickFrame);
     }
-    if (conditionSettingState.marketState.preMarketOpening && data2.AMOpenTickFrame) {
-      addRow('寄付', data2.AMOpenTickFrame);
+
+    if (QvVolumeCurveData.EveningCloseSessionFrame && (settingsState.checkboxStates[0] || settingsState.checkboxStates[2])) {
+      addRow('イブニング合計', QvVolumeCurveData.EveningCloseSessionFrame);
     }
-    if (data2.AMTickFrame) {
-      Object.entries(data2.AMTickFrame!).forEach(([key, value]) => addRow(key, value));
+    if (conditionSettingState.marketState.preMarketOpening && QvVolumeCurveData.AMOpenTickFrame) {
+      addRow('寄付', QvVolumeCurveData.AMOpenTickFrame);
     }
-    if (conditionSettingState.marketState.preMarketClose && data2.AMCloseTickFrame) {
-      addRow('引け', data2.AMCloseTickFrame);
+    if (QvVolumeCurveData.AMTickFrame) {
+      Object.entries(QvVolumeCurveData.AMTickFrame!).forEach(([key, value]) => addRow(key, value));
     }
-    if (data2.AMCloseSessionFrame && (settingsState.checkboxStates[0] || settingsState.checkboxStates[2])) {
-      addRow('前場合計', data2.AMCloseSessionFrame);
+    if (conditionSettingState.marketState.preMarketClose && QvVolumeCurveData.AMCloseTickFrame) {
+      addRow('引け', QvVolumeCurveData.AMCloseTickFrame);
     }
-    if (conditionSettingState.marketState.postMarketOpening && data2.PMOpenTickFrame) {
-      addRow('寄付', data2.PMOpenTickFrame);
+    if (QvVolumeCurveData.AMCloseSessionFrame && (settingsState.checkboxStates[0] || settingsState.checkboxStates[2])) {
+      addRow('前場合計', QvVolumeCurveData.AMCloseSessionFrame);
     }
-    if (data2.PMTickFrame) {
-      Object.entries(data2.PMTickFrame!).forEach(([key, value]) => addRow(key, value));
+    if (conditionSettingState.marketState.postMarketOpening && QvVolumeCurveData.PMOpenTickFrame) {
+      addRow('寄付', QvVolumeCurveData.PMOpenTickFrame);
     }
-    if (conditionSettingState.marketState.postMarketClose && data2.PMCloseTickFrame) {
-      addRow('引け', data2.PMCloseTickFrame);
+    if (QvVolumeCurveData.PMTickFrame) {
+      Object.entries(QvVolumeCurveData.PMTickFrame!).forEach(([key, value]) => addRow(key, value));
     }
-    if (data2.PMCloseSessionFrame && (settingsState.checkboxStates[0] || settingsState.checkboxStates[2])) {
-      addRow('後場合計', data2.PMCloseSessionFrame);
+    if (conditionSettingState.marketState.postMarketClose && QvVolumeCurveData.PMCloseTickFrame) {
+      addRow('引け', QvVolumeCurveData.PMCloseTickFrame);
+    }
+    if (QvVolumeCurveData.PMCloseSessionFrame && (settingsState.checkboxStates[0] || settingsState.checkboxStates[2])) {
+      addRow('後場合計', QvVolumeCurveData.PMCloseSessionFrame);
     }
 
     return csvRows.join('\n');
   };
- 
-  
-  React.useEffect(() => {
-    if (!isInitialized.current) {
-      isInitialized.current = true;
-      return;
-    }
-    
-    if (shouldDownload && data2.TotalFrame !== undefined && [1, 2, 3, 4, 7, 8].includes(buttonName)) {
-      downloadCSV('grid-data.csv');
-    }
-  }, [griddownload]);
-  
-
   const downloadCSV = (filename: string) => {
     const csvData = exportTableToCSV();
 
@@ -200,6 +174,29 @@ const Grids: React.FC = () => {
     URL.revokeObjectURL(url);
     setShouldDownload(false)
   };
+  useEffect(() => {
+    if (!isInitialized.current) {
+      isInitialized.current = true;
+      return;
+    }
+
+    if (shouldDownload && QvVolumeCurveData.TotalFrame !== undefined && [1, 2, 3, 4, 7, 8].includes(buttonName)) {
+      downloadCSV('grid-data.csv');
+    }
+  }, [griddownload]);
+  
+  useEffect(() => {
+    if (settingsState) {
+      document.documentElement.style.setProperty('--cell-bg-color', settingsState.colors[0]);
+      document.documentElement.style.setProperty('--cell-color', settingsState.colors[1]);
+      document.documentElement.style.setProperty('--hide-last-column', settingsState.checkboxStates[2] ? 'table-cell' : 'none');
+      document.documentElement.style.setProperty('--hide-last-columns', settingsState.checkboxStates[1] ? 'table-cell' : 'none');
+      document.documentElement.style.setProperty('--filter-brightness', settingsState.checkboxStates[1] ? 'none' : 'brightness(90%)');
+    }
+  }, [settingsState]);
+  const headerTexts = ['時間', '出来高', '分布', '累計', '出来高', '分布', '累計', '差', '価格', '出来高', '場引けVWAP'];
+
+
 
   return (
     <Box className='grid-container'>
@@ -215,7 +212,7 @@ const Grids: React.FC = () => {
                     {count == 0 ? null : displayText}
                   </TableCell>
                   <TableCell className='table-title' colSpan={2}>
-                    {data1.Today}
+                    {QvTotalingInfo.Today}
                   </TableCell>
                   <TableCell className='table-title'></TableCell>
                   <TableCell className='table-title'></TableCell>
@@ -237,17 +234,17 @@ const Grids: React.FC = () => {
               <TableBody>
                 <TableRow>
                   <TableCell className="table-body-cell-a">合計</TableCell>
-                  {data2.TotalFrame ? [
-                    data2.TotalFrame.AverageDaysData.Volume,
-                    data2.TotalFrame.AverageDaysData.Distribution,
-                    data2.TotalFrame.AverageDaysData.Cumulative,
-                    data2.TotalFrame.TodayData.Volume,
-                    data2.TotalFrame.TodayData.Distribution,
-                    data2.TotalFrame.TodayData.Cumulative,
-                    data2.TotalFrame.TodayData.Difference,
-                    data2.TotalFrame.MostVolumeAndPrice.Price,
-                    data2.TotalFrame.MostVolumeAndPrice.Volume,
-                    data2.TotalFrame.CloseVWAP
+                  {QvVolumeCurveData.TotalFrame ? [
+                    QvVolumeCurveData.TotalFrame.AverageDaysData.Volume,
+                    QvVolumeCurveData.TotalFrame.AverageDaysData.Distribution,
+                    QvVolumeCurveData.TotalFrame.AverageDaysData.Cumulative,
+                    QvVolumeCurveData.TotalFrame.TodayData.Volume,
+                    QvVolumeCurveData.TotalFrame.TodayData.Distribution,
+                    QvVolumeCurveData.TotalFrame.TodayData.Cumulative,
+                    QvVolumeCurveData.TotalFrame.TodayData.Difference,
+                    QvVolumeCurveData.TotalFrame.MostVolumeAndPrice.Price,
+                    QvVolumeCurveData.TotalFrame.MostVolumeAndPrice.Volume,
+                    QvVolumeCurveData.TotalFrame.CloseVWAP
                   ].map((item, index) => (
                     <TableCell
                       key={index}
@@ -258,45 +255,45 @@ const Grids: React.FC = () => {
                   )) : null}
                 </TableRow>
 
-                {conditionSettingState.marketState.eveningOpening && data2.EveningOpenTickFrame && (
-                  <TableRowComponent data={data2.EveningOpenTickFrame} label="寄付" />
+                {conditionSettingState.marketState.eveningOpening && QvVolumeCurveData.EveningOpenTickFrame && (
+                  <TableRowComponent data={QvVolumeCurveData.EveningOpenTickFrame} label="寄付" />
                 )}
-                {data2.EveningTickFrame && Object.entries(data2.EveningTickFrame).map(([key, value], index) => (
+                {QvVolumeCurveData.EveningTickFrame && Object.entries(QvVolumeCurveData.EveningTickFrame).map(([key, value], index) => (
                   <TableRowComponent key={index} data={value} label={key} />
                 ))}
-                {conditionSettingState.marketState.eveningClose && data2.EveningCloseTickFrame && (
-                  <TableRowComponent data={data2.EveningCloseTickFrame} label="引け" />
+                {conditionSettingState.marketState.eveningClose && QvVolumeCurveData.EveningCloseTickFrame && (
+                  <TableRowComponent data={QvVolumeCurveData.EveningCloseTickFrame} label="引け" />
                 )}
-                {data2.EveningCloseSessionFrame && (
+                {QvVolumeCurveData.EveningCloseSessionFrame && (
                   (settingsState.checkboxStates[0] || settingsState.checkboxStates[2]) &&
-                  <TableRowComponent data={data2.EveningCloseSessionFrame} label="イブニング合計" />
+                  <TableRowComponent data={QvVolumeCurveData.EveningCloseSessionFrame} label="イブニング合計" />
                 )}
-                {conditionSettingState.marketState.preMarketOpening && data2.AMOpenTickFrame && (
-                  <TableRowComponent data={data2.AMOpenTickFrame} label="寄付" />
+                {conditionSettingState.marketState.preMarketOpening && QvVolumeCurveData.AMOpenTickFrame && (
+                  <TableRowComponent data={QvVolumeCurveData.AMOpenTickFrame} label="寄付" />
 
                 )}
-                {data2.AMTickFrame && Object.entries(data2.AMTickFrame).map(([key, value], index) => (
+                {QvVolumeCurveData.AMTickFrame && Object.entries(QvVolumeCurveData.AMTickFrame).map(([key, value], index) => (
                   <TableRowComponent key={index} data={value} label={key} />
                 ))}
-                {conditionSettingState.marketState.preMarketClose && data2.AMCloseTickFrame && (
-                  <TableRowComponent data={data2.AMCloseTickFrame} label="引け" />
+                {conditionSettingState.marketState.preMarketClose && QvVolumeCurveData.AMCloseTickFrame && (
+                  <TableRowComponent data={QvVolumeCurveData.AMCloseTickFrame} label="引け" />
                 )}
-                {data2.AMCloseSessionFrame &&
+                {QvVolumeCurveData.AMCloseSessionFrame &&
                   (settingsState.checkboxStates[0] || settingsState.checkboxStates[2]) && (
-                    <TableRowComponent data={data2.AMCloseSessionFrame} label="前場合計" />
+                    <TableRowComponent data={QvVolumeCurveData.AMCloseSessionFrame} label="前場合計" />
                   )}
-                {conditionSettingState.marketState.postMarketOpening && data2.PMOpenTickFrame && (
-                  <TableRowComponent data={data2.PMOpenTickFrame} label="寄付" />
+                {conditionSettingState.marketState.postMarketOpening && QvVolumeCurveData.PMOpenTickFrame && (
+                  <TableRowComponent data={QvVolumeCurveData.PMOpenTickFrame} label="寄付" />
                 )}
-                {data2.PMTickFrame && Object.entries(data2.PMTickFrame).map(([key, value], index) => (
+                {QvVolumeCurveData.PMTickFrame && Object.entries(QvVolumeCurveData.PMTickFrame).map(([key, value], index) => (
                   <TableRowComponent key={index} data={value} label={key} />
                 ))}
-                {conditionSettingState.marketState.postMarketClose && data2.PMCloseTickFrame && (
-                  <TableRowComponent data={data2.PMCloseTickFrame} label="引け" />
+                {conditionSettingState.marketState.postMarketClose && QvVolumeCurveData.PMCloseTickFrame && (
+                  <TableRowComponent data={QvVolumeCurveData.PMCloseTickFrame} label="引け" />
                 )}
-                {data2.PMCloseSessionFrame &&
+                {QvVolumeCurveData.PMCloseSessionFrame &&
                   (settingsState.checkboxStates[0] || settingsState.checkboxStates[2]) && (
-                    <TableRowComponent data={data2.PMCloseSessionFrame} label="後場合計" />
+                    <TableRowComponent data={QvVolumeCurveData.PMCloseSessionFrame} label="後場合計" />
                   )}
               </TableBody>
             </Table>

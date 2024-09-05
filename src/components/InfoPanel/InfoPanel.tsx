@@ -9,7 +9,7 @@ import b from '../../data/101.1/data1.json';
 import c from '../../data/data1.json';
 
 const InfoPanel: React.FC = () => {
-  const { isHistoricalActive, setisHistoricalActive, requestPayload ,response} = useMyContext();
+  const { isHistoricalActive, setisHistoricalActive, requestPayload, response } = useMyContext();
   const handleChange1 = (
     _event: React.MouseEvent<HTMLElement>,
     newAlignment: boolean | null,
@@ -18,24 +18,22 @@ const InfoPanel: React.FC = () => {
       setisHistoricalActive(newAlignment);
     }
   };
-  let data1 = {
+  let QvTotalingInfo = {
     QuoteCode: '',
     AbbreviatedName: '',
     MarketName: '',
     ListedSection: '',
+  }
 
+  if (response) {
+    if (requestPayload.Code === '6501') {
+      QvTotalingInfo = c;
+    } else if (requestPayload.Code === '101.1') {
+      QvTotalingInfo = b;
+    } else if (requestPayload.Code === '601.1') {
+      QvTotalingInfo = a;
+    }
   }
-  if(response){
- if (requestPayload.Code === '6501') {
-    data1 = c;
-  } else if (requestPayload.Code === '101.1') {
-    data1 = b;
-  } else if (requestPayload.Code === '601.1') {
-    data1 = a;
-  }
-  }
- 
-
 
   return (
     <div id='InfoPanel'>
@@ -58,10 +56,10 @@ const InfoPanel: React.FC = () => {
       <div className='message'>
         <Stack direction="row" spacing={1} alignItems="center">
           <span className="label">銘柄コード:</span>
-          <span className="value">{data1.QuoteCode}</span>
+          <span className="value">{QvTotalingInfo.QuoteCode}</span>
           <span className="label">銘柄名:</span>
-          <span className="value">{data1.AbbreviatedName}</span>
-          <span className="value">{data1.MarketName}{data1.ListedSection}</span>
+          <span className="value">{QvTotalingInfo.AbbreviatedName}</span>
+          <span className="value">{QvTotalingInfo.MarketName}{QvTotalingInfo.ListedSection}</span>
         </Stack>
         <p className="execution-time">実行時間: { }</p>
       </div>

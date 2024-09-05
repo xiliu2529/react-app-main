@@ -11,7 +11,6 @@ const Header: React.FC = () => {
     <header className="header">
         <img src={labo} className="quick" alt="Icon description" onClick={handleClick}/>
         <Utilities/>
-
     </header>
     
     

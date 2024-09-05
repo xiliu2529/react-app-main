@@ -15,39 +15,7 @@ const LeftSidebar: React.FC = () => {
   const [checked, setChecked] = useState(true);
   const [isButtonContainerVisible, setButtonContainerVisible] = useState(false);
   const isInitialMount = useRef(true);
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
-    isInitialMount.current = false;
-  };
-
-  const handleButtonClick = (buttonName: number) => {
-    if (checked) {
-      buttonName = buttonName - 1;
-    }
-    setbuttonName(buttonName);
-  };
-
-  useEffect(() => {
-    if (isInitialMount.current) {
-    } else {
-      if (checked) {
-        setbuttonName(buttonName - 1);
-      } else {
-        setbuttonName(buttonName + 1);
-      }
-    }
-  }, [checked]);
-
-  useEffect(() => {
-    if (checked) {
-      setbuttonName(1);
-    } else {
-      setbuttonName(2);
-    }
-  }, [isHistoricalActive]);
-
-  
-const IOSSwitch = styled((props: SwitchProps) => (
+  const IOSSwitch = styled((props: SwitchProps) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props}
   checked={checked}
   onChange={handleChange} />
@@ -109,6 +77,39 @@ const IOSSwitch = styled((props: SwitchProps) => (
     }),
   },
 }));
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+    isInitialMount.current = false;
+  };
+
+  const handleButtonClick = (buttonName: number) => {
+    if (checked) {
+      buttonName = buttonName - 1;
+    }
+    setbuttonName(buttonName);
+  };
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+    } else {
+      if (checked) {
+        setbuttonName(buttonName - 1);
+      } else {
+        setbuttonName(buttonName + 1);
+      }
+    }
+  }, [checked]);
+
+  useEffect(() => {
+    if (checked) {
+      setbuttonName(1);
+    } else {
+      setbuttonName(2);
+    }
+  }, [isHistoricalActive]);
+
+  
+
 
   return  (
  

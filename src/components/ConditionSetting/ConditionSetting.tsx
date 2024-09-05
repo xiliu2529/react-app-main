@@ -4,7 +4,7 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
 // @ts-ignore
-import { VALIDATION_MESSAGES } from '../../constants/validationMessages.js';
+import { VALIDATION_MESSAGES } from '../../constants/messages.js';
 import { fetchAPI, fetchAPI1 } from '../../api/api';
 
 const ConditionSetting: React.FC = () => {
@@ -16,7 +16,6 @@ const ConditionSetting: React.FC = () => {
   const [startTime, setStartTime] = useState<string>('');
   const [startTime1, setStartTime1] = useState<string>('');
   const [startTime2, setStartTime2] = useState<string>('');
-
   const [endTime, setEndTime] = useState<string>('');
   const [marketState, setMarketState] = useState({
     preMarketOpening: false,
@@ -26,7 +25,6 @@ const ConditionSetting: React.FC = () => {
     eveningOpening: false,
     eveningClose: false,
   });
-
   const [startDate, setstartDate] = useState<string>('');
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
@@ -41,8 +39,6 @@ const ConditionSetting: React.FC = () => {
     error: false,
     helperText: '',
   });
-
-
   const selectedStyle = {
     '&.Mui-selected': {
       backgroundColor: '#E8ECF0',
@@ -50,8 +46,35 @@ const ConditionSetting: React.FC = () => {
       fontWeight: '900',
     },
   };
+  const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    setter(event.target.value);
+  }
+  const handleStartTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newStartTime = event.target.value;
+    setStartTime(newStartTime);
+  };
+  const handleEndTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newEndTime = event.target.value;
+    setEndTime(newEndTime);
+  };
+  const sqhandleChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedState(prevState => {
+      const newState = [...prevState];
+      newState[index] = event.target.checked ? '1' : '0';
+      return newState;
+    });
+  }; 
+   const handleChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = Number(e.target.value);
 
-
+    if (newValue < 1) {
+      setValue1(1);
+    } else if (newValue > 30) {
+      setValue1(30);
+    } else {
+      setValue1(newValue);
+    }
+  };
   const getTenDaysAgoDate = (): string => {
     const today = new Date();
     const tenDaysAgo = new Date(today);
@@ -91,7 +114,6 @@ const ConditionSetting: React.FC = () => {
   };
 
   const handleCalculate = () => {
-
     setRequestPayload({
       Code: inputValue,
       HistoricalSetting: {
@@ -134,14 +156,12 @@ const ConditionSetting: React.FC = () => {
         PercentageOfDayType: convertBoolToString(settingsState.checkboxStates[3]),
       },
     });
-
     setIsReadyToSend(true);
     setConditionSettingState({ marketState, inputValue });
-
   };
 
-
   useEffect(() => {
+    //data取る
     const fetchData = async () => {
       try {
         const result = await fetchAPI();
@@ -163,16 +183,13 @@ const ConditionSetting: React.FC = () => {
           eveningOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.OpenTick),
           eveningClose: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.CloseTick),
         });
-
       } catch (err) {
         console.error('Error fetching data:', err);
         setError(err)
       }
     };
     fetchData();
-
   }, []);
-
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -194,6 +211,7 @@ const ConditionSetting: React.FC = () => {
       setStartTime1(startTime)
     }
   }, [startTime])
+
   useEffect(() => {
     setshowModal({
       Code: inputValue,
@@ -236,10 +254,10 @@ const ConditionSetting: React.FC = () => {
         MostVolumeAndPriceType: settingsState.radioValues[0],
         PercentageOfDayType: convertBoolToString(settingsState.checkboxStates[3]),
       },
-
     });
   }, [inputValue, alignment, startDate, endDate, days, checkedState, minutes, startTime, endTime, value1, marketState]);
 
+  //data更新
   const fetchData1 = async () => {
     try {
       await fetchAPI1({ showModal, settingsState });
@@ -288,13 +306,11 @@ const ConditionSetting: React.FC = () => {
 
   }, [isHistoricalActive, buttonName]);
 
-
+//データ制御
   const validatePayload = (payload: RequestPayload): boolean => {
     const category = payload.HistoricalSetting.Category;
     const DateTo = payload.HistoricalSetting.Range.DateTo
     const DateFrom = payload.HistoricalSetting.Range.DateFrom
-    // const timefrom = payload.CalculationSetting.Range.TimeFrom
-    // const timeTo = payload.CalculationSetting.Range.TimeTo
     let hasError = false;
     const newValidationState = { error: false, helperText: '' };
     const todayFormatted = today.split('-').join('/');
@@ -306,7 +322,6 @@ const ConditionSetting: React.FC = () => {
     } else {
       setValidation({ error: false, helperText: '' });
     }
-
 
     if (category === '1') {
       if (!DateFrom || DateFrom > todayFormatted) {
@@ -340,6 +355,7 @@ const ConditionSetting: React.FC = () => {
       }
     }
 
+    //時間制御
     // if (timefrom > timeTo) {
     //   seterrorTime(true);
     //   hasError = true;
@@ -350,28 +366,6 @@ const ConditionSetting: React.FC = () => {
     return !hasError;
   };
 
-  const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    setter(event.target.value);
-  }
-
-  const handleStartTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newStartTime = event.target.value;
-
-    setStartTime(newStartTime);
-  };
-
-  const handleEndTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newEndTime = event.target.value;
-
-    setEndTime(newEndTime);
-  };
-  const sqhandleChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCheckedState(prevState => {
-      const newState = [...prevState];
-      newState[index] = event.target.checked ? '1' : '0';
-      return newState;
-    });
-  };
   const renderUI = () => {
     const currentAlignment = alignment || '0';
 
@@ -498,25 +492,13 @@ const ConditionSetting: React.FC = () => {
         return null;
     }
   };
-  const handleChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = Number(e.target.value);
 
-    if (newValue < 1) {
-      setValue1(1);
-    } else if (newValue > 30) {
-      setValue1(30);
-    } else {
-      setValue1(newValue);
-    }
-  };
 
   return (
-    <div className='commonsp-top' 
-    // style={{ transform: 'scale(1.4)', transformOrigin: '0 0', marginRight: '120px' }}
+    <div className='commonsp-top'
+    //モニター対応　 style={{ transform: 'scale(1.4)', transformOrigin: '0 0', marginRight: '120px' }}
     >
-     
       <div className='commonsp'>
-
         <div className='title-1'>銘柄設定</div>
         <Stack direction="row" spacing={1} alignItems="center">
           <Typography variant="body1" sx={{ fontSize: "10px" }}>銘柄入力</Typography>
@@ -533,8 +515,6 @@ const ConditionSetting: React.FC = () => {
             value={inputValue}
             onChange={handleInputChange}
           />
-
-
         </Stack>
 
         <div className='title-1' id='title-1-2'>期間設定</div>
@@ -594,7 +574,6 @@ const ConditionSetting: React.FC = () => {
                 <Typography sx={{ marginTop: '7px' }}>
                   分
                 </Typography></>
-
               :
               <Grid item>
                 <TextField className='custom-time-input' type="time" variant="outlined" sx={{
@@ -629,15 +608,11 @@ const ConditionSetting: React.FC = () => {
           </Grid>
         </div>
       </div>
-
       <Button sx={{ backgroundColor: '#143867', color: '#fff', marginLeft: '230px', borderRadius: '15px', marginTop: '5px' }}
         onClick={handleCalculate}>
         算出
       </Button>
-
     </div >
-
-
 
   );
 };

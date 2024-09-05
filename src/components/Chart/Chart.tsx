@@ -8,7 +8,6 @@ import {
   TickFrame,
 } from '../../types/chartTypes';
 import Exporting from 'highcharts/modules/exporting';
-
 import { useMyContext } from '../../contexts/MyContext';
 import a from '../../data/601.1/data3.json'
 import b from '../../data/101.1/data3.json'
@@ -27,7 +26,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   Exporting(Highcharts);
 
   let display = settingsState.radioValues[1] === "0"
-  let data3: TickFrame = {
+  let QvChartData: TickFrame = {
     EveningOpenTickFrame: {
       AverageDaysChart: {
         Distribution: "",
@@ -39,19 +38,17 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         ClosePrice: "",
       }
     }
-
   }
 
   if(response){
   if (requestPayload.Code === '6501') {
-    data3 = c;
+    QvChartData = c;
   } else if (requestPayload.Code === '101.1') {
-    data3 = b;
+    QvChartData = b;
   } else if (requestPayload.Code === '601.1') {
-    data3 = a;
+    QvChartData = a;
   }
   }
-
 
   const [checked, setChecked] = useState<boolean>(false);
   const [chartState, setChartState] = useState<ChartState>({
@@ -107,21 +104,20 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       menu.style.backgroundColor = '#fff';
       menu.style.border = '1px solid #ddd';
       menu.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
-      menu.style.borderRadius = '3px'; // 角を丸くする
+      menu.style.borderRadius = '3px'; 
       menu.style.zIndex = '1000';
-      menu.style.width = '130px'; // 少し幅を広げる
+      menu.style.width = '130px'; 
       menu.style.whiteSpace = 'nowrap';
  
-      
       // ダウンロードオプションを追加
       ['PNG', 'JPEG', 'SVG'].forEach((format, index) => {
         const item = document.createElement('div');
         item.textContent = `${format} ダウンロード`;
         item.style.cursor = 'pointer';
         item.style.textAlign = 'left';
-        item.style.padding = '8px 10px'; // 各項目の上下余白
-        item.style.color = '#333'; // 文字色
-        item.style.transition = 'background-color 0.3s ease'; // 背景色の変化にトランジションを追加
+        item.style.padding = '8px 10px'; 
+        item.style.color = '#333'; 
+        item.style.transition = 'background-color 0.3s ease'; 
         item.addEventListener('click', () => {
           const mimeType = format === 'SVG' ? 'image/svg+xml' : `image/${format.toLowerCase()}`;
           // @ts-ignore
@@ -129,29 +125,22 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
             type: mimeType,
             chartOptions: {}
           });
-          menu.remove(); // ダウンロード後にメニューを削除
+          menu.remove(); 
         });
 
-        // 各メニュー項目の間に区切り線を追加（最後の項目を除く）
         if (index < 2) {
-          item.style.borderBottom = '1px solid #e0e0e0'; // 区切り線を追加
+          item.style.borderBottom = '1px solid #e0e0e0'; 
         }
-
-        // ホバー時のエフェクトを追加
         item.addEventListener('mouseover', () => {
-          item.style.backgroundColor = '#f0f0f0'; // ホバー時の背景色
+          item.style.backgroundColor = '#f0f0f0'; 
         });
         item.addEventListener('mouseout', () => {
-          item.style.backgroundColor = ''; // ホバー解除時に背景色をリセット
+          item.style.backgroundColor = ''; 
         });
 
         menu.appendChild(item);
       });
-
-      // メニューをページに追加
       document.body.appendChild(menu);
-
-      // 他の場所をクリックしたときにメニューを削除
       document.addEventListener('click', function removeMenu() {
         const menu = document.getElementById('custom-export-menu');
         if (menu) menu.remove();
@@ -187,73 +176,73 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       let historicalCumulative2: { y: number; color: string }[] = [];
 
 
-      if (data3.EveningTickFrame) {
-        timeLabels = Object.keys(data3.EveningTickFrame).map(timeFrame => timeFrame.split('-')[0]);
-        todayDistribution = Object.values(data3.EveningTickFrame).map(tick => ({
+      if (QvChartData.EveningTickFrame) {
+        timeLabels = Object.keys(QvChartData.EveningTickFrame).map(timeFrame => timeFrame.split('-')[0]);
+        todayDistribution = Object.values(QvChartData.EveningTickFrame).map(tick => ({
           y: parseFloat(tick.TodayChart!.Distribution),
           color: settingsState.colors[6]
         }));
-        todayCumulative = Object.values(data3.EveningTickFrame).map(tick => ({
+        todayCumulative = Object.values(QvChartData.EveningTickFrame).map(tick => ({
           y: parseFloat(tick.TodayChart!.Cumulative),
           color: settingsState.colors[14]
         }));
-        closePrice = Object.values(data3.EveningTickFrame).map(tick => ({
+        closePrice = Object.values(QvChartData.EveningTickFrame).map(tick => ({
           y: parseFloat(tick.TodayChart!.ClosePrice!),
           color: settingsState.colors[16]
         }));
-        historicalDistribution = Object.values(data3.EveningTickFrame).map(tick => ({
+        historicalDistribution = Object.values(QvChartData.EveningTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Distribution),
           color: !useDailyColor ? settingsState.colors[11] : settingsState.colors[6]
         }));
 
-        historicalCumulative = Object.values(data3.EveningTickFrame).map(tick => ({
+        historicalCumulative = Object.values(QvChartData.EveningTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Cumulative),
        color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
         }));
       }
 
-      if (data3.AMTickFrame) {
-        timeLabels1 = Object.keys(data3.AMTickFrame).map(timeFrame => timeFrame.split('-')[0]);
-        todayDistribution1 = Object.values(data3.AMTickFrame).map(tick => ({
+      if (QvChartData.AMTickFrame) {
+        timeLabels1 = Object.keys(QvChartData.AMTickFrame).map(timeFrame => timeFrame.split('-')[0]);
+        todayDistribution1 = Object.values(QvChartData.AMTickFrame).map(tick => ({
           y: parseFloat(tick.TodayChart!.Distribution),
           color: settingsState.colors[4]
         }));
-        todayCumulative1 = Object.values(data3.AMTickFrame).map(tick => ({
+        todayCumulative1 = Object.values(QvChartData.AMTickFrame).map(tick => ({
           y: parseFloat(tick.TodayChart!.Cumulative),
           color: settingsState.colors[14]
         }));
-        closePrice1 = Object.values(data3.AMTickFrame).map(tick => ({
+        closePrice1 = Object.values(QvChartData.AMTickFrame).map(tick => ({
           y: parseFloat(tick.TodayChart!.ClosePrice!),
           color: settingsState.colors[16]
         }));
-        historicalDistribution1 = Object.values(data3.AMTickFrame).map(tick => ({
+        historicalDistribution1 = Object.values(QvChartData.AMTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Distribution),
           color: !useDailyColor ? settingsState.colors[9] : settingsState.colors[4]
         }));
-        historicalCumulative1 = Object.values(data3.AMTickFrame).map(tick => ({
+        historicalCumulative1 = Object.values(QvChartData.AMTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Cumulative),
        color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
         }));
       }
-      if (data3.PMTickFrame) {
-        timeLabels2 = Object.keys(data3.PMTickFrame).map(timeFrames2 => timeFrames2.split('-')[0]);
-        todayDistribution2 = Object.values(data3.PMTickFrame).map(tick => ({
+      if (QvChartData.PMTickFrame) {
+        timeLabels2 = Object.keys(QvChartData.PMTickFrame).map(timeFrames2 => timeFrames2.split('-')[0]);
+        todayDistribution2 = Object.values(QvChartData.PMTickFrame).map(tick => ({
           y: parseFloat(tick.TodayChart!.Distribution),
           color: settingsState.colors[5]
         }));
-        todayCumulative2 = Object.values(data3.PMTickFrame).map(tick => ({
+        todayCumulative2 = Object.values(QvChartData.PMTickFrame).map(tick => ({
           y: parseFloat(tick.TodayChart!.Cumulative),
           color: settingsState.colors[14]
         }));
-        closePrice2 = Object.values(data3.PMTickFrame).map(tick => ({
+        closePrice2 = Object.values(QvChartData.PMTickFrame).map(tick => ({
           y: parseFloat(tick.TodayChart!.ClosePrice!),
           color: settingsState.colors[16]
         }));
-        historicalDistribution2 = Object.values(data3.PMTickFrame).map(tick => ({
+        historicalDistribution2 = Object.values(QvChartData.PMTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Distribution),
           color: !useDailyColor ? settingsState.colors[10] : settingsState.colors[5]
         }));
-        historicalCumulative2 = Object.values(data3.PMTickFrame).map(tick => ({
+        historicalCumulative2 = Object.values(QvChartData.PMTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Cumulative),
        color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
         }));
@@ -287,62 +276,62 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
 
   useEffect(() => {
-    if (conditionSettingState.marketState.eveningOpening && data3.EveningOpenTickFrame) {
+    if (conditionSettingState.marketState.eveningOpening && QvChartData.EveningOpenTickFrame) {
       setChartData(prevState => ({
         ...prevState,
         timeLabels: ['寄付', ...prevState.timeLabels],
         todayDistribution: [
           {
-            y: Number(data3.EveningOpenTickFrame!.TodayChart!.Distribution),
+            y: Number(QvChartData.EveningOpenTickFrame!.TodayChart!.Distribution),
             color: settingsState.colors[7]
           },
           ...prevState.todayDistribution
         ],
         todayCumulative: [
           {
-            y: Number(data3.EveningOpenTickFrame!.TodayChart!.Cumulative),
+            y: Number(QvChartData.EveningOpenTickFrame!.TodayChart!.Cumulative),
             color: settingsState.colors[14]
           },
           ...prevState.todayCumulative
         ],
         closePrice: [
           {
-            y: Number(data3.EveningOpenTickFrame!.TodayChart!.ClosePrice!),
+            y: Number(QvChartData.EveningOpenTickFrame!.TodayChart!.ClosePrice!),
             color: settingsState.colors[16]
           },
           ...prevState.closePrice
         ],
         historicalDistribution: [
           {
-            y: Number(data3.EveningOpenTickFrame!.AverageDaysChart!.Distribution),
+            y: Number(QvChartData.EveningOpenTickFrame!.AverageDaysChart!.Distribution),
             color: !useDailyColor ? settingsState.colors[12] : settingsState.colors[7]
           },
           ...prevState.historicalDistribution
         ],
         historicalCumulative: [
           {
-            y: Number(data3.EveningOpenTickFrame!.AverageDaysChart!.Cumulative),
+            y: Number(QvChartData.EveningOpenTickFrame!.AverageDaysChart!.Cumulative),
          color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
           },
           ...prevState.historicalCumulative
         ],
       }));
     }
-    if (conditionSettingState.marketState.eveningClose && data3.EveningCloseTickFrame) {
+    if (conditionSettingState.marketState.eveningClose && QvChartData.EveningCloseTickFrame) {
       setChartData(prevState => ({
         ...prevState,
         timeLabels: [...prevState.timeLabels, '引け'],
         todayDistribution: [
           ...prevState.todayDistribution,
           {
-            y: Number(data3.EveningCloseTickFrame!.TodayChart!.Distribution),
+            y: Number(QvChartData.EveningCloseTickFrame!.TodayChart!.Distribution),
             color: settingsState.colors[8]
           },
         ],
         todayCumulative: [
           ...prevState.todayCumulative,
           {
-            y: Number(data3.EveningCloseTickFrame!.TodayChart!.Cumulative),
+            y: Number(QvChartData.EveningCloseTickFrame!.TodayChart!.Cumulative),
             color: settingsState.colors[14]
           }
 
@@ -350,7 +339,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         closePrice: [
           ...prevState.closePrice,
           {
-            y: Number(data3.EveningCloseTickFrame!.TodayChart!.ClosePrice!),
+            y: Number(QvChartData.EveningCloseTickFrame!.TodayChart!.ClosePrice!),
             color: settingsState.colors[16]
           }
 
@@ -358,7 +347,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         historicalDistribution: [
           ...prevState.historicalDistribution,
           {
-            y: Number(data3.EveningCloseTickFrame!.AverageDaysChart!.Distribution),
+            y: Number(QvChartData.EveningCloseTickFrame!.AverageDaysChart!.Distribution),
             color: !useDailyColor ? settingsState.colors[13] : settingsState.colors[8]
           }
         ],
@@ -366,7 +355,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         historicalCumulative: [
           ...prevState.historicalCumulative,
           {
-            y: Number(data3.EveningCloseTickFrame!.AverageDaysChart!.Cumulative),
+            y: Number(QvChartData.EveningCloseTickFrame!.AverageDaysChart!.Cumulative),
          color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
           }
 
@@ -376,41 +365,41 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
     }
 
-    if (conditionSettingState.marketState.preMarketOpening && data3.AMOpenTickFrame) {
+    if (conditionSettingState.marketState.preMarketOpening && QvChartData.AMOpenTickFrame) {
       setChartData(prevState => ({
         ...prevState,
         timeLabels1: ['寄付', ...prevState.timeLabels1],
         todayDistribution1: [
           {
-            y: Number(data3.AMOpenTickFrame!.TodayChart!.Distribution),
+            y: Number(QvChartData.AMOpenTickFrame!.TodayChart!.Distribution),
             color: settingsState.colors[7]
           },
           ...prevState.todayDistribution1
         ],
         todayCumulative1: [
           {
-            y: Number(data3.AMOpenTickFrame!.TodayChart!.Cumulative),
+            y: Number(QvChartData.AMOpenTickFrame!.TodayChart!.Cumulative),
             color: settingsState.colors[14]
           },
           ...prevState.todayCumulative1
         ],
         closePrice1: [
           {
-            y: Number(data3.AMOpenTickFrame!.TodayChart!.ClosePrice!),
+            y: Number(QvChartData.AMOpenTickFrame!.TodayChart!.ClosePrice!),
             color: settingsState.colors[16]
           },
           ...prevState.closePrice1
         ],
         historicalDistribution1: [
           {
-            y: Number(data3.AMOpenTickFrame!.AverageDaysChart!.Distribution),
+            y: Number(QvChartData.AMOpenTickFrame!.AverageDaysChart!.Distribution),
             color: !useDailyColor ? settingsState.colors[12] : settingsState.colors[7]
           },
           ...prevState.historicalDistribution1
         ],
         historicalCumulative1: [
           {
-            y: Number(data3.AMOpenTickFrame!.AverageDaysChart!.Cumulative),
+            y: Number(QvChartData.AMOpenTickFrame!.AverageDaysChart!.Cumulative),
          color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
           },
           ...prevState.historicalCumulative1
@@ -418,130 +407,129 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       }));
     }
 
-    if (conditionSettingState.marketState.preMarketClose && data3.AMCloseTickFrame) {
+    if (conditionSettingState.marketState.preMarketClose && QvChartData.AMCloseTickFrame) {
       setChartData(prevState => ({
         ...prevState,
         timeLabels1: [...prevState.timeLabels1, '引け'],
         todayDistribution1: [...prevState.todayDistribution1,
         {
-          y: Number(data3.AMCloseTickFrame!.TodayChart!.Distribution),
+          y: Number(QvChartData.AMCloseTickFrame!.TodayChart!.Distribution),
           color: settingsState.colors[8]
         },
 
         ],
         todayCumulative1: [...prevState.todayCumulative1,
         {
-          y: Number(data3.AMCloseTickFrame!.TodayChart!.Cumulative),
+          y: Number(QvChartData.AMCloseTickFrame!.TodayChart!.Cumulative),
           color: settingsState.colors[14]
         },
 
         ],
         closePrice1: [...prevState.closePrice1,
         {
-          y: Number(data3.AMCloseTickFrame!.TodayChart!.ClosePrice!),
+          y: Number(QvChartData.AMCloseTickFrame!.TodayChart!.ClosePrice!),
           color: settingsState.colors[16]
         },
 
         ],
         historicalDistribution1: [...prevState.historicalDistribution1,
         {
-          y: Number(data3.AMCloseTickFrame!.AverageDaysChart!.Distribution),
+          y: Number(QvChartData.AMCloseTickFrame!.AverageDaysChart!.Distribution),
           color: !useDailyColor ? settingsState.colors[13] : settingsState.colors[8]
         },
 
         ],
         historicalCumulative1: [...prevState.historicalCumulative1,
         {
-          y: Number(data3.AMCloseTickFrame!.AverageDaysChart!.Cumulative),
+          y: Number(QvChartData.AMCloseTickFrame!.AverageDaysChart!.Cumulative),
        color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
         },
 
         ],
       }));
     }
-    if (conditionSettingState.marketState.postMarketOpening && data3.PMOpenTickFrame) {
+    if (conditionSettingState.marketState.postMarketOpening && QvChartData.PMOpenTickFrame) {
       setChartData(prevState => ({
         ...prevState,
         timeLabels2: ['寄付', ...prevState.timeLabels2],
         todayDistribution2: [
           {
-            y: Number(data3.PMOpenTickFrame!.TodayChart!.Distribution),
+            y: Number(QvChartData.PMOpenTickFrame!.TodayChart!.Distribution),
             color: settingsState.colors[7]
           },
           ...prevState.todayDistribution2
         ],
         todayCumulative2: [
           {
-            y: Number(data3.PMOpenTickFrame!.TodayChart!.Cumulative),
+            y: Number(QvChartData.PMOpenTickFrame!.TodayChart!.Cumulative),
             color: settingsState.colors[14]
           },
           ...prevState.todayCumulative2
         ],
         closePrice2: [
           {
-            y: Number(data3.PMOpenTickFrame!.TodayChart!.ClosePrice!),
+            y: Number(QvChartData.PMOpenTickFrame!.TodayChart!.ClosePrice!),
             color: settingsState.colors[16]
           },
           ...prevState.closePrice2
         ],
         historicalDistribution2: [
           {
-            y: Number(data3.PMOpenTickFrame!.AverageDaysChart!.Distribution),
+            y: Number(QvChartData.PMOpenTickFrame!.AverageDaysChart!.Distribution),
             color: !useDailyColor ? settingsState.colors[12] : settingsState.colors[7]
           },
           ...prevState.historicalDistribution2
         ],
         historicalCumulative2: [
           {
-            y: Number(data3.PMOpenTickFrame!.AverageDaysChart!.Cumulative),
+            y: Number(QvChartData.PMOpenTickFrame!.AverageDaysChart!.Cumulative),
          color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
           },
           ...prevState.historicalCumulative2
         ],
       }));
     }
-    if (conditionSettingState.marketState.postMarketClose && data3.PMCloseTickFrame) {
+    if (conditionSettingState.marketState.postMarketClose && QvChartData.PMCloseTickFrame) {
       setChartData(prevState => ({
         ...prevState,
         timeLabels2: [...prevState.timeLabels2, '引け'],
         todayDistribution2: [...prevState.todayDistribution2,
         {
-          y: Number(data3.PMCloseTickFrame!.TodayChart!.Distribution),
+          y: Number(QvChartData.PMCloseTickFrame!.TodayChart!.Distribution),
           color: settingsState.colors[8]
         },
 
         ],
         todayCumulative2: [...prevState.todayCumulative2,
         {
-          y: Number(data3.PMCloseTickFrame!.TodayChart!.Cumulative),
+          y: Number(QvChartData.PMCloseTickFrame!.TodayChart!.Cumulative),
           color: settingsState.colors[14]
         },
 
         ],
         closePrice2: [...prevState.closePrice2,
         {
-          y: Number(data3.PMCloseTickFrame!.TodayChart!.ClosePrice!),
+          y: Number(QvChartData.PMCloseTickFrame!.TodayChart!.ClosePrice!),
           color: settingsState.colors[16]
         },
 
         ],
         historicalDistribution2: [...prevState.historicalDistribution2,
         {
-          y: Number(data3.PMCloseTickFrame!.AverageDaysChart!.Distribution),
+          y: Number(QvChartData.PMCloseTickFrame!.AverageDaysChart!.Distribution),
           color: !useDailyColor ? settingsState.colors[13] : settingsState.colors[8]
         },
 
         ],
         historicalCumulative2: [...prevState.historicalCumulative2,
         {
-          y: Number(data3.PMCloseTickFrame!.AverageDaysChart!.Cumulative),
+          y: Number(QvChartData.PMCloseTickFrame!.AverageDaysChart!.Cumulative),
        color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
         },
 
         ],
       }));
     }
-
 
   }, [conditionSettingState, settingsState, display,]);
 
@@ -580,13 +568,10 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     });
   }, [chartData,]);
 
-
-
   const chartOptions: Highcharts.Options = {
     chart: {
       type: 'column',
-      height: '4000px',
-      width: '600px',
+    
 
     },
     title: {
@@ -698,8 +683,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   const chartOptions1: Highcharts.Options = {
     chart: {
       type: 'column',
-      height: '200px',
-      width: '600px',
+ 
     },
     title: {
       text: ''
@@ -804,8 +788,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   const chartOptions2: Highcharts.Options = {
     chart: {
       type: 'column',
-      height: '200px',
-      width: '600px',
     },
 
     title: {
