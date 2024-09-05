@@ -7,13 +7,6 @@ const data = {
 };
 
 
-// const data1 = {
-//   service_name: "qww",
-//   mode: "PUT",
-//   types: "volumecurve_info",
-//   put_json_data: { test: "12312345" }
-// }
-
 export const fetchAPI = async () => {
   try {
     const response = await fetch('http://11.255.97.33/home/member/qww_dev/prod/userdata/load', {

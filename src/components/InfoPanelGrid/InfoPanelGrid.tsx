@@ -9,7 +9,9 @@ const InfoPanelGrid: React.FC = () => {
   
     
   return (
-    <div className='infoPanelGrid'>
+    <div className='infoPanelGrid' 
+    // style={{ transform: 'scale(1.4)', transformOrigin: '0 0', marginRight: '280px' }}
+    >
         <InfoPanel/>
         <div className='infoPanelGrid-Grid'>
              <Grid/> 

@@ -5,7 +5,7 @@ import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
 // @ts-ignore
 import { VALIDATION_MESSAGES } from '../../constants/validationMessages.js';
-import { fetchAPI,fetchAPI1 } from '../../api/api';
+import { fetchAPI, fetchAPI1 } from '../../api/api';
 
 const ConditionSetting: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
@@ -42,7 +42,7 @@ const ConditionSetting: React.FC = () => {
     helperText: '',
   });
 
-  
+
   const selectedStyle = {
     '&.Mui-selected': {
       backgroundColor: '#E8ECF0',
@@ -50,7 +50,7 @@ const ConditionSetting: React.FC = () => {
       fontWeight: '900',
     },
   };
-  
+
 
   const getTenDaysAgoDate = (): string => {
     const today = new Date();
@@ -138,46 +138,40 @@ const ConditionSetting: React.FC = () => {
     setIsReadyToSend(true);
     setConditionSettingState({ marketState, inputValue });
 
-
-
-
   };
 
 
-  useEffect(() =>{
+  useEffect(() => {
     const fetchData = async () => {
-          try {
-            const result = await fetchAPI();
-            const requestPayload = result.body.response.D.volumecurve_info.showModal;
-            setAlignment(requestPayload.HistoricalSetting.Category);
-            setstartDate(requestPayload.HistoricalSetting.Range.DateFrom.split('/').join('-'));
-            setendDate(requestPayload.HistoricalSetting.Range.DateTo.split('/').join('-'));
-            setDays(Number(requestPayload.HistoricalSetting.Range.Days));
-            setCheckedState([requestPayload.HistoricalSetting.Range.SQ.LargeSQ, requestPayload.HistoricalSetting.Range.SQ.SmallSQ, requestPayload.HistoricalSetting.Range.SQ.WeeklySQ]);
-            setminutes(requestPayload.CalculationSetting.Category);
-            setStartTime(requestPayload.CalculationSetting.Range.TimeFrom);
-            setEndTime(requestPayload.CalculationSetting.Range.TimeTo);
-            setValue1(Number(requestPayload.CalculationSetting.Range.Minutes));
-            setMarketState({
-              preMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.OpenTick),
-              preMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.CloseTick),
-              postMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.OpenTick),
-              postMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.CloseTick),
-              eveningOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.OpenTick),
-              eveningClose: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.CloseTick),
-            });
+      try {
+        const result = await fetchAPI();
+        const requestPayload = result.body.response.D.volumecurve_info.showModal;
+        setAlignment(requestPayload.HistoricalSetting.Category);
+        setstartDate(requestPayload.HistoricalSetting.Range.DateFrom.split('/').join('-'));
+        setendDate(requestPayload.HistoricalSetting.Range.DateTo.split('/').join('-'));
+        setDays(Number(requestPayload.HistoricalSetting.Range.Days));
+        setCheckedState([requestPayload.HistoricalSetting.Range.SQ.LargeSQ, requestPayload.HistoricalSetting.Range.SQ.SmallSQ, requestPayload.HistoricalSetting.Range.SQ.WeeklySQ]);
+        setminutes(requestPayload.CalculationSetting.Category);
+        setStartTime(requestPayload.CalculationSetting.Range.TimeFrom);
+        setEndTime(requestPayload.CalculationSetting.Range.TimeTo);
+        setValue1(Number(requestPayload.CalculationSetting.Range.Minutes));
+        setMarketState({
+          preMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.OpenTick),
+          preMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.CloseTick),
+          postMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.OpenTick),
+          postMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.CloseTick),
+          eveningOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.OpenTick),
+          eveningClose: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.CloseTick),
+        });
 
-            
-         
-          } catch (err) {
-            console.error('Error fetching data:',err);
-            setError(err)
-          }
-        };
-        fetchData();
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        setError(err)
+      }
+    };
+    fetchData();
 
-   }, []);
-
+  }, []);
 
 
   useEffect(() => {
@@ -248,11 +242,11 @@ const ConditionSetting: React.FC = () => {
 
   const fetchData1 = async () => {
     try {
-     await fetchAPI1({showModal,settingsState});
-     console.log('requestPayload Post成功'); 
-   
+      await fetchAPI1({ showModal, settingsState });
+      console.log('requestPayload Post成功');
+
     } catch (err) {
-      console.error('Error fetching data:',err);
+      console.error('Error fetching data:', err);
       setError(err)
     }
   };
@@ -261,17 +255,11 @@ const ConditionSetting: React.FC = () => {
     if (Object.keys(requestPayload).length > 0) {
       if (isReadyToSend) {
         const isValid = validatePayload(requestPayload);
-
-      
-
         setResponse(isValid)
-        if (isValid) { 
-           fetchData1()
+        if (isValid) {
           setLoading(true)
-          setTimeout(() => {
-      
-            setLoading(false);
-          }, 10000); 
+          fetchData1()
+          setLoading(false);
         } else {
         }
       }
@@ -386,7 +374,7 @@ const ConditionSetting: React.FC = () => {
   };
   const renderUI = () => {
     const currentAlignment = alignment || '0';
-    
+
     switch (currentAlignment) {
       case '0':
         return (
@@ -523,7 +511,10 @@ const ConditionSetting: React.FC = () => {
   };
 
   return (
-    <><div className='commonsp-top'>
+    <div className='commonsp-top' 
+    // style={{ transform: 'scale(1.4)', transformOrigin: '0 0', marginRight: '120px' }}
+    >
+     
       <div className='commonsp'>
 
         <div className='title-1'>銘柄設定</div>
@@ -648,7 +639,6 @@ const ConditionSetting: React.FC = () => {
 
 
 
-    </>
   );
 };
 

@@ -3,7 +3,8 @@
 }
 
 .commonsp-top {
-  height: 100%;
+  /* height: 100%; */
+  height: 490px;
 }
 
 .commonsp {
@@ -14,7 +15,9 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   width: 270px;
-  height: 490px;
+
+  height: 100%;
+  /* height: 490px; */
   background-color: #fff;
 
 }

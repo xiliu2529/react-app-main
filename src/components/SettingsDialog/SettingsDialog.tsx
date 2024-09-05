@@ -1,4 +1,4 @@
-import { useEffect, useState ,} from 'react';
+import { useEffect, useState, } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -12,7 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import { Grid } from '@mui/material';
 import './SettingsDialog.css';
 import { useMyContext } from '../../contexts/MyContext';
-import { fetchAPI,fetchAPI1 } from '../../api/api';
+import { fetchAPI, fetchAPI1 } from '../../api/api';
 
 
 type CheckboxState = boolean[];
@@ -21,7 +21,7 @@ type ColorValue = string[];
 
 const SettingsDialog = () => {
     // const [_data, setData] = useState<[]>([]);
-    const { setSettingsState,showModal } = useMyContext();
+    const { setSettingsState, showModal } = useMyContext();
     const [open, setOpen] = useState(false); // ダイアログの開閉状態を管理する状態を定義
     const [checkboxStates, setCheckboxStates] = useState<CheckboxState>(
         Array(6).fill(false) // 7つのチェックボックスの初期状態をすべて未選択にする
@@ -72,16 +72,16 @@ const SettingsDialog = () => {
         setOpen(false);
 
     };
-    const fetchData1 = async (settingsState:any) => {
+    const fetchData1 = async (settingsState: any) => {
         try {
-         await fetchAPI1({showModal,settingsState});
-         console.log('setting Post成功'); 
-       
+            await fetchAPI1({ showModal, settingsState });
+            console.log('setting Post成功');
+
         } catch (err) {
-          console.error('Error fetching data:',err);
-        //   setError(err)
+            console.error('Error fetching data:', err);
+            //   setError(err)
         }
-      };
+    };
 
 
     const handleButtonClick = () => {
@@ -94,25 +94,25 @@ const SettingsDialog = () => {
             '#52a69f', '#52a69f', '#596db8', '#5bbcd1', '#7e522e'
         ]);
     };
-    useEffect(() =>{
+    useEffect(() => {
         const fetchData = async () => {
-              try {
+            try {
                 const result = await fetchAPI();
                 const settingsState = result.body.response.D.volumecurve_info.settingsState;
                 setCheckboxStates(settingsState.checkboxStates)
                 setRadioValues(settingsState.radioValues);
                 setColors(settingsState.colors);
                 setSettingsState(settingsState)
-                
-              } catch (err) {
-                console.error('Error fetching data:',err);
+
+            } catch (err) {
+                console.error('Error fetching data:', err);
                 // setError(err)
-              }
-            };
-            fetchData();
-    
-       }, []);
-       
+            }
+        };
+        fetchData();
+
+    }, []);
+
 
 
     return (

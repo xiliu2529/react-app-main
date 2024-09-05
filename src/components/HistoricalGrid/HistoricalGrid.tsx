@@ -5,7 +5,7 @@ import { useMyContext } from '../../contexts/MyContext';
 import { useEffect, useRef } from 'react';
 import a from '../../../src/data/data4.json';
 import b from '../../../src/data/101.1/data4.json';
-import c from '../../../src/data//601.1/data4.json';
+import c from '../../../src/data/601.1/data4.json';
 import Papa from 'papaparse';
 
 

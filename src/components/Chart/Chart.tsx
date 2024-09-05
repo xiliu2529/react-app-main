@@ -911,7 +911,9 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
 
   return (
-    <div>
+    <div className='chart' 
+    // style={{ transform: 'scale(1.45)', transformOrigin: '0 0'}}
+    >
       <div className="container-chart">
         <FormControlLabel
           className='chart-top'

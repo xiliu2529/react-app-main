@@ -1,29 +1,29 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface MyContextType {
-  isHistoricalActive: boolean; 
-  setisHistoricalActive: (alignment: boolean) => void; 
-  settingsState: SettingsState; 
-  setSettingsState: (state: SettingsState) => void; 
+  isHistoricalActive: boolean;
+  setisHistoricalActive: (alignment: boolean) => void;
+  settingsState: SettingsState;
+  setSettingsState: (state: SettingsState) => void;
   buttonName: number;
   setbuttonName: (state: number) => void;
   conditionSettingState: ConditionSettingState;
   setConditionSettingState: (state: ConditionSettingState) => void;
-  requestPayload: RequestPayload; 
+  requestPayload: RequestPayload;
   setRequestPayload: (state: RequestPayload) => void;
-  showModal:RequestPayload
+  showModal: RequestPayload
   setshowModal: (state: RequestPayload) => void;
-  griddownload:boolean
-  setGriddownload: (alignment: boolean) => void; 
-  response:boolean
-  setResponse: (alignment: boolean) => void; 
-  shouldDownload:boolean
-  setShouldDownload: (alignment: boolean) => void; 
+  griddownload: boolean
+  setGriddownload: (alignment: boolean) => void;
+  response: boolean
+  setResponse: (alignment: boolean) => void;
+  shouldDownload: boolean
+  setShouldDownload: (alignment: boolean) => void;
   error: any;
-  setError: (error: any) => void; 
-  loading:boolean
-  setLoading:(state: boolean) => void; 
-  
+  setError: (error: any) => void;
+  loading: boolean
+  setLoading: (state: boolean) => void;
+
 }
 
 const MyContext = createContext<MyContextType | undefined>(undefined);
@@ -32,15 +32,15 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isHistoricalActive, setisHistoricalActive] = useState<boolean>(true);
   const [buttonName, setbuttonName] = useState<number>(1);
   const [settingsState, setSettingsState] = useState<SettingsState>({
-    checkboxStates: Array(6).fill(false), 
-    radioValues: ['0', '0'], 
+    checkboxStates: Array(6).fill(false),
+    radioValues: ['0', '0'],
     colors: [
       '#FFFFFF', '#000000', '#FFFFFF', '#000000', '#d22331', '#d22331',
       '#d22331', '#d22331', '#d22331', '#52a69f', '#52a69f', '#52a69f',
       '#52a69f', '#52a69f', '#596db8', '#5bbcd1', '#7e522e'
     ],
   });
-  const [error, setError] = useState<string | null>(null); 
+  const [error, setError] = useState<string | null>(null);
   const initialConditionSettingState: ConditionSettingState = {
     marketState: {
       preMarketOpening: false,
@@ -50,7 +50,7 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       eveningOpening: false,
       eveningClose: false,
     },
-    inputValue:'',
+    inputValue: '',
   };
   const [conditionSettingState, setConditionSettingState] = useState<ConditionSettingState>(initialConditionSettingState);
   const [requestPayload, setRequestPayload] = useState<RequestPayload>(
@@ -185,7 +185,7 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
       }}
     >
-      {children} 
+      {children}
     </MyContext.Provider>
   );
 };

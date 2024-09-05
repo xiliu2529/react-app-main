@@ -197,7 +197,6 @@ const Grids: React.FC = () => {
     link.setAttribute('download', filename);
     link.click();
 
-    // Cleanup
     URL.revokeObjectURL(url);
     setShouldDownload(false)
   };
