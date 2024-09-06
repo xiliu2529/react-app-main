@@ -16,11 +16,10 @@ import './Chart.css';
 
 
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
-  const { settingsState, conditionSettingState, requestPayload,response, } = useMyContext();
-  const [isExpanded , setisExpanded ] = useState<boolean>(false);
- 
+  const { settingsState, conditionSettingState, requestPayload, response, } = useMyContext();
+  const [isExpanded, setisExpanded] = useState<boolean>(false);
 
-  let useDailyColor = settingsState.checkboxStates[5] && settingsState.radioValues[1]==='0'
+  let useDailyColor = settingsState.checkboxStates[5] && settingsState.radioValues[1] === '0'
 
   const chartRef = useRef<Highcharts.Chart | null>(null);
   const chartRef1 = useRef<Highcharts.Chart | null>(null);
@@ -42,14 +41,14 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     }
   }
 
-  if(response){
-  if (requestPayload.Code === '6501') {
-    QvChartData = c;
-  } else if (requestPayload.Code === '101.1') {
-    QvChartData = b;
-  } else if (requestPayload.Code === '601.1') {
-    QvChartData = a;
-  }
+  if (response) {
+    if (requestPayload.Code === '6501') {
+      QvChartData = c;
+    } else if (requestPayload.Code === '101.1') {
+      QvChartData = b;
+    } else if (requestPayload.Code === '601.1') {
+      QvChartData = a;
+    }
   }
 
   const [checked, setChecked] = useState<boolean>(false);
@@ -106,20 +105,20 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       menu.style.backgroundColor = '#fff';
       menu.style.border = '1px solid #ddd';
       menu.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
-      menu.style.borderRadius = '3px'; 
+      menu.style.borderRadius = '3px';
       menu.style.zIndex = '1000';
-      menu.style.width = '130px'; 
+      menu.style.width = '130px';
       menu.style.whiteSpace = 'nowrap';
- 
+
       // ダウンロードオプションを追加
       ['PNG', 'JPEG', 'SVG'].forEach((format, index) => {
         const item = document.createElement('div');
         item.textContent = `${format} ダウンロード`;
         item.style.cursor = 'pointer';
         item.style.textAlign = 'left';
-        item.style.padding = '8px 10px'; 
-        item.style.color = '#333'; 
-        item.style.transition = 'background-color 0.3s ease'; 
+        item.style.padding = '8px 10px';
+        item.style.color = '#333';
+        item.style.transition = 'background-color 0.3s ease';
         item.addEventListener('click', () => {
           const mimeType = format === 'SVG' ? 'image/svg+xml' : `image/${format.toLowerCase()}`;
           // @ts-ignore
@@ -127,17 +126,17 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
             type: mimeType,
             chartOptions: {}
           });
-          menu.remove(); 
+          menu.remove();
         });
 
         if (index < 2) {
-          item.style.borderBottom = '1px solid #e0e0e0'; 
+          item.style.borderBottom = '1px solid #e0e0e0';
         }
         item.addEventListener('mouseover', () => {
-          item.style.backgroundColor = '#f0f0f0'; 
+          item.style.backgroundColor = '#f0f0f0';
         });
         item.addEventListener('mouseout', () => {
-          item.style.backgroundColor = ''; 
+          item.style.backgroundColor = '';
         });
 
         menu.appendChild(item);
@@ -199,7 +198,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
         historicalCumulative = Object.values(QvChartData.EveningTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Cumulative),
-       color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
+          color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
         }));
       }
 
@@ -223,7 +222,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         }));
         historicalCumulative1 = Object.values(QvChartData.AMTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Cumulative),
-       color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
+          color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
         }));
       }
       if (QvChartData.PMTickFrame) {
@@ -246,7 +245,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         }));
         historicalCumulative2 = Object.values(QvChartData.PMTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysChart!.Cumulative),
-       color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
+          color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
         }));
       }
       return {
@@ -272,9 +271,9 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     };
     const data = processData();
     setChartData(data)
-  }, [settingsState, conditionSettingState, display,response]);
+  }, [settingsState, conditionSettingState, display, response]);
 
-  
+
 
 
   useEffect(() => {
@@ -313,7 +312,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         historicalCumulative: [
           {
             y: Number(QvChartData.EveningOpenTickFrame!.AverageDaysChart!.Cumulative),
-         color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
+            color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
           },
           ...prevState.historicalCumulative
         ],
@@ -358,7 +357,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
           ...prevState.historicalCumulative,
           {
             y: Number(QvChartData.EveningCloseTickFrame!.AverageDaysChart!.Cumulative),
-         color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
+            color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
           }
 
         ],
@@ -402,7 +401,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         historicalCumulative1: [
           {
             y: Number(QvChartData.AMOpenTickFrame!.AverageDaysChart!.Cumulative),
-         color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
+            color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
           },
           ...prevState.historicalCumulative1
         ],
@@ -444,7 +443,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         historicalCumulative1: [...prevState.historicalCumulative1,
         {
           y: Number(QvChartData.AMCloseTickFrame!.AverageDaysChart!.Cumulative),
-       color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
+          color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
         },
 
         ],
@@ -485,7 +484,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         historicalCumulative2: [
           {
             y: Number(QvChartData.PMOpenTickFrame!.AverageDaysChart!.Cumulative),
-         color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
+            color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
           },
           ...prevState.historicalCumulative2
         ],
@@ -526,7 +525,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         historicalCumulative2: [...prevState.historicalCumulative2,
         {
           y: Number(QvChartData.PMCloseTickFrame!.AverageDaysChart!.Cumulative),
-       color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
+          color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
         },
 
         ],
@@ -569,7 +568,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       ],
     });
   }, [chartData,]);
- useEffect(() => {
+  useEffect(() => {
     setisExpanded(window.innerWidth > 1400);
   }, []);
   const chartOptions: Highcharts.Options = {
@@ -685,7 +684,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   const chartOptions1: Highcharts.Options = {
     chart: {
       type: 'column',
- 
+
     },
     title: {
       text: ''
@@ -776,7 +775,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       visible: checked,
 
     }
-    ], 
+    ],
     credits: {
       enabled: false
     },
@@ -844,7 +843,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         type: 'spline',
         yAxis: 1,
         name: '過去平均 累計',
-     color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14],
+        color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14],
         data: chartState.historicalCumulative,
       }
     ]
@@ -893,8 +892,8 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
 
   return (
-    <div className='chart' 
-    style={isExpanded ? { transform: 'scale(1.4)', transformOrigin: '0 0', marginRight: '300px'} : { }}>
+    <div className='chart'
+      style={isExpanded ? { transform: 'scale(1.4)', transformOrigin: '0 0', marginRight: '300px' } : {}}>
       <div className="container-chart">
         <FormControlLabel
           className='chart-top'

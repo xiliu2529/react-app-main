@@ -69,7 +69,7 @@ export const SettingsChartPage: React.FC = () => {
       <div className='SettingsChart-InfoPanelChart'>
         <InfoPanel />
 
-        <Chart height={430} width={null} />
+        <Chart height={430} width={950} />
       </div>
     </div>
   );

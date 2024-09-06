@@ -8,7 +8,7 @@ import { VALIDATION_MESSAGES } from '../../constants/messages.js';
 import { fetchAPI, fetchAPI1 } from '../../api/api';
 
 const ConditionSetting: React.FC = () => {
-  const [isExpanded , setisExpanded ] = useState<boolean>(false);
+  const [isExpanded, setisExpanded] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>('');
   const [alignment, setAlignment] = React.useState('');
   const [days, setDays] = useState<number>(1);
@@ -64,8 +64,8 @@ const ConditionSetting: React.FC = () => {
       newState[index] = event.target.checked ? '1' : '0';
       return newState;
     });
-  }; 
-   const handleChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
+  };
+  const handleChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(e.target.value);
 
     if (newValue < 1) {
@@ -278,9 +278,26 @@ const ConditionSetting: React.FC = () => {
         const isValid = validatePayload(requestPayload);
         setResponse(isValid)
         if (isValid) {
-          setLoading(true)
+
+
+          //OK取る
+
+          //ID取る
+
+
+
+          //設定保存
           fetchData1()
-          setLoading(false);
+          // データを取る
+          setLoading(true);
+          // QvTotalingInfo　取る
+
+          // QvVolumeCurveData　
+
+          // QvChartData
+
+          // QvHistoricalData
+
         } else {
         }
       }
@@ -309,7 +326,7 @@ const ConditionSetting: React.FC = () => {
 
   }, [isHistoricalActive, buttonName]);
 
-//データ制御
+  //データ制御
   const validatePayload = (payload: RequestPayload): boolean => {
     const category = payload.HistoricalSetting.Category;
     const DateTo = payload.HistoricalSetting.Range.DateTo
@@ -499,8 +516,8 @@ const ConditionSetting: React.FC = () => {
 
   return (
     <div className='commonsp-top'
-    //モニター対応
-    style={isExpanded ? { transform: 'scale(1.4)', transformOrigin: '0 0', marginRight: '120px'} : { }}
+      //モニター対応
+      style={isExpanded ? { transform: 'scale(1.4)', transformOrigin: '0 0', marginRight: '120px' } : {}}
     >
       <div className='commonsp'>
         <div className='title-1'>銘柄設定</div>

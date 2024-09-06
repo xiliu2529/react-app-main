@@ -3,8 +3,10 @@ import './LoadingOverlay.css';
 import { useMyContext, } from '../../contexts/MyContext'; 
 
 const LoadingOverlay: React.FC = () => {
-    const {  setLoading} = useMyContext(); 
+    const {  setLoading} = useMyContext();
+     
     const handleCancel = () => {
+
         setLoading(false);
       };
   return (

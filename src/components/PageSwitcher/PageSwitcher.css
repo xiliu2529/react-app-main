@@ -74,7 +74,6 @@
 
 .SettingsChartGridPage-InfoPanelGrid .grid-container {
   width: 610px;
-  /* width: 1000px; */
 
 }
 
@@ -83,6 +82,7 @@
 }
 
 .SettingsChart-InfoPanelChart {
+  /* 1 */
   margin-left: 10px;
 }
 
@@ -91,8 +91,8 @@
 }
 
 .SettingsGridPage-InfoPanelGrid {
-  width: 950px;
   margin-left: 10px;
+  width: 950px;
 
 
 

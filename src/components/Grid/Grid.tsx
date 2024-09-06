@@ -183,7 +183,7 @@ const Grids: React.FC = () => {
       downloadCSV('grid-data.csv');
     }
   }, [griddownload]);
-  
+
   useEffect(() => {
     if (settingsState) {
       document.documentElement.style.setProperty('--cell-bg-color', settingsState.colors[0]);
@@ -198,12 +198,9 @@ const Grids: React.FC = () => {
 
 
   return (
-    <Box className='grid-container' >
-   
-    
-      <Grid container direction="column" spacing={0}>
-        <Box className='grid-container-div' />
-        <Grid item>
+    <Box className='grid-container'  >
+      <Grid container direction="column" spacing={0} >
+        <Grid item >
           <TableContainer className="table-container">
             <Table stickyHeader>
               <TableHead>

@@ -1,14 +1,14 @@
 .grid-container {
   margin: 0 10px;
-  padding: 0px 010px;
   border: 1px solid #ccc;
   border-radius: 2px;
   background-color: #fff;
   height: 482px;
-  /* height: 482px; */
   overflow-x: auto;
 }
-
+.table-container{
+  padding: 0 !important;
+}
 .table-title {
   padding: 0 !important;
   color: #2d70d4 !important;
