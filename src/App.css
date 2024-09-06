@@ -5,9 +5,9 @@ body, html, #root, .app {
     height: 100%;
     font-size: 12px;
     background-color:  #F7F7F7;
+    overflow-x: auto;
+
    
   }
-  html{
-     overflow-x: hidden;
-  }
+
 

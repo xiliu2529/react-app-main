@@ -148,7 +148,7 @@ const LeftSidebar: React.FC = () => {
 
       {isButtonContainerVisible && (
         <div className="button-container"  
-        onMouseEnter={() => setButtonContainerVisible(isExpanded && isHistoricalActive)}
+        onMouseEnter={() => setButtonContainerVisible(true && isHistoricalActive)}
         onMouseLeave={() => setButtonContainerVisible(false)}>
           <button className="sidebar-button" onClick={() => handleButtonClick(2)}>
           <img src={a} alt="Sidebar Icon" width="30" height="20"style={{ marginRight: '8px' }} />
