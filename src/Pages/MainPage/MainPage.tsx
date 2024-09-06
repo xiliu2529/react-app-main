@@ -8,7 +8,7 @@ import {
   SettingsGridPage,
   GridPage,
   SettingsChartPage,
-  GraphPage,
+  ChartPage,
   ConfigChartBottom,
   ChartBottom,
   HistoryAndSettings,
@@ -79,7 +79,7 @@ const MainPage: React.FC = () => {
       case 5:
         return <SettingsChartPage />;
       case 6:
-        return <GraphPage />;
+        return <ChartPage />;
       case 7:
         return <ConfigChartBottom />;
       case 8:

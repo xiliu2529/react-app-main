@@ -575,8 +575,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   const chartOptions: Highcharts.Options = {
     chart: {
       type: 'column',
-    
-
     },
     title: {
       text: undefined
@@ -785,8 +783,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     exporting: {
       enabled: false,
     }
-
-
   };
 
   const chartOptions2: Highcharts.Options = {

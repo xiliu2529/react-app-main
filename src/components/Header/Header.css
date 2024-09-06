@@ -8,7 +8,7 @@
   display: flex;
   grid-column: 1 / -1;
   width: auto;
-  min-width: 1280px;
+  min-width: 1260px;
   align-items: center;
   justify-content: space-between;
 }
