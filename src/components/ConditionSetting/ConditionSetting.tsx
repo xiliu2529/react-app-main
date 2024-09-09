@@ -528,8 +528,11 @@ const ConditionSetting: React.FC = () => {
               width: '90px', height: '30px', pa: '20px',
               '& .MuiInputBase-root': { height: '100%', padding: '0 0px', }, '& .MuiFormHelperText-root': {
                 whiteSpace: 'nowrap',
-                margin: '0 0px'
-              }
+                margin: '0 0px',
+              }, 
+              '& input:-webkit-autofill': {
+                boxShadow:'0 0 0px 1000px white inset !important'
+              },
             }}
             error={validation.error}
             helperText={validation.helperText}
