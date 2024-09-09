@@ -339,7 +339,7 @@ const ConditionSetting: React.FC = () => {
       eveningClose: convertToBoolean(showModal.CalculationSetting.Individual.Evening.CloseTick),
     });
 
-  }, [isHistoricalActive, buttonName]);
+  }, [buttonName]);
 
   //データ制御
   const validatePayload = (payload: RequestPayload): boolean => {
