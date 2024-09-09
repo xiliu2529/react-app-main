@@ -18,6 +18,7 @@ const ConditionSetting: React.FC = () => {
   const [startTime1, setStartTime1] = useState<string>('');
   const [startTime2, setStartTime2] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
+ 
   const [marketState, setMarketState] = useState({
     preMarketOpening: false,
     preMarketClose: false,
@@ -46,7 +47,19 @@ const ConditionSetting: React.FC = () => {
       color: '#143867',
       fontWeight: '900',
     },
+  }; 
+  const handleInputDay = (event:any) => {
+    if(event.target.value > 30 ){
+      setDays(30);
+      return 
+    }
+    if(event.target.value < 1 ){
+      setDays(1);
+      return 
+    }
+    setDays(event.target.value); 
   };
+
   const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setter(event.target.value);
   }
@@ -276,6 +289,8 @@ const ConditionSetting: React.FC = () => {
     if (Object.keys(requestPayload).length > 0) {
       if (isReadyToSend) {
         const isValid = validatePayload(requestPayload);
+        console.log('requestPayload',requestPayload);
+        
         setResponse(isValid)
         if (isValid) {
 
@@ -400,7 +415,8 @@ const ConditionSetting: React.FC = () => {
                 variant="outlined"
                 value={days}
                 size="small"
-                InputProps={{ readOnly: true, sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
+                onChange={handleInputDay}
+                InputProps={{ sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
                 sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
               />
               <Button variant="outlined" size="small" onClick={handleIncrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>+</Button>
@@ -423,7 +439,8 @@ const ConditionSetting: React.FC = () => {
                 variant="outlined"
                 value={days}
                 size="small"
-                InputProps={{ readOnly: true, sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
+                onChange={handleInputDay}
+                InputProps={{  sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
                 sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
               />
               <Button variant="outlined" size="small" onClick={handleIncrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>+</Button>
@@ -446,7 +463,8 @@ const ConditionSetting: React.FC = () => {
                 variant="outlined"
                 value={days}
                 size="small"
-                InputProps={{ readOnly: true, sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
+                onChange={handleInputDay}
+                InputProps={{  sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
                 sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
               />
               <Button variant="outlined" size="small" onClick={handleIncrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>+</Button>
