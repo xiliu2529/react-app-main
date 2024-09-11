@@ -21,5 +21,11 @@
     setError: (error: any) => void;
     loading: boolean
     setLoading: (state: boolean) => void;
+    showConditionSettings: boolean
+    setshowConditionSettings: (state: boolean) => void;
+    ViewSettings:any
+    setViewSettings:(state: any) => void;
+ 
+
   }
   

@@ -7,6 +7,44 @@ import { useMyContext } from '../../contexts/MyContext';
 import { VALIDATION_MESSAGES } from '../../constants/messages.js';
 import { fetchAPI, fetchAPI1 } from '../../api/api';
 
+type HistoricalSetting = {
+  Category: string;
+  Range: {
+    DateFrom: string;
+    DateTo: string;
+    Days: string;
+    SQ: {
+      LargeSQ: string;
+      SmallSQ: string;
+      WeeklySQ: string;
+    };
+  };
+};
+
+type CalculationSetting = {
+  Category: string;
+  Range: {
+    TimeFrom: string;
+    TimeTo: string;
+    Minutes: string;
+  };
+  Individual: {
+    AM: {
+      OpenTick: string;
+      CloseTick: string;
+    };
+    PM: {
+      OpenTick: string;
+      CloseTick: string;
+    };
+    Evening: {
+      OpenTick: string;
+      CloseTick: string;
+    };
+  };
+};
+
+
 const ConditionSetting: React.FC = () => {
   const [isExpanded, setisExpanded] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>('');
@@ -18,7 +56,7 @@ const ConditionSetting: React.FC = () => {
   const [startTime1, setStartTime1] = useState<string>('');
   const [startTime2, setStartTime2] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
- 
+
   const [marketState, setMarketState] = useState({
     preMarketOpening: false,
     preMarketClose: false,
@@ -31,7 +69,9 @@ const ConditionSetting: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['1', '1', '1']);
-  const { setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse } = useMyContext();
+  const { 
+    // setshowConditionSettings,setisHistoricalActive, setbuttonName, 
+    setLoading, setError, setConditionSettingState, isHistoricalActive,  requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
   const [errorDatefrom, seterrorDatefrom] = useState<boolean>(false);
@@ -47,17 +87,17 @@ const ConditionSetting: React.FC = () => {
       color: '#143867',
       fontWeight: '900',
     },
-  }; 
-  const handleInputDay = (event:any) => {
-    if(event.target.value > 30 ){
+  };
+  const handleInputDay = (event: any) => {
+    if (event.target.value > 30) {
       setDays(30);
-      return 
+      return
     }
-    if(event.target.value < 1 ){
+    if (event.target.value < 1) {
       setDays(1);
-      return 
+      return
     }
-    setDays(event.target.value); 
+    setDays(event.target.value);
   };
 
   const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,6 +118,9 @@ const ConditionSetting: React.FC = () => {
       return newState;
     });
   };
+  // const numberToBoolean = (num: number): boolean => {
+  //   return num === 1;
+  // };
   const handleChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(e.target.value);
 
@@ -181,24 +224,34 @@ const ConditionSetting: React.FC = () => {
     const fetchData = async () => {
       try {
         const result = await fetchAPI();
-        const requestPayload = result.body.response.D.volumecurve_info.showModal;
-        setAlignment(requestPayload.HistoricalSetting.Category);
-        setstartDate(requestPayload.HistoricalSetting.Range.DateFrom.split('/').join('-'));
-        setendDate(requestPayload.HistoricalSetting.Range.DateTo.split('/').join('-'));
-        setDays(Number(requestPayload.HistoricalSetting.Range.Days));
-        setCheckedState([requestPayload.HistoricalSetting.Range.SQ.LargeSQ, requestPayload.HistoricalSetting.Range.SQ.SmallSQ, requestPayload.HistoricalSetting.Range.SQ.WeeklySQ]);
-        setminutes(requestPayload.CalculationSetting.Category);
-        setStartTime(requestPayload.CalculationSetting.Range.TimeFrom);
-        setEndTime(requestPayload.CalculationSetting.Range.TimeTo);
-        setValue1(Number(requestPayload.CalculationSetting.Range.Minutes));
-        setMarketState({
-          preMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.OpenTick),
-          preMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.CloseTick),
-          postMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.OpenTick),
-          postMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.CloseTick),
-          eveningOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.OpenTick),
-          eveningClose: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.CloseTick),
-        });
+        if (result.body.response.D.volumecurve_info.HistoricalSetting && result.body.response.D.volumecurve_info.CalculationSetting) {
+          const requestPayload = result.body.response.D.volumecurve_info;
+          console.log('resultc', requestPayload);
+          setAlignment(requestPayload.HistoricalSetting.Category);
+          setstartDate(requestPayload.HistoricalSetting.Range.DateFrom.split('/').join('-'));
+          setendDate(requestPayload.HistoricalSetting.Range.DateTo.split('/').join('-'));
+          setDays(Number(requestPayload.HistoricalSetting.Range.Days));
+          setCheckedState([requestPayload.HistoricalSetting.Range.SQ.LargeSQ, requestPayload.HistoricalSetting.Range.SQ.SmallSQ, requestPayload.HistoricalSetting.Range.SQ.WeeklySQ]);
+          setminutes(requestPayload.CalculationSetting.Category);
+          setStartTime(requestPayload.CalculationSetting.Range.TimeFrom);
+          setEndTime(requestPayload.CalculationSetting.Range.TimeTo);
+          setValue1(Number(requestPayload.CalculationSetting.Range.Minutes));
+          setMarketState({
+            preMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.OpenTick),
+            preMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.CloseTick),
+            postMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.OpenTick),
+            postMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.CloseTick),
+            eveningOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.OpenTick),
+            eveningClose: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.CloseTick),
+          });
+
+          // setbuttonName(requestPayload.ViewSettings.Layout)
+          // setshowConditionSettings(requestPayload.ViewSettings.SettingSwitch)
+          // setisHistoricalActive(numberToBoolean(requestPayload.ViewSettings.Tab))
+
+        }
+
+
       } catch (err) {
         console.error('Error fetching data:', err);
         setError(err)
@@ -273,12 +326,15 @@ const ConditionSetting: React.FC = () => {
     });
   }, [inputValue, alignment, startDate, endDate, days, checkedState, minutes, startTime, endTime, value1, marketState]);
 
+
   //data更新
   const fetchData1 = async () => {
     try {
-      await fetchAPI1({ showModal, settingsState });
-      console.log('requestPayload Post成功');
-
+      const HistoricalSetting: HistoricalSetting = showModal.HistoricalSetting
+      const CalculationSetting: CalculationSetting = showModal.CalculationSetting
+      console.log('HistoricalSetting,CalculationSetting Post成功', { ViewSettings, HistoricalSetting, CalculationSetting });
+      await fetchAPI1({ ViewSettings, HistoricalSetting, CalculationSetting});
+      console.log('HistoricalSetting,CalculationSetting Post成功', { ViewSettings, HistoricalSetting, CalculationSetting });
     } catch (err) {
       console.error('Error fetching data:', err);
       setError(err)
@@ -288,9 +344,11 @@ const ConditionSetting: React.FC = () => {
   useEffect(() => {
     if (Object.keys(requestPayload).length > 0) {
       if (isReadyToSend) {
+        //IDチェック
         const isValid = validatePayload(requestPayload);
-        console.log('requestPayload',requestPayload);
-        
+        //
+        console.log('requestPayload', requestPayload);
+
         setResponse(isValid)
         if (isValid) {
 
@@ -303,6 +361,7 @@ const ConditionSetting: React.FC = () => {
 
           //設定保存
           fetchData1()
+
           // データを取る
           setLoading(true);
           // QvTotalingInfo　取る
@@ -312,6 +371,10 @@ const ConditionSetting: React.FC = () => {
           // QvChartData
 
           // QvHistoricalData
+
+          setTimeout(() => {
+            setLoading(false);
+          }, 2000);
 
         } else {
         }
@@ -440,7 +503,7 @@ const ConditionSetting: React.FC = () => {
                 value={days}
                 size="small"
                 onChange={handleInputDay}
-                InputProps={{  sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
+                InputProps={{ sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
                 sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
               />
               <Button variant="outlined" size="small" onClick={handleIncrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>+</Button>
@@ -464,7 +527,7 @@ const ConditionSetting: React.FC = () => {
                 value={days}
                 size="small"
                 onChange={handleInputDay}
-                InputProps={{  sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
+                InputProps={{ sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
                 sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
               />
               <Button variant="outlined" size="small" onClick={handleIncrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>+</Button>
@@ -547,9 +610,9 @@ const ConditionSetting: React.FC = () => {
               '& .MuiInputBase-root': { height: '100%', padding: '0 0px', }, '& .MuiFormHelperText-root': {
                 whiteSpace: 'nowrap',
                 margin: '0 0px',
-              }, 
+              },
               '& input:-webkit-autofill': {
-                boxShadow:'0 0 0px 1000px white inset !important'
+                boxShadow: '0 0 0px 1000px white inset !important'
               },
             }}
             error={validation.error}

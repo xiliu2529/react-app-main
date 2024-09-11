@@ -12,38 +12,8 @@
   z-index: 1000;
 }
 
-.spinner {
-  border: 16px solid transparent;
-  border-top: 16px solid #00C3CF;
-  border-right: 16px solid #00C3CF;
-  border-bottom: 16px solid #00C3CF;
-  border-radius: 70%;
-  width: 100px;
-  height: 100px;
-  animation: spin 1s linear infinite;
-} 
-/* 
-
-.spinner {
-  background-image: url('../../img//Ring.svg');
-  background-size: contain;
-  background-repeat: no-repeat;
-  width: 100px;
-  background-position: center;
-  height: 100px;
-  animation: spin 1s linear infinite;
-} */
 
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
 
 .cancel-button {
   background-color: transparent;

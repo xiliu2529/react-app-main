@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import {MyContextType} from '../types/myContextTypes';
+import { MyContextType } from '../types/myContextTypes';
 
 const MyContext = createContext<MyContextType | undefined>(undefined);
 
@@ -131,6 +131,25 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [griddownload, setGriddownload] = useState<boolean>(false);
   const [shouldDownload, setShouldDownload] = React.useState(false);
   const [loading, setLoading] = useState(false);
+  const [showConditionSettings, setshowConditionSettings] = useState(true);
+  const [ViewSettings, setViewSettings] = useState({
+    Layout: 1,
+    SettingSwitch: true,
+    Tab: 1,
+    HighLow: '0', 
+    Glaph: '0',
+    CheckboxStates: [
+      false, false, false, false, false, false
+    ],
+    Colors: [
+      '#FFFFFF', '#000000', '#FFFFFF', '#000000', '#d22331', '#d22331',
+      '#d22331', '#d22331', '#d22331', '#52a69f', '#52a69f', '#52a69f',
+      '#52a69f', '#52a69f', '#596db8', '#5bbcd1', '#7e522e'
+    ],
+
+
+  });
+
   return (
     <MyContext.Provider
       value={{
@@ -156,7 +175,10 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         setError,
         loading,
         setLoading,
-
+        showConditionSettings,
+        setshowConditionSettings,
+        ViewSettings,
+        setViewSettings
 
       }}
     >

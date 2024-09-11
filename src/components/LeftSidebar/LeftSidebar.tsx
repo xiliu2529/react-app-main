@@ -12,13 +12,12 @@ import { FormControlLabel, FormGroup } from '@mui/material';
 
 const LeftSidebar: React.FC = () => {
   const [isExpanded , setisExpanded ] = useState<boolean>(false);
-  const { isHistoricalActive, setbuttonName, buttonName } = useMyContext();
-  const [checked, setChecked] = useState(true);
+  const { isHistoricalActive, setbuttonName, buttonName,showConditionSettings,setshowConditionSettings } = useMyContext();
   const [isButtonContainerVisible, setButtonContainerVisible] = useState(false);
   const isInitialMount = useRef(true);
   const IOSSwitch = styled((props: SwitchProps) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props}
-  checked={checked}
+  checked={showConditionSettings}
   onChange={handleChange} />
 ))(({ theme }) => ({
   transform: 'scale(0.8)',
@@ -79,12 +78,12 @@ const LeftSidebar: React.FC = () => {
   },
 }));
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
+    setshowConditionSettings(event.target.checked);
     isInitialMount.current = false;
   };
 
   const handleButtonClick = (buttonName: number) => {
-    if (checked) {
+    if (showConditionSettings) {
       buttonName = buttonName - 1;
     }
     setbuttonName(buttonName);
@@ -93,16 +92,16 @@ const LeftSidebar: React.FC = () => {
   useEffect(() => {
     if (isInitialMount.current) {
     } else {
-      if (checked) {
+      if (showConditionSettings) {
         setbuttonName(buttonName - 1);
       } else {
         setbuttonName(buttonName + 1);
       }
     }
-  }, [checked]);
+  }, [showConditionSettings]);
 
   useEffect(() => {
-    if (checked) {
+    if (showConditionSettings) {
       setbuttonName(1);
     } else {
       setbuttonName(2);

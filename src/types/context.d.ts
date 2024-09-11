@@ -123,3 +123,13 @@ interface ViewSetting {
   MostVolumeAndPriceType: string; // 時間帯別最多出来高・価格の優先表示（高値、安値）の指定
   PercentageOfDayType: string; // 当日出来高分布を百分率で表示の指定
 }
+
+interface ViewSettings {
+  Layout: number; // レイアウト切り替えボタン
+  SettingSwitch: boolean; // 条件設定切り替え
+  Tab: number; // ボリュームカーブタブ, ヒストリカルタブ
+  HighLow: string; // 優先表示 高値/安値
+  Glaph: string; // 並ベて表示/重ねて表示
+  CheckboxStates: boolean[]; // 改为数组
+  Colors: string[]; // 改为数组
+};

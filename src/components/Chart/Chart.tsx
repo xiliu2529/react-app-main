@@ -16,8 +16,10 @@ import './Chart.css';
 
 
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
-  const { settingsState, conditionSettingState, requestPayload, response, } = useMyContext();
+  const { settingsState, conditionSettingState, requestPayload, response,setSettingsState } = useMyContext();
   const [isExpanded, setisExpanded] = useState<boolean>(false);
+console.log('120',settingsState.checkboxStates[4]);
+
 
   let useDailyColor = settingsState.checkboxStates[5] && settingsState.radioValues[1] === '0'
 
@@ -52,6 +54,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   }
 
   const [checked, setChecked] = useState<boolean>(false);
+
   const [chartState, setChartState] = useState<ChartState>({
     xAxisLabels: [],
     todayDistribution: [],
@@ -151,6 +154,10 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   };
 
 
+  useEffect(() => {
+    console.log('120',settingsState.checkboxStates[4]);
+    setChecked(settingsState.checkboxStates[4]);
+  }, [settingsState.checkboxStates[4]]);
 
 
   useEffect(() => {
