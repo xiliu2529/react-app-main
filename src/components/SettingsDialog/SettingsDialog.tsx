@@ -16,7 +16,7 @@ import { fetchAPI, fetchAPI1 } from '../../api/api';
 
 
 const SettingsDialog = () => {
-    const { setshowConditionSettings, setisHistoricalActive, setbuttonName,settingsState, setSettingsState, showModal, buttonName, isHistoricalActive, showConditionSettings, setViewSettings } = useMyContext();
+    const { setshowConditionSettings, setisHistoricalActive, setbuttonName, settingsState, setSettingsState, showModal, buttonName, isHistoricalActive, showConditionSettings, setViewSettings } = useMyContext();
     const [open, setOpen] = useState(false); // ダイアログの開閉状態を管理する状態を定義
     const [checkboxStates, setCheckboxStates] = useState<CheckboxState>(
         [false, false, false, false, false, false]
@@ -86,42 +86,41 @@ const SettingsDialog = () => {
         } else {
             const newSettingsState = { checkboxStates, radioValues, colors };
             setSettingsState(newSettingsState);
-                setViewSettings((prevSettings: ViewSettings) => ({
-                    ...prevSettings,
-                    HighLow: radioValues[0],
-                    Glaph: radioValues[1],
-                    CheckboxStates: checkboxStates,
-                    Colors: colors,
-                }));
-                const newSettings = {
-                    Layout: buttonName,
-                    SettingSwitch: showConditionSettings,
-                    Tab: booleanToNumber(isHistoricalActive),
-                    HighLow: radioValues[0],
-                    Glaph: radioValues[1],
-                    CheckboxStates: checkboxStates,
-                    Colors: colors,
-                };
-        
-                fetchData1(newSettings);
+            setViewSettings((prevSettings: ViewSettings) => ({
+                ...prevSettings,
+                HighLow: radioValues[0],
+                Glaph: radioValues[1],
+                CheckboxStates: checkboxStates,
+                Colors: colors,
+            }));
+            const newSettings = {
+                Layout: buttonName,
+                SettingSwitch: showConditionSettings,
+                Tab: booleanToNumber(isHistoricalActive),
+                HighLow: radioValues[0],
+                Glaph: radioValues[1],
+                CheckboxStates: checkboxStates,
+                Colors: colors,
+            };
+
+            fetchData1(newSettings);
 
 
-            }
-            setOpen(false);
+        }
+        setOpen(false);
 
-        };
+    };
 
-        const fetchData1 = async (ViewSettings:ViewSettings) => {
-            try {
-                const HistoricalSetting: HistoricalSetting = showModal.HistoricalSetting
-                const CalculationSetting: CalculationSetting = showModal.CalculationSetting
-                console.log('viewSettings post成功', { ViewSettings, HistoricalSetting, CalculationSetting });
-                await fetchAPI1({ ViewSettings, HistoricalSetting, CalculationSetting, });
-                console.log('ViewSettings post成功');
-            } catch (err) {
-                console.error('Error fetching data:', err);
-                //   setError(err)
-            }
+    const fetchData1 = async (ViewSettings: ViewSettings) => {
+        try {
+            const HistoricalSetting: HistoricalSetting = showModal.HistoricalSetting
+            const CalculationSetting: CalculationSetting = showModal.CalculationSetting
+            await fetchAPI1({ ViewSettings, HistoricalSetting, CalculationSetting, });
+            console.log('ViewSettings post成功');
+        } catch (err) {
+            console.error('Error fetching data:', err);
+            //   setError(err)
+        }
     };
 
     useEffect(() => {
@@ -137,7 +136,13 @@ const SettingsDialog = () => {
 
         })
         );
-    }, [buttonName, showConditionSettings, isHistoricalActive,settingsState]);
+    }, [buttonName, showConditionSettings, isHistoricalActive, settingsState]);
+
+    useEffect(() => {
+        setCheckboxStates(settingsState.checkboxStates)
+        setRadioValues(settingsState.radioValues)
+        setColors(settingsState.colors)
+    }, [settingsState]);
 
 
 
@@ -148,7 +153,6 @@ const SettingsDialog = () => {
                 console.log('results', result);
                 if (result.body.response.D.volumecurve_info.ViewSettings) {
                     const ViewSettings = result.body.response.D.volumecurve_info.ViewSettings;
-                    console.log('ViewSettings123', ViewSettings);
                     setCheckboxStates(ViewSettings.CheckboxStates)
                     setRadioValues([ViewSettings.HighLow, ViewSettings.Glaph]);
                     setColors(ViewSettings.Colors);
@@ -163,7 +167,7 @@ const SettingsDialog = () => {
                     };
                     setSettingsState(newSettingsState);
                 }
-               
+
             } catch (err) {
                 console.error('Error fetching data:', err);
                 // setError(err)

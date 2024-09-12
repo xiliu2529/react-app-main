@@ -4,7 +4,7 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
 // @ts-ignore
-import { VALIDATION_MESSAGES } from '../../constants/messages.js';
+import VALIDATION_MESSAGES from '../../../common/conf/clientMessage.json';
 import { fetchAPI, fetchAPI1 } from '../../api/api';
 
 type HistoricalSetting = {
@@ -414,7 +414,7 @@ const ConditionSetting: React.FC = () => {
     const todayFormatted = today.split('-').join('/');
     if (!payload.Code) {
       newValidationState.error = true;
-      newValidationState.helperText = VALIDATION_MESSAGES.CODE_REQUIRED;
+      newValidationState.helperText = VALIDATION_MESSAGES.WCI028;
       setValidation(newValidationState);
       hasError = true;
     } else {
@@ -493,7 +493,8 @@ const ConditionSetting: React.FC = () => {
               <p style={{ display: 'inline-block', fontSize: '10px' }}>開始日</p>
               <input className='setDate' type="date" value={startDate || showModal.HistoricalSetting.Range.DateFrom} min={minDaysAgo} onChange={handleDateChange(setstartDate)} />
               {errorDatefrom &&
-                <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}>{VALIDATION_MESSAGES.INVALID_START_DATE_ONLY}</FormHelperText>}
+                <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}
+                >  {startDate ? VALIDATION_MESSAGES.WCI031 : VALIDATION_MESSAGES.WCI029}</FormHelperText>}
             </div>
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
@@ -517,7 +518,7 @@ const ConditionSetting: React.FC = () => {
               <p style={{ display: 'inline-block', fontSize: '10px' }}>終了日</p>
               <input className='setDate' type="date" value={endDate} onChange={handleDateChange(setendDate)} />
               {errorDateto &&
-                <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}>{VALIDATION_MESSAGES.INVALID_END_DATE_ONLY}</FormHelperText>}
+                <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}>{VALIDATION_MESSAGES.WCI030}</FormHelperText>}
             </div>
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
@@ -549,7 +550,7 @@ const ConditionSetting: React.FC = () => {
               <input className='setDate' type="date" value={endDate} onChange={handleDateChange(setendDate)} />
             </Grid>
             {errorDatefrom &&
-              <FormHelperText style={{ color: '#d32f2f', marginLeft: '25px', marginTop: 0 }}>{VALIDATION_MESSAGES.INVALID_START_DATE}</FormHelperText>}
+              <FormHelperText style={{ color: '#d32f2f', marginLeft: '25px', marginTop: 0 }}>{VALIDATION_MESSAGES.WCI032}</FormHelperText>}
           </div>
         );
       case '4':
@@ -584,7 +585,7 @@ const ConditionSetting: React.FC = () => {
             />
 
             {errorSQ &&
-              <FormHelperText style={{ color: '#d32f2f', marginTop: 0 }}>{VALIDATION_MESSAGES.SELECT_SQ}</FormHelperText>}
+              <FormHelperText style={{ color: '#d32f2f', marginTop: 0 }}>{VALIDATION_MESSAGES.WCI033}</FormHelperText>}
 
 
           </div>
@@ -688,8 +689,7 @@ const ConditionSetting: React.FC = () => {
                   }
                 }} value={endTime} onChange={handleEndTimeChange} />
               </Grid>}
-            {/* {errorTime &&
-              <FormHelperText style={{ color: '#d32f2f', marginLeft: '90px', marginTop: 0 }}>{VALIDATION_MESSAGES.INVALID_START_END_TIME}</FormHelperText>} */}
+   
           </Grid>
         </div>
         <p style={{ marginBottom: '10px' }}>個别算出</p>

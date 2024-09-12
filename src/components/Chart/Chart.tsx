@@ -16,9 +16,8 @@ import './Chart.css';
 
 
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
-  const { settingsState, conditionSettingState, requestPayload, response,setSettingsState } = useMyContext();
+  const { settingsState, conditionSettingState, requestPayload, response, setSettingsState } = useMyContext();
   const [isExpanded, setisExpanded] = useState<boolean>(false);
-console.log('120',settingsState.checkboxStates[4]);
 
 
   let useDailyColor = settingsState.checkboxStates[5] && settingsState.radioValues[1] === '0'
@@ -53,7 +52,6 @@ console.log('120',settingsState.checkboxStates[4]);
     }
   }
 
-  const [checked, setChecked] = useState<boolean>(false);
 
   const [chartState, setChartState] = useState<ChartState>({
     xAxisLabels: [],
@@ -84,8 +82,14 @@ console.log('120',settingsState.checkboxStates[4]);
     historicalCumulative2: [],
   });
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
+  const handleChange = () => {
+    // @ts-ignore
+    setSettingsState((prevState: SettingsState) => ({
+      ...prevState,
+      checkboxStates: prevState.checkboxStates.map((value, index) =>
+        index === 4 ? !value : value
+      ),
+    }));
   };
 
   const addRightClickExportMenu = (chart: Highcharts.Chart | null, containerId: string) => {
@@ -153,11 +157,6 @@ console.log('120',settingsState.checkboxStates[4]);
     });
   };
 
-
-  useEffect(() => {
-    console.log('120',settingsState.checkboxStates[4]);
-    setChecked(settingsState.checkboxStates[4]);
-  }, [settingsState.checkboxStates[4]]);
 
 
   useEffect(() => {
@@ -676,7 +675,7 @@ console.log('120',settingsState.checkboxStates[4]);
       color: settingsState.colors[16],
       yAxis: 2,
       data: chartState.ClosePrice,
-      visible: checked,
+      visible: settingsState.checkboxStates[4],
 
     }]
     , credits: {
@@ -779,7 +778,7 @@ console.log('120',settingsState.checkboxStates[4]);
       color: settingsState.colors[16],
       name: '終値',
       data: chartState.ClosePrice,
-      visible: checked,
+      visible: settingsState.checkboxStates[4],
 
     }
     ],
@@ -895,7 +894,7 @@ console.log('120',settingsState.checkboxStates[4]);
     addRightClickExportMenu(chartRef1.current, 'chart-container1');
     addRightClickExportMenu(chartRef2.current, 'chart-container2');
 
-  }, [settingsState, conditionSettingState, chartState, chartData, checked]);
+  }, [settingsState, conditionSettingState, chartState, chartData, settingsState.checkboxStates[4]]);
 
 
   return (
@@ -904,7 +903,7 @@ console.log('120',settingsState.checkboxStates[4]);
       <div className="container-chart">
         <FormControlLabel
           className='chart-top'
-          control={<Checkbox checked={checked} onChange={handleChange} />}
+          control={<Checkbox checked={settingsState.checkboxStates[4]} onChange={handleChange} />}
           label="当日の価格チャートを表示"
           labelPlacement="start"
         />
