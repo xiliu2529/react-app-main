@@ -28,8 +28,7 @@ const MainPage: React.FC = () => {
 
   useEffect(() => {
     console.log('error',error);
-    
-    if (error?.response?.status !== 200) {
+    if (error && error.response?.status !== 200) {
       setShowSnackbar(true);
       const timer = setTimeout(() => {
         setShowSnackbar(false);

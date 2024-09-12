@@ -7,43 +7,6 @@ import { useMyContext } from '../../contexts/MyContext';
 import VALIDATION_MESSAGES from '../../../common/conf/clientMessage.json';
 import { fetchAPI, fetchAPI1 } from '../../api/api';
 
-type HistoricalSetting = {
-  Category: string;
-  Range: {
-    DateFrom: string;
-    DateTo: string;
-    Days: string;
-    SQ: {
-      LargeSQ: string;
-      SmallSQ: string;
-      WeeklySQ: string;
-    };
-  };
-};
-
-type CalculationSetting = {
-  Category: string;
-  Range: {
-    TimeFrom: string;
-    TimeTo: string;
-    Minutes: string;
-  };
-  Individual: {
-    AM: {
-      OpenTick: string;
-      CloseTick: string;
-    };
-    PM: {
-      OpenTick: string;
-      CloseTick: string;
-    };
-    Evening: {
-      OpenTick: string;
-      CloseTick: string;
-    };
-  };
-};
-
 
 const ConditionSetting: React.FC = () => {
   const [isExpanded, setisExpanded] = useState<boolean>(false);
@@ -69,14 +32,11 @@ const ConditionSetting: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['1', '1', '1']);
-  const { 
-    // setshowConditionSettings,setisHistoricalActive, setbuttonName, 
-    setLoading, setError, setConditionSettingState, isHistoricalActive,  requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
+  const {setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
   const [errorDatefrom, seterrorDatefrom] = useState<boolean>(false);
   const [errorDateto, seterrorDateto] = useState<boolean>(false);
-  // const [errorTime, seterrorTime] = useState<boolean>(false);
   const [validation, setValidation] = useState<{ error: boolean; helperText: string }>({
     error: false,
     helperText: '',
@@ -118,9 +78,7 @@ const ConditionSetting: React.FC = () => {
       return newState;
     });
   };
-  // const numberToBoolean = (num: number): boolean => {
-  //   return num === 1;
-  // };
+  
   const handleChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(e.target.value);
 
@@ -244,14 +202,7 @@ const ConditionSetting: React.FC = () => {
             eveningOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.OpenTick),
             eveningClose: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.CloseTick),
           });
-
-          // setbuttonName(requestPayload.ViewSettings.Layout)
-          // setshowConditionSettings(requestPayload.ViewSettings.SettingSwitch)
-          // setisHistoricalActive(numberToBoolean(requestPayload.ViewSettings.Tab))
-
         }
-
-
       } catch (err) {
         console.error('Error fetching data:', err);
         setError(err)
@@ -332,8 +283,7 @@ const ConditionSetting: React.FC = () => {
     try {
       const HistoricalSetting: HistoricalSetting = showModal.HistoricalSetting
       const CalculationSetting: CalculationSetting = showModal.CalculationSetting
-      console.log('HistoricalSetting,CalculationSetting Post成功', { ViewSettings, HistoricalSetting, CalculationSetting });
-      await fetchAPI1({ ViewSettings, HistoricalSetting, CalculationSetting});
+      await fetchAPI1({ ViewSettings, HistoricalSetting, CalculationSetting });
       console.log('HistoricalSetting,CalculationSetting Post成功', { ViewSettings, HistoricalSetting, CalculationSetting });
     } catch (err) {
       console.error('Error fetching data:', err);
@@ -347,23 +297,27 @@ const ConditionSetting: React.FC = () => {
         //IDチェック
         const isValid = validatePayload(requestPayload);
         //
-        console.log('requestPayload', requestPayload);
+   
 
         setResponse(isValid)
-        if (isValid) {
-
-
-          //OK取る
-
-          //ID取る
-
-
-
+        if (isValid) { 
+          setLoading(true);
+          //制御　true
+          
           //設定保存
           fetchData1()
 
+          //IDチェック
+           console.log('requestPayload', requestPayload);
+         
+
+          //1まで　5秒ごとに確認する
+          // setTimeout(() => {
+          // }, 5000);
+
+
           // データを取る
-          setLoading(true);
+         
           // QvTotalingInfo　取る
 
           // QvVolumeCurveData　
@@ -372,11 +326,13 @@ const ConditionSetting: React.FC = () => {
 
           // QvHistoricalData
 
+
           setTimeout(() => {
             setLoading(false);
           }, 2000);
 
         } else {
+
         }
       }
     }
@@ -453,13 +409,6 @@ const ConditionSetting: React.FC = () => {
       }
     }
 
-    //時間制御
-    // if (timefrom > timeTo) {
-    //   seterrorTime(true);
-    //   hasError = true;
-    // } else {
-    //   seterrorTime(false);
-    // }
 
     return !hasError;
   };
@@ -689,7 +638,7 @@ const ConditionSetting: React.FC = () => {
                   }
                 }} value={endTime} onChange={handleEndTimeChange} />
               </Grid>}
-   
+
           </Grid>
         </div>
         <p style={{ marginBottom: '10px' }}>個别算出</p>

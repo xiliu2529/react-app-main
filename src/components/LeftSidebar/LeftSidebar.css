@@ -1,8 +1,7 @@
 .left-sidebar {
   position: relative ;
-  left: 20px;
+  margin-left: 20px;
   height: 0;
-  z-index: 1000;
   width: 280px;
 }
 
@@ -14,17 +13,18 @@
 .icon-container {
   display: flex;
   align-items: center;
+  z-index: 9900;
 }
 
 .button-container {
   background-color: #fff;
   border: 1px solid #5a5d60;
-  border-radius: 8px;
+  border-radius: 5px;
   position: fixed;
   display: grid;
   grid-template-columns: repeat(2, auto);
   gap: 1px;
-  z-index: 9500;
+  z-index: 9900;
   margin-top: -12px;
 }
 

@@ -151,19 +151,19 @@ const LeftSidebar: React.FC = () => {
         onMouseLeave={() => setButtonContainerVisible(false)}>
           <button className="sidebar-button" onClick={() => handleButtonClick(2)}>
           <img src={a} alt="Sidebar Icon" width="30" height="20"style={{ marginRight: '8px' }} />
-            グリッド+グラフ(左右)
+          <span style={{ whiteSpace: 'nowrap' }}>グリッド+グラフ(左右)</span>
           </button>
           <button className="sidebar-button" onClick={() => handleButtonClick(8)}>
           <img src={b} alt="Sidebar Icon" width="30" height="20" style={{ marginRight: '8px' }}/>
-            グリッド+グラフ(上下)
+            <span style={{ whiteSpace: 'nowrap' }}>グリッド+グラフ(上下)</span>
           </button>
           <button className="sidebar-button" onClick={() => handleButtonClick(4)}>
           <img src={c} alt="Sidebar Icon" width="30" height="20"style={{ marginRight: '8px' }} />
-            グリッドのみ
+          <span style={{ whiteSpace: 'nowrap' }}>グリッドのみ</span>
           </button>
           <button className="sidebar-button" onClick={() => handleButtonClick(6)}>
           <img src={d} alt="Sidebar Icon" width="30" height="20" style={{ marginRight: '8px' }}/>
-             グラフのみ
+          <span style={{ whiteSpace: 'nowrap' }}>グラフのみ</span>
           </button>
         </div>
       )}
