@@ -377,7 +377,7 @@ const ConditionSetting: React.FC = () => {
               // 5秒ごとにpollStatus関数を呼び出す
               intervalId = setInterval(pollStatus, 5000);
               // 初回の呼び出しを行い、5秒待たずに最初の確認を行う
-              await pollStatus();
+              // await pollStatus();
             }
 
             // checkStatus関数を呼び出す
