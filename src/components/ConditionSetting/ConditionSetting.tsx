@@ -3,9 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
 import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
-// @ts-ignore
 import VALIDATION_MESSAGES from '../../../common/conf/clientMessage.json';
-import { fetchAPI, fetchAPI1 } from '../../api/api';
+import { saveSettingsAPI, loadSettingsAPI, requestAPI, statusAPI } from '../../api/api';
 
 
 const ConditionSetting: React.FC = () => {
@@ -32,7 +31,7 @@ const ConditionSetting: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['1', '1', '1']);
-  const {setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
+  const { setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
   const [errorDatefrom, seterrorDatefrom] = useState<boolean>(false);
@@ -78,7 +77,7 @@ const ConditionSetting: React.FC = () => {
       return newState;
     });
   };
-  
+
   const handleChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(e.target.value);
 
@@ -179,9 +178,9 @@ const ConditionSetting: React.FC = () => {
     setisExpanded(window.innerWidth > 1400);
 
     //data取る
-    const fetchData = async () => {
+    const saveSettings = async () => {
       try {
-        const result = await fetchAPI();
+        const result = await saveSettingsAPI();
         if (result.body.response.D.volumecurve_info.HistoricalSetting && result.body.response.D.volumecurve_info.CalculationSetting) {
           const requestPayload = result.body.response.D.volumecurve_info;
           console.log('resultc', requestPayload);
@@ -205,10 +204,9 @@ const ConditionSetting: React.FC = () => {
         }
       } catch (err) {
         console.error('Error fetching data:', err);
-        setError(err)
       }
     };
-    fetchData();
+    saveSettings();
   }, []);
 
   useEffect(() => {
@@ -279,64 +277,122 @@ const ConditionSetting: React.FC = () => {
 
 
   //data更新
-  const fetchData1 = async () => {
+  const loadSettings = async () => {
     try {
       const HistoricalSetting: HistoricalSetting = showModal.HistoricalSetting
       const CalculationSetting: CalculationSetting = showModal.CalculationSetting
-      await fetchAPI1({ ViewSettings, HistoricalSetting, CalculationSetting });
+      await loadSettingsAPI({ ViewSettings, HistoricalSetting, CalculationSetting });
       console.log('HistoricalSetting,CalculationSetting Post成功', { ViewSettings, HistoricalSetting, CalculationSetting });
     } catch (err) {
       console.error('Error fetching data:', err);
-      setError(err)
+    }
+  };
+  const makeRequest = async (requestPayload: RequestPayload) => {
+    try {
+      const response = await requestAPI(requestPayload);
+      return response;
+
+    } catch (err) {
+      console.error('Error fetching data:', err);
+    }
+  };
+  const fetchStatus = async (ID: any) => {
+    try {
+      const response = await statusAPI(ID);
+      return response;
+    } catch (err) {
+      console.error('Error fetching data:', err);
     }
   };
 
   useEffect(() => {
-    if (Object.keys(requestPayload).length > 0) {
-      if (isReadyToSend) {
-        //IDチェック
-        const isValid = validatePayload(requestPayload);
-        //
-   
+    const fetchData = async () => {
+      if (Object.keys(requestPayload).length > 0) {
+        if (isReadyToSend) {
+          const isValid = validatePayload(requestPayload);
 
-        setResponse(isValid)
-        if (isValid) { 
-          setLoading(true);
-          //制御　true
-          
-          //設定保存
-          fetchData1()
+          setResponse(isValid);
+          if (isValid) {
+            setLoading(true);
 
-          //IDチェック
-           console.log('requestPayload', requestPayload);
-         
+            // 設定保存
+            await loadSettings();
 
-          //1まで　5秒ごとに確認する
-          // setTimeout(() => {
-          // }, 5000);
+            //ok
 
 
-          // データを取る
-         
-          // QvTotalingInfo　取る
 
-          // QvVolumeCurveData　
+            // IDチェック
+            const request = await makeRequest(requestPayload);
+            console.log('request---', request);
 
-          // QvChartData
+            // IDを使って1をもらう     
+            // 1まで5秒ごとに確認する
+            const ID = request.body.RequestID;
+            console.log('ID', ID);
 
-          // QvHistoricalData
+
+            // const status = await fetchStatus(ID);
+            // console.log('status', status);
 
 
-          setTimeout(() => {
+            async function checkStatus() {
+
+              let intervalId: any;
+
+              async function pollStatus() {
+                try {
+                  const status = await fetchStatus(ID);
+                  console.log('status---fetchStatus', status);
+                  if (status.Status === 0) {
+                    //0だったら、5秒ごとに確認する
+                    console.log('0 です', status);
+                  } else if (status.Status === 1) {
+                    // 状態が1の場合の処理
+                    console.log('1です', status);
+                    // 定期的な確認を停止
+                    clearInterval(intervalId);
+                    // 必要な処理をここで実行
+                    // データを取得する
+                    // QvTotalingInfoを取得
+                    // QvVolumeCurveData
+                    // QvChartData
+                    // QvHistoricalData
+                  } else if (status.Status === -1) {
+                    console.log('状態の取得中にエラー:', status);
+                    // エラーが発生した場合も定期的な確認を停止
+                    clearInterval(intervalId);
+                    //error表示
+                    setError({ show: '1', type: status.MessageCode });
+
+
+
+                  }
+                } catch (error) {
+                  // 状態の取得中にエラーが発生した場合の処理
+                  console.error('他のエラー:', error);
+                }
+              }
+
+              // 5秒ごとにpollStatus関数を呼び出す
+              intervalId = setInterval(pollStatus, 5000);
+              // 初回の呼び出しを行い、5秒待たずに最初の確認を行う
+              await pollStatus();
+            }
+
+            // checkStatus関数を呼び出す
+            checkStatus();
+
+            // 処理が完了した後、ローディングを停止
             setLoading(false);
-          }, 2000);
-
-        } else {
-
+          }
         }
       }
-    }
+    };
+
+    fetchData();
   }, [requestPayload]);
+
 
   useEffect(() => {
     setInputValue(showModal.Code);

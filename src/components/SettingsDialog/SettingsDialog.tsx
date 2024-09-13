@@ -12,7 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import { Grid } from '@mui/material';
 import './SettingsDialog.css';
 import { useMyContext } from '../../contexts/MyContext';
-import { fetchAPI, fetchAPI1 } from '../../api/api';
+import { saveSettingsAPI, loadSettingsAPI } from '../../api/api';
 
 
 const SettingsDialog = () => {
@@ -103,7 +103,7 @@ const SettingsDialog = () => {
                 Colors: colors,
             };
 
-            fetchData1(newSettings);
+            loadSettings(newSettings);
 
 
         }
@@ -111,11 +111,11 @@ const SettingsDialog = () => {
 
     };
 
-    const fetchData1 = async (ViewSettings: ViewSettings) => {
+    const loadSettings = async (ViewSettings: ViewSettings) => {
         try {
             const HistoricalSetting: HistoricalSetting = showModal.HistoricalSetting
             const CalculationSetting: CalculationSetting = showModal.CalculationSetting
-            await fetchAPI1({ ViewSettings, HistoricalSetting, CalculationSetting, });
+            await loadSettingsAPI({ ViewSettings, HistoricalSetting, CalculationSetting, });
             console.log('ViewSettings post成功');
         } catch (err) {
             console.error('Error fetching data:', err);
@@ -149,7 +149,7 @@ const SettingsDialog = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const result = await fetchAPI();
+                const result = await saveSettingsAPI();
                 console.log('results', result);
                 if (result.body.response.D.volumecurve_info.ViewSettings) {
                     const ViewSettings = result.body.response.D.volumecurve_info.ViewSettings;

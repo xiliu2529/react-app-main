@@ -15,7 +15,9 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       '#52a69f', '#52a69f', '#596db8', '#5bbcd1', '#7e522e'
     ],
   });
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<ErrorState>({ show: '', type: '' });
+
+
   const initialConditionSettingState: ConditionSettingState = {
     marketState: {
       preMarketOpening: false,

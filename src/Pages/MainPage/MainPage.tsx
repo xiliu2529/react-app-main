@@ -16,6 +16,7 @@ import {
 } from '../../components/PageSwitcher/PageSwitcher';
 import { useMyContext, } from '../../contexts/MyContext';
 import { useEffect, useState } from 'react';
+import ERROR from '../../../common/conf/serverMessage.json'
 
 
 
@@ -26,13 +27,16 @@ const MainPage: React.FC = () => {
   const { isHistoricalActive, buttonName, loading, error } = useMyContext();
   const [showSnackbar, setShowSnackbar] = useState(false);
 
+    // 函数来格式化错误消息
+  
   useEffect(() => {
     console.log('error',error);
-    if (error && error.response?.status !== 200) {
+    if (error.show ==='1') {
       setShowSnackbar(true);
       const timer = setTimeout(() => {
         setShowSnackbar(false);
       }, 5000);
+      
       return () => clearTimeout(timer);
     }
   }, [error]);
@@ -47,7 +51,8 @@ const MainPage: React.FC = () => {
         {renderContent()}
         {showSnackbar && (
           <div className="custom-snackbar">
-            <span>error</span>
+            {/* @ts-ignore */}
+            <span>{ERROR[error.type]}</span>
           </div>
         )}
         {loading && <LoadingOverlay />}

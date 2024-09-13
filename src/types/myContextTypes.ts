@@ -17,8 +17,8 @@
     setResponse: (alignment: boolean) => void;
     shouldDownload: boolean
     setShouldDownload: (alignment: boolean) => void;
-    error: any;
-    setError: (error: any) => void;
+    error: ErrorState;
+    setError: (error: ErrorState) => void;
     loading: boolean
     setLoading: (state: boolean) => void;
     showConditionSettings: boolean

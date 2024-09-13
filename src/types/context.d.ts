@@ -15,6 +15,10 @@ type MarketState = {
   eveningClose: boolean;
 };
 
+type ErrorState ={
+  show: string; 
+  type: string; 
+}
 type ConditionSettingState = {
   marketState: MarketState,
   inputValue:string,
