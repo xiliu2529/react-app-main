@@ -1,19 +1,19 @@
 import { TextField, Box, Grid, Typography, Button, Stack, ToggleButton, ToggleButtonGroup, MenuItem, Checkbox, Select, FormControlLabel, FormHelperText } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
 import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
 import VALIDATION_MESSAGES from '../../../common/conf/clientMessage.json';
-import { saveSettingsAPI, loadSettingsAPI, requestAPI, statusAPI } from '../../api/api';
+import { saveSettingsAPI, loadSettingsAPI, requestAPI, statusAPI, getQvDataAPI, packageAPI } from '../../api/api';
 
 
 const ConditionSetting: React.FC = () => {
   const [isExpanded, setisExpanded] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>('');
-  const [alignment, setAlignment] = React.useState('');
+  const [alignment, setAlignment] = useState<string>('');
   const [days, setDays] = useState<number>(1);
   const [value1, setValue1] = useState<number>(30);
-  const [minutes, setminutes] = React.useState('');
+  const [minutes, setminutes] = useState<string>('');
   const [startTime, setStartTime] = useState<string>('');
   const [startTime1, setStartTime1] = useState<string>('');
   const [startTime2, setStartTime2] = useState<string>('');
@@ -31,15 +31,21 @@ const ConditionSetting: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['1', '1', '1']);
-  const { setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
+  const { nocal, setNocal, setViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading,setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
+
   const [errorDatefrom, seterrorDatefrom] = useState<boolean>(false);
   const [errorDateto, seterrorDateto] = useState<boolean>(false);
   const [validation, setValidation] = useState<{ error: boolean; helperText: string }>({
     error: false,
     helperText: '',
   });
+  const loadingRef = useRef(loading);
+useEffect(() => {
+  loadingRef.current = loading;
+}, [loading]);
+
   const selectedStyle = {
     '&.Mui-selected': {
       backgroundColor: '#E8ECF0',
@@ -172,41 +178,74 @@ const ConditionSetting: React.FC = () => {
     });
     setIsReadyToSend(true);
     setConditionSettingState({ marketState, inputValue });
+    setLoading(true);
   };
 
   useEffect(() => {
     setisExpanded(window.innerWidth > 1400);
+    let NOACL = true;
+    packageAPI()
+      .then(({ noaclFlag, result }) => {
+        if (result) {
+          if (result.body.response == 'OK') {
+            // チェックOK
+          } else {
+            // チェックNG
+            setError({ show: '2', type: 'WCI001' });
+          }
+        } else {
+          // responseなし
+          // チェックERROR
+          console.log('responseなし');
+          setError({ show: '2', type: "ECI002" });
+        }
+
+        if (noaclFlag === true) {
+          setNocal(false)
+          NOACL = false
+        }
+
+
+      })
+
+
+    if (NOACL) {
+      const saveSettings = async () => {
+        try {
+          const result = await saveSettingsAPI();
+          if (result.body.response.D.volumecurve_info.HistoricalSetting && result.body.response.D.volumecurve_info.CalculationSetting
+            && result.body.response.D.volumecurve_info.ViewSettings) {
+            const requestPayload = result.body.response.D.volumecurve_info;
+            setViewSettings(requestPayload.ViewSettings)
+            console.log('resultc', requestPayload);
+            setAlignment(requestPayload.HistoricalSetting.Category);
+            setstartDate(requestPayload.HistoricalSetting.Range.DateFrom.split('/').join('-'));
+            setendDate(requestPayload.HistoricalSetting.Range.DateTo.split('/').join('-'));
+            setDays(Number(requestPayload.HistoricalSetting.Range.Days));
+            setCheckedState([requestPayload.HistoricalSetting.Range.SQ.LargeSQ, requestPayload.HistoricalSetting.Range.SQ.SmallSQ, requestPayload.HistoricalSetting.Range.SQ.WeeklySQ]);
+            setminutes(requestPayload.CalculationSetting.Category);
+            setStartTime(requestPayload.CalculationSetting.Range.TimeFrom);
+            setEndTime(requestPayload.CalculationSetting.Range.TimeTo);
+            setValue1(Number(requestPayload.CalculationSetting.Range.Minutes));
+            setMarketState({
+              preMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.OpenTick),
+              preMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.CloseTick),
+              postMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.OpenTick),
+              postMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.CloseTick),
+              eveningOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.OpenTick),
+              eveningClose: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.CloseTick),
+            });
+          }
+        } catch (err) {
+          console.error('Error fetching data:', err);
+        }
+      };
+      saveSettings();
+    }
+
 
     //data取る
-    const saveSettings = async () => {
-      try {
-        const result = await saveSettingsAPI();
-        if (result.body.response.D.volumecurve_info.HistoricalSetting && result.body.response.D.volumecurve_info.CalculationSetting) {
-          const requestPayload = result.body.response.D.volumecurve_info;
-          console.log('resultc', requestPayload);
-          setAlignment(requestPayload.HistoricalSetting.Category);
-          setstartDate(requestPayload.HistoricalSetting.Range.DateFrom.split('/').join('-'));
-          setendDate(requestPayload.HistoricalSetting.Range.DateTo.split('/').join('-'));
-          setDays(Number(requestPayload.HistoricalSetting.Range.Days));
-          setCheckedState([requestPayload.HistoricalSetting.Range.SQ.LargeSQ, requestPayload.HistoricalSetting.Range.SQ.SmallSQ, requestPayload.HistoricalSetting.Range.SQ.WeeklySQ]);
-          setminutes(requestPayload.CalculationSetting.Category);
-          setStartTime(requestPayload.CalculationSetting.Range.TimeFrom);
-          setEndTime(requestPayload.CalculationSetting.Range.TimeTo);
-          setValue1(Number(requestPayload.CalculationSetting.Range.Minutes));
-          setMarketState({
-            preMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.OpenTick),
-            preMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.CloseTick),
-            postMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.OpenTick),
-            postMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.CloseTick),
-            eveningOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.OpenTick),
-            eveningClose: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.CloseTick),
-          });
-        }
-      } catch (err) {
-        console.error('Error fetching data:', err);
-      }
-    };
-    saveSettings();
+
   }, []);
 
   useEffect(() => {
@@ -287,6 +326,8 @@ const ConditionSetting: React.FC = () => {
       console.error('Error fetching data:', err);
     }
   };
+
+
   const makeRequest = async (requestPayload: RequestPayload) => {
     try {
       const response = await requestAPI(requestPayload);
@@ -304,90 +345,110 @@ const ConditionSetting: React.FC = () => {
       console.error('Error fetching data:', err);
     }
   };
+  const getQvData = async (id: any, qv: any) => {
+    try {
+      const response = await getQvDataAPI(id, qv);
+      return response;
+    } catch (err) {
+      console.error('Error fetching data:', err);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       if (Object.keys(requestPayload).length > 0) {
         if (isReadyToSend) {
           const isValid = validatePayload(requestPayload);
-
           setResponse(isValid);
           if (isValid) {
-            setLoading(true);
-
+            // setLoading(true);
             // 設定保存
-            await loadSettings();
-
-            //ok
-
-
-
-            // IDチェック
-            const request = await makeRequest(requestPayload);
-            console.log('request---', request);
-
-            // IDを使って1をもらう     
-            // 1まで5秒ごとに確認する
-            const ID = request.body.RequestID;
-            console.log('ID', ID);
-
-
-            // const status = await fetchStatus(ID);
-            // console.log('status', status);
-
-
-            async function checkStatus() {
-
-              let intervalId: any;
-
+            if (nocal) {
+              await loadSettings();
+            }
+            try {
+              const request = await makeRequest(requestPayload);
+              console.log('request---', request);
+              if (request.body && request.body.RequestID) {
+                const ID = request.body.RequestID;
+                checkStatus(ID);
+              } else {
+                setLoading(false)
+                console.error('Invalid response:', request);
+              }
+            } catch (error) {
+              setLoading(false)
+              console.error('Request failed:', error);
+            }
+            async function checkStatus(ID: any) {
+              let intervalId: NodeJS.Timeout;
               async function pollStatus() {
                 try {
+                  if (!loadingRef.current) {
+                    clearInterval(intervalId);
+                    return;
+                  }
                   const status = await fetchStatus(ID);
-                  console.log('status---fetchStatus', status);
-                  if (status.Status === 0) {
-                    //0だったら、5秒ごとに確認する
-                    console.log('0 です', status);
-                  } else if (status.Status === 1) {
+                  console.log('status-', status);
+                  if (status.Status == 1) {
                     // 状態が1の場合の処理
                     console.log('1です', status);
                     // 定期的な確認を停止
                     clearInterval(intervalId);
-                    // 必要な処理をここで実行
                     // データを取得する
-                    // QvTotalingInfoを取得
+                    // QvTotalingInfo
+                    const QvTotalingInfo = await getQvData(ID, 'QvTotalingInfo.json');
+                    setQvTotalingInfojson(QvTotalingInfo)
+
                     // QvVolumeCurveData
+                    const QvVolumeCurveData = await getQvData(ID, 'QvVolumeCurveData.json');
+                    setQvVolumeCurveDatajson(QvVolumeCurveData)
+
                     // QvChartData
+                    const QvChartData = await getQvData(ID, 'QvChartData.json');
+                    setQvChartDatajson(QvChartData)
+
                     // QvHistoricalData
+                    const QvHistoricalData = await getQvData(ID, 'QvHistoricalData.json');
+                    setQvHistoricalDatajson(QvHistoricalData)
+                    console.log('data', QvTotalingInfo, QvVolumeCurveData, QvChartData, QvHistoricalData);
+                    setLoading(false);
                   } else if (status.Status === -1) {
-                    console.log('状態の取得中にエラー:', status);
                     // エラーが発生した場合も定期的な確認を停止
                     clearInterval(intervalId);
-                    //error表示
-                    setError({ show: '1', type: status.MessageCode });
-
-
-
+                    if (status.MessageCode == '') {
+                      setError({ show: '2', type: "ECR001" });
+                      //error表示
+                    } else {
+                      setError({ show: '1', type: status.MessageCode });
+                    }
+                    setLoading(false);
                   }
                 } catch (error) {
                   // 状態の取得中にエラーが発生した場合の処理
+                  clearInterval(intervalId);
                   console.error('他のエラー:', error);
+                  setLoading(false);
                 }
               }
-
               // 5秒ごとにpollStatus関数を呼び出す
-              intervalId = setInterval(pollStatus, 5000);
-              // 初回の呼び出しを行い、5秒待たずに最初の確認を行う
-              // await pollStatus();
+              intervalId = setInterval(() => {
+                pollStatus();
+              }, 5000);
             }
-
             // checkStatus関数を呼び出す
-            checkStatus();
-
+            // checkStatus();
             // 処理が完了した後、ローディングを停止
-            setLoading(false);
           }
+        }else{
+          setLoading(false);
         }
+      }else{
+        setLoading(false);
+        
       }
+     
+
     };
 
     fetchData();
@@ -643,11 +704,11 @@ const ConditionSetting: React.FC = () => {
         <Stack direction="row" spacing={1} alignItems="center">
           <p>間隔</p>
           <Select labelId="demo-simple-select-label" id="demo-simple-select" value={minutes} label="minutes" onChange={handleChange}>
-            <MenuItem value={0}>1</MenuItem>
-            <MenuItem value={1}>5</MenuItem>
-            <MenuItem value={2}>10</MenuItem>
-            <MenuItem value={3}>15</MenuItem>
-            <MenuItem value={4}>30</MenuItem>
+            <MenuItem value='0'>1</MenuItem>
+            <MenuItem value='1'>5</MenuItem>
+            <MenuItem value='2'>10</MenuItem>
+            <MenuItem value='3'>15</MenuItem>
+            <MenuItem value='4'>30</MenuItem>
           </Select>
           <p>分間隔</p>
         </Stack>

@@ -16,7 +16,8 @@ import {
 } from '../../components/PageSwitcher/PageSwitcher';
 import { useMyContext, } from '../../contexts/MyContext';
 import { useEffect, useState } from 'react';
-import ERROR from '../../../common/conf/serverMessage.json'
+import serverMessage from '../../../common/conf/serverMessage.json'
+import clientMessage from '../../../common/conf/clientMessage.json'
 
 
 
@@ -26,20 +27,32 @@ import ERROR from '../../../common/conf/serverMessage.json'
 const MainPage: React.FC = () => {
   const { isHistoricalActive, buttonName, loading, error } = useMyContext();
   const [showSnackbar, setShowSnackbar] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
-    // 函数来格式化错误消息
   
   useEffect(() => {
-    console.log('error',error);
-    if (error.show ==='1') {
+    console.log('error',error.type);
+     {/* @ts-ignore */}
+    console.log('errprclientMessage',clientMessage[error.type]);
+    
+    if (error.show ==='1' || error.show ==='2') {
       setShowSnackbar(true);
       const timer = setTimeout(() => {
         setShowSnackbar(false);
       }, 5000);
-      
+      if (error.show ==='1') {
+          {/* @ts-ignore */}
+          setErrorMessage(serverMessage[error.type])
+      }
+      if (error.show ==='2') {
+        {/* @ts-ignore */}
+        setErrorMessage(clientMessage[error.type])
+      }
       return () => clearTimeout(timer);
     }
   }, [error]);
+
+  
 
 
 
@@ -51,8 +64,9 @@ const MainPage: React.FC = () => {
         {renderContent()}
         {showSnackbar && (
           <div className="custom-snackbar">
+           <span className="custom-icon"></span>
             {/* @ts-ignore */}
-            <span>{ERROR[error.type]}</span>
+            <span>{errorMessage}</span>
           </div>
         )}
         {loading && <LoadingOverlay />}

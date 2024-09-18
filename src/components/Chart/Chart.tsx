@@ -9,14 +9,16 @@ import {
 } from '../../types/chartTypes';
 import Exporting from 'highcharts/modules/exporting';
 import { useMyContext } from '../../contexts/MyContext';
-import a from '../../data/601.1/data3.json'
-import b from '../../data/101.1/data3.json'
-import c from '../../data/data3.json'
+// import a from '../../data/601.1/data3.json'
+// import b from '../../data/101.1/data3.json'
+// import c from '../../data/data3.json'
 import './Chart.css';
 
 
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
-  const { settingsState, conditionSettingState, requestPayload, response, setSettingsState } = useMyContext();
+  const {QvChartDatajson, settingsState, conditionSettingState, 
+    // requestPayload, 
+    response, setSettingsState } = useMyContext();
   const [isExpanded, setisExpanded] = useState<boolean>(false);
 
 
@@ -41,16 +43,18 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       }
     }
   }
-
-  if (response) {
-    if (requestPayload.Code === '6501') {
-      QvChartData = c;
-    } else if (requestPayload.Code === '101.1') {
-      QvChartData = b;
-    } else if (requestPayload.Code === '601.1') {
-      QvChartData = a;
-    }
-  }
+  useEffect(() => {
+    QvChartData = QvChartDatajson
+  }, [QvChartDatajson]);
+  // if (response) {
+  //   if (requestPayload.Code === '6501') {
+  //     QvChartData = c;
+  //   } else if (requestPayload.Code === '101.1') {
+  //     QvChartData = b;
+  //   } else if (requestPayload.Code === '601.1') {
+  //     QvChartData = a;
+  //   }
+  // }
 
 
   const [chartState, setChartState] = useState<ChartState>({

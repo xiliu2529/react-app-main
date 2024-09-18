@@ -2,6 +2,7 @@ type ChartData = {
     Distribution: string;
     Cumulative: string;
     ClosePrice?: string;
+    TodayChart?:string;
 };
 
 type TickFrame = {

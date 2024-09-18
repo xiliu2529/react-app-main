@@ -25,6 +25,23 @@
     setshowConditionSettings: (state: boolean) => void;
     ViewSettings:any
     setViewSettings:(state: any) => void;
+
+    QvTotalingInfojson: any;
+    setQvTotalingInfojson: (state: any) => void;
+    QvVolumeCurveDatajson: any;
+    setQvVolumeCurveDatajson: (state: any) => void;
+
+    QvChartDatajson: any;
+    setQvChartDatajson: (state: any) => void;
+
+    QvHistoricalDatajson: any;
+    setQvHistoricalDatajson: React.Dispatch<React.SetStateAction<any>>;
+
+    nocal: boolean
+    setNocal: (alignment: boolean) => void;
+
+
+
  
 
   }

@@ -148,10 +148,23 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       '#d22331', '#d22331', '#d22331', '#52a69f', '#52a69f', '#52a69f',
       '#52a69f', '#52a69f', '#596db8', '#5bbcd1', '#7e522e'
     ],
-
-
   });
-
+  const [QvTotalingInfojson, setQvTotalingInfojson] = useState<any>(null);
+  const [QvVolumeCurveDatajson, setQvVolumeCurveDatajson] = useState<any>(null);
+  const [QvChartDatajson, setQvChartDatajson] = useState<TickFrame>({    
+    EveningOpenTickFrame: {
+    AverageDaysChart: {
+      Distribution: "",
+      Cumulative: "",
+    },
+    TodayChart: {
+      Distribution: "",
+      Cumulative: "",
+      ClosePrice: "",
+    }
+  }});
+  const [QvHistoricalDatajson, setQvHistoricalDatajson] = useState<any>(null);
+  const [nocal, setNocal] = useState<boolean>(true);
   return (
     <MyContext.Provider
       value={{
@@ -180,7 +193,17 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         showConditionSettings,
         setshowConditionSettings,
         ViewSettings,
-        setViewSettings
+        setViewSettings,
+        QvTotalingInfojson,
+        setQvTotalingInfojson,
+        QvVolumeCurveDatajson,
+        setQvVolumeCurveDatajson,
+        QvChartDatajson,
+        setQvChartDatajson,
+        QvHistoricalDatajson,
+        setQvHistoricalDatajson,
+        nocal, 
+        setNocal,
 
       }}
     >

@@ -12,11 +12,12 @@ import FormControl from '@mui/material/FormControl';
 import { Grid } from '@mui/material';
 import './SettingsDialog.css';
 import { useMyContext } from '../../contexts/MyContext';
-import { saveSettingsAPI, loadSettingsAPI } from '../../api/api';
+import { loadSettingsAPI } from '../../api/api';
+
 
 
 const SettingsDialog = () => {
-    const { setshowConditionSettings, setisHistoricalActive, setbuttonName, settingsState, setSettingsState, showModal, buttonName, isHistoricalActive, showConditionSettings, setViewSettings } = useMyContext();
+    const { nocal, ViewSettings, setshowConditionSettings, setisHistoricalActive, setbuttonName, settingsState, setSettingsState, showModal, buttonName, isHistoricalActive, showConditionSettings, setViewSettings } = useMyContext();
     const [open, setOpen] = useState(false); // ダイアログの開閉状態を管理する状態を定義
     const [checkboxStates, setCheckboxStates] = useState<CheckboxState>(
         [false, false, false, false, false, false]
@@ -102,8 +103,10 @@ const SettingsDialog = () => {
                 CheckboxStates: checkboxStates,
                 Colors: colors,
             };
+            if (nocal) {
+                loadSettings(newSettings);
+            }
 
-            loadSettings(newSettings);
 
 
         }
@@ -147,33 +150,22 @@ const SettingsDialog = () => {
 
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const result = await saveSettingsAPI();
-                console.log('results', result);
-                if (result.body.response.D.volumecurve_info.ViewSettings) {
-                    const ViewSettings = result.body.response.D.volumecurve_info.ViewSettings;
-                    setCheckboxStates(ViewSettings.CheckboxStates)
-                    setRadioValues([ViewSettings.HighLow, ViewSettings.Glaph]);
-                    setColors(ViewSettings.Colors);
-                    setbuttonName(ViewSettings.Layout)
-                    setshowConditionSettings(ViewSettings.SettingSwitch)
-                    setisHistoricalActive(numberToBoolean(ViewSettings.Tab))
 
-                    const newSettingsState: SettingsState = {
-                        checkboxStates: ViewSettings.CheckboxStates,
-                        radioValues: [ViewSettings.HighLow, ViewSettings.Glaph],
-                        colors: ViewSettings.Colors
-                    };
-                    setSettingsState(newSettingsState);
-                }
+        if (ViewSettings) {
+            setCheckboxStates(ViewSettings.CheckboxStates)
+            setRadioValues([ViewSettings.HighLow, ViewSettings.Glaph]);
+            setColors(ViewSettings.Colors);
+            setbuttonName(ViewSettings.Layout)
+            setshowConditionSettings(ViewSettings.SettingSwitch)
+            setisHistoricalActive(numberToBoolean(ViewSettings.Tab))
+            const newSettingsState: SettingsState = {
+                checkboxStates: ViewSettings.CheckboxStates,
+                radioValues: [ViewSettings.HighLow, ViewSettings.Glaph],
+                colors: ViewSettings.Colors
+            };
+            setSettingsState(newSettingsState);
+        }
 
-            } catch (err) {
-                console.error('Error fetching data:', err);
-                // setError(err)
-            }
-        };
-        fetchData();
     }, []);
 
 

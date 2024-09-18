@@ -3,9 +3,9 @@ import { Grid, Paper, Table, TableContainer, TableHead, TableBody, TableCell, Ta
 import './HistoricalGrid.css';
 import { useMyContext } from '../../contexts/MyContext';
 import { useEffect, useRef } from 'react';
-import a from '../../../src/data/data4.json';
-import b from '../../../src/data/101.1/data4.json';
-import c from '../../../src/data/601.1/data4.json';
+// import a from '../../../src/data/data4.json';
+// import b from '../../../src/data/101.1/data4.json';
+// import c from '../../../src/data/601.1/data4.json';
 import Papa from 'papaparse';
 
 interface TickFrameData {
@@ -28,21 +28,27 @@ type QvHistoricalDataType = {
 };
 
 const HistoricalGrid: React.FC = () => {
-  const { settingsState, conditionSettingState, requestPayload, griddownload, buttonName, response, shouldDownload, setShouldDownload } = useMyContext();
+  const {QvHistoricalDatajson, settingsState, conditionSettingState, griddownload, buttonName, shouldDownload, setShouldDownload } = useMyContext();
   const isInitialized = useRef(false);
 
   let QvHistoricalData: QvHistoricalDataType = {};
-  if (response) {
+  useEffect(() => {
+    QvHistoricalData = QvHistoricalDatajson
+  }, [QvHistoricalDatajson]);
 
-    if (requestPayload.Code === '6501') {
-      QvHistoricalData = a;
-    } else if (requestPayload.Code === '101.1') {
-      QvHistoricalData = b;
-    } else if (requestPayload.Code === '601.1') {
-      QvHistoricalData = c;
-    }
-  }
-  const dates1 = Object.keys(QvHistoricalData);
+
+  // if (response) {
+  //   if (requestPayload.Code === '6501') {
+  //     QvHistoricalData = a;
+  //   } else if (requestPayload.Code === '101.1') {
+  //     QvHistoricalData = b;
+  //   } else if (requestPayload.Code === '601.1') {
+  //     QvHistoricalData = c;
+  //   }
+  // }
+
+  const historicalDates = Object.keys(QvHistoricalData);
+
 
 
 
@@ -169,40 +175,40 @@ const HistoricalGrid: React.FC = () => {
         rows.push(row);
       });
     };
-    if (conditionSettingState.marketState.eveningOpening && QvHistoricalData[dates1[0]]?.EveningOpenTickFrame) {
+    if (conditionSettingState.marketState.eveningOpening && QvHistoricalData[historicalDates[0]]?.EveningOpenTickFrame) {
       const eveningOpenRow = ['寄付', ...getEveningOpenTickFrame().flatMap(item => [item.volume, item.distribution])];
       rows.push(eveningOpenRow);
     }
     // @ts-ignore
-    if (QvHistoricalData[dates1[0]]?.EveningTickFrame) {
+    if (QvHistoricalData[historicalDates[0]]?.EveningTickFrame) {
       addTimeSlotRows(timeSlots, 'EveningTickFrame');
     }
-    if (conditionSettingState.marketState.eveningClose && QvHistoricalData[dates1[0]]?.EveningCloseTickFrame) {
+    if (conditionSettingState.marketState.eveningClose && QvHistoricalData[historicalDates[0]]?.EveningCloseTickFrame) {
       const eveningCloseRow = ['引け', ...getEveningCloseTickFrame().flatMap(item => [item.volume, item.distribution])];
       rows.push(eveningCloseRow);
     }
     // @ts-ignore
-    if (conditionSettingState.marketState.preMarketOpening && QvHistoricalData[dates1[0]]?.AMOpenTickFrame) {
+    if (conditionSettingState.marketState.preMarketOpening && QvHistoricalData[historicalDates[0]]?.AMOpenTickFrame) {
       const amOpenRow = ['寄付', ...getAMOpenTickFrameData().flatMap(item => [item.volume, item.distribution])];
       rows.push(amOpenRow);
     }
     // @ts-ignore
-    if (QvHistoricalData[dates1[0]]?.AMTickFrame) {
+    if (QvHistoricalData[historicalDates[0]]?.AMTickFrame) {
       addTimeSlotRows(timeSlots1, 'AMTickFrame');
     }
     // @ts-ignore
-    if (conditionSettingState.marketState.preMarketClose && QvHistoricalData[dates1[0]]?.AMCloseTickFrame) {
+    if (conditionSettingState.marketState.preMarketClose && QvHistoricalData[historicalDates[0]]?.AMCloseTickFrame) {
       const amCloseRow = ['引け', ...getAMCloseTickFrameData().flatMap(item => [item.volume, item.distribution])];
       rows.push(amCloseRow);
     }
-    if (conditionSettingState.marketState.postMarketOpening && QvHistoricalData[dates1[0]]?.PMOpenTickFrame) {
+    if (conditionSettingState.marketState.postMarketOpening && QvHistoricalData[historicalDates[0]]?.PMOpenTickFrame) {
       const pmOpenRow = ['寄付', ...getPMOpenTickFrameData().flatMap(item => [item.volume, item.distribution])];
       rows.push(pmOpenRow);
     }
-    if (QvHistoricalData[dates1[0]]?.PMTickFrame) {
+    if (QvHistoricalData[historicalDates[0]]?.PMTickFrame) {
       addTimeSlotRows(timeSlots2, 'PMTickFrame');
     }
-    if (conditionSettingState.marketState.postMarketClose && QvHistoricalData[dates1[0]]?.PMCloseTickFrame) {
+    if (conditionSettingState.marketState.postMarketClose && QvHistoricalData[historicalDates[0]]?.PMCloseTickFrame) {
       const pmCloseRow = ['引け', ...getPMCloseTickFrameData().flatMap(item => [item.volume, item.distribution])];
       rows.push(pmCloseRow);
     }
@@ -302,7 +308,7 @@ const HistoricalGrid: React.FC = () => {
                   ))}
                 </TableRow>
 
-                {conditionSettingState.marketState.eveningOpening && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[dates1[0]].EveningOpenTickFrame ?
+                {conditionSettingState.marketState.eveningOpening && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].EveningOpenTickFrame ?
                   <TableRow>
                     <TableCell className="custom-table-cell">寄付</TableCell>
                     {getEveningOpenTickFrame().map((data, index) => (
@@ -314,9 +320,9 @@ const HistoricalGrid: React.FC = () => {
                   </TableRow> : null}
 
 
-                {Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[dates1[0]].EveningOpenTickFrame ? renderTimeSlotRows(timeSlots, 'EveningTickFrame') : null}
+                {Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].EveningOpenTickFrame ? renderTimeSlotRows(timeSlots, 'EveningTickFrame') : null}
 
-                {conditionSettingState.marketState.eveningClose && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[dates1[0]].EveningCloseTickFrame ?
+                {conditionSettingState.marketState.eveningClose && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].EveningCloseTickFrame ?
                   <TableRow>
                     <TableCell className="custom-table-cell">引け</TableCell>
                     {getEveningCloseTickFrame().map((data, index) => (
@@ -350,7 +356,7 @@ const HistoricalGrid: React.FC = () => {
                     ))}
                   </TableRow> : null
                 }
-                {conditionSettingState.marketState.postMarketOpening && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[dates1[0]].PMOpenTickFrame ?
+                {conditionSettingState.marketState.postMarketOpening && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].PMOpenTickFrame ?
                   <TableRow >
                     <TableCell className="custom-table-cell">寄付</TableCell>
                     {getPMOpenTickFrameData().map((data, index) => (
@@ -361,8 +367,8 @@ const HistoricalGrid: React.FC = () => {
                     ))}
                   </TableRow>
                   : null}
-                {Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[dates1[0]].PMTickFrame ? renderTimeSlotRows(timeSlots2, 'PMTickFrame') : null}
-                {conditionSettingState.marketState.postMarketClose && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[dates1[0]].PMCloseTickFrame ?
+                {Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].PMTickFrame ? renderTimeSlotRows(timeSlots2, 'PMTickFrame') : null}
+                {conditionSettingState.marketState.postMarketClose && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].PMCloseTickFrame ?
                   <TableRow>
                     <TableCell className="custom-table-cell">引け</TableCell>
                     {getPMCloseTickFrameData().map((data, index) => (
