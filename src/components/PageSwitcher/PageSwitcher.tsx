@@ -14,7 +14,9 @@ export const SettingsChartGridPage: React.FC = () => {
       <div className='SettingsChartGridPage-InfoPanelGrid'>
         <InfoPanelGrid />
       </div>
-      <Chart height={540} width={300} />
+      <div className="chart-container">
+        <Chart height={540} width={300} />
+      </div>
 
     </div>
   );
@@ -80,7 +82,7 @@ export const ChartPage: React.FC = () => {
   return (
     <div className='ChartPage'>
       <div className='ChartPage-InfoPanel'><InfoPanel /></div>
-      <div> <Chart height={430} width={1250} /></div>
+      <div> <Chart height={430} width= {null} /></div>
     </div>
   );
 };
@@ -94,9 +96,9 @@ export const ConfigChartBottom: React.FC = () => {
       </div>
       <div className='right-column'>
         <div className='right-top'>   <InfoPanelGrid /></div>
-        <div className='right-bottom'> 
+        <div className='right-bottom'>
           <Chart height={300} width={900} />
-          </div>
+        </div>
       </div>
     </div>
   );
@@ -108,12 +110,12 @@ export const ChartBottom: React.FC = () => {
   return (
     <div className='ChartBottom'>
       <div className='ChartBottom-top'>   <InfoPanelGrid /></div>
-      <div className='ChartBottom-bottom'> <Chart height={300} width={null} /></div>
+      <div className='ChartBottom-bottom'> <Chart height={300} width={null}/></div>
     </div>
   );
 };
 export const HistoryAndSettings: React.FC = () => {
-  
+
   return (
     <div className='SettingsGridPage'>
       <div className='SettingsGridPage-ConditionSetting'>

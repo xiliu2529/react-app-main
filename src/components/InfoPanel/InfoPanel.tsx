@@ -1,17 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import './InfoPanel.css'
 import { useMyContext } from '../../contexts/MyContext';
+import { Data } from '../../types/grid';
 import { Stack } from '@mui/material';
-// import a from '../../data/601.1/data1.json';
-// import b from '../../data/101.1/data1.json';
-// import c from '../../data/data1.json';
+
 
 const InfoPanel: React.FC = () => {
   const {QvTotalingInfojson, isHistoricalActive, setisHistoricalActive, 
     // requestPayload, response, 
   } = useMyContext();
+  const [QvTotalingInfo, setQvTotalingInfo] = useState<Data>({
+    QuoteCode: '',
+    AbbreviatedName: '',
+    MarketName: '',
+    ListedSection: '',
+    Today: '',
+    CalculationDateTime: '',
+    AverageDays: []
+  });
   const handleChange1 = (
     _event: React.MouseEvent<HTMLElement>,
     newAlignment: boolean | null,
@@ -20,26 +28,9 @@ const InfoPanel: React.FC = () => {
       setisHistoricalActive(newAlignment);
     }
   };
-
-  let QvTotalingInfo = {
-    QuoteCode: '',
-    AbbreviatedName: '',
-    MarketName: '',
-    ListedSection: '',
-  }
   useEffect(() => {
-    QvTotalingInfo = QvTotalingInfojson
+    setQvTotalingInfo(QvTotalingInfojson);
   }, [QvTotalingInfojson]);
-
-  // if (response) {
-  //   if (requestPayload.Code === '6501') {
-  //     QvTotalingInfo = c;
-  //   } else if (requestPayload.Code === '101.1') {
-  //     QvTotalingInfo = b;
-  //   } else if (requestPayload.Code === '601.1') {
-  //     QvTotalingInfo = a;
-  //   }
-  // }
 
   return (
     <div id='InfoPanel'>
@@ -68,7 +59,7 @@ const InfoPanel: React.FC = () => {
           <span className="value">{QvTotalingInfo.MarketName}{QvTotalingInfo.ListedSection}</span>
         </Stack>
         {/* CalculateDateTime */}
-        <p className="execution-time">実行日時: {}</p>
+        <p className="execution-time">実行日時: {QvTotalingInfo.CalculationDateTime}</p>
       </div>
 
 

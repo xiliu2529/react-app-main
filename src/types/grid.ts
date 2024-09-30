@@ -12,5 +12,6 @@ export interface AverageDay {
     MarketName: string;
     ListedSection: string;
     Today: string;
+    CalculationDateTime: string,
     AverageDays: AverageDay[];
   }

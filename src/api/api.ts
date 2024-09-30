@@ -1,16 +1,8 @@
 
 
-const data = {
-  service_name: "qww",
-  mode: "GET",
-  types: "volumecurve_info"
-};
-
-const BASE_URL = 'http://11.255.97.33/home/member/';
-
 export const packageAPI = async () => {
   try {
-    const response = await fetch(`${BASE_URL}qww_dev/prod/auth/check/package`, {
+    const response = await fetch(`../../auth/check/package`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -20,8 +12,13 @@ export const packageAPI = async () => {
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    const noaclFlag = response.headers.get('x-auth-status-noacl') === 'true';
-    // const noaclFlag = response.headers.get('X-Amzn-Trace-Id');
+    const resNoACL = response.headers.get('x-auth-status-noacl');
+    let noaclFlag = false;
+    if (typeof resNoACL === 'string') {
+      noaclFlag = resNoACL === "true" ? true : false
+    } else {
+      noaclFlag = resNoACL??false
+    }
     const result = await response.json();
     return { noaclFlag, result };
   } catch (error) {
@@ -30,18 +27,19 @@ export const packageAPI = async () => {
   }
 };
 
-export const saveSettingsAPI = async () => {
+export const loadSettingsAPI = async () => {
   try {
-    const response = await fetch(`${BASE_URL}qww_dev/prod/userdata/load`, {
-      method: 'POST',
+    const response = await fetch(`../../userdata/load?service_name=qww&mode=GET&types=volumecurve_info`, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data)
+      }
     });
+
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
+
     const result = await response.json();
     return result;
   } catch (error) {
@@ -50,9 +48,9 @@ export const saveSettingsAPI = async () => {
   }
 };
 
-export const loadSettingsAPI = async (data: any) => {
+export const saveSettingsAPI = async (data: any) => {
   try {
-    const response = await fetch(`${BASE_URL}qww_dev/prod/userdata/store`, {
+    const response = await fetch(`../../../prod/userdata/store`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -77,10 +75,7 @@ export const loadSettingsAPI = async (data: any) => {
 
 export const requestAPI = async (data: any) => {
   try {
-    // http://11.255.97.33/home/member/qwp_dev/dev/analyze/request
-    // const response = await fetch(`../../analyze/request`, {
-    const response = await fetch(`http://11.255.97.33/home/member/qwp_dev/prod/analyze/request?type=volumecurve`, {
- // const response = await fetch(`http://11.255.97.33/home/member/qww_dev/dev/analyze/request?type=volumecurve`, {
+ const response = await fetch(`../../analyze/request?type=volumecurve`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -106,8 +101,7 @@ export const statusAPI = async (data: any) => {
     const queryParams = new URLSearchParams({
       RequestID: data
     }).toString();
-    const response = await fetch(`http://11.255.97.33/home/member/qwp_dev/prod/analyze/status?${queryParams}`, {
-      // const response = await fetch(`http://11.255.97.33/home/member/qww_dev/dev/analyze/status?${queryParams}`, {
+      const response = await fetch(`../../analyze/status?${queryParams}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -127,10 +121,7 @@ export const statusAPI = async (data: any) => {
 };
 export const getQvDataAPI = async (ID: any,Qv:any) => {
   try {
-    // const queryParams = new URLSearchParams({
-    //   RequestID: ID
-    // }).toString();
-      const response = await fetch(`http://11.255.97.33/home/member/qww_dev/dev/results/volumeCurve/json/${ID}/${Qv}`, {
+        const response = await fetch(`../../results/volumecurve/json/${ID}/${Qv}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

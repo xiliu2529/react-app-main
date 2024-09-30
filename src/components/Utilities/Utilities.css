@@ -63,8 +63,17 @@
 }
 
 @media print {
-  .commonsp-top,.help-button,.header,.left-sidebar{
+  .commonsp-top,.help-button,.header,.left-sidebar,.table-containergrid{
     display: none;
+  }
+  html{
+    overflow-x:hidden !important;
+  }
+
+  
+  .body{
+    transform: scale(0.9); 
+    transform-origin: top left;
   }
   .grid-container{
     width: auto !important;
@@ -75,25 +84,31 @@
     width: auto !important;
   }
 
-
   .infoPanelGrid{
     height: auto !important;
     width: auto !important;
   }
  
   .highlight-cell {
-    min-width: 60px !important;
-
-
+    min-width: 50px !important;
+  }
   
-  
- 
+  .Chart {
+    width: 100% !important;
+    height: auto !important; 
+  }
 
-
+  .InfoPanelHistoricalGrid{
+    width: auto !important;
   }
 
 
+
 }
+
+
   
+ 
+
 
   

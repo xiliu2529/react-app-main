@@ -3,47 +3,26 @@ import { Grid, Table, TableContainer, TableHead, Box, TableBody, TableCell, Tabl
 import './Grid.css';
 import { useMyContext } from '../../contexts/MyContext';
 import { Data } from '../../types/grid';
-// import a from '../../data/601.1/data2.json';
-// import b from '../../data/101.1/data2.json';
-// import c from '../../data/data2.json';
-// import d from '../../data/data1.json';
-// import d1 from '../../data/101.1/data1.json';
-// import d2 from '../../data/601.1/data1.json';
-import { useRef, useEffect, } from 'react';
+import { useRef, useEffect, useState} from 'react';
 
 const Grids: React.FC = () => {
   const { QvVolumeCurveDatajson,QvTotalingInfojson,settingsState, conditionSettingState, griddownload, buttonName, shouldDownload, setShouldDownload } = useMyContext();
   const isInitialized = useRef(false);
-
-  let QvVolumeCurveData: GridDisplayData = {
-  }
-  let QvTotalingInfo: Data = {
+  const [QvVolumeCurveData, setQvVolumeCurveData] = useState<GridDisplayData>({});
+  const [QvTotalingInfo, setQvTotalingInfo] = useState<Data>({
     QuoteCode: '',
     AbbreviatedName: '',
     MarketName: '',
     ListedSection: '',
     Today: '',
+    CalculationDateTime: "",
     AverageDays: []
-  };
+  });
 
   useEffect(() => {
-    QvVolumeCurveData = QvVolumeCurveDatajson
-    QvTotalingInfo = QvTotalingInfojson
+    setQvVolumeCurveData(QvVolumeCurveDatajson);
+    setQvTotalingInfo(QvTotalingInfojson);
   }, [QvVolumeCurveDatajson,QvTotalingInfojson]);
-
-
-  // if (response) {
-  //   if (requestPayload.Code === '6501') {
-  //     QvVolumeCurveData = c;
-  //     QvTotalingInfo = d;
-  //   } else if (requestPayload.Code === '101.1') {
-  //     QvVolumeCurveData = b;
-  //     QvTotalingInfo = d1;
-  //   } else if (requestPayload.Code === '601.1') {
-  //     QvVolumeCurveData = a;
-  //     QvTotalingInfo = d2;
-  //   }
-  // }
 
   const dates = QvTotalingInfo.AverageDays.map(item => item.Date);
   const count = dates.length;
@@ -204,7 +183,7 @@ const Grids: React.FC = () => {
 
 
   return (
-    <Box className='grid-container'  >
+    <Box className='grid-container'>
       <Grid container direction="column" spacing={0} >
         <Grid item >
           <TableContainer className="table-container">

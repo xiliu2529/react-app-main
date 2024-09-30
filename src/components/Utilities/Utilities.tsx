@@ -12,7 +12,7 @@ const Utilities: React.FC = () => {
     window.print();
   }
   const help = () => {
-    const pdfUrl = 'volumeCurve_help.pdf';
+    const pdfUrl = 'help_volumecurve.pdf';
    
     window.open(pdfUrl, '_blank');
 }

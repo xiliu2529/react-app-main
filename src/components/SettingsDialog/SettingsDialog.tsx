@@ -12,12 +12,12 @@ import FormControl from '@mui/material/FormControl';
 import { Grid } from '@mui/material';
 import './SettingsDialog.css';
 import { useMyContext } from '../../contexts/MyContext';
-import { loadSettingsAPI } from '../../api/api';
+import { saveSettingsAPI } from '../../api/api';
 
 
 
 const SettingsDialog = () => {
-    const { nocal, ViewSettings, setshowConditionSettings, setisHistoricalActive, setbuttonName, settingsState, setSettingsState, showModal, buttonName, isHistoricalActive, showConditionSettings, setViewSettings } = useMyContext();
+    const { saveViewSettings,nocal, setshowConditionSettings, setisHistoricalActive, setbuttonName, settingsState, setSettingsState, showModal, buttonName, isHistoricalActive, showConditionSettings, setViewSettings } = useMyContext();
     const [open, setOpen] = useState(false); // ダイアログの開閉状態を管理する状態を定義
     const [checkboxStates, setCheckboxStates] = useState<CheckboxState>(
         [false, false, false, false, false, false]
@@ -62,9 +62,6 @@ const SettingsDialog = () => {
 
     };
     const handleButtonClick = () => {
-        // ボタンクリック時の処理
-        setCheckboxStates([false, false, false, false, false, false]);
-        setRadioValues(['0', '0']);
         setColors([
             '#FFFFFF', '#000000', '#FFFFFF', '#000000', '#d22331', '#d22331',
             '#d22331', '#d22331', '#d22331', '#52a69f', '#52a69f', '#52a69f',
@@ -103,8 +100,8 @@ const SettingsDialog = () => {
                 CheckboxStates: checkboxStates,
                 Colors: colors,
             };
-            if (nocal) {
-                loadSettings(newSettings);
+            if (!nocal) {
+                saveSettings(newSettings);
             }
 
 
@@ -114,12 +111,12 @@ const SettingsDialog = () => {
 
     };
 
-    const loadSettings = async (ViewSettings: ViewSettings) => {
+    const saveSettings = async (ViewSettings: ViewSettings) => {
         try {
             const HistoricalSetting: HistoricalSetting = showModal.HistoricalSetting
             const CalculationSetting: CalculationSetting = showModal.CalculationSetting
-            await loadSettingsAPI({ ViewSettings, HistoricalSetting, CalculationSetting, });
-            console.log('ViewSettings post成功');
+            await saveSettingsAPI({ ViewSettings, HistoricalSetting, CalculationSetting, });
+            console.log('ViewSettings Post成功', { ViewSettings, HistoricalSetting, CalculationSetting });
         } catch (err) {
             console.error('Error fetching data:', err);
             //   setError(err)
@@ -148,25 +145,26 @@ const SettingsDialog = () => {
     }, [settingsState]);
 
 
-
     useEffect(() => {
-
-        if (ViewSettings) {
-            setCheckboxStates(ViewSettings.CheckboxStates)
-            setRadioValues([ViewSettings.HighLow, ViewSettings.Glaph]);
-            setColors(ViewSettings.Colors);
-            setbuttonName(ViewSettings.Layout)
-            setshowConditionSettings(ViewSettings.SettingSwitch)
-            setisHistoricalActive(numberToBoolean(ViewSettings.Tab))
-            const newSettingsState: SettingsState = {
-                checkboxStates: ViewSettings.CheckboxStates,
-                radioValues: [ViewSettings.HighLow, ViewSettings.Glaph],
-                colors: ViewSettings.Colors
-            };
-            setSettingsState(newSettingsState);
-        }
-
-    }, []);
+        console.log('saveViewSettings', saveViewSettings);
+    
+        if (saveViewSettings) {
+                setCheckboxStates(saveViewSettings.CheckboxStates);
+                setRadioValues([saveViewSettings.HighLow, saveViewSettings.Glaph]);
+                setColors(saveViewSettings.Colors);
+                setbuttonName(saveViewSettings.Layout);
+                setshowConditionSettings(saveViewSettings.SettingSwitch);
+                setisHistoricalActive(numberToBoolean(saveViewSettings.Tab));
+                
+                const newSettingsState: SettingsState = {
+                    checkboxStates: saveViewSettings.CheckboxStates,
+                    radioValues: [saveViewSettings.HighLow, saveViewSettings.Glaph],
+                    colors: saveViewSettings.Colors
+                };
+                setSettingsState(newSettingsState);
+            }
+    
+    }, [saveViewSettings]);
 
 
 
@@ -176,9 +174,10 @@ const SettingsDialog = () => {
             <Dialog open={open} onClose={() => handleClose(false)} maxWidth="lg" fullWidth sx={{
                 zIndex: 9999,
                 '& .MuiDialog-paper': {
-                    minWidth: '1100px',
-                    minHeight: '750px',
-                    transform: 'scale(0.7)',
+                    minWidth: '1090px',
+                    maxWidth: '1090px',
+                    Width: '1090px',
+                    minHeight: '550px',
                 }
             }}>
                 <DialogTitle sx={{ backgroundColor: '#143867', color: '#fff' }}>オプション設定</DialogTitle>
@@ -186,7 +185,7 @@ const SettingsDialog = () => {
 
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
 
-                        <FormControl component="fieldset" sx={{ width: '900px', }}>
+                        <FormControl component="fieldset" sx={{ width: '800px', }}>
                             <Grid className='main-container' container spacing={2} wrap="nowrap" >
                                 <Grid item xs={12} sm={6} className='left-container'>
 
@@ -281,7 +280,7 @@ const SettingsDialog = () => {
                                         </div>
                                         <p> 分布</p>
                                         <div>
-                                            <div style={{ border: '1px solid #ccc', borderRadius: '5px', padding: '10px', minWidth: '400px' }}>
+                                            <div style={{ border: '1px solid #ccc', borderRadius: '5px', padding: '10px', maxWidth: '400px' }}>
                                                 <div className="header-container">
                                                     <div className="text-column"></div>
                                                     <p className="header-p">当日</p>

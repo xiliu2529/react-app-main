@@ -2,10 +2,7 @@ import * as React from 'react';
 import { Grid, Paper, Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Box } from '@mui/material';
 import './HistoricalGrid.css';
 import { useMyContext } from '../../contexts/MyContext';
-import { useEffect, useRef } from 'react';
-// import a from '../../../src/data/data4.json';
-// import b from '../../../src/data/101.1/data4.json';
-// import c from '../../../src/data/601.1/data4.json';
+import { useEffect, useRef, useState } from 'react';
 import Papa from 'papaparse';
 
 interface TickFrameData {
@@ -28,30 +25,17 @@ type QvHistoricalDataType = {
 };
 
 const HistoricalGrid: React.FC = () => {
-  const {QvHistoricalDatajson, settingsState, conditionSettingState, griddownload, buttonName, shouldDownload, setShouldDownload } = useMyContext();
+  const { QvHistoricalDatajson, settingsState, conditionSettingState, griddownload, buttonName, shouldDownload, setShouldDownload } = useMyContext();
   const isInitialized = useRef(false);
+  const [QvHistoricalData, setQvHistoricalData] = useState<QvHistoricalDataType>({})
 
-  let QvHistoricalData: QvHistoricalDataType = {};
+
+
   useEffect(() => {
-    QvHistoricalData = QvHistoricalDatajson
+    setQvHistoricalData(QvHistoricalDatajson)
   }, [QvHistoricalDatajson]);
 
-
-  // if (response) {
-  //   if (requestPayload.Code === '6501') {
-  //     QvHistoricalData = a;
-  //   } else if (requestPayload.Code === '101.1') {
-  //     QvHistoricalData = b;
-  //   } else if (requestPayload.Code === '601.1') {
-  //     QvHistoricalData = c;
-  //   }
-  // }
-
   const historicalDates = Object.keys(QvHistoricalData);
-
-
-
-
   const extractDates = (jsonData: any) => Object.keys(jsonData);
   const extractTotalFrame = (data: QvHistoricalDataType) =>
     Object.entries(data).map(([date, dayData]) => ({
@@ -104,7 +88,7 @@ const HistoricalGrid: React.FC = () => {
         distribution: data.Distribution || '-',
       };
     });
-    
+
   const getPMOpenTickFrameData = () =>
     extractDates(QvHistoricalData).map(date => {
       // @ts-ignore
@@ -165,7 +149,7 @@ const HistoricalGrid: React.FC = () => {
 
   const extractTableData = () => {
     const rows: any[] = [];
-    rows.push(['', ...dates.flatMap(date => [`${date}`, `${date}`])]);
+    rows.push(['', ...dates.flatMap(date => [`${date}`, ``])]);
     rows.push(['時間', ...dates.flatMap(_date => [`出来高`, `分布`])]);
     const totalFrameRow = ['合計', ...totalFrame.flatMap(item => [item.volume, item.distribution])];
     rows.push(totalFrameRow);
@@ -214,6 +198,7 @@ const HistoricalGrid: React.FC = () => {
     }
     return rows;
   };
+
   const downloadCSV = (data: any[], filename: string) => {
     const csv = Papa.unparse(data);
     const bom = '\uFEFF';
@@ -247,143 +232,234 @@ const HistoricalGrid: React.FC = () => {
     }
     if (shouldDownload && [1, 2, 3, 4, 7, 8].includes(buttonName)) {
       downloadCSV(extractTableData(), 'grid-data.csv')
+
     }
   }, [griddownload]);
 
+  const rows = extractTableData();
+  const totalColumns = rows[0].length;
+  const firstPart = totalColumns > 17 ? rows.map(row => row.slice(0, 17)) : rows;
+  const secondPart = totalColumns > 33 ? rows.map(row => row.slice(17, 33)) : [];
+  const thirdPart = totalColumns > 49 ? rows.map(row => row.slice(33, 49)) : [];
+  const fourthPart = totalColumns > 49 ? rows.map(row => row.slice(49)) : [];
 
-
+  console.log('totalColumns',totalColumns);
+  
   return (
-    <Box className='grid-container'>
-      <Box className='grid-container-div' />
-      <Grid container direction="column" spacing={1}>
-        <Grid item>
-          <TableContainer component={Paper} className="table-container">
-            <Table stickyHeader>
-              <TableHead>
-                <TableRow>
-                  <TableCell className="custom-header-cell"></TableCell>
-                  {Object.keys(QvHistoricalData).length == 0 ? (
-                    <>
-                      <TableCell className="custom-header-cell"></TableCell>
-                      <TableCell className="custom-header-cell"></TableCell>
-                    </>
-                  ) : (
-                    dates.map((date, index) => (
-                      <React.Fragment key={index}>
-                        <TableCell className="custom-header-cell">{date}</TableCell>
+    <>
+      <Box className='grid-container'>
+        <Box className='grid-container-div' />
+        <Grid container direction="column" spacing={1}>
+          <Grid item>
+            <TableContainer component={Paper} className="table-containergrid">
+              <Table stickyHeader>
+                <TableHead>
+                  <TableRow>
+                    <TableCell className="custom-header-cell"></TableCell>
+                    {Object.keys(QvHistoricalData).length == 0 ? (
+                      <>
                         <TableCell className="custom-header-cell"></TableCell>
-                      </React.Fragment>
-                    ))
-                  )}
+                        <TableCell className="custom-header-cell"></TableCell>
+                      </>
+                    ) : (
+                      dates.map((date, index) => (
+                        <React.Fragment key={index}>
+                          <TableCell className="custom-header-cell">{date}</TableCell>
+                          <TableCell className="custom-header-cell"></TableCell>
+                        </React.Fragment>
+                      ))
+                    )}
 
-                </TableRow>
-                <TableRow>
-                  <TableCell className="custom-table-cell">時間</TableCell>
-                  {Object.keys(QvHistoricalData).length == 0 ? (
-                    <>
-                      <TableCell className="custom-table-cell">出来高</TableCell>
-                      <TableCell className="custom-table-cell">分布</TableCell>
-                    </>
-                  ) : (
-                    dates.map((_, index) => (
-                      <React.Fragment key={index}>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="custom-table-cell">時間</TableCell>
+                    {Object.keys(QvHistoricalData).length == 0 ? (
+                      <>
                         <TableCell className="custom-table-cell">出来高</TableCell>
                         <TableCell className="custom-table-cell">分布</TableCell>
-                      </React.Fragment>
-                    ))
-                  )}
+                      </>
+                    ) : (
+                      dates.map((_, index) => (
+                        <React.Fragment key={index}>
+                          <TableCell className="custom-table-cell">出来高</TableCell>
+                          <TableCell className="custom-table-cell">分布</TableCell>
+                        </React.Fragment>
+                      ))
+                    )}
 
 
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell className="custom-table-cell">合計</TableCell>
-                  {totalFrame.map((item, index) => (
-                    <React.Fragment key={index}>
-                      <TableCell className={`custom-table-cell-a ${item.volume == "-" ? 'center-align' : ''}`}>{item.volume}</TableCell>
-                      <TableCell className={`custom-table-cell-a ${item.distribution == "-" ? 'center-align' : ''}`}>{item.distribution}</TableCell>
-
-                    </React.Fragment>
-                  ))}
-                </TableRow>
-
-                {conditionSettingState.marketState.eveningOpening && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].EveningOpenTickFrame ?
+                  </TableRow>
+                </TableHead>
+                <TableBody>
                   <TableRow>
-                    <TableCell className="custom-table-cell">寄付</TableCell>
-                    {getEveningOpenTickFrame().map((data, index) => (
+                    <TableCell className="custom-table-cell" id='time'>合計</TableCell>
+                    {totalFrame.map((item, index) => (
                       <React.Fragment key={index}>
-                        <TableCell className="custom-table-cell-a">{data.volume}</TableCell>
-                        <TableCell className="custom-table-cell-a">{data.distribution}</TableCell>
-                      </React.Fragment>
-                    ))}
-                  </TableRow> : null}
+                        <TableCell className={`custom-table-cell-a ${item.volume == "-" ? 'center-align' : ''}`}>{item.volume}</TableCell>
+                        <TableCell className={`custom-table-cell-a ${item.distribution == "-" ? 'center-align' : ''}`}>{item.distribution}</TableCell>
 
-
-                {Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].EveningOpenTickFrame ? renderTimeSlotRows(timeSlots, 'EveningTickFrame') : null}
-
-                {conditionSettingState.marketState.eveningClose && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].EveningCloseTickFrame ?
-                  <TableRow>
-                    <TableCell className="custom-table-cell">引け</TableCell>
-                    {getEveningCloseTickFrame().map((data, index) => (
-                      <React.Fragment key={index}>
-                        <TableCell className="custom-table-cell-a">{data.volume}</TableCell>
-                        <TableCell className="custom-table-cell-a">{data.distribution}</TableCell>
-                      </React.Fragment>
-                    ))}
-                  </TableRow> : null
-                }
-                {conditionSettingState.marketState.preMarketOpening ?
-                  <TableRow>
-                    <TableCell className="custom-table-cell">寄付</TableCell>
-                    {getAMOpenTickFrameData().map((data, index) => (
-                      <React.Fragment key={index}>
-                        <TableCell className="custom-table-cell-a">{data.volume}</TableCell>
-                        <TableCell className="custom-table-cell-a">{data.distribution}</TableCell>
-                      </React.Fragment>
-                    ))}
-                  </TableRow> : null}
-
-                {renderTimeSlotRows(timeSlots1, 'AMTickFrame')}
-                {conditionSettingState.marketState.preMarketClose ?
-                  <TableRow>
-                    <TableCell className="custom-table-cell">引け</TableCell>
-                    {getAMCloseTickFrameData().map((data, index) => (
-                      <React.Fragment key={index}>
-                        <TableCell className="custom-table-cell-a">{data.volume}</TableCell>
-                        <TableCell className="custom-table-cell-a">{data.distribution}</TableCell>
-                      </React.Fragment>
-                    ))}
-                  </TableRow> : null
-                }
-                {conditionSettingState.marketState.postMarketOpening && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].PMOpenTickFrame ?
-                  <TableRow >
-                    <TableCell className="custom-table-cell">寄付</TableCell>
-                    {getPMOpenTickFrameData().map((data, index) => (
-                      <React.Fragment key={index}>
-                        <TableCell className="custom-table-cell-a">{data.volume}</TableCell>
-                        <TableCell className="custom-table-cell-a">{data.distribution}</TableCell>
                       </React.Fragment>
                     ))}
                   </TableRow>
-                  : null}
-                {Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].PMTickFrame ? renderTimeSlotRows(timeSlots2, 'PMTickFrame') : null}
-                {conditionSettingState.marketState.postMarketClose && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].PMCloseTickFrame ?
-                  <TableRow>
-                    <TableCell className="custom-table-cell">引け</TableCell>
-                    {getPMCloseTickFrameData().map((data, index) => (
-                      <React.Fragment key={index}>
-                        <TableCell className="custom-table-cell-a">{data.volume}</TableCell>
-                        <TableCell className="custom-table-cell-a">{data.distribution}</TableCell>
-                      </React.Fragment>
-                    ))}
-                  </TableRow> : null}
-              </TableBody>
-            </Table>
-          </TableContainer>
+
+                  {conditionSettingState.marketState.eveningOpening && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].EveningOpenTickFrame ?
+                    <TableRow>
+                      <TableCell className="custom-table-cell">寄付</TableCell>
+                      {getEveningOpenTickFrame().map((data, index) => (
+                        <React.Fragment key={index}>
+                          <TableCell className="custom-table-cell-a">{data.volume}</TableCell>
+                          <TableCell className="custom-table-cell-a">{data.distribution}</TableCell>
+                        </React.Fragment>
+                      ))}
+                    </TableRow> : null}
+
+
+                  {Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].EveningOpenTickFrame ? renderTimeSlotRows(timeSlots, 'EveningTickFrame') : null}
+
+                  {conditionSettingState.marketState.eveningClose && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].EveningCloseTickFrame ?
+                    <TableRow>
+                      <TableCell className="custom-table-cell">引け</TableCell>
+                      {getEveningCloseTickFrame().map((data, index) => (
+                        <React.Fragment key={index}>
+                          <TableCell className="custom-table-cell-a">{data.volume}</TableCell>
+                          <TableCell className="custom-table-cell-a">{data.distribution}</TableCell>
+                        </React.Fragment>
+                      ))}
+                    </TableRow> : null
+                  }
+                  {conditionSettingState.marketState.preMarketOpening ?
+                    <TableRow>
+                      <TableCell className="custom-table-cell">寄付</TableCell>
+                      {getAMOpenTickFrameData().map((data, index) => (
+                        <React.Fragment key={index}>
+                          <TableCell className="custom-table-cell-a">{data.volume}</TableCell>
+                          <TableCell className="custom-table-cell-a">{data.distribution}</TableCell>
+                        </React.Fragment>
+                      ))}
+                    </TableRow> : null}
+
+                  {renderTimeSlotRows(timeSlots1, 'AMTickFrame')}
+                  {conditionSettingState.marketState.preMarketClose ?
+                    <TableRow>
+                      <TableCell className="custom-table-cell">引け</TableCell>
+                      {getAMCloseTickFrameData().map((data, index) => (
+                        <React.Fragment key={index}>
+                          <TableCell className="custom-table-cell-a">{data.volume}</TableCell>
+                          <TableCell className="custom-table-cell-a">{data.distribution}</TableCell>
+                        </React.Fragment>
+                      ))}
+                    </TableRow> : null
+                  }
+                  {conditionSettingState.marketState.postMarketOpening && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].PMOpenTickFrame ?
+                    <TableRow >
+                      <TableCell className="custom-table-cell">寄付</TableCell>
+                      {getPMOpenTickFrameData().map((data, index) => (
+                        <React.Fragment key={index}>
+                          <TableCell className="custom-table-cell-a">{data.volume}</TableCell>
+                          <TableCell className="custom-table-cell-a">{data.distribution}</TableCell>
+                        </React.Fragment>
+                      ))}
+                    </TableRow>
+                    : null}
+                  {Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].PMTickFrame ? renderTimeSlotRows(timeSlots2, 'PMTickFrame') : null}
+                  {conditionSettingState.marketState.postMarketClose && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].PMCloseTickFrame ?
+                    <TableRow>
+                      <TableCell className="custom-table-cell">引け</TableCell>
+                      {getPMCloseTickFrameData().map((data, index) => (
+                        <React.Fragment key={index}>
+                          <TableCell className="custom-table-cell-a">{data.volume}</TableCell>
+                          <TableCell className="custom-table-cell-a">{data.distribution}</TableCell>
+                        </React.Fragment>
+                      ))}
+                    </TableRow> : null}
+                </TableBody>
+              </Table>
+            </TableContainer>
+
+          </Grid>
         </Grid>
-      </Grid>
-    </Box >
+
+      </Box >
+
+      <div className="print-table">
+      <Table>
+        <TableBody>
+          {firstPart.map((row, rowIndex) => (
+            <TableRow key={rowIndex}>
+              {row.map((cell: string, cellIndex: number) => (
+                <TableCell
+                  key={cellIndex}
+                  align={rowIndex < 3 || cellIndex === 0 ? 'center' : 'right'}
+                >
+                  {cell}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+
+      {totalColumns > 17 && (
+        <Table>
+          <TableBody>
+            {secondPart.map((row, rowIndex) => (
+              <TableRow key={rowIndex}>
+                {row.map((cell: string, cellIndex: number) => (
+                  <TableCell
+                    key={cellIndex}
+                    align={rowIndex < 3 || cellIndex === 0 ? 'center' : 'right'}
+                  >
+                    {cell}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
+
+      {totalColumns > 33 && (
+        <Table>
+          <TableBody>
+            {thirdPart.map((row, rowIndex) => (
+              <TableRow key={rowIndex}>
+                {row.map((cell: string, cellIndex: number) => (
+                  <TableCell
+                    key={cellIndex}
+                    align={rowIndex < 3 || cellIndex === 0 ? 'center' : 'right'}
+                  >
+                    {cell}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
+
+      {totalColumns > 49 && (
+        <Table>
+          <TableBody>
+            {fourthPart.map((row, rowIndex) => (
+              <TableRow key={rowIndex}>
+                {row.map((cell: string, cellIndex: number) => (
+                  <TableCell
+                    key={cellIndex}
+                    align={rowIndex < 3 || cellIndex === 0 ? 'center' : 'right'}
+                  >
+                    {cell}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
+    </div>
+
+
+
+    </>
   );
 };
 

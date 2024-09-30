@@ -26,6 +26,9 @@
     ViewSettings:any
     setViewSettings:(state: any) => void;
 
+    saveViewSettings:any
+    setSaveViewSettings:(state: any) => void;
+
     QvTotalingInfojson: any;
     setQvTotalingInfojson: (state: any) => void;
     QvVolumeCurveDatajson: any;
@@ -39,6 +42,9 @@
 
     nocal: boolean
     setNocal: (alignment: boolean) => void;
+
+    hasLoaded:boolean
+    setHasLoaded: (state: boolean) => void;
 
 
 

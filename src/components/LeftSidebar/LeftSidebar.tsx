@@ -11,7 +11,7 @@ import d from '../../img/GraphOnly.svg'
 import { FormControlLabel, FormGroup } from '@mui/material';
 
 const LeftSidebar: React.FC = () => {
-  const [isExpanded , setisExpanded ] = useState<boolean>(false);
+  // const [isExpanded , setisExpanded ] = useState<boolean>(false);
   const { isHistoricalActive, setbuttonName, buttonName,showConditionSettings,setshowConditionSettings } = useMyContext();
   const [isButtonContainerVisible, setButtonContainerVisible] = useState(false);
   const isInitialMount = useRef(true);
@@ -109,9 +109,9 @@ const LeftSidebar: React.FC = () => {
   }, [isHistoricalActive]);
 
   
-  useEffect(() => {
-    setisExpanded(window.innerWidth > 1400);
-  }, []);
+  // useEffect(() => {
+  //   setisExpanded(window.innerWidth > 1400);
+  // }, []);
 
   
 
@@ -119,7 +119,8 @@ const LeftSidebar: React.FC = () => {
   return  (
  
     <aside className="left-sidebar"  
-    style={isExpanded ? { transform: 'scale(1.4)', transformOrigin: '0 0', marginRight: '120px'} : { }}>
+    // style={isExpanded ? { transform: 'scale(1.4)', transformOrigin: '0 0', marginRight: '120px'} : { }}
+    >
       <span className="icon-container">
         <span className='tabMenu' style={{
           cursor: isHistoricalActive ? "pointer" : "default",

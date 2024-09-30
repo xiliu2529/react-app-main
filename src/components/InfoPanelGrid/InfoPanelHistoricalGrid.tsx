@@ -9,8 +9,11 @@ const InfoPanelGrid: React.FC = () => {
 
 
   return (
-    <div className='infoPanelGrid'>
-      <InfoPanel />
+    <div className='HistoricalGrid'>
+      <div className='HistoricalGrid-InfoPanel'>   
+        <InfoPanel />
+        </div>
+
       <div className='infoPanelGrid-Grid'>
         <HistoricalGrid />
       </div>

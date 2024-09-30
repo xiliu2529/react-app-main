@@ -29,6 +29,7 @@
 }
 
 .ChartPage {
+  width: 1000px;
   margin-left: 20px;
 }
 
@@ -98,6 +99,3 @@
 
 }
 
-.SettingsGridPage-Grid .table-container {
-  height: 68vh;
-}

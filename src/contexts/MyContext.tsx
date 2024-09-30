@@ -149,8 +149,31 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       '#52a69f', '#52a69f', '#596db8', '#5bbcd1', '#7e522e'
     ],
   });
-  const [QvTotalingInfojson, setQvTotalingInfojson] = useState<any>(null);
-  const [QvVolumeCurveDatajson, setQvVolumeCurveDatajson] = useState<any>(null);
+  const [saveViewSettings, setSaveViewSettings] = useState({
+    Layout: 1,
+    SettingSwitch: true,
+    Tab: 1,
+    HighLow: '0', 
+    Glaph: '0',
+    CheckboxStates: [
+      false, false, false, false, false, false
+    ],
+    Colors: [
+      '#FFFFFF', '#000000', '#FFFFFF', '#000000', '#d22331', '#d22331',
+      '#d22331', '#d22331', '#d22331', '#52a69f', '#52a69f', '#52a69f',
+      '#52a69f', '#52a69f', '#596db8', '#5bbcd1', '#7e522e'
+    ],
+  });
+  const [QvTotalingInfojson, setQvTotalingInfojson] = useState<any>({
+    QuoteCode: '',
+    AbbreviatedName: '',
+    MarketName: '',
+    ListedSection: '',
+    Today: '',
+    CalculationDateTime: '',
+    AverageDays: []
+  });
+  const [QvVolumeCurveDatajson, setQvVolumeCurveDatajson] = useState<GridDisplayData>({});
   const [QvChartDatajson, setQvChartDatajson] = useState<TickFrame>({    
     EveningOpenTickFrame: {
     AverageDaysChart: {
@@ -163,8 +186,9 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       ClosePrice: "",
     }
   }});
-  const [QvHistoricalDatajson, setQvHistoricalDatajson] = useState<any>(null);
+  const [QvHistoricalDatajson, setQvHistoricalDatajson] = useState<any>({});
   const [nocal, setNocal] = useState<boolean>(true);
+  const [hasLoaded, setHasLoaded] = useState(false);
   return (
     <MyContext.Provider
       value={{
@@ -204,6 +228,10 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         setQvHistoricalDatajson,
         nocal, 
         setNocal,
+        saveViewSettings,
+        setSaveViewSettings,
+        hasLoaded, 
+        setHasLoaded
 
       }}
     >

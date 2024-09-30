@@ -35,8 +35,8 @@ export interface ChartData {
   };
   
   export type TimeFrameData = {
-    AverageDaysChart?: ChartDatax;
-    TodayChart?: ChartDatax;
+    AverageDaysData?: ChartDatax;
+    TodayData?: ChartDatax;
   };
   
   export type TimeFrames = {

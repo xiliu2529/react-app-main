@@ -8,7 +8,7 @@ import { saveSettingsAPI, loadSettingsAPI, requestAPI, statusAPI, getQvDataAPI, 
 
 
 const ConditionSetting: React.FC = () => {
-  const [isExpanded, setisExpanded] = useState<boolean>(false);
+  // const [isExpanded, setisExpanded] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>('');
   const [alignment, setAlignment] = useState<string>('');
   const [days, setDays] = useState<number>(1);
@@ -31,7 +31,7 @@ const ConditionSetting: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['1', '1', '1']);
-  const { nocal, setNocal, setViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading,setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
+  const {hasLoaded, setHasLoaded, nocal, setNocal, setSaveViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading, setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
 
@@ -42,10 +42,9 @@ const ConditionSetting: React.FC = () => {
     helperText: '',
   });
   const loadingRef = useRef(loading);
-useEffect(() => {
-  loadingRef.current = loading;
-}, [loading]);
-
+  useEffect(() => {
+    loadingRef.current = loading;
+  }, [loading]);
   const selectedStyle = {
     '&.Mui-selected': {
       backgroundColor: '#E8ECF0',
@@ -112,7 +111,10 @@ useEffect(() => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
-  const handleIncrement = () => setDays(prev => prev + 1);
+  const handleIncrement = () => {
+    setDays(prev => (prev < 30 ? prev + 1 : prev));
+  };
+  
   const handleDecrement = () => setDays(prev => (prev > 1 ? prev - 1 : prev));
   const handleChange = (event: SelectChangeEvent) => {
     setminutes(event.target.value as string)
@@ -134,6 +136,8 @@ useEffect(() => {
   };
 
   const handleCalculate = () => {
+    console.log('算出ボタン',inputValue,alignment,startDate);
+    
     setRequestPayload({
       Code: inputValue,
       HistoricalSetting: {
@@ -178,75 +182,72 @@ useEffect(() => {
     });
     setIsReadyToSend(true);
     setConditionSettingState({ marketState, inputValue });
-    setLoading(true);
+    
   };
 
   useEffect(() => {
-    setisExpanded(window.innerWidth > 1400);
-    let NOACL = true;
-    packageAPI()
-      .then(({ noaclFlag, result }) => {
-        if (result) {
-          if (result.body.response == 'OK') {
-            // チェックOK
+    if (hasLoaded) return; 
+    // setisExpanded(window.innerWidth > 1400);
+    let noACL = false;
+
+      packageAPI()
+        .then(({ noaclFlag, result }) => {
+          if (result) {
+            if (result.body.response == 'OK') {
+              // チェックOK
+            } else {
+              // チェックNG
+              setError({ show: '2', type: 'WCI001' });
+            }
           } else {
-            // チェックNG
-            setError({ show: '2', type: 'WCI001' });
+            // responseなし
+            // チェックERROR
+            console.log('responseなし');
+            setError({ show: '2', type: "ECI002" });
           }
-        } else {
-          // responseなし
-          // チェックERROR
-          console.log('responseなし');
-          setError({ show: '2', type: "ECI002" });
-        }
-
-        if (noaclFlag === true) {
-          setNocal(false)
-          NOACL = false
-        }
+          setNocal(noaclFlag)
+          noACL = noaclFlag
+        })
 
 
-      })
-
-
-    if (NOACL) {
-      const saveSettings = async () => {
-        try {
-          const result = await saveSettingsAPI();
-          if (result.body.response.D.volumecurve_info.HistoricalSetting && result.body.response.D.volumecurve_info.CalculationSetting
-            && result.body.response.D.volumecurve_info.ViewSettings) {
-            const requestPayload = result.body.response.D.volumecurve_info;
-            setViewSettings(requestPayload.ViewSettings)
-            console.log('resultc', requestPayload);
-            setAlignment(requestPayload.HistoricalSetting.Category);
-            setstartDate(requestPayload.HistoricalSetting.Range.DateFrom.split('/').join('-'));
-            setendDate(requestPayload.HistoricalSetting.Range.DateTo.split('/').join('-'));
-            setDays(Number(requestPayload.HistoricalSetting.Range.Days));
-            setCheckedState([requestPayload.HistoricalSetting.Range.SQ.LargeSQ, requestPayload.HistoricalSetting.Range.SQ.SmallSQ, requestPayload.HistoricalSetting.Range.SQ.WeeklySQ]);
-            setminutes(requestPayload.CalculationSetting.Category);
-            setStartTime(requestPayload.CalculationSetting.Range.TimeFrom);
-            setEndTime(requestPayload.CalculationSetting.Range.TimeTo);
-            setValue1(Number(requestPayload.CalculationSetting.Range.Minutes));
-            setMarketState({
-              preMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.OpenTick),
-              preMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.CloseTick),
-              postMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.OpenTick),
-              postMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.CloseTick),
-              eveningOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.OpenTick),
-              eveningClose: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.CloseTick),
-            });
+      if (!noACL) {
+        const loadSettings = async () => {
+          try {
+            const result = await loadSettingsAPI();
+            if (result.body.response.D.volumecurve_info.HistoricalSetting && result.body.response.D.volumecurve_info.CalculationSetting
+              && result.body.response.D.volumecurve_info.ViewSettings) {
+              const requestPayload = result.body.response.D.volumecurve_info;
+              console.log('resultc', requestPayload);
+              setAlignment(requestPayload.HistoricalSetting.Category);
+              setstartDate(requestPayload.HistoricalSetting.Range.DateFrom.split('/').join('-'));
+              setendDate(requestPayload.HistoricalSetting.Range.DateTo.split('/').join('-'));
+              setDays(Number(requestPayload.HistoricalSetting.Range.Days));
+              setCheckedState([requestPayload.HistoricalSetting.Range.SQ.LargeSQ, requestPayload.HistoricalSetting.Range.SQ.SmallSQ, requestPayload.HistoricalSetting.Range.SQ.WeeklySQ]);
+              setminutes(requestPayload.CalculationSetting.Category);
+              setStartTime(requestPayload.CalculationSetting.Range.TimeFrom);
+              setEndTime(requestPayload.CalculationSetting.Range.TimeTo);
+              setValue1(Number(requestPayload.CalculationSetting.Range.Minutes));
+              setMarketState({
+                preMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.OpenTick),
+                preMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.CloseTick),
+                postMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.OpenTick),
+                postMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.CloseTick),
+                eveningOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.OpenTick),
+                eveningClose: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.CloseTick),
+              });
+              setSaveViewSettings(requestPayload.ViewSettings)
+              // setViewSettings(requestPayload.ViewSettings)
+            }
+          } catch (err) {
+            console.error('Error fetching data:', err);
           }
-        } catch (err) {
-          console.error('Error fetching data:', err);
-        }
-      };
-      saveSettings();
-    }
+        };
+        loadSettings();
+      }
+    setHasLoaded(true);
+  }, [hasLoaded]);
 
 
-    //data取る
-
-  }, []);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -316,11 +317,11 @@ useEffect(() => {
 
 
   //data更新
-  const loadSettings = async () => {
+  const saveSettings = async () => {
     try {
       const HistoricalSetting: HistoricalSetting = showModal.HistoricalSetting
       const CalculationSetting: CalculationSetting = showModal.CalculationSetting
-      await loadSettingsAPI({ ViewSettings, HistoricalSetting, CalculationSetting });
+      await saveSettingsAPI({ ViewSettings, HistoricalSetting, CalculationSetting });
       console.log('HistoricalSetting,CalculationSetting Post成功', { ViewSettings, HistoricalSetting, CalculationSetting });
     } catch (err) {
       console.error('Error fetching data:', err);
@@ -359,12 +360,14 @@ useEffect(() => {
       if (Object.keys(requestPayload).length > 0) {
         if (isReadyToSend) {
           const isValid = validatePayload(requestPayload);
+          console.log('isValid',isValid);
+          
           setResponse(isValid);
           if (isValid) {
-            // setLoading(true);
+            setLoading(true);
             // 設定保存
-            if (nocal) {
-              await loadSettings();
+            if (!nocal) {
+              await saveSettings();
             }
             try {
               const request = await makeRequest(requestPayload);
@@ -431,23 +434,22 @@ useEffect(() => {
                   setLoading(false);
                 }
               }
-              // 5秒ごとにpollStatus関数を呼び出す
+              // 1秒ごとにpollStatus関数を呼び出す
               intervalId = setInterval(() => {
                 pollStatus();
-              }, 5000);
+              }, 1000);
             }
-            // checkStatus関数を呼び出す
-            // checkStatus();
-            // 処理が完了した後、ローディングを停止
+          }else{
+            setLoading(false);
           }
-        }else{
+        } else {
           setLoading(false);
         }
-      }else{
+      } else {
         setLoading(false);
-        
+
       }
-     
+
 
     };
 
@@ -542,10 +544,24 @@ useEffect(() => {
               <Button variant="outlined" size="small" onClick={handleDecrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>-</Button>
               <TextField
                 variant="outlined"
+                type="number"
                 value={days}
                 size="small"
                 onChange={handleInputDay}
-                InputProps={{ sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
+                InputProps={{
+                  sx: {
+                    padding: 0,
+                    '& input': {
+                      height: '10px',
+                      textAlign: 'center',
+                      appearance: 'textfield',
+                      '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
+                        appearance: 'none',
+                        margin: 0,
+                      },
+                    },
+                  },
+                }}
                 sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
               />
               <Button variant="outlined" size="small" onClick={handleIncrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>+</Button>
@@ -665,7 +681,7 @@ useEffect(() => {
   return (
     <div className='commonsp-top'
       //モニター対応
-      style={isExpanded ? { transform: 'scale(1.4)', transformOrigin: '0 0', marginRight: '120px' } : {}}
+      // style={isExpanded ? { transform: 'scale(1.4)', transformOrigin: '0 0', marginRight: '120px' } : {}}
     >
       <div className='commonsp'>
         <div className='title-1'>銘柄設定</div>
@@ -727,7 +743,7 @@ useEffect(() => {
             <Grid item>
               <Typography variant="body1">-</Typography>
             </Grid>
-            {minutes == '0  ' ?
+            {minutes == '0' ?
               <>  <Box className="inputContainer">
                 <TextField
                   type="number"

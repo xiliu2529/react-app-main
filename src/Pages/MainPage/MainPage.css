@@ -24,9 +24,9 @@
   }
   .custom-icon{
     background-image: url('/src/img/error.svg'); 
-    background-repeat: no-repeat; /* 避免图像重复 */
-    background-size: contain; /* 确保图像按比例缩放 */
-    background-position: center; /* 图像居中显示 */
+    background-repeat: no-repeat; 
+    background-size: contain; 
+    background-position: center; 
     height: 52px;
     width: 52px; 
 
