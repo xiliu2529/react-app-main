@@ -18,12 +18,10 @@ const Grids: React.FC = () => {
     CalculationDateTime: "",
     AverageDays: []
   });
-
   useEffect(() => {
     setQvVolumeCurveData(QvVolumeCurveDatajson);
     setQvTotalingInfo(QvTotalingInfojson);
   }, [QvVolumeCurveDatajson,QvTotalingInfojson]);
-
   const dates = QvTotalingInfo.AverageDays.map(item => item.Date);
   const count = dates.length;
   const formatDate = (date: string) => {

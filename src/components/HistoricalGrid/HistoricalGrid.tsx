@@ -237,14 +237,14 @@ const HistoricalGrid: React.FC = () => {
   }, [griddownload]);
 
   const rows = extractTableData();
+  const columnsPerPart = 16;  
   const totalColumns = rows[0].length;
-  const firstPart = totalColumns > 17 ? rows.map(row => row.slice(0, 17)) : rows;
-  const secondPart = totalColumns > 33 ? rows.map(row => row.slice(17, 33)) : [];
-  const thirdPart = totalColumns > 49 ? rows.map(row => row.slice(33, 49)) : [];
-  const fourthPart = totalColumns > 49 ? rows.map(row => row.slice(49)) : [];
-
-  console.log('totalColumns',totalColumns);
-  
+  console.log('totalColumns', totalColumns);
+  const firstPart = totalColumns > 0 ? rows.map(row => row.slice(0, 17)) : rows;
+  const remainingParts = [];
+  for (let i = 17; i < totalColumns; i += columnsPerPart) {
+    remainingParts.push(rows.map(row => row.slice(i, i + columnsPerPart)));
+  }
   return (
     <>
       <Box className='grid-container'>
@@ -382,83 +382,52 @@ const HistoricalGrid: React.FC = () => {
       </Box >
 
       <div className="print-table">
-      <Table>
-        <TableBody>
-          {firstPart.map((row, rowIndex) => (
-            <TableRow key={rowIndex}>
-              {row.map((cell: string, cellIndex: number) => (
-                <TableCell
-                  key={cellIndex}
-                  align={rowIndex < 3 || cellIndex === 0 ? 'center' : 'right'}
-                >
-                  {cell}
-                </TableCell>
+        <Table style={{ tableLayout: 'fixed' }}>
+          <colgroup>
+            {Array(17).fill(0).map((_, index) => (
+              <col key={index} />
+            ))}
+          </colgroup>
+          <TableBody>
+            {firstPart.map((row, rowIndex) => (
+              <TableRow key={rowIndex}>
+                {row.map((cell: any, cellIndex: any) => (
+                  <TableCell
+                    key={cellIndex}
+                    align={rowIndex < 3 || cellIndex === 0 ? 'center' : 'right'}
+                  >
+                    {cell}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+
+        {remainingParts.map((part, partIndex) => (
+          <Table key={partIndex} style={{ tableLayout: 'fixed' }}>
+            <colgroup>
+              {Array(part[0].length).fill(0).map((_, index) => (
+                <col key={index} />
               ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-
-      {totalColumns > 17 && (
-        <Table>
-          <TableBody>
-            {secondPart.map((row, rowIndex) => (
-              <TableRow key={rowIndex}>
-                {row.map((cell: string, cellIndex: number) => (
-                  <TableCell
-                    key={cellIndex}
-                    align={rowIndex < 3 || cellIndex === 0 ? 'center' : 'right'}
-                  >
-                    {cell}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      )}
-
-      {totalColumns > 33 && (
-        <Table>
-          <TableBody>
-            {thirdPart.map((row, rowIndex) => (
-              <TableRow key={rowIndex}>
-                {row.map((cell: string, cellIndex: number) => (
-                  <TableCell
-                    key={cellIndex}
-                    align={rowIndex < 3 || cellIndex === 0 ? 'center' : 'right'}
-                  >
-                    {cell}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      )}
-
-      {totalColumns > 49 && (
-        <Table>
-          <TableBody>
-            {fourthPart.map((row, rowIndex) => (
-              <TableRow key={rowIndex}>
-                {row.map((cell: string, cellIndex: number) => (
-                  <TableCell
-                    key={cellIndex}
-                    align={rowIndex < 3 || cellIndex === 0 ? 'center' : 'right'}
-                  >
-                    {cell}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      )}
-    </div>
-
-
-
+            </colgroup>
+            <TableBody>
+              {part.map((row, rowIndex) => (
+                <TableRow key={rowIndex}>
+                  {row.map((cell: any, cellIndex: any) => (
+                    <TableCell
+                      key={cellIndex}
+                      align={rowIndex < 3 || cellIndex === 0 ? 'center' : 'right'}
+                    >
+                      {cell}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        ))}
+      </div>
     </>
   );
 };

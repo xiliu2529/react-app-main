@@ -116,7 +116,6 @@ const SettingsDialog = () => {
             const HistoricalSetting: HistoricalSetting = showModal.HistoricalSetting
             const CalculationSetting: CalculationSetting = showModal.CalculationSetting
             await saveSettingsAPI({ ViewSettings, HistoricalSetting, CalculationSetting, });
-            console.log('ViewSettings Post成功', { ViewSettings, HistoricalSetting, CalculationSetting });
         } catch (err) {
             console.error('Error fetching data:', err);
             //   setError(err)
@@ -146,8 +145,6 @@ const SettingsDialog = () => {
 
 
     useEffect(() => {
-        console.log('saveViewSettings', saveViewSettings);
-    
         if (saveViewSettings) {
                 setCheckboxStates(saveViewSettings.CheckboxStates);
                 setRadioValues([saveViewSettings.HighLow, saveViewSettings.Glaph]);

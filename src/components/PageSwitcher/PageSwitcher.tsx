@@ -82,7 +82,7 @@ export const ChartPage: React.FC = () => {
   return (
     <div className='ChartPage'>
       <div className='ChartPage-InfoPanel'><InfoPanel /></div>
-      <div> <Chart height={430} width= {null} /></div>
+      <div> <Chart height={430} width={null} /></div>
     </div>
   );
 };
@@ -110,7 +110,7 @@ export const ChartBottom: React.FC = () => {
   return (
     <div className='ChartBottom'>
       <div className='ChartBottom-top'>   <InfoPanelGrid /></div>
-      <div className='ChartBottom-bottom'> <Chart height={300} width={null}/></div>
+      <div className='ChartBottom-bottom'> <Chart height={300} width={null} /></div>
     </div>
   );
 };
@@ -123,7 +123,12 @@ export const HistoryAndSettings: React.FC = () => {
       </div>
       <div className='SettingsGridPage-InfoPanelGrid'>
         <InfoPanelHistoricalGrid />
+
+        <div style={{ display: 'none' }} />
+        {/* <Chart height={null} width={null} /> */}
       </div>
+
+
     </div>
   );
 };
@@ -133,6 +138,9 @@ export const HistoricalData: React.FC = () => {
   return (
     <div className='InfoPanelHistoricalGrid'>
       <InfoPanelHistoricalGrid />
+      <div style={{ display: 'none' }} />
+      {/* <Chart height={null} width={null} /> */}
+
     </div>
   );
 };

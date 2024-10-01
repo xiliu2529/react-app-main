@@ -8,7 +8,6 @@ import { saveSettingsAPI, loadSettingsAPI, requestAPI, statusAPI, getQvDataAPI, 
 
 
 const ConditionSetting: React.FC = () => {
-  // const [isExpanded, setisExpanded] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>('');
   const [alignment, setAlignment] = useState<string>('');
   const [days, setDays] = useState<number>(1);
@@ -18,7 +17,6 @@ const ConditionSetting: React.FC = () => {
   const [startTime1, setStartTime1] = useState<string>('');
   const [startTime2, setStartTime2] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
-
   const [marketState, setMarketState] = useState({
     preMarketOpening: false,
     preMarketClose: false,
@@ -31,7 +29,7 @@ const ConditionSetting: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['1', '1', '1']);
-  const {hasLoaded, setHasLoaded, nocal, setNocal, setSaveViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading, setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
+  const { hasLoaded, setHasLoaded, nocal, setNocal, setSaveViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading, setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
 
@@ -112,10 +110,13 @@ const ConditionSetting: React.FC = () => {
     setInputValue(event.target.value);
   };
   const handleIncrement = () => {
-    setDays(prev => (prev < 30 ? prev + 1 : prev));
+    setDays(prev => (Number(prev) < 30 ? Number(prev) + 1 : prev));
   };
   
-  const handleDecrement = () => setDays(prev => (prev > 1 ? prev - 1 : prev));
+  const handleDecrement = () => {
+    setDays(prev => (Number(prev) > 1 ? Number(prev) - 1 : prev));
+  };
+  
   const handleChange = (event: SelectChangeEvent) => {
     setminutes(event.target.value as string)
     if (event.target.value == '0') {
@@ -136,8 +137,6 @@ const ConditionSetting: React.FC = () => {
   };
 
   const handleCalculate = () => {
-    console.log('算出ボタン',inputValue,alignment,startDate);
-    
     setRequestPayload({
       Code: inputValue,
       HistoricalSetting: {
@@ -182,68 +181,65 @@ const ConditionSetting: React.FC = () => {
     });
     setIsReadyToSend(true);
     setConditionSettingState({ marketState, inputValue });
-    
+
   };
 
   useEffect(() => {
-    if (hasLoaded) return; 
-    // setisExpanded(window.innerWidth > 1400);
+    if (hasLoaded) return;
     let noACL = false;
 
-      packageAPI()
-        .then(({ noaclFlag, result }) => {
-          if (result) {
-            if (result.body.response == 'OK') {
-              // チェックOK
-            } else {
-              // チェックNG
-              setError({ show: '2', type: 'WCI001' });
-            }
+    packageAPI()
+      .then(({ noaclFlag, result }) => {
+        if (result) {
+          if (result.body.response == 'OK') {
+            // チェックOK
           } else {
-            // responseなし
-            // チェックERROR
-            console.log('responseなし');
-            setError({ show: '2', type: "ECI002" });
+            // チェックNG
+            setError({ show: '2', type: 'WCI001' });
           }
-          setNocal(noaclFlag)
-          noACL = noaclFlag
-        })
+        } else {
+          // responseなし
+          // チェックERROR
+          setError({ show: '2', type: "ECI002" });
+        }
+        setNocal(noaclFlag)
+        noACL = noaclFlag
+      })
 
 
-      if (!noACL) {
-        const loadSettings = async () => {
-          try {
-            const result = await loadSettingsAPI();
-            if (result.body.response.D.volumecurve_info.HistoricalSetting && result.body.response.D.volumecurve_info.CalculationSetting
-              && result.body.response.D.volumecurve_info.ViewSettings) {
-              const requestPayload = result.body.response.D.volumecurve_info;
-              console.log('resultc', requestPayload);
-              setAlignment(requestPayload.HistoricalSetting.Category);
-              setstartDate(requestPayload.HistoricalSetting.Range.DateFrom.split('/').join('-'));
-              setendDate(requestPayload.HistoricalSetting.Range.DateTo.split('/').join('-'));
-              setDays(Number(requestPayload.HistoricalSetting.Range.Days));
-              setCheckedState([requestPayload.HistoricalSetting.Range.SQ.LargeSQ, requestPayload.HistoricalSetting.Range.SQ.SmallSQ, requestPayload.HistoricalSetting.Range.SQ.WeeklySQ]);
-              setminutes(requestPayload.CalculationSetting.Category);
-              setStartTime(requestPayload.CalculationSetting.Range.TimeFrom);
-              setEndTime(requestPayload.CalculationSetting.Range.TimeTo);
-              setValue1(Number(requestPayload.CalculationSetting.Range.Minutes));
-              setMarketState({
-                preMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.OpenTick),
-                preMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.CloseTick),
-                postMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.OpenTick),
-                postMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.CloseTick),
-                eveningOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.OpenTick),
-                eveningClose: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.CloseTick),
-              });
-              setSaveViewSettings(requestPayload.ViewSettings)
-              // setViewSettings(requestPayload.ViewSettings)
-            }
-          } catch (err) {
-            console.error('Error fetching data:', err);
+    if (!noACL) {
+      const loadSettings = async () => {
+        try {
+          const result = await loadSettingsAPI();
+          if (result.body.response.D.volumecurve_info.HistoricalSetting && result.body.response.D.volumecurve_info.CalculationSetting
+            && result.body.response.D.volumecurve_info.ViewSettings) {
+            const requestPayload = result.body.response.D.volumecurve_info;
+            setAlignment(requestPayload.HistoricalSetting.Category);
+            setstartDate(requestPayload.HistoricalSetting.Range.DateFrom.split('/').join('-'));
+            setendDate(requestPayload.HistoricalSetting.Range.DateTo.split('/').join('-'));
+            setDays(Number(requestPayload.HistoricalSetting.Range.Days));
+            setCheckedState([requestPayload.HistoricalSetting.Range.SQ.LargeSQ, requestPayload.HistoricalSetting.Range.SQ.SmallSQ, requestPayload.HistoricalSetting.Range.SQ.WeeklySQ]);
+            setminutes(requestPayload.CalculationSetting.Category);
+            setStartTime(requestPayload.CalculationSetting.Range.TimeFrom);
+            setEndTime(requestPayload.CalculationSetting.Range.TimeTo);
+            setValue1(Number(requestPayload.CalculationSetting.Range.Minutes));
+            setMarketState({
+              preMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.OpenTick),
+              preMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.CloseTick),
+              postMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.OpenTick),
+              postMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.CloseTick),
+              eveningOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.OpenTick),
+              eveningClose: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.CloseTick),
+            });
+            setSaveViewSettings(requestPayload.ViewSettings)
+            // setViewSettings(requestPayload.ViewSettings)
           }
-        };
-        loadSettings();
-      }
+        } catch (err) {
+          console.error('Error fetching data:', err);
+        }
+      };
+      loadSettings();
+    }
     setHasLoaded(true);
   }, [hasLoaded]);
 
@@ -322,7 +318,6 @@ const ConditionSetting: React.FC = () => {
       const HistoricalSetting: HistoricalSetting = showModal.HistoricalSetting
       const CalculationSetting: CalculationSetting = showModal.CalculationSetting
       await saveSettingsAPI({ ViewSettings, HistoricalSetting, CalculationSetting });
-      console.log('HistoricalSetting,CalculationSetting Post成功', { ViewSettings, HistoricalSetting, CalculationSetting });
     } catch (err) {
       console.error('Error fetching data:', err);
     }
@@ -360,8 +355,7 @@ const ConditionSetting: React.FC = () => {
       if (Object.keys(requestPayload).length > 0) {
         if (isReadyToSend) {
           const isValid = validatePayload(requestPayload);
-          console.log('isValid',isValid);
-          
+
           setResponse(isValid);
           if (isValid) {
             setLoading(true);
@@ -371,7 +365,6 @@ const ConditionSetting: React.FC = () => {
             }
             try {
               const request = await makeRequest(requestPayload);
-              console.log('request---', request);
               if (request.body && request.body.RequestID) {
                 const ID = request.body.RequestID;
                 checkStatus(ID);
@@ -392,10 +385,8 @@ const ConditionSetting: React.FC = () => {
                     return;
                   }
                   const status = await fetchStatus(ID);
-                  console.log('status-', status);
                   if (status.Status == 1) {
                     // 状態が1の場合の処理
-                    console.log('1です', status);
                     // 定期的な確認を停止
                     clearInterval(intervalId);
                     // データを取得する
@@ -414,7 +405,6 @@ const ConditionSetting: React.FC = () => {
                     // QvHistoricalData
                     const QvHistoricalData = await getQvData(ID, 'QvHistoricalData.json');
                     setQvHistoricalDatajson(QvHistoricalData)
-                    console.log('data', QvTotalingInfo, QvVolumeCurveData, QvChartData, QvHistoricalData);
                     setLoading(false);
                   } else if (status.Status === -1) {
                     // エラーが発生した場合も定期的な確認を停止
@@ -439,7 +429,7 @@ const ConditionSetting: React.FC = () => {
                 pollStatus();
               }, 1000);
             }
-          }else{
+          } else {
             setLoading(false);
           }
         } else {
@@ -680,8 +670,8 @@ const ConditionSetting: React.FC = () => {
 
   return (
     <div className='commonsp-top'
-      //モニター対応
-      // style={isExpanded ? { transform: 'scale(1.4)', transformOrigin: '0 0', marginRight: '120px' } : {}}
+    //モニター対応
+    // style={isExpanded ? { transform: 'scale(1.4)', transformOrigin: '0 0', marginRight: '120px' } : {}}
     >
       <div className='commonsp'>
         <div className='title-1'>銘柄設定</div>

@@ -9,7 +9,6 @@ import { Stack } from '@mui/material';
 
 const InfoPanel: React.FC = () => {
   const {QvTotalingInfojson, isHistoricalActive, setisHistoricalActive, 
-    // requestPayload, response, 
   } = useMyContext();
   const [QvTotalingInfo, setQvTotalingInfo] = useState<Data>({
     QuoteCode: '',

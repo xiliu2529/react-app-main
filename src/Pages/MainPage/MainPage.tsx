@@ -31,10 +31,7 @@ const MainPage: React.FC = () => {
 
   
   useEffect(() => {
-    console.log('error',error.type);
      {/* @ts-ignore */}
-    console.log('errprclientMessage',clientMessage[error.type]);
-    
     if (error.show ==='1' || error.show ==='2') {
       setShowSnackbar(true);
       const timer = setTimeout(() => {

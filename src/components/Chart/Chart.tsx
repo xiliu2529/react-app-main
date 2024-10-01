@@ -14,7 +14,6 @@ import './Chart.css';
 
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
   const {QvChartDatajson, settingsState, conditionSettingState,setSettingsState } = useMyContext();
-  // const [isExpanded, setisExpanded] = useState<boolean>(false);
   const [QvChartData, setQvChartData] = useState<TickFrame>({
       EveningOpenTickFrame: {
         AverageDaysData: {
@@ -39,7 +38,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
   let display = settingsState.radioValues[1] === "0"
   useEffect(() => {
-    setQvChartData(QvChartDatajson); 
+    setQvChartData(QvChartDatajson);
   }, [QvChartDatajson]);
 
 
@@ -196,7 +195,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
           color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
         }));
       }
-
       if (QvChartData.AMTickFrame) {
         timeLabels1 = Object.keys(QvChartData.AMTickFrame).map(timeFrame => timeFrame.split('-')[0]);
         todayDistribution1 = Object.values(QvChartData.AMTickFrame).map(tick => ({
@@ -266,7 +264,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     };
     const data = processData();
     setChartData(data)
-  }, [settingsState, conditionSettingState, display, QvChartData]);
+  }, [settingsState, display, QvChartData]);
 
   useEffect(() => {
     if (conditionSettingState.marketState.eveningOpening && QvChartData.EveningOpenTickFrame) {
@@ -357,7 +355,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       }));
 
     }
-
     if (conditionSettingState.marketState.preMarketOpening && QvChartData.AMOpenTickFrame) {
       setChartData(prevState => ({
         ...prevState,
@@ -399,7 +396,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         ],
       }));
     }
-
     if (conditionSettingState.marketState.preMarketClose && QvChartData.AMCloseTickFrame) {
       setChartData(prevState => ({
         ...prevState,
@@ -524,7 +520,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       }));
     }
 
-  }, [conditionSettingState, settingsState, display, QvChartData]);
+  }, [ settingsState, display, QvChartData]);
 
   useEffect(() => {
     setChartState({
