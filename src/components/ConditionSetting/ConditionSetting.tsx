@@ -501,13 +501,19 @@ const ConditionSetting: React.FC = () => {
       seterrorDateto(false);
     }
     if (category === '3') {
-      if (DateTo < DateFrom || !DateFrom || !DateTo || DateFrom > DateTo) {
+      if (!DateFrom || !DateTo) {
         seterrorDatefrom(true);
         hasError = true;
-      } else {
+      } 
+      else if (DateTo < DateFrom) {
+        seterrorDatefrom(true);
+        hasError = true;
+      } 
+      else {
         seterrorDatefrom(false);
       }
     }
+    
     if (category === '4') {
       const sq = payload.HistoricalSetting.Range.SQ;
       if (sq.LargeSQ === '0' && sq.SmallSQ === '0' && sq.WeeklySQ === '0') {

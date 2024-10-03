@@ -1,7 +1,7 @@
 
 .ChartBottom {
   flex-direction: column;
-  width: 1250px;
+  width: 1200px;
 }
 
 .ChartBottom-top .infoPanelGrid .toggle-button {
@@ -53,12 +53,12 @@
 
 .gridnomi {
   height: 100%;
-  width: 1250px;
+  width: 1100px;
   margin-left: 20px;
 }
 
 .InfoPanelHistoricalGrid {
-  width: 1280px;
+  width: 1200px;
 }
 
 .InfoPanelHistoricalGrid .toggle-button {
@@ -74,7 +74,7 @@
 }
 
 .SettingsChartGridPage-InfoPanelGrid .grid-container {
-  width: 610px;
+  width: 560px;
 
 }
 
@@ -83,7 +83,6 @@
 }
 
 .SettingsChart-InfoPanelChart {
-  /* 1 */
   margin-left: 10px;
 }
 
@@ -93,7 +92,7 @@
 
 .SettingsGridPage-InfoPanelGrid {
   margin-left: 10px;
-  width: 950px;
+  width: 900px;
 
 
 

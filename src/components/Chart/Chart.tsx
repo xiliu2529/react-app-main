@@ -13,27 +13,27 @@ import './Chart.css';
 
 
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
-  const {QvChartDatajson, settingsState, conditionSettingState,setSettingsState } = useMyContext();
+  const chartRef = useRef<Highcharts.Chart | null>(null);
+  const chartRef1 = useRef<Highcharts.Chart | null>(null);
+  const chartRef2 = useRef<Highcharts.Chart | null>(null);
+  const { QvChartDatajson, settingsState, conditionSettingState, setSettingsState } = useMyContext();
   const [QvChartData, setQvChartData] = useState<TickFrame>({
-      EveningOpenTickFrame: {
-        AverageDaysData: {
-          Distribution: "",
-          Cumulative: "",
-        },
-        TodayData: {
-          Distribution: "",
-          Cumulative: "",
-          ClosePrice: "",
-        }
+    EveningOpenTickFrame: {
+      AverageDaysData: {
+        Distribution: "",
+        Cumulative: "",
+      },
+      TodayData: {
+        Distribution: "",
+        Cumulative: "",
+        ClosePrice: "",
       }
-    });
+    }
+  });
 
 
   let useDailyColor = settingsState.checkboxStates[5] && settingsState.radioValues[1] === '0'
 
-  const chartRef = useRef<Highcharts.Chart | null>(null);
-  const chartRef1 = useRef<Highcharts.Chart | null>(null);
-  const chartRef2 = useRef<Highcharts.Chart | null>(null);
   Exporting(Highcharts);
 
   let display = settingsState.radioValues[1] === "0"
@@ -80,6 +80,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       ),
     }));
   };
+
 
   const addRightClickExportMenu = (chart: Highcharts.Chart | null, containerId: string) => {
     const container = document.getElementById(containerId);
@@ -145,7 +146,8 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       });
     });
   };
-
+ 
+  
 
 
   useEffect(() => {
@@ -520,7 +522,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       }));
     }
 
-  }, [ settingsState, display, QvChartData]);
+  }, [settingsState, display, QvChartData]);
 
   useEffect(() => {
     setChartState({
@@ -556,11 +558,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       ],
     });
   }, [chartData, QvChartData]);
-
-  // useEffect(() => {
-  //   setisExpanded(window.innerWidth > 1400);
-  // }, []);
-  
 
   const chartOptions: Highcharts.Options = {
     chart: {
@@ -616,20 +613,20 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
     tooltip: {
       shared: true,
-      useHTML: true, 
+      useHTML: true,
       formatter: function () {
-        let s = '<span>' + this.x + '</span><br/>'; 
+        let s = '<span>' + this.x + '</span><br/>';
         this.points?.forEach(function (point) {
           const marker = '<span style="color:' + point.series.color + '">●</span>';
           s += '<div style="display: flex; justify-content: space-between; min-width: 150px;">' +
-               '<span style="text-align:left;">' + marker + ' ' + point.series.name + ':</span>' +
-               '<span style="text-align:right;">' + point.y + (point.series.name === '終値' ? '' : '%') + '</span>' +
-               '</div>';
+            '<span style="text-align:left;">' + marker + ' ' + point.series.name + ':</span>' +
+            '<span style="text-align:right;">' + point.y + (point.series.name === '終値' ? '' : '%') + '</span>' +
+            '</div>';
         });
-        return '<div style="min-width: 150px;">' + s + '</div>'; 
+        return '<div style="min-width: 150px;">' + s + '</div>';
       }
     }
-    
+
     ,
     legend: {
       align: 'left',
@@ -685,7 +682,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       data: chartState.ClosePrice,
       visible: settingsState.checkboxStates[4],
       tooltip: {
-        valueSuffix: '' 
+        valueSuffix: ''
       }
 
     }]
@@ -755,17 +752,17 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     ],
     tooltip: {
       shared: true,
-      useHTML: true, 
+      useHTML: true,
       formatter: function () {
-        let s = '<span>' + this.x + '</span><br/>'; 
+        let s = '<span>' + this.x + '</span><br/>';
         this.points?.forEach(function (point) {
           const marker = '<span style="color:' + point.series.color + '">●</span>';
           s += '<div style="display: flex; justify-content: space-between; min-width: 150px;">' +
-               '<span style="text-align:left;">' + marker + ' ' + point.series.name + ':</span>' +
-               '<span style="text-align:right;">' + point.y + (point.series.name === '終値' ? '' : '%') + '</span>' +
-               '</div>';
+            '<span style="text-align:left;">' + marker + ' ' + point.series.name + ':</span>' +
+            '<span style="text-align:right;">' + point.y + (point.series.name === '終値' ? '' : '%') + '</span>' +
+            '</div>';
         });
-        return '<div style="min-width: 150px;">' + s + '</div>'; 
+        return '<div style="min-width: 150px;">' + s + '</div>';
       }
     }
     ,
@@ -804,7 +801,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       data: chartState.ClosePrice,
       visible: settingsState.checkboxStates[4],
       tooltip: {
-        valueSuffix: '' 
+        valueSuffix: ''
       }
 
     }
@@ -858,17 +855,17 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     }],
     tooltip: {
       shared: true,
-      useHTML: true, 
+      useHTML: true,
       formatter: function () {
-        let s = '<span>' + this.x + '</span><br/>'; 
+        let s = '<span>' + this.x + '</span><br/>';
         this.points?.forEach(function (point) {
           const marker = '<span style="color:' + point.series.color + '">●</span>';
           s += '<div style="display: flex; justify-content: space-between; min-width: 150px;">' +
-               '<span style="text-align:left;">' + marker + ' ' + point.series.name + ':</span>' +
-               '<span style="text-align:right;">' + point.y + '%</span>' +
-               '</div>';
+            '<span style="text-align:left;">' + marker + ' ' + point.series.name + ':</span>' +
+            '<span style="text-align:right;">' + point.y + '%</span>' +
+            '</div>';
         });
-        return '<div style="min-width: 150px;">' + s + '</div>'; 
+        return '<div style="min-width: 150px;">' + s + '</div>';
       }
     }
     ,
@@ -944,9 +941,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
 
   return (
-    <div className='chart'
-      // style={isExpanded ? { transform: 'scale(1.4)', transformOrigin: '0 0', marginRight: '300px' } : {}}
-      >
+    <div className='chart'>
       <div className="container-chart">
         <FormControlLabel
           className='chart-top'

@@ -239,7 +239,6 @@ const HistoricalGrid: React.FC = () => {
   const rows = extractTableData();
   const columnsPerPart = 16;  
   const totalColumns = rows[0].length;
-  console.log('totalColumns', totalColumns);
   const firstPart = totalColumns > 0 ? rows.map(row => row.slice(0, 17)) : rows;
   const remainingParts = [];
   for (let i = 17; i < totalColumns; i += columnsPerPart) {
@@ -417,7 +416,7 @@ const HistoricalGrid: React.FC = () => {
                   {row.map((cell: any, cellIndex: any) => (
                     <TableCell
                       key={cellIndex}
-                      align={rowIndex < 3 || cellIndex === 0 ? 'center' : 'right'}
+                      align={rowIndex < 3  ? 'center' : 'right'}
                     >
                       {cell}
                     </TableCell>
