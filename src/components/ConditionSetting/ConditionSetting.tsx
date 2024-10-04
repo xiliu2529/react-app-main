@@ -112,11 +112,11 @@ const ConditionSetting: React.FC = () => {
   const handleIncrement = () => {
     setDays(prev => (Number(prev) < 30 ? Number(prev) + 1 : prev));
   };
-  
+
   const handleDecrement = () => {
     setDays(prev => (Number(prev) > 1 ? Number(prev) - 1 : prev));
   };
-  
+
   const handleChange = (event: SelectChangeEvent) => {
     setminutes(event.target.value as string)
     if (event.target.value == '0') {
@@ -137,6 +137,7 @@ const ConditionSetting: React.FC = () => {
   };
 
   const handleCalculate = () => {
+    setResponse(false)
     setRequestPayload({
       Code: inputValue,
       HistoricalSetting: {
@@ -232,7 +233,6 @@ const ConditionSetting: React.FC = () => {
               eveningClose: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.CloseTick),
             });
             setSaveViewSettings(requestPayload.ViewSettings)
-            // setViewSettings(requestPayload.ViewSettings)
           }
         } catch (err) {
           console.error('Error fetching data:', err);
@@ -355,8 +355,6 @@ const ConditionSetting: React.FC = () => {
       if (Object.keys(requestPayload).length > 0) {
         if (isReadyToSend) {
           const isValid = validatePayload(requestPayload);
-
-          setResponse(isValid);
           if (isValid) {
             setLoading(true);
             // 設定保存
@@ -405,6 +403,13 @@ const ConditionSetting: React.FC = () => {
                     // QvHistoricalData
                     const QvHistoricalData = await getQvData(ID, 'QvHistoricalData.json');
                     setQvHistoricalDatajson(QvHistoricalData)
+
+                    if(QvTotalingInfo && QvVolumeCurveData && QvChartData && QvHistoricalData){
+                      setResponse(true)
+                    }else{
+                      setResponse(false)
+                    }
+
                     setLoading(false);
                   } else if (status.Status === -1) {
                     // エラーが発生した場合も定期的な確認を停止
@@ -504,16 +509,16 @@ const ConditionSetting: React.FC = () => {
       if (!DateFrom || !DateTo) {
         seterrorDatefrom(true);
         hasError = true;
-      } 
+      }
       else if (DateTo < DateFrom) {
         seterrorDatefrom(true);
         hasError = true;
-      } 
+      }
       else {
         seterrorDatefrom(false);
       }
     }
-    
+
     if (category === '4') {
       const sq = payload.HistoricalSetting.Range.SQ;
       if (sq.LargeSQ === '0' && sq.SmallSQ === '0' && sq.WeeklySQ === '0') {
@@ -675,10 +680,7 @@ const ConditionSetting: React.FC = () => {
 
 
   return (
-    <div className='commonsp-top'
-    //モニター対応
-    // style={isExpanded ? { transform: 'scale(1.4)', transformOrigin: '0 0', marginRight: '120px' } : {}}
-    >
+    <div className='commonsp-top'>
       <div className='commonsp'>
         <div className='title-1'>銘柄設定</div>
         <Stack direction="row" spacing={1} alignItems="center">

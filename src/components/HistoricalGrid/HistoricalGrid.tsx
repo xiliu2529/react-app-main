@@ -25,14 +25,16 @@ type QvHistoricalDataType = {
 };
 
 const HistoricalGrid: React.FC = () => {
-  const { QvHistoricalDatajson, settingsState, conditionSettingState, griddownload, buttonName, shouldDownload, setShouldDownload } = useMyContext();
+  const {response, QvHistoricalDatajson, settingsState, conditionSettingState, griddownload, buttonName, shouldDownload, setShouldDownload } = useMyContext();
   const isInitialized = useRef(false);
   const [QvHistoricalData, setQvHistoricalData] = useState<QvHistoricalDataType>({})
 
 
 
   useEffect(() => {
-    setQvHistoricalData(QvHistoricalDatajson)
+    if(response){
+        setQvHistoricalData(QvHistoricalDatajson)
+    }
   }, [QvHistoricalDatajson]);
 
   const historicalDates = Object.keys(QvHistoricalData);

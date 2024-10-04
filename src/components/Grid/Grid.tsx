@@ -6,7 +6,7 @@ import { Data } from '../../types/grid';
 import { useRef, useEffect, useState} from 'react';
 
 const Grids: React.FC = () => {
-  const { QvVolumeCurveDatajson,QvTotalingInfojson,settingsState, conditionSettingState, griddownload, buttonName, shouldDownload, setShouldDownload } = useMyContext();
+  const {response, QvVolumeCurveDatajson,QvTotalingInfojson,settingsState, conditionSettingState, griddownload, buttonName, shouldDownload, setShouldDownload } = useMyContext();
   const isInitialized = useRef(false);
   const [QvVolumeCurveData, setQvVolumeCurveData] = useState<GridDisplayData>({});
   const [QvTotalingInfo, setQvTotalingInfo] = useState<Data>({
@@ -19,8 +19,11 @@ const Grids: React.FC = () => {
     AverageDays: []
   });
   useEffect(() => {
-    setQvVolumeCurveData(QvVolumeCurveDatajson);
+    if(response){
+       setQvVolumeCurveData(QvVolumeCurveDatajson);
     setQvTotalingInfo(QvTotalingInfojson);
+    }
+   
   }, [QvVolumeCurveDatajson,QvTotalingInfojson]);
   const dates = QvTotalingInfo.AverageDays.map(item => item.Date);
   const count = dates.length;

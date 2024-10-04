@@ -8,7 +8,8 @@ import { Stack } from '@mui/material';
 
 
 const InfoPanel: React.FC = () => {
-  const {QvTotalingInfojson, isHistoricalActive, setisHistoricalActive, 
+
+  const { response, QvTotalingInfojson, isHistoricalActive, setisHistoricalActive,
   } = useMyContext();
   const [QvTotalingInfo, setQvTotalingInfo] = useState<Data>({
     QuoteCode: '',
@@ -28,7 +29,9 @@ const InfoPanel: React.FC = () => {
     }
   };
   useEffect(() => {
-    setQvTotalingInfo(QvTotalingInfojson);
+    if (response) {
+      setQvTotalingInfo(QvTotalingInfojson);
+    }
   }, [QvTotalingInfojson]);
 
   return (
