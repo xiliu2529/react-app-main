@@ -89,6 +89,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
 
     container.addEventListener('contextmenu', (event: MouseEvent) => {
       event.preventDefault(); //の右クリックメニューを防止
+      event.stopPropagation();
 
       const existingMenu = document.getElementById('custom-export-menu');
       
@@ -151,7 +152,59 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     });
   };
 
-
+  const createCustomExportMenu = (mouseX:any, mouseY:any, chart:any) => {
+    const menu = document.createElement('div');
+    menu.id = 'custom-export-menu';
+    menu.style.position = 'absolute';
+    menu.style.top = `${mouseY}px`;
+    menu.style.left = `${mouseX}px`;
+    menu.style.backgroundColor = '#fff';
+    menu.style.border = '1px solid #ddd';
+    menu.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+    menu.style.borderRadius = '3px';
+    menu.style.zIndex = '1000';
+    menu.style.width = '130px';
+    menu.style.whiteSpace = 'nowrap';
+  
+    // 添加下载选项
+    ['PNG', 'JPEG', 'SVG'].forEach((format, index) => {
+      const item = document.createElement('div');
+      item.textContent = `${format} ダウンロード`;
+      item.style.cursor = 'pointer';
+      item.style.textAlign = 'left';
+      item.style.padding = '8px 10px';
+      item.style.color = '#333';
+      item.style.transition = 'background-color 0.3s ease';
+      
+      item.addEventListener('click', () => {
+        const mimeType = format === 'SVG' ? 'image/svg+xml' : `image/${format.toLowerCase()}`;
+        // @ts-ignore
+        chart.exportChart({
+          type: mimeType,
+          chartOptions: {}
+        });
+        menu.remove();
+      });
+  
+      if (index < 2) {
+        item.style.borderBottom = '1px solid #e0e0e0';
+      }
+      item.addEventListener('mouseover', () => {
+        item.style.backgroundColor = '#f0f0f0';
+      });
+      item.addEventListener('mouseout', () => {
+        item.style.backgroundColor = '';
+      });
+  
+      menu.appendChild(item);
+    });
+  
+    document.body.appendChild(menu);
+    return menu;
+  };
+  
+ 
+  
 
 
   useEffect(() => {
