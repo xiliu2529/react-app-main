@@ -60,7 +60,6 @@ const InfoPanel: React.FC = () => {
           <span className="value">{QvTotalingInfo.AbbreviatedName}</span>
           <span className="value">{QvTotalingInfo.MarketName}{QvTotalingInfo.ListedSection}</span>
         </Stack>
-        {/* CalculateDateTime */}
         <p className="execution-time">実行日時: {QvTotalingInfo.CalculationDateTime}</p>
       </div>
 

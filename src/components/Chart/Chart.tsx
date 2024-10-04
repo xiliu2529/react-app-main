@@ -91,17 +91,14 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     if (!container || !chart) return;
 
     container.addEventListener('contextmenu', (event: MouseEvent) => {
-      event.preventDefault(); //の右クリックメニューを防止
+      event.preventDefault();
       event.stopPropagation();
 
       const existingMenu = document.getElementById('custom-export-menu');
       
       if (existingMenu) existingMenu.remove();
-
       const mouseX = event.pageX;
       const mouseY = event.pageY;
-
-      // メニューを作成
       const menu = document.createElement('div');
       menu.id = 'custom-export-menu';
       menu.style.position = 'absolute';
@@ -114,8 +111,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       menu.style.zIndex = '1000';
       menu.style.width = '130px';
       menu.style.whiteSpace = 'nowrap';
-
-      // ダウンロードオプションを追加
       ['PNG', 'JPEG', 'SVG'].forEach((format, index) => {
         const item = document.createElement('div');
         item.textContent = `${format} ダウンロード`;

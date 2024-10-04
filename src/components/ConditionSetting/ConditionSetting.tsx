@@ -193,14 +193,10 @@ const ConditionSetting: React.FC = () => {
       .then(({ noaclFlag, result }) => {
         if (result) {
           if (result.body.response == 'OK') {
-            // チェックOK
           } else {
-            // チェックNG
             setError({ show: '2', type: 'WCI001' });
           }
         } else {
-          // responseなし
-          // チェックERROR
           setError({ show: '2', type: "ECI002" });
         }
         setNocal(noaclFlag)
@@ -312,7 +308,6 @@ const ConditionSetting: React.FC = () => {
   }, [inputValue, alignment, startDate, endDate, days, checkedState, minutes, startTime, endTime, value1, marketState]);
 
 
-  //data更新
   const saveSettings = async () => {
     try {
       const HistoricalSetting: HistoricalSetting = showModal.HistoricalSetting
@@ -357,7 +352,6 @@ const ConditionSetting: React.FC = () => {
           const isValid = validatePayload(requestPayload);
           if (isValid) {
             setLoading(true);
-            // 設定保存
             if (!nocal) {
               await saveSettings();
             }
@@ -384,10 +378,8 @@ const ConditionSetting: React.FC = () => {
                   }
                   const status = await fetchStatus(ID);
                   if (status.Status == 1) {
-                    // 状態が1の場合の処理
-                    // 定期的な確認を停止
                     clearInterval(intervalId);
-                    // データを取得する
+                    setResponse(true)
                     // QvTotalingInfo
                     const QvTotalingInfo = await getQvData(ID, 'QvTotalingInfo.json');
                     setQvTotalingInfojson(QvTotalingInfo)
@@ -404,32 +396,23 @@ const ConditionSetting: React.FC = () => {
                     const QvHistoricalData = await getQvData(ID, 'QvHistoricalData.json');
                     setQvHistoricalDatajson(QvHistoricalData)
 
-                    if(QvTotalingInfo && QvVolumeCurveData && QvChartData && QvHistoricalData){
-                      setResponse(true)
-                    }else{
-                      setResponse(false)
-                    }
-
+                 
                     setLoading(false);
                   } else if (status.Status === -1) {
-                    // エラーが発生した場合も定期的な確認を停止
                     clearInterval(intervalId);
                     if (status.MessageCode == '') {
                       setError({ show: '2', type: "ECR001" });
-                      //error表示
                     } else {
                       setError({ show: '1', type: status.MessageCode });
                     }
                     setLoading(false);
                   }
                 } catch (error) {
-                  // 状態の取得中にエラーが発生した場合の処理
                   clearInterval(intervalId);
                   console.error('他のエラー:', error);
                   setLoading(false);
                 }
               }
-              // 1秒ごとにpollStatus関数を呼び出す
               intervalId = setInterval(() => {
                 pollStatus();
               }, 1000);
@@ -474,7 +457,6 @@ const ConditionSetting: React.FC = () => {
 
   }, [isHistoricalActive]);
 
-  //データ制御
   const validatePayload = (payload: RequestPayload): boolean => {
     const category = payload.HistoricalSetting.Category;
     const DateTo = payload.HistoricalSetting.Range.DateTo

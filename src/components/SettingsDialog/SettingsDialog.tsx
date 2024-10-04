@@ -18,21 +18,17 @@ import { saveSettingsAPI } from '../../api/api';
 
 const SettingsDialog = () => {
     const { saveViewSettings,nocal, setshowConditionSettings, setisHistoricalActive, setbuttonName, settingsState, setSettingsState, showModal, buttonName, isHistoricalActive, showConditionSettings, setViewSettings } = useMyContext();
-    const [open, setOpen] = useState(false); // ダイアログの開閉状態を管理する状態を定義
+    const [open, setOpen] = useState(false);
     const [checkboxStates, setCheckboxStates] = useState<CheckboxState>(
         [false, false, false, false, false, false]
     );
-    // 単一選択ボックスの状態を管理するために配列を使用
     const [radioValues, setRadioValues] = useState<RadioValue>(['0', '0']);
-
-    // 色選択ボックスの状態を管理するために配列を使用
     const [colors, setColors] = useState<ColorValue>([
         '#FFFFFF', '#000000', '#FFFFFF', '#000000', '#d22331', '#d22331',
         '#d22331', '#d22331', '#d22331', '#52a69f', '#52a69f', '#52a69f',
         '#52a69f', '#52a69f', '#596db8', '#5bbcd1', '#7e522e'
     ]);
     const [handleTransaction, sethandleTransaction] = useState<any>({});
-    // チェックボックスの状態を更新する関数
     const handleCheckboxChange = (index: number) => {
         setCheckboxStates((prevState) => {
             const newCheckboxStates: CheckboxState = [...prevState];
@@ -40,14 +36,11 @@ const SettingsDialog = () => {
             return newCheckboxStates;
         });
     };
-
-    // 単一選択ボックスの状態を更新する関数
     const handleRadioChange = (index: number, value: string) => {
         const newRadioValues = [...radioValues];
         newRadioValues[index] = value;
         setRadioValues(newRadioValues);
     };
-    // 色選択ボックスの状態を更新する関数
     const handleColorChange = (index: number, colorValue: string) => {
         setColors((prevColors) => {
             const newColors: ColorValue = [...prevColors];
@@ -57,9 +50,8 @@ const SettingsDialog = () => {
     };
 
     const handleOpen = () => {
-        setOpen(true); // ダイアログを開く処理
+        setOpen(true); 
         sethandleTransaction({ checkboxStates, radioValues, colors })
-
     };
     const handleButtonClick = () => {
         setColors([
@@ -118,7 +110,6 @@ const SettingsDialog = () => {
             await saveSettingsAPI({ ViewSettings, HistoricalSetting, CalculationSetting, });
         } catch (err) {
             console.error('Error fetching data:', err);
-            //   setError(err)
         }
     };
 

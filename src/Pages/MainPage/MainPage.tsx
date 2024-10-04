@@ -31,38 +31,35 @@ const MainPage: React.FC = () => {
 
 
   useEffect(() => {
-     {/* @ts-ignore */}
-    if (error.show ==='1' || error.show ==='2') {
+
+    if (error.show === '1' || error.show === '2') {
       setShowSnackbar(true);
       const timer = setTimeout(() => {
         setShowSnackbar(false);
       }, 5000);
-      if (error.show ==='1') {
-          {/* @ts-ignore */}
-          setErrorMessage(serverMessage[error.type])
+      if (error.show === '1') {
+        {/* @ts-ignore */ }
+        setErrorMessage(serverMessage[error.type])
       }
-      if (error.show ==='2') {
-        {/* @ts-ignore */}
+      if (error.show === '2') {
+        {/* @ts-ignore */ }
         setErrorMessage(clientMessage[error.type])
       }
       return () => clearTimeout(timer);
     }
   }, [error]);
 
-  
-
 
 
   return (
     <div className="layout">
-      <Header/>
+      <Header />
       <div className="body">
         <LeftSidebar />
         {renderContent()}
         {showSnackbar && (
           <div className="custom-snackbar">
-           <span className="custom-icon"></span>
-            {/* @ts-ignore */}
+            <span className="custom-icon"></span>
             <span>{errorMessage}</span>
           </div>
         )}
