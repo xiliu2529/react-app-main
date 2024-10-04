@@ -12,3 +12,28 @@
       page-break-inside: avoid;
     }
   }
+
+
+
+
+
+/* 
+
+  .custom-context-menu {
+    background-color: white;       
+    border: 1px solid #ccc;      
+    border-radius: 4px;        
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); 
+    padding: 5px 0;             
+    z-index: 1000;          
+  }
+  
+  .custom-menu-item {
+    padding: 10px 15px;           
+    cursor: pointer;               
+  }
+  
+  .custom-menu-item:hover {
+    background-color: #f0f0f0;   
+  } */
+  

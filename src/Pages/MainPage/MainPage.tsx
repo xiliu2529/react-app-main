@@ -29,7 +29,7 @@ const MainPage: React.FC = () => {
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
-  
+
   useEffect(() => {
      {/* @ts-ignore */}
     if (error.show ==='1' || error.show ==='2') {
@@ -55,7 +55,7 @@ const MainPage: React.FC = () => {
 
   return (
     <div className="layout">
-      <Header />
+      <Header/>
       <div className="body">
         <LeftSidebar />
         {renderContent()}

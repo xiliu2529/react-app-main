@@ -10,6 +10,7 @@ import {
 import Exporting from 'highcharts/modules/exporting';
 import { useMyContext } from '../../contexts/MyContext';
 import './Chart.css';
+// import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 
 
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
@@ -87,18 +88,21 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     if (!container || !chart) return;
 
     container.addEventListener('contextmenu', (event: MouseEvent) => {
-      event.preventDefault(); // デフォルトの右クリックメニューを防止
+      event.preventDefault(); //の右クリックメニューを防止
 
-      // 既存のカスタムメニューを削除（あれば）
       const existingMenu = document.getElementById('custom-export-menu');
+      
       if (existingMenu) existingMenu.remove();
 
-      // カスタムメニューを作成
+      const mouseX = event.pageX;
+      const mouseY = event.pageY;
+
+      // メニューを作成
       const menu = document.createElement('div');
       menu.id = 'custom-export-menu';
       menu.style.position = 'absolute';
-      menu.style.top = `${event.clientY}px`;
-      menu.style.left = `${event.clientX}px`;
+      menu.style.top = `${mouseY}px`;
+      menu.style.left = `${mouseX}px`;
       menu.style.backgroundColor = '#fff';
       menu.style.border = '1px solid #ddd';
       menu.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
@@ -146,8 +150,8 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       });
     });
   };
- 
-  
+
+
 
 
   useEffect(() => {
