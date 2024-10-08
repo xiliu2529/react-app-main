@@ -14,10 +14,8 @@ import './SettingsDialog.css';
 import { useMyContext } from '../../contexts/MyContext';
 import { saveSettingsAPI } from '../../api/api';
 
-
-
 const SettingsDialog = () => {
-    const { saveViewSettings,nocal, setshowConditionSettings, setisHistoricalActive, setbuttonName, settingsState, setSettingsState, showModal, buttonName, isHistoricalActive, showConditionSettings, setViewSettings } = useMyContext();
+    const { saveViewSettings, nocal, setshowConditionSettings, setisHistoricalActive, setbuttonName, settingsState, setSettingsState, showModal, buttonName, isHistoricalActive, showConditionSettings, setViewSettings } = useMyContext();
     const [open, setOpen] = useState(false);
     const [checkboxStates, setCheckboxStates] = useState<CheckboxState>(
         [false, false, false, false, false, false]
@@ -50,7 +48,7 @@ const SettingsDialog = () => {
     };
 
     const handleOpen = () => {
-        setOpen(true); 
+        setOpen(true);
         sethandleTransaction({ checkboxStates, radioValues, colors })
     };
     const handleButtonClick = () => {
@@ -95,12 +93,8 @@ const SettingsDialog = () => {
             if (!nocal) {
                 saveSettings(newSettings);
             }
-
-
-
         }
         setOpen(false);
-
     };
 
     const saveSettings = async (ViewSettings: ViewSettings) => {
@@ -123,7 +117,6 @@ const SettingsDialog = () => {
             Glaph: radioValues[1],
             CheckboxStates: checkboxStates,
             Colors: colors,
-
         })
         );
     }, [buttonName, showConditionSettings, isHistoricalActive, settingsState]);
@@ -134,27 +127,22 @@ const SettingsDialog = () => {
         setColors(settingsState.colors)
     }, [settingsState]);
 
-
     useEffect(() => {
         if (saveViewSettings) {
-                setCheckboxStates(saveViewSettings.CheckboxStates);
-                setRadioValues([saveViewSettings.HighLow, saveViewSettings.Glaph]);
-                setColors(saveViewSettings.Colors);
-                setbuttonName(saveViewSettings.Layout);
-                setshowConditionSettings(saveViewSettings.SettingSwitch);
-                setisHistoricalActive(numberToBoolean(saveViewSettings.Tab));
-                
-                const newSettingsState: SettingsState = {
-                    checkboxStates: saveViewSettings.CheckboxStates,
-                    radioValues: [saveViewSettings.HighLow, saveViewSettings.Glaph],
-                    colors: saveViewSettings.Colors
-                };
-                setSettingsState(newSettingsState);
-            }
-    
+            setCheckboxStates(saveViewSettings.CheckboxStates);
+            setRadioValues([saveViewSettings.HighLow, saveViewSettings.Glaph]);
+            setColors(saveViewSettings.Colors);
+            setbuttonName(saveViewSettings.Layout);
+            setshowConditionSettings(saveViewSettings.SettingSwitch);
+            setisHistoricalActive(numberToBoolean(saveViewSettings.Tab));
+            const newSettingsState: SettingsState = {
+                checkboxStates: saveViewSettings.CheckboxStates,
+                radioValues: [saveViewSettings.HighLow, saveViewSettings.Glaph],
+                colors: saveViewSettings.Colors
+            };
+            setSettingsState(newSettingsState);
+        }
     }, [saveViewSettings]);
-
-
 
     return (
         <div>
@@ -274,7 +262,6 @@ const SettingsDialog = () => {
                                                     <p className="header-p">当日</p>
                                                     <p className="header-p">過去平均</p>
                                                 </div>
-
                                                 <div className="header-container">
                                                     <div className="text-column">前場</div>
                                                     <div className="color-picker-column">
@@ -284,7 +271,6 @@ const SettingsDialog = () => {
                                                         <input type="color" value={colors[9]} onChange={(event) => handleColorChange(9, event.target.value)} />
                                                     </div>
                                                 </div>
-
                                                 <div className="header-container">
                                                     <div className="text-column">後場</div>
                                                     <div className="color-picker-column">
@@ -323,7 +309,6 @@ const SettingsDialog = () => {
                                                         <input type="color" value={colors[13]} onChange={(event) => handleColorChange(13, event.target.value)} />
                                                     </div>
                                                 </div>
-
                                             </div>
                                             <div className="wrapper">
                                                 <p style={{ width: '50px' }}>累計</p>
@@ -333,7 +318,6 @@ const SettingsDialog = () => {
                                                 <span className="inline-container">
                                                     <input type="color" value={colors[15]} style={{ width: '100px' }} onChange={(event) => handleColorChange(15, event.target.value)} />
                                                 </span>
-
                                             </div>
                                             <div className="wrapper">
                                                 <p style={{ width: '50px' }}>チャート</p>
@@ -344,7 +328,6 @@ const SettingsDialog = () => {
 
                                         </div>
                                     </div>
-
                                     <div>
                                         <div className="container">
                                             <p className="inline-element">並べて表示</p>
@@ -359,13 +342,9 @@ const SettingsDialog = () => {
                                     </div>
                                 </Grid>
                             </Grid>
-
                         </FormControl>
                     </div>
                 </DialogContent>
-
-
-
                 <DialogActions>
                     <Button onClick={() => handleClose(true)} style={{ backgroundColor: '#143867', color: 'white' }}>OK</Button>
                     <Button onClick={() => handleClose(false)} style={{ border: '2px solid #143867', backgroundColor: 'white', color: '#143867' }}>キャンセル</Button>

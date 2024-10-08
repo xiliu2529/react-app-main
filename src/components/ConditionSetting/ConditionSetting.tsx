@@ -110,11 +110,9 @@ const ConditionSetting: React.FC = () => {
   const handleIncrement = () => {
     setDays(prev => (Number(prev) < 30 ? Number(prev) + 1 : prev));
   };
-
   const handleDecrement = () => {
     setDays(prev => (Number(prev) > 1 ? Number(prev) - 1 : prev));
   };
-
   const handleChange = (event: SelectChangeEvent) => {
     setminutes(event.target.value as string)
     if (event.target.value == '0') {
@@ -125,7 +123,6 @@ const ConditionSetting: React.FC = () => {
   }
   const handleAlignment = (_event: React.MouseEvent<HTMLElement>, newAlignment: string | null) => {
     if (newAlignment !== null) setAlignment(newAlignment);
-
   };
   const handleCheckboxChange = (key: keyof typeof marketState) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setMarketState({
@@ -180,7 +177,6 @@ const ConditionSetting: React.FC = () => {
     });
     setIsReadyToSend(true);
     setConditionSettingState({ marketState, inputValue });
-
   };
 
   useEffect(() => {
@@ -201,7 +197,6 @@ const ConditionSetting: React.FC = () => {
         setNocal(noaclFlag)
         noACL = noaclFlag
       })
-
 
     if (!noACL) {
       const loadSettings = async () => {
@@ -237,8 +232,6 @@ const ConditionSetting: React.FC = () => {
     }
     setHasLoaded(true);
   }, [hasLoaded]);
-
-
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -306,7 +299,6 @@ const ConditionSetting: React.FC = () => {
     });
   }, [inputValue, alignment, startDate, endDate, days, checkedState, minutes, startTime, endTime, value1, marketState]);
 
-
   const saveSettings = async () => {
     try {
       const HistoricalSetting: HistoricalSetting = showModal.HistoricalSetting
@@ -316,7 +308,6 @@ const ConditionSetting: React.FC = () => {
       console.error('Error fetching data:', err);
     }
   };
-
 
   const makeRequest = async (requestPayload: RequestPayload) => {
     try {
@@ -343,7 +334,6 @@ const ConditionSetting: React.FC = () => {
       console.error('Error fetching data:', err);
     }
   };
-
   
   const getserverMessage = async () => {
     try {
@@ -442,15 +432,10 @@ const ConditionSetting: React.FC = () => {
         }
       } else {
         setLoading(false);
-
       }
-
-
     };
-
     fetchData();
   }, [requestPayload]);
-
 
   useEffect(() => {
     setInputValue(showModal.Code);
@@ -471,7 +456,6 @@ const ConditionSetting: React.FC = () => {
       eveningOpening: convertToBoolean(showModal.CalculationSetting.Individual.Evening.OpenTick),
       eveningClose: convertToBoolean(showModal.CalculationSetting.Individual.Evening.CloseTick),
     });
-
   }, [isHistoricalActive]);
 
   const validatePayload = (payload: RequestPayload): boolean => {
@@ -517,7 +501,6 @@ const ConditionSetting: React.FC = () => {
         seterrorDatefrom(false);
       }
     }
-
     if (category === '4') {
       const sq = payload.HistoricalSetting.Range.SQ;
       if (sq.LargeSQ === '0' && sq.SmallSQ === '0' && sq.WeeklySQ === '0') {
@@ -527,14 +510,11 @@ const ConditionSetting: React.FC = () => {
         setErrorSQ(false);
       }
     }
-
-
     return !hasError;
   };
 
   const renderUI = () => {
     const currentAlignment = alignment || '0';
-
     switch (currentAlignment) {
       case '0':
         return (
@@ -668,15 +648,12 @@ const ConditionSetting: React.FC = () => {
 
             {errorSQ &&
               <FormHelperText style={{ color: '#d32f2f', marginTop: 0 }}>{clientMessage.WCI033}</FormHelperText>}
-
-
           </div>
         );
       default:
         return null;
     }
   };
-
 
   return (
     <div className='commonsp-top'>
@@ -701,7 +678,6 @@ const ConditionSetting: React.FC = () => {
             onChange={handleInputChange}
           />
         </Stack>
-
         <div className='title-1' id='title-1-2'>期間設定</div>
         <ToggleButtonGroup value={alignment} exclusive onChange={handleAlignment} aria-label="text alignment">
           <ToggleButton value="0" className="ToggleButton" sx={selectedStyle}>直近</ToggleButton>
@@ -751,7 +727,6 @@ const ConditionSetting: React.FC = () => {
                     max: 30,
                     step: 1,
                   }}
-
                   className="inputField"
                   variant="outlined"
                 />
@@ -797,7 +772,6 @@ const ConditionSetting: React.FC = () => {
         算出
       </Button>
     </div >
-
   );
 };
 

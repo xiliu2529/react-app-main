@@ -4,10 +4,10 @@ import { styled } from '@mui/material/styles';
 import Switch, { SwitchProps } from '@mui/material/Switch';
 import icon from '../../img/LayoutSwitch.svg';
 import { useMyContext } from '../../contexts/MyContext';
-import a from '../../img/GridGraphHorizontal.svg'
-import b from '../../img/GridGraphVertical.svg'
-import c from '../../img/GridOnly.svg'
-import d from '../../img/GraphOnly.svg'
+import GridGraphHorizontal from '../../img/GridGraphHorizontal.svg'
+import GridGraphVertical from '../../img/GridGraphVertical.svg'
+import GridOnly from '../../img/GridOnly.svg'
+import GraphOnly from '../../img/GraphOnly.svg'
 import { FormControlLabel, FormGroup } from '@mui/material';
 
 const LeftSidebar: React.FC = () => {
@@ -107,8 +107,6 @@ const LeftSidebar: React.FC = () => {
     }
   }, [isHistoricalActive]);
 
-
-
   return (
     <aside className="left-sidebar">
       <span className="icon-container">
@@ -141,19 +139,19 @@ const LeftSidebar: React.FC = () => {
           onMouseEnter={() => setButtonContainerVisible(true && isHistoricalActive)}
           onMouseLeave={() => setButtonContainerVisible(false)}>
           <button className="sidebar-button" onClick={() => handleButtonClick(2)}>
-            <img src={a} alt="Sidebar Icon" width="30" height="20" style={{ marginRight: '8px' }} />
+            <img src={GridGraphHorizontal} alt="Sidebar Icon" width="30" height="20" style={{ marginRight: '8px' }} />
             <span style={{ whiteSpace: 'nowrap' }}>グリッド+グラフ(左右)</span>
           </button>
           <button className="sidebar-button" onClick={() => handleButtonClick(8)}>
-            <img src={b} alt="Sidebar Icon" width="30" height="20" style={{ marginRight: '8px' }} />
+            <img src={GridGraphVertical} alt="Sidebar Icon" width="30" height="20" style={{ marginRight: '8px' }} />
             <span style={{ whiteSpace: 'nowrap' }}>グリッド+グラフ(上下)</span>
           </button>
           <button className="sidebar-button" onClick={() => handleButtonClick(4)}>
-            <img src={c} alt="Sidebar Icon" width="30" height="20" style={{ marginRight: '8px' }} />
+            <img src={GridOnly} alt="Sidebar Icon" width="30" height="20" style={{ marginRight: '8px' }} />
             <span style={{ whiteSpace: 'nowrap' }}>グリッドのみ</span>
           </button>
           <button className="sidebar-button" onClick={() => handleButtonClick(6)}>
-            <img src={d} alt="Sidebar Icon" width="30" height="20" style={{ marginRight: '8px' }} />
+            <img src={GraphOnly} alt="Sidebar Icon" width="30" height="20" style={{ marginRight: '8px' }} />
             <span style={{ whiteSpace: 'nowrap' }}>グラフのみ</span>
           </button>
         </div>

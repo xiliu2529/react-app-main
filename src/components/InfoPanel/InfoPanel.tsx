@@ -6,9 +6,7 @@ import { useMyContext } from '../../contexts/MyContext';
 import { Data } from '../../types/grid';
 import { Stack } from '@mui/material';
 
-
 const InfoPanel: React.FC = () => {
-
   const { response, QvTotalingInfojson, isHistoricalActive, setisHistoricalActive,
   } = useMyContext();
   const [QvTotalingInfo, setQvTotalingInfo] = useState<Data>({
@@ -51,7 +49,6 @@ const InfoPanel: React.FC = () => {
           ヒストリカル
         </ToggleButton>
       </ToggleButtonGroup>
-
       <div className='message'>
         <Stack direction="row" spacing={1} alignItems="center">
           <span className="label">銘柄コード:</span>
@@ -62,9 +59,6 @@ const InfoPanel: React.FC = () => {
         </Stack>
         <p className="execution-time">実行日時: {QvTotalingInfo.CalculationDateTime}</p>
       </div>
-
-
-
     </div>
   );
 };

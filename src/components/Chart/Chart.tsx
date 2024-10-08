@@ -11,12 +11,11 @@ import Exporting from 'highcharts/modules/exporting';
 import { useMyContext } from '../../contexts/MyContext';
 import './Chart.css';
 
-
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
   const chartRef = useRef<Highcharts.Chart | null>(null);
   const chartRef1 = useRef<Highcharts.Chart | null>(null);
   const chartRef2 = useRef<Highcharts.Chart | null>(null);
-  const { response,QvChartDatajson, settingsState, conditionSettingState, setSettingsState } = useMyContext();
+  const { response, QvChartDatajson, settingsState, conditionSettingState, setSettingsState } = useMyContext();
   const [QvChartData, setQvChartData] = useState<TickFrame>({
     EveningOpenTickFrame: {
       AverageDaysData: {
@@ -31,20 +30,14 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     }
   });
 
-
   let useDailyColor = settingsState.checkboxStates[5] && settingsState.radioValues[1] === '0'
-
   Exporting(Highcharts);
-
   let display = settingsState.radioValues[1] === "0"
-
   useEffect(() => {
-    if(response){
+    if (response) {
       setQvChartData(QvChartDatajson);
     }
-    
   }, [QvChartDatajson]);
-
 
   const [chartState, setChartState] = useState<ChartState>({
     xAxisLabels: [],
@@ -74,7 +67,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     historicalDistribution2: [],
     historicalCumulative2: [],
   });
-
   const handleChange = () => {
     // @ts-ignore
     setSettingsState((prevState: SettingsState) => ({
@@ -85,7 +77,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     }));
   };
 
-
   const addRightClickExportMenu = (chart: Highcharts.Chart | null, containerId: string) => {
     const container = document.getElementById(containerId);
     if (!container || !chart) return;
@@ -93,9 +84,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     container.addEventListener('contextmenu', (event: MouseEvent) => {
       event.preventDefault();
       event.stopPropagation();
-
       const existingMenu = document.getElementById('custom-export-menu');
-      
       if (existingMenu) existingMenu.remove();
       const mouseX = event.pageX;
       const mouseY = event.pageY;
@@ -128,7 +117,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
           });
           menu.remove();
         });
-
         if (index < 2) {
           item.style.borderBottom = '1px solid #e0e0e0';
         }
@@ -138,7 +126,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         item.addEventListener('mouseout', () => {
           item.style.backgroundColor = '';
         });
-
         menu.appendChild(item);
       });
       document.body.appendChild(menu);
@@ -149,8 +136,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       });
     });
   };
-
-
 
   useEffect(() => {
     const processData = () => {
@@ -193,7 +178,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
           y: parseFloat(tick.AverageDaysData!.Distribution),
           color: !useDailyColor ? settingsState.colors[11] : settingsState.colors[6]
         }));
-
         historicalCumulative = Object.values(QvChartData.EveningTickFrame).map(tick => ({
           y: parseFloat(tick.AverageDaysData!.Cumulative),
           color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
@@ -245,6 +229,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
           color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
         }));
       }
+
       return {
         timeLabels,
         todayDistribution,
@@ -355,9 +340,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
           }
 
         ],
-
       }));
-
     }
     if (conditionSettingState.marketState.preMarketOpening && QvChartData.AMOpenTickFrame) {
       setChartData(prevState => ({
@@ -409,35 +392,30 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
           y: Number(QvChartData.AMCloseTickFrame!.TodayData!.Distribution),
           color: settingsState.colors[8]
         },
-
         ],
         todayCumulative1: [...prevState.todayCumulative1,
         {
           y: Number(QvChartData.AMCloseTickFrame!.TodayData!.Cumulative),
           color: settingsState.colors[14]
         },
-
         ],
         closePrice1: [...prevState.closePrice1,
         {
           y: Number(QvChartData.AMCloseTickFrame!.TodayData!.ClosePrice!),
           color: settingsState.colors[16]
         },
-
         ],
         historicalDistribution1: [...prevState.historicalDistribution1,
         {
           y: Number(QvChartData.AMCloseTickFrame!.AverageDaysData!.Distribution),
           color: !useDailyColor ? settingsState.colors[13] : settingsState.colors[8]
         },
-
         ],
         historicalCumulative1: [...prevState.historicalCumulative1,
         {
           y: Number(QvChartData.AMCloseTickFrame!.AverageDaysData!.Cumulative),
           color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
         },
-
         ],
       }));
     }
@@ -498,32 +476,27 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
           y: Number(QvChartData.PMCloseTickFrame!.TodayData!.Cumulative),
           color: settingsState.colors[14]
         },
-
         ],
         closePrice2: [...prevState.closePrice2,
         {
           y: Number(QvChartData.PMCloseTickFrame!.TodayData!.ClosePrice!),
           color: settingsState.colors[16]
         },
-
         ],
         historicalDistribution2: [...prevState.historicalDistribution2,
         {
           y: Number(QvChartData.PMCloseTickFrame!.AverageDaysData!.Distribution),
           color: !useDailyColor ? settingsState.colors[13] : settingsState.colors[8]
         },
-
         ],
         historicalCumulative2: [...prevState.historicalCumulative2,
         {
           y: Number(QvChartData.PMCloseTickFrame!.AverageDaysData!.Cumulative),
           color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14]
         },
-
         ],
       }));
     }
-
   }, [settingsState, display, QvChartData]);
 
   useEffect(() => {
@@ -938,9 +911,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     addRightClickExportMenu(chartRef.current, 'chart-container');
     addRightClickExportMenu(chartRef1.current, 'chart-container1');
     addRightClickExportMenu(chartRef2.current, 'chart-container2');
-
   }, [settingsState, conditionSettingState, chartState, chartData, settingsState.checkboxStates[4], QvChartData]);
-
 
   return (
     <div className='chart'>

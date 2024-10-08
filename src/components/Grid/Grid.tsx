@@ -23,8 +23,8 @@ const Grids: React.FC = () => {
       setQvVolumeCurveData(QvVolumeCurveDatajson);
       setQvTotalingInfo(QvTotalingInfojson);
     }
-
   }, [QvVolumeCurveDatajson, QvTotalingInfojson]);
+
   const dates = QvTotalingInfo.AverageDays.map(item => item.Date);
   const count = dates.length;
   const formatDate = (date: string) => {
@@ -33,14 +33,12 @@ const Grids: React.FC = () => {
   };
   const startDate = dates.length > 0 ? formatDate(dates[dates.length - 1]) : '';
   const endDate = dates.length > 0 ? formatDate(dates[0]) : '';
-  
   let displayText;
   if (count === 1) {
     displayText = dates[0];
   } else {
     displayText = count > 0 ? `${count}日平均(${startDate}-${endDate})` : '';
   }
-
 
   const TableRowComponent = ({ data, label }: { data: any; label: string }) => {
     const dataCopy = JSON.parse(JSON.stringify(data));
@@ -152,17 +150,14 @@ const Grids: React.FC = () => {
   };
   const downloadCSV = (filename: string) => {
     const csvData = exportTableToCSV();
-
     const bom = '\uFEFF';
     const csvContent = bom + csvData;
-
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
     link.setAttribute('download', filename);
     link.click();
-
     URL.revokeObjectURL(url);
     setShouldDownload(false)
   };
@@ -171,7 +166,6 @@ const Grids: React.FC = () => {
       isInitialized.current = true;
       return;
     }
-
     if (shouldDownload && QvVolumeCurveData.TotalFrame !== undefined && [1, 2, 3, 4, 7, 8].includes(buttonName)) {
       downloadCSV('grid-data.csv');
     }
@@ -187,8 +181,6 @@ const Grids: React.FC = () => {
     }
   }, [settingsState]);
   const headerTexts = ['時間', '出来高', '分布', '累計', '出来高', '分布', '累計', '差', '価格', '出来高', '場引けVWAP'];
-
-
 
   return (
     <Box className='grid-container'>
@@ -245,7 +237,6 @@ const Grids: React.FC = () => {
                     </TableCell>
                   )) : null}
                 </TableRow>
-
                 {conditionSettingState.marketState.eveningOpening && QvVolumeCurveData.EveningOpenTickFrame && (
                   <TableRowComponent data={QvVolumeCurveData.EveningOpenTickFrame} label="寄付" />
                 )}
@@ -292,9 +283,7 @@ const Grids: React.FC = () => {
         </Grid>
       </Grid>
     </Box>
-
   );
 };
 
 export default Grids;
-

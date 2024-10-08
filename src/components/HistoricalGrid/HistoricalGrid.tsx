@@ -20,24 +20,23 @@ type QvHistoricalDataType = {
     PMOpenTickFrame?: any;
     PMTickFrame?: any;
     PMCloseTickFrame?: any;
-
   };
 };
 
 const HistoricalGrid: React.FC = () => {
-  const {response, QvHistoricalDatajson, settingsState, conditionSettingState, griddownload, buttonName, shouldDownload, setShouldDownload } = useMyContext();
+  const { response, QvHistoricalDatajson, settingsState, conditionSettingState, griddownload, buttonName, shouldDownload, setShouldDownload } = useMyContext();
   const isInitialized = useRef(false);
   const [QvHistoricalData, setQvHistoricalData] = useState<QvHistoricalDataType>({})
 
   useEffect(() => {
-    if(response){
+    if (response) {
       const sortedData = Object.keys(QvHistoricalDatajson)
-      .sort((a: string, b: string) => new Date(b).getTime() - new Date(a).getTime()) 
-    const orderedData = sortedData.reduce((acc, date) => {
-      acc[date] = QvHistoricalDatajson[date]; 
-      return acc;
-    }, {} as Record<string, any>); 
-        setQvHistoricalData(orderedData)
+        .sort((a: string, b: string) => new Date(b).getTime() - new Date(a).getTime())
+      const orderedData = sortedData.reduce((acc, date) => {
+        acc[date] = QvHistoricalDatajson[date];
+        return acc;
+      }, {} as Record<string, any>);
+      setQvHistoricalData(orderedData)
     }
   }, [QvHistoricalDatajson]);
 
@@ -238,12 +237,11 @@ const HistoricalGrid: React.FC = () => {
     }
     if (shouldDownload && [1, 2, 3, 4, 7, 8].includes(buttonName)) {
       downloadCSV(extractTableData(), 'grid-data.csv')
-
     }
   }, [griddownload]);
 
   const rows = extractTableData();
-  const columnsPerPart = 16;  
+  const columnsPerPart = 16;
   const totalColumns = rows[0].length;
   const firstPart = totalColumns > 0 ? rows.map(row => row.slice(0, 17)) : rows;
   const remainingParts = [];
@@ -291,8 +289,6 @@ const HistoricalGrid: React.FC = () => {
                         </React.Fragment>
                       ))
                     )}
-
-
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -302,7 +298,6 @@ const HistoricalGrid: React.FC = () => {
                       <React.Fragment key={index}>
                         <TableCell className={`custom-table-cell-a ${item.volume == "-" ? 'center-align' : ''}`}>{item.volume}</TableCell>
                         <TableCell className={`custom-table-cell-a ${item.distribution == "-" ? 'center-align' : ''}`}>{item.distribution}</TableCell>
-
                       </React.Fragment>
                     ))}
                   </TableRow>
@@ -318,9 +313,7 @@ const HistoricalGrid: React.FC = () => {
                       ))}
                     </TableRow> : null}
 
-
                   {Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].EveningOpenTickFrame ? renderTimeSlotRows(timeSlots, 'EveningTickFrame') : null}
-
                   {conditionSettingState.marketState.eveningClose && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].EveningCloseTickFrame ?
                     <TableRow>
                       <TableCell className="custom-table-cell">引け</TableCell>
@@ -380,12 +373,9 @@ const HistoricalGrid: React.FC = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-
           </Grid>
         </Grid>
-
       </Box >
-
       <div className="print-table">
         <Table style={{ tableLayout: 'fixed' }}>
           <colgroup>
@@ -422,7 +412,7 @@ const HistoricalGrid: React.FC = () => {
                   {row.map((cell: any, cellIndex: any) => (
                     <TableCell
                       key={cellIndex}
-                      align={rowIndex < 3  ? 'center' : 'right'}
+                      align={rowIndex < 3 ? 'center' : 'right'}
                     >
                       {cell}
                     </TableCell>

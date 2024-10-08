@@ -39,7 +39,6 @@ export const GridChartPage: React.FC = () => {
 };
 
 export const SettingsGridPage: React.FC = () => {
-
   return (
     <div className='SettingsGridPage'>
       <div className='SettingsGridPage-ConditionSetting'>
@@ -53,8 +52,6 @@ export const SettingsGridPage: React.FC = () => {
 };
 
 export const GridPage: React.FC = () => {
-
-
   return (
     <div className='gridnomi'>
       <InfoPanelGrid />
@@ -63,8 +60,6 @@ export const GridPage: React.FC = () => {
 };
 
 export const SettingsChartPage: React.FC = () => {
-
-
   return (
     <div className='SettingsChartPage'>
       <ConditionSetting />
@@ -77,8 +72,6 @@ export const SettingsChartPage: React.FC = () => {
   );
 };
 export const ChartPage: React.FC = () => {
-
-
   return (
     <div className='ChartPage'>
       <div className='ChartPage-InfoPanel'><InfoPanel /></div>
@@ -88,7 +81,6 @@ export const ChartPage: React.FC = () => {
 };
 
 export const ConfigChartBottom: React.FC = () => {
-
   return (
     <div className='ConfigChartBottom'>
       <div className='left-column'>
@@ -105,8 +97,6 @@ export const ConfigChartBottom: React.FC = () => {
 };
 
 export const ChartBottom: React.FC = () => {
-
-
   return (
     <div className='ChartBottom'>
       <div className='ChartBottom-top'>   <InfoPanelGrid /></div>
@@ -115,7 +105,6 @@ export const ChartBottom: React.FC = () => {
   );
 };
 export const HistoryAndSettings: React.FC = () => {
-
   return (
     <div className='SettingsGridPage'>
       <div className='SettingsGridPage-ConditionSetting'>
@@ -124,14 +113,11 @@ export const HistoryAndSettings: React.FC = () => {
       <div className='SettingsGridPage-InfoPanelGrid'>
         <InfoPanelHistoricalGrid />
       </div>
-
-
     </div>
   );
 };
 
 export const HistoricalData: React.FC = () => {
-
   return (
     <div className='InfoPanelHistoricalGrid'>
       <InfoPanelHistoricalGrid />
