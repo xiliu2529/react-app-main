@@ -47,6 +47,14 @@
     setHasLoaded: (state: boolean) => void;
 
 
+    clientMessage:any
+    setclientMessage: (state: any) => void;
+    serverMessage:any
+    setserverMessage: (state: any) => void;
+
+    
+
+
 
  
 

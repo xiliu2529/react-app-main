@@ -138,7 +138,7 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     Layout: 1,
     SettingSwitch: true,
     Tab: 1,
-    HighLow: '0', 
+    HighLow: '0',
     Glaph: '0',
     CheckboxStates: [
       false, false, false, false, false, false
@@ -153,7 +153,7 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     Layout: 1,
     SettingSwitch: true,
     Tab: 1,
-    HighLow: '0', 
+    HighLow: '0',
     Glaph: '0',
     CheckboxStates: [
       false, false, false, false, false, false
@@ -174,21 +174,24 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     AverageDays: []
   });
   const [QvVolumeCurveDatajson, setQvVolumeCurveDatajson] = useState<GridDisplayData>({});
-  const [QvChartDatajson, setQvChartDatajson] = useState<TickFrame>({    
+  const [QvChartDatajson, setQvChartDatajson] = useState<TickFrame>({
     EveningOpenTickFrame: {
-    AverageDaysChart: {
-      Distribution: "",
-      Cumulative: "",
-    },
-    TodayChart: {
-      Distribution: "",
-      Cumulative: "",
-      ClosePrice: "",
+      AverageDaysChart: {
+        Distribution: "",
+        Cumulative: "",
+      },
+      TodayChart: {
+        Distribution: "",
+        Cumulative: "",
+        ClosePrice: "",
+      }
     }
-  }});
+  });
   const [QvHistoricalDatajson, setQvHistoricalDatajson] = useState<any>({});
   const [nocal, setNocal] = useState<boolean>(true);
   const [hasLoaded, setHasLoaded] = useState(false);
+  const [clientMessage, setclientMessage] = useState<any>('');
+  const [serverMessage, setserverMessage] = useState<any>('');
   return (
     <MyContext.Provider
       value={{
@@ -226,12 +229,16 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         setQvChartDatajson,
         QvHistoricalDatajson,
         setQvHistoricalDatajson,
-        nocal, 
+        nocal,
         setNocal,
         saveViewSettings,
         setSaveViewSettings,
-        hasLoaded, 
-        setHasLoaded
+        hasLoaded,
+        setHasLoaded,
+        clientMessage,
+        setclientMessage,
+        serverMessage,
+        setserverMessage
 
       }}
     >

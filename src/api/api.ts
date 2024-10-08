@@ -1,5 +1,46 @@
 
 
+export const serverMessageAPI = async () => {
+  try {
+    const response = await fetch(`../common/conf/serverMessage.json`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Fetch error:', error);
+    throw error;
+  }
+};
+export const clientMessageAPI = async () => {
+  try {
+    const response = await fetch(`../common/conf/clientMessage.json`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Fetch error:', error);
+    throw error;
+  }
+};
+
 export const packageAPI = async () => {
   try {
     const response = await fetch(`../../auth/check/package`, {

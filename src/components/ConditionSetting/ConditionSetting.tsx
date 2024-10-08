@@ -3,9 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
 import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
-import VALIDATION_MESSAGES from '../../../common/conf/clientMessage.json';
-import { saveSettingsAPI, loadSettingsAPI, requestAPI, statusAPI, getQvDataAPI, packageAPI } from '../../api/api';
-
+import { saveSettingsAPI, loadSettingsAPI, requestAPI, statusAPI, getQvDataAPI, packageAPI,serverMessageAPI,clientMessageAPI } from '../../api/api';
 
 const ConditionSetting: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
@@ -29,7 +27,7 @@ const ConditionSetting: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['1', '1', '1']);
-  const { hasLoaded, setHasLoaded, nocal, setNocal, setSaveViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading, setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
+  const {setclientMessage,setserverMessage, clientMessage, hasLoaded, setHasLoaded, nocal, setNocal, setSaveViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading, setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
 
@@ -188,7 +186,8 @@ const ConditionSetting: React.FC = () => {
   useEffect(() => {
     if (hasLoaded) return;
     let noACL = false;
-
+    getclientMessage()
+    getserverMessage()
     packageAPI()
       .then(({ noaclFlag, result }) => {
         if (result) {
@@ -345,6 +344,25 @@ const ConditionSetting: React.FC = () => {
     }
   };
 
+  
+  const getserverMessage = async () => {
+    try {
+      const response = await serverMessageAPI();
+      setserverMessage(response)
+      return response;
+    } catch (err) {
+      console.error('Error fetching data:', err);
+    }
+  };
+  const getclientMessage = async () => {
+    try {
+      const response = await clientMessageAPI();
+      setclientMessage(response)
+      return response;
+    } catch (err) {
+      console.error('Error fetching data:', err);
+    }
+  };
   useEffect(() => {
     const fetchData = async () => {
       if (Object.keys(requestPayload).length > 0) {
@@ -395,7 +413,6 @@ const ConditionSetting: React.FC = () => {
                     // QvHistoricalData
                     const QvHistoricalData = await getQvData(ID, 'QvHistoricalData.json');
                     setQvHistoricalDatajson(QvHistoricalData)
-
                  
                     setLoading(false);
                   } else if (status.Status === -1) {
@@ -466,7 +483,7 @@ const ConditionSetting: React.FC = () => {
     const todayFormatted = today.split('-').join('/');
     if (!payload.Code) {
       newValidationState.error = true;
-      newValidationState.helperText = VALIDATION_MESSAGES.WCI028;
+      newValidationState.helperText = clientMessage.WCI028;
       setValidation(newValidationState);
       hasError = true;
     } else {
@@ -559,7 +576,7 @@ const ConditionSetting: React.FC = () => {
               <input className='setDate' type="date" value={startDate || showModal.HistoricalSetting.Range.DateFrom} min={minDaysAgo} onChange={handleDateChange(setstartDate)} />
               {errorDatefrom &&
                 <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}
-                >  {startDate ? VALIDATION_MESSAGES.WCI031 : VALIDATION_MESSAGES.WCI029}</FormHelperText>}
+                >  {startDate ? clientMessage.WCI031 : clientMessage.WCI029}</FormHelperText>}
             </div>
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
@@ -583,7 +600,7 @@ const ConditionSetting: React.FC = () => {
               <p style={{ display: 'inline-block', fontSize: '10px' }}>終了日</p>
               <input className='setDate' type="date" value={endDate} onChange={handleDateChange(setendDate)} />
               {errorDateto &&
-                <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}>{VALIDATION_MESSAGES.WCI030}</FormHelperText>}
+                <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}>{clientMessage.WCI030}</FormHelperText>}
             </div>
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
@@ -615,7 +632,7 @@ const ConditionSetting: React.FC = () => {
               <input className='setDate' type="date" value={endDate} onChange={handleDateChange(setendDate)} />
             </Grid>
             {errorDatefrom &&
-              <FormHelperText style={{ color: '#d32f2f', marginLeft: '25px', marginTop: 0 }}>{VALIDATION_MESSAGES.WCI032}</FormHelperText>}
+              <FormHelperText style={{ color: '#d32f2f', marginLeft: '25px', marginTop: 0 }}>{clientMessage.WCI032}</FormHelperText>}
           </div>
         );
       case '4':
@@ -650,7 +667,7 @@ const ConditionSetting: React.FC = () => {
             />
 
             {errorSQ &&
-              <FormHelperText style={{ color: '#d32f2f', marginTop: 0 }}>{VALIDATION_MESSAGES.WCI033}</FormHelperText>}
+              <FormHelperText style={{ color: '#d32f2f', marginTop: 0 }}>{clientMessage.WCI033}</FormHelperText>}
 
 
           </div>

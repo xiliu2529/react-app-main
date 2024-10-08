@@ -16,19 +16,12 @@ import {
 } from '../../components/PageSwitcher/PageSwitcher';
 import { useMyContext, } from '../../contexts/MyContext';
 import { useEffect, useState } from 'react';
-import serverMessage from '../../../common/conf/serverMessage.json'
-import clientMessage from '../../../common/conf/clientMessage.json'
-
-
-
-
 
 
 const MainPage: React.FC = () => {
-  const { isHistoricalActive, buttonName, loading, error } = useMyContext();
+  const { isHistoricalActive, buttonName, loading, error ,clientMessage,serverMessage} = useMyContext();
   const [showSnackbar, setShowSnackbar] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string>('');
-
+  const [errorMessage, setErrorMessage] = useState<any>('');
 
   useEffect(() => {
 
