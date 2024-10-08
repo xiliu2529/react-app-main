@@ -17,7 +17,6 @@ const Utilities: React.FC = () => {
     window.open(pdfUrl, '_blank');
 }
 
-  const favorite = () => {}
 
   const download = () => {
     setGriddownload(!griddownload)
@@ -30,7 +29,6 @@ const Utilities: React.FC = () => {
     <div className="utilities-container">
       <span className="help-button" onClick={help}>ヘルプ</span>
       <span className="print-icon" onClick={print}></span>
-      <span className="favorite-button" onClick={favorite}></span>
       <span className="download-button" onClick={download}></span>
       <SettingsDialog />
     </div>

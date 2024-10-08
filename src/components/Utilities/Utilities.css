@@ -44,17 +44,9 @@
     white-space: nowrap;
     
 }
-.favorite-button{
-    background-image: url('../../img/bookmark_border_24dp_FFFFFF.svg');
-    background-size: contain;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    max-width: 60px; 
 
-
-}
 .download-button{
-    background-image: url('../../img//file_download_24dp_FFFFFF.svg');
+    background-image: url('../../img/file_download_24dp_FFFFFF.svg');
     background-size: contain;
     background-repeat: no-repeat;
     cursor: pointer;
