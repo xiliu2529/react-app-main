@@ -40,8 +40,8 @@ export interface MyContextType {
   QvHistoricalDatajson: any;
   setQvHistoricalDatajson: React.Dispatch<React.SetStateAction<any>>;
 
-  nocal: boolean
-  setNocal: (alignment: boolean) => void;
+  noacl: boolean
+  setNoacl: (alignment: boolean) => void;
 
   hasLoaded: boolean
   setHasLoaded: (state: boolean) => void;

@@ -185,7 +185,7 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     }
   });
   const [QvHistoricalDatajson, setQvHistoricalDatajson] = useState<any>({});
-  const [nocal, setNocal] = useState<boolean>(true);
+  const [noacl, setNoacl] = useState<boolean>(true);
   const [hasLoaded, setHasLoaded] = useState(false);
   const [clientMessage, setclientMessage] = useState<any>('');
   const [serverMessage, setserverMessage] = useState<any>('');
@@ -226,8 +226,8 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         setQvChartDatajson,
         QvHistoricalDatajson,
         setQvHistoricalDatajson,
-        nocal,
-        setNocal,
+        noacl,
+        setNoacl,
         saveViewSettings,
         setSaveViewSettings,
         hasLoaded,

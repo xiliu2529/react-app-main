@@ -27,10 +27,9 @@ const ConditionSetting: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['1', '1', '1']);
-  const {setclientMessage,setserverMessage, clientMessage, hasLoaded, setHasLoaded, nocal, setNocal, setSaveViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading, setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
+  const {setclientMessage,setserverMessage, clientMessage, hasLoaded, setHasLoaded, noacl, setNoacl, setSaveViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading, setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
-
   const [errorDatefrom, seterrorDatefrom] = useState<boolean>(false);
   const [errorDateto, seterrorDateto] = useState<boolean>(false);
   const [validation, setValidation] = useState<{ error: boolean; helperText: string }>({
@@ -59,7 +58,6 @@ const ConditionSetting: React.FC = () => {
     }
     setDays(event.target.value);
   };
-
   const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setter(event.target.value);
   }
@@ -194,11 +192,12 @@ const ConditionSetting: React.FC = () => {
         } else {
           setError({ show: '2', type: "ECI002" });
         }
-        setNocal(noaclFlag)
+        setNoacl(noaclFlag)
         noACL = noaclFlag
       })
 
     if (!noACL) {
+      document.title ='ボリュームカーブ' ;
       const loadSettings = async () => {
         try {
           const result = await loadSettingsAPI();
@@ -229,6 +228,8 @@ const ConditionSetting: React.FC = () => {
         }
       };
       loadSettings();
+    }else{
+      document.title ='システム障害対応中！！ボリュームカーブ' ;
     }
     setHasLoaded(true);
   }, [hasLoaded]);
@@ -360,7 +361,7 @@ const ConditionSetting: React.FC = () => {
           const isValid = validatePayload(requestPayload);
           if (isValid) {
             setLoading(true);
-            if (!nocal) {
+            if (!noacl) {
               await saveSettings();
             }
             try {
