@@ -29,11 +29,15 @@ const HistoricalGrid: React.FC = () => {
   const isInitialized = useRef(false);
   const [QvHistoricalData, setQvHistoricalData] = useState<QvHistoricalDataType>({})
 
-
-
   useEffect(() => {
     if(response){
-        setQvHistoricalData(QvHistoricalDatajson)
+      const sortedData = Object.keys(QvHistoricalDatajson)
+      .sort((a: string, b: string) => new Date(b).getTime() - new Date(a).getTime()) 
+    const orderedData = sortedData.reduce((acc, date) => {
+      acc[date] = QvHistoricalDatajson[date]; 
+      return acc;
+    }, {} as Record<string, any>); 
+        setQvHistoricalData(orderedData)
     }
   }, [QvHistoricalDatajson]);
 

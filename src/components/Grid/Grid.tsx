@@ -3,10 +3,10 @@ import { Grid, Table, TableContainer, TableHead, Box, TableBody, TableCell, Tabl
 import './Grid.css';
 import { useMyContext } from '../../contexts/MyContext';
 import { Data } from '../../types/grid';
-import { useRef, useEffect, useState} from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 const Grids: React.FC = () => {
-  const {response, QvVolumeCurveDatajson,QvTotalingInfojson,settingsState, conditionSettingState, griddownload, buttonName, shouldDownload, setShouldDownload } = useMyContext();
+  const { response, QvVolumeCurveDatajson, QvTotalingInfojson, settingsState, conditionSettingState, griddownload, buttonName, shouldDownload, setShouldDownload } = useMyContext();
   const isInitialized = useRef(false);
   const [QvVolumeCurveData, setQvVolumeCurveData] = useState<GridDisplayData>({});
   const [QvTotalingInfo, setQvTotalingInfo] = useState<Data>({
@@ -19,12 +19,12 @@ const Grids: React.FC = () => {
     AverageDays: []
   });
   useEffect(() => {
-    if(response){
-       setQvVolumeCurveData(QvVolumeCurveDatajson);
-    setQvTotalingInfo(QvTotalingInfojson);
+    if (response) {
+      setQvVolumeCurveData(QvVolumeCurveDatajson);
+      setQvTotalingInfo(QvTotalingInfojson);
     }
-   
-  }, [QvVolumeCurveDatajson,QvTotalingInfojson]);
+
+  }, [QvVolumeCurveDatajson, QvTotalingInfojson]);
   const dates = QvTotalingInfo.AverageDays.map(item => item.Date);
   const count = dates.length;
   const formatDate = (date: string) => {
@@ -33,7 +33,14 @@ const Grids: React.FC = () => {
   };
   const startDate = dates.length > 0 ? formatDate(dates[dates.length - 1]) : '';
   const endDate = dates.length > 0 ? formatDate(dates[0]) : '';
-  const displayText = count > 0 ? `${count}日平均(${startDate}-${endDate})` : '';
+  
+  let displayText;
+  if (count === 1) {
+    displayText = dates[0];
+  } else {
+    displayText = count > 0 ? `${count}日平均(${startDate}-${endDate})` : '';
+  }
+
 
   const TableRowComponent = ({ data, label }: { data: any; label: string }) => {
     const dataCopy = JSON.parse(JSON.stringify(data));
