@@ -1,18 +1,17 @@
-*{
+* {
   font-size: 13px;
 }
-
 
 .inline-container {
   display: flex;
   align-items: center;
-  margin:0px 10px;
+  margin: 0px 10px;
 }
 
 .wrapper {
   display: flex;
   align-items: center;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
 }
 
 .wrapper p {
@@ -21,36 +20,37 @@
 }
 
 .color-picker-column input {
-
-  margin:0px 10px;
+  margin: 0px 10px;
   width: 80px;
 }
 
 .text-column {
   margin-top: 10px;
   width: 100px;
-  font-size: 14px; 
+  font-size: 14px;
   margin-bottom: 9px;
 }
 
 .header-container {
-  margin-left:10px ;
+  margin-left: 10px;
   display: flex;
   align-items: center;
 }
-.header-p{
+
+.header-p {
   text-align: center;
-  margin:0px 10px;
+  margin: 0px 10px;
   width: 80px;
 }
+
 .container {
   display: flex;
   align-items: center;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
 }
 
 .inline-element {
-  margin-right: 50px; 
+  margin-right: 50px;
 }
 
 .settings-icon {
@@ -58,30 +58,29 @@
   background-size: contain;
   background-repeat: no-repeat;
   cursor: pointer;
-  padding-right: 30px; 
+  padding-right: 30px;
 }
-
 
 .category-title {
   position: relative;
-  font-weight: bold; 
-  font-size: 1.2em; 
-  padding-left: 10px; 
+  font-weight: bold;
+  font-size: 1.2em;
+  padding-left: 10px;
 }
 
 .category-title::before {
-  content: ""; 
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 5px;
   height: 100%;
-  background-color: #143867; 
-  border-radius: 2px; 
+  background-color: #143867;
+  border-radius: 2px;
 }
 
 .sub-title {
-  font-weight: bold; 
+  font-weight: bold;
   margin: 5px;
 }
 
@@ -92,6 +91,6 @@
   margin-right: 30px;
 }
 
-.color-picker{
+.color-picker {
   margin-left: 10px;
 }

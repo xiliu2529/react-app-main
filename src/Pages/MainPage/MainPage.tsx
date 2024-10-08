@@ -17,14 +17,12 @@ import {
 import { useMyContext, } from '../../contexts/MyContext';
 import { useEffect, useState } from 'react';
 
-
 const MainPage: React.FC = () => {
-  const { isHistoricalActive, buttonName, loading, error ,clientMessage,serverMessage} = useMyContext();
+  const { isHistoricalActive, buttonName, loading, error, clientMessage, serverMessage } = useMyContext();
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [errorMessage, setErrorMessage] = useState<any>('');
 
   useEffect(() => {
-
     if (error.show === '1' || error.show === '2') {
       setShowSnackbar(true);
       const timer = setTimeout(() => {
@@ -41,8 +39,6 @@ const MainPage: React.FC = () => {
       return () => clearTimeout(timer);
     }
   }, [error]);
-
-
 
   return (
     <div className="layout">
@@ -94,5 +90,4 @@ const MainPage: React.FC = () => {
     }
   }
 };
-
 export default MainPage;

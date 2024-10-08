@@ -16,9 +16,7 @@
   width: 270px;
   height: 100%;
   background-color: #fff;
-
 }
-
 
 .title-1 {
   position: relative;
@@ -28,13 +26,11 @@
 
 #title-1-2 {
   margin-top: 10px;
-
 }
 
 .SQ-css {
   height: 90px;
 }
-
 
 .title-1::before {
   content: '';
@@ -53,8 +49,8 @@
   padding: 5px 10px !important;
   width: 54px;
   white-space: nowrap;
-
 }
+
 #demo-simple-select {
   padding: 10px;
   padding-right: 30px;
@@ -98,8 +94,6 @@
   border: #143867 2px solid;
   border-radius: 3px;
   height: 20px;
-
-
 }
 
 #demo-simple-select {

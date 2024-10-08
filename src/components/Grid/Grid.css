@@ -6,9 +6,11 @@
   height: 460px;
   overflow-x: auto;
 }
-.table-container{
+
+.table-container {
   padding: 0 !important;
 }
+
 .table-title {
   padding: 0 !important;
   color: #2d70d4 !important;
@@ -23,7 +25,6 @@
   text-align: right !important;
   font-size: 12px !important;
   white-space: nowrap;
-
 }
 
 .table-head-cell {
@@ -33,7 +34,6 @@
   text-align: center !important;
   white-space: nowrap;
   font-size: 12px !important;
-
 }
 
 .table-body-cell-a,
@@ -70,15 +70,12 @@
 .table-body-cell:nth-of-type(-n+4) {
   background-color: var(--cell-bg-color);
   filter: brightness(90%);
-
-
 }
 
 .table-body-cell-a:nth-last-of-type(1),
 .table-body-cell:nth-last-of-type(1) {
   display: var(--hide-last-column);
   filter: var(--filter-brightness);
-
 }
 
 .table-head-cell:nth-last-of-type(1),
@@ -96,7 +93,6 @@
   display: var(--hide-last-columns);
 }
 
-
 .center-align {
   text-align: center !important;
 }
@@ -113,6 +109,4 @@
 .table-body-cell:nth-last-of-type(1) {
   display: var(--hide-last-column);
   filter: var(--filter-brightness);
-
 }
-

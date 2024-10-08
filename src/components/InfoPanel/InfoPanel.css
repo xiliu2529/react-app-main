@@ -1,11 +1,13 @@
 #InfoPanel{
   margin: 0 10px;
 }
+
 .toggle-button {
     display: flex;
     height: 30px;
     margin: 10px 0 16px;
   }
+
   .customToggleButton{
     width: 200px;
     background-color: #fff;
@@ -13,6 +15,7 @@
     border-radius: 0px !important;
     border-bottom: #E0E0E0 1px solid !important;
   }
+
   .customToggleButton.Mui-selected {
     font-weight: bold; 
     background-color: #e0e0e0;
@@ -25,6 +28,7 @@
   padding-left: 10px; 
   position: relative; 
 }
+
 .message::before {
   content: ''; 
   width: 4px;
@@ -35,13 +39,16 @@
   left: 0; 
   top: 0;
 }
+
 .execution-time{
   font-size: 10px;
   color: #635e5e;
 }
+
 .message{
  width: 350px;
 }
+
 .label{
   white-space: nowrap; 
 }
@@ -50,11 +57,3 @@
   width: 100px; 
   white-space: nowrap; 
 }
-
-  
-  
-  
-  
-  
- 
-  

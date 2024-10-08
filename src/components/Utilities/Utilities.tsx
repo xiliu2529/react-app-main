@@ -3,9 +3,6 @@ import SettingsDialog from '../../components/SettingsDialog/SettingsDialog'
 import './Utilities.css'
 import { useMyContext } from '../../contexts/MyContext';
 
-
-
-
 const Utilities: React.FC = () => {
   const { setGriddownload ,griddownload,setShouldDownload} = useMyContext();
   const print = () => {
@@ -13,18 +10,13 @@ const Utilities: React.FC = () => {
   }
   const help = () => {
     const pdfUrl = 'help_volumecurve.pdf';
-   
     window.open(pdfUrl, '_blank');
 }
-
 
   const download = () => {
     setGriddownload(!griddownload)
     setShouldDownload(true)
-    
   }
-
-
   return (
     <div className="utilities-container">
       <span className="help-button" onClick={help}>ヘルプ</span>
@@ -33,8 +25,5 @@ const Utilities: React.FC = () => {
       <SettingsDialog />
     </div>
   )
-  
-  
 };
-
 export default Utilities;

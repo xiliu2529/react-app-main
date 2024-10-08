@@ -2,7 +2,6 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { MyContextType } from '../types/myContextTypes';
 
 const MyContext = createContext<MyContextType | undefined>(undefined);
-
 export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isHistoricalActive, setisHistoricalActive] = useState<boolean>(true);
   const [buttonName, setbuttonName] = useState<number>(1);
@@ -16,8 +15,6 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     ],
   });
   const [error, setError] = useState<ErrorState>({ show: '', type: '' });
-
-
   const initialConditionSettingState: ConditionSettingState = {
     marketState: {
       preMarketOpening: false,
@@ -239,7 +236,6 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         setclientMessage,
         serverMessage,
         setserverMessage
-
       }}
     >
       {children}

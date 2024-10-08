@@ -15,13 +15,13 @@ type MarketState = {
   eveningClose: boolean;
 };
 
-type ErrorState ={
-  show: string; 
-  type: string; 
+type ErrorState = {
+  show: string;
+  type: string;
 }
 type ConditionSettingState = {
   marketState: MarketState,
-  inputValue:string,
+  inputValue: string,
 };
 type RequestPayload = {
   Code: string;
@@ -78,38 +78,38 @@ type ViewSetting = {
 
 
 interface RequestPayload {
-  Code: string; 
+  Code: string;
   HistoricalSetting: HistoricalSetting;
   CalculationSetting: CalculationSetting;
   ViewSetting: ViewSetting;
 }
 
 interface HistoricalSetting {
-  Category: string; 
+  Category: string;
   Range: Range;
 }
 interface Range {
-  DateFrom: string; 
-  DateTo: string; 
+  DateFrom: string;
+  DateTo: string;
   Days: string;
   SQ: SQ;
 }
 
 interface SQ {
   LargeSQ: string;
-  SmallSQ: string; 
+  SmallSQ: string;
   WeeklySQ: string;
 }
 
 interface CalculationSetting {
-  Category: string; 
+  Category: string;
   Range: CalculationRange;
   Individual: IndividualCalculation;
 }
 
 interface CalculationRange {
-  TimeFrom: string; 
-  TimeTo: string; 
+  TimeFrom: string;
+  TimeTo: string;
   Minutes: string;
 }
 interface IndividualCalculation {
@@ -124,7 +124,7 @@ interface TimeSetting {
 }
 
 interface ViewSetting {
-  MostVolumeAndPriceType: string; 
+  MostVolumeAndPriceType: string;
   PercentageOfDayType: string;
 }
 
@@ -133,7 +133,7 @@ interface ViewSettings {
   SettingSwitch: boolean;
   Tab: number;
   HighLow: string;
-  Glaph: string; 
-  CheckboxStates: boolean[]; 
+  Glaph: string;
+  CheckboxStates: boolean[];
   Colors: string[];
 };

@@ -34,6 +34,6 @@ type GridDisplayData = {
     PMOpenTickFrame?: TimeFrameData;
     PMTickFrame?: TimeFrames;
     PMCloseTickFrame?: TimeFrameData;
-    PMCloseSessionFrame?:TimeFrameData;
+    PMCloseSessionFrame?: TimeFrameData;
 };
 

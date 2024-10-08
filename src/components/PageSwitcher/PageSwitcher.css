@@ -23,7 +23,6 @@
   margin-left: 10px;
 }
 
-
 .ChartPage-InfoPanel .toggle-button {
   margin-left: 280px
 }
@@ -75,7 +74,6 @@
 
 .SettingsChartGridPage-InfoPanelGrid .grid-container {
   width: 560px;
-
 }
 
 .SettingsChartPage {
@@ -93,8 +91,4 @@
 .SettingsGridPage-InfoPanelGrid {
   margin-left: 10px;
   width: 900px;
-
-
-
 }
-

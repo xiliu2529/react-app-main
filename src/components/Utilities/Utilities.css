@@ -1,106 +1,101 @@
 .utilities-container {
-    display: flex;
-    align-items: center; 
-    gap: 1px;
-  }
-  
-  .help-button,
-  .print-icon,
-  .favorite-button,
-  .download-button {
-    display: inline-flex;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.help-button,
+.print-icon,
+.favorite-button,
+.download-button {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   background-repeat: no-repeat;
-  background-position: left center; 
+  background-position: left center;
   cursor: pointer;
-  height: 22px; 
-  line-height: 30px; 
-  }
-
-.print-icon{
-    background-image: url('../../img/print_24dp_FFFFFF.svg');
-    background-size: contain;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    min-width: 30px; 
-    max-width: 60px;
-    margin-left: 10px;
- 
-  }
-.help-button{
-    background-image: url('../../img/info_24dp_FFFFFF.svg');
-    background-size: 20px 20px;
-    background-repeat: no-repeat;
-    background-position: 5px center;
-    cursor: pointer;
-    height: 20px;
-    color: #fff;
-    font-weight: 550;
-    border: 1px solid #fff;
-    padding: 5px;
-    border-radius: 5px;
-    padding-left: 30px;
-    white-space: nowrap;
-    
+  height: 22px;
+  line-height: 30px;
 }
 
-.download-button{
-    background-image: url('../../img/file_download_24dp_FFFFFF.svg');
-    background-size: contain;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    min-width: 30px; 
-    max-width: 60px; 
+.print-icon {
+  background-image: url('../../img/print_24dp_FFFFFF.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  min-width: 30px;
+  max-width: 60px;
+  margin-left: 10px;
+}
+
+.help-button {
+  background-image: url('../../img/info_24dp_FFFFFF.svg');
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: 5px center;
+  cursor: pointer;
+  height: 20px;
+  color: #fff;
+  font-weight: 550;
+  border: 1px solid #fff;
+  padding: 5px;
+  border-radius: 5px;
+  padding-left: 30px;
+  white-space: nowrap;
+}
+
+.download-button {
+  background-image: url('../../img/file_download_24dp_FFFFFF.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  min-width: 30px;
+  max-width: 60px;
 }
 
 @media print {
-  .commonsp-top,.help-button,.header,.left-sidebar,.table-containergrid{
+  .commonsp-top,
+  .help-button,
+  .header,
+  .left-sidebar,
+  .table-containergrid {
     display: none;
   }
-  html{
-    overflow-x:hidden !important;
+
+  html {
+    overflow-x: hidden !important;
   }
 
-  
-  .body{
-    transform: scale(0.9); 
+  .body {
+    transform: scale(0.9);
     transform-origin: top left;
   }
-  .grid-container{
+
+  .grid-container {
     width: auto !important;
     height: auto !important;
   }
-  .table-container{
+
+  .table-container {
     height: auto !important;
     width: auto !important;
   }
 
-  .infoPanelGrid{
+  .infoPanelGrid {
     height: auto !important;
     width: auto !important;
   }
- 
+
   .highlight-cell {
     min-width: 50px !important;
   }
-  
+
   .Chart {
     width: 100% !important;
-    height: auto !important; 
+    height: auto !important;
   }
 
-  .InfoPanelHistoricalGrid{
+  .InfoPanelHistoricalGrid {
     width: auto !important;
   }
-
-
-
 }
-
-
-  
- 
-
-
-  

@@ -1,26 +1,26 @@
 type DateFrame = {
-    Volume?: string;
-    Distribution?: string;
-  };
-  
-  type TickFrame = {
+  Volume?: string;
+  Distribution?: string;
+};
+
+type TickFrame = {
+  [key: string]: DateFrame;
+};
+
+type DailyData = {
+  TotalFrame?: DateFrame;
+  AMOpenTickFrame?: DateFrame;
+  AMTickFrame?: {
     [key: string]: DateFrame;
   };
-  
-  type DailyData = {
-    TotalFrame?: DateFrame;
-    AMOpenTickFrame?: DateFrame;
-    AMTickFrame?: {
-      [key: string]: DateFrame;
-    };
-    AMCloseTickFrame?: DateFrame;
-    PMOpenTickFrame?: DateFrame;
-    PMTickFrame?: {
-      [key: string]: DateFrame;
-    };
-    PMCloseTickFrame?: DateFrame;
+  AMCloseTickFrame?: DateFrame;
+  PMOpenTickFrame?: DateFrame;
+  PMTickFrame?: {
+    [key: string]: DateFrame;
   };
-  
-  type HistoricalData = {
-    [date: string]: DailyData;
-  };
+  PMCloseTickFrame?: DateFrame;
+};
+
+type HistoricalData = {
+  [date: string]: DailyData;
+};

@@ -1,5 +1,3 @@
-
-
 export const serverMessageAPI = async () => {
   try {
     const response = await fetch(`../common/conf/serverMessage.json`, {
@@ -8,11 +6,9 @@ export const serverMessageAPI = async () => {
         'Content-Type': 'application/json',
       }
     });
-
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-
     const result = await response.json();
     return result;
   } catch (error) {
@@ -20,6 +16,7 @@ export const serverMessageAPI = async () => {
     throw error;
   }
 };
+
 export const clientMessageAPI = async () => {
   try {
     const response = await fetch(`../common/conf/clientMessage.json`, {
@@ -28,11 +25,9 @@ export const clientMessageAPI = async () => {
         'Content-Type': 'application/json',
       }
     });
-
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-
     const result = await response.json();
     return result;
   } catch (error) {
@@ -58,7 +53,7 @@ export const packageAPI = async () => {
     if (typeof resNoACL === 'string') {
       noaclFlag = resNoACL === "true" ? true : false
     } else {
-      noaclFlag = resNoACL??false
+      noaclFlag = resNoACL ?? false
     }
     const result = await response.json();
     return { noaclFlag, result };
@@ -76,11 +71,9 @@ export const loadSettingsAPI = async () => {
         'Content-Type': 'application/json',
       }
     });
-
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-
     const result = await response.json();
     return result;
   } catch (error) {
@@ -116,15 +109,14 @@ export const saveSettingsAPI = async (data: any) => {
 
 export const requestAPI = async (data: any) => {
   try {
- const response = await fetch(`../../analyze/request?type=volumecurve`, {
+    const response = await fetch(`../../analyze/request?type=volumecurve`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'dataType':'json',
-        'cache':'false'
+        'dataType': 'json',
+        'cache': 'false'
       },
-      body:JSON.stringify(data)
-      
+      body: JSON.stringify(data)
     });
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -142,13 +134,12 @@ export const statusAPI = async (data: any) => {
     const queryParams = new URLSearchParams({
       RequestID: data
     }).toString();
-      const response = await fetch(`../../analyze/status?${queryParams}`, {
+    const response = await fetch(`../../analyze/status?${queryParams}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'dataType':'json'
+        'dataType': 'json'
       },
-      
     });
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -160,15 +151,14 @@ export const statusAPI = async (data: any) => {
     throw error;
   }
 };
-export const getQvDataAPI = async (ID: any,Qv:any) => {
+export const getQvDataAPI = async (ID: any, Qv: any) => {
   try {
-        const response = await fetch(`../../results/volumecurve/json/${ID}/${Qv}`, {
+    const response = await fetch(`../../results/volumecurve/json/${ID}/${Qv}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'dataType':'json'
+        'dataType': 'json'
       },
-      
     });
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
