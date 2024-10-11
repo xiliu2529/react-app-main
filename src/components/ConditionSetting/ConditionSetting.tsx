@@ -743,7 +743,7 @@ const ConditionSetting: React.FC = () => {
       case '3':
         return (
           <div style={{ height: "90px" }}>
-            <div style={{ display: 'flex', alignItems: 'center', height: "50px" }}>
+            <div style={{ display: 'flex', alignItems: 'center', height: "40px" }}>
               <p style={{ display: 'inline-block', fontSize: '10px' }}>期間</p>
 
               <LocalizationProvider dateAdapter={AdapterDayjs} >
