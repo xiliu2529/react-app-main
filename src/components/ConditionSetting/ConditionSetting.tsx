@@ -8,14 +8,18 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
 import dayjs, { Dayjs } from 'dayjs';
+import 'dayjs/locale/ja'; 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { saveSettingsAPI, loadSettingsAPI, requestAPI, statusAPI, getQvDataAPI, packageAPI, serverMessageAPI, clientMessageAPI } from '../../api/api';
 
 const ConditionSetting: React.FC = () => {
+  const [isFirstRender, setIsFirstRender] = useState(true);
   const [inputValue, setInputValue] = useState<string>('');
   const [alignment, setAlignment] = useState<string>('');
   const [days, setDays] = useState<number | ''>(1);
-  const [value1, setValue1] = useState<number>(30);
+
+  const [selectedMinutes, setselectedMinutes] = useState<number | null>(null);
+
   const [minutes, setminutes] = useState<string>('');
   const [startTime, setStartTime] = useState<string>('');
   const [startTime1, setStartTime1] = useState<string>('');
@@ -59,6 +63,7 @@ const ConditionSetting: React.FC = () => {
       event.preventDefault();
     }
   };
+
   const handleInputDay = (event: any) => {
     const inputValue = event.target.value;
     if (inputValue === '') {
@@ -86,6 +91,11 @@ const ConditionSetting: React.FC = () => {
     }
   };
 
+  const handleMinutesBlur  = () => {
+    if (selectedMinutes === null) {
+        setselectedMinutes(30);
+    }
+};
 
   const handleStartTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newStartTime = event.target.value;
@@ -103,17 +113,27 @@ const ConditionSetting: React.FC = () => {
     });
   };
 
-  const handleChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = Number(e.target.value);
+  const updateMinutes = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+
+    if (inputValue === '') {
+        setselectedMinutes(null); 
+        return;
+    }
+
+    const newValue = Number(inputValue);
 
     if (newValue < 1) {
-      setValue1(1);
+        setselectedMinutes(1);
     } else if (newValue > 30) {
-      setValue1(30);
+        setselectedMinutes(30); 
     } else {
-      setValue1(newValue);
+        setselectedMinutes(newValue); 
     }
-  };
+};
+
+
+
   const getTenDaysAgoDate = (): string => {
     const today = new Date();
     const tenDaysAgo = new Date(today);
@@ -177,7 +197,7 @@ const ConditionSetting: React.FC = () => {
         Range: {
           TimeFrom: startTime,
           TimeTo: endTime,
-          Minutes: String(value1),
+          Minutes: String(selectedMinutes),
         },
         Individual: {
           AM: {
@@ -238,7 +258,7 @@ const ConditionSetting: React.FC = () => {
             setminutes(requestPayload.CalculationSetting.Category);
             setStartTime(requestPayload.CalculationSetting.Range.TimeFrom);
             setEndTime(requestPayload.CalculationSetting.Range.TimeTo);
-            setValue1(Number(requestPayload.CalculationSetting.Range.Minutes));
+            setselectedMinutes(Number(requestPayload.CalculationSetting.Range.Minutes));
             setMarketState({
               preMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.OpenTick),
               preMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.CloseTick),
@@ -270,7 +290,7 @@ const ConditionSetting: React.FC = () => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [inputValue, alignment, startDate, endDate, days, checkedState, minutes, startTime, endTime, value1, marketState, settingsState]);
+  }, [inputValue, alignment, startDate, endDate, days, checkedState, minutes, startTime, endTime, selectedMinutes, marketState, settingsState]);
 
   useEffect(() => {
     if (minutes == '0') {
@@ -282,6 +302,10 @@ const ConditionSetting: React.FC = () => {
   }, [startTime])
 
   useEffect(() => {
+    if (isFirstRender) {
+      setIsFirstRender(false);
+      return;
+    }
     setshowModal({
       Code: inputValue,
       HistoricalSetting: {
@@ -302,7 +326,7 @@ const ConditionSetting: React.FC = () => {
         Range: {
           TimeFrom: startTime,
           TimeTo: endTime,
-          Minutes: String(value1),
+          Minutes: String(selectedMinutes),
         },
         Individual: {
           AM: {
@@ -319,12 +343,8 @@ const ConditionSetting: React.FC = () => {
           },
         },
       },
-      ViewSetting: {
-        MostVolumeAndPriceType: settingsState.radioValues[0],
-        PercentageOfDayType: convertBoolToString(settingsState.checkboxStates[3]),
-      },
     });
-  }, [inputValue, alignment, startDate, endDate, days, checkedState, minutes, startTime, endTime, value1, marketState]);
+  }, [inputValue, alignment, startDate, endDate, days, checkedState, minutes, startTime, endTime, selectedMinutes, marketState]);
 
   const saveSettings = async () => {
     try {
@@ -475,7 +495,7 @@ const ConditionSetting: React.FC = () => {
     setminutes(showModal.CalculationSetting.Category);
     setStartTime(showModal.CalculationSetting.Range.TimeFrom);
     setEndTime(showModal.CalculationSetting.Range.TimeTo);
-    setValue1(Number(showModal.CalculationSetting.Range.Minutes));
+    setselectedMinutes(Number(showModal.CalculationSetting.Range.Minutes));
     setMarketState({
       preMarketOpening: convertToBoolean(showModal.CalculationSetting.Individual.AM.OpenTick),
       preMarketClose: convertToBoolean(showModal.CalculationSetting.Individual.AM.CloseTick),
@@ -495,6 +515,8 @@ const ConditionSetting: React.FC = () => {
     let hasError = false;
     const newValidationState = { error: false, helperText: '' };
     const todayFormatted = today;
+    const oneYearAgo = new Date(today);
+    oneYearAgo.setFullYear(new Date().getFullYear() - 1);
 
     if (!payload.Code) {
       newValidationState.error = true;
@@ -519,6 +541,7 @@ const ConditionSetting: React.FC = () => {
     } else {
       seterrorDateto(false);
     }
+
     if (category === '3') {
       if (!DateFrom || !DateTo) {
         seterrorDatefrom(true);
@@ -532,6 +555,7 @@ const ConditionSetting: React.FC = () => {
         seterrorDatefrom(false);
       }
     }
+
     if (category === '4') {
       const sq = payload.HistoricalSetting.Range.SQ;
       if (sq.LargeSQ === '0' && sq.SmallSQ === '0' && sq.WeeklySQ === '0') {
@@ -556,7 +580,8 @@ const ConditionSetting: React.FC = () => {
     }
   };
 
-  const theme = createTheme({
+  const theme = createTheme(
+    {
     components: {
       MuiTextField: {
         styleOverrides: {
@@ -618,7 +643,8 @@ const ConditionSetting: React.FC = () => {
         },
       },
     },
-  });
+  },
+);
 
   const renderUI = () => {
     const currentAlignment = alignment || '0';
@@ -662,7 +688,8 @@ const ConditionSetting: React.FC = () => {
           <div style={{ height: "90px" }}>
             <div style={{ display: 'flex', alignItems: 'center', height: "40px" }}>
               <p style={{ fontSize: '10px' }}>開始日</p>
-              <LocalizationProvider dateAdapter={AdapterDayjs} >
+              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja"> 
+
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                   <ThemeProvider theme={theme}>
                     <DatePicker
@@ -705,23 +732,25 @@ const ConditionSetting: React.FC = () => {
             <div style={{ display: 'flex', alignItems: 'center', height: "40px" }}>
               <p style={{ fontSize: '10px' }}>終了日</p>
 
-              <LocalizationProvider dateAdapter={AdapterDayjs} >
+              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja"> 
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                   <ThemeProvider theme={theme}>
                     <DatePicker
                       value={endDate ? dayjs(endDate) : dayjs(showModal.HistoricalSetting.Range.DateTo)}
                       onChange={handleEndDateChange}
                       format="YYYY/MM/DD"
+                      minDate={dayjs(minDaysAgo)}
                     />
                   </ThemeProvider>
                 </DemoContainer>
               </LocalizationProvider>
-               </div>
-              <div style={{ height: '10px' }}>
-                {errorDateto &&
-                  <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}>{clientMessage.WCI030}</FormHelperText>
-                }
-             
+            </div>
+            <div style={{ height: '10px' }}>
+              {errorDateto &&
+                <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}>
+                  {clientMessage.WCI030}</FormHelperText>
+              }
+
             </div>
             <Stack direction="row" spacing={1} alignItems="center" sx={{ marginTop: '10px' }}>
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
@@ -746,7 +775,7 @@ const ConditionSetting: React.FC = () => {
             <div style={{ display: 'flex', alignItems: 'center', height: "40px" }}>
               <p style={{ display: 'inline-block', fontSize: '10px' }}>期間</p>
 
-              <LocalizationProvider dateAdapter={AdapterDayjs} >
+              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja"> 
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                   <ThemeProvider theme={theme}>
                     <DatePicker
@@ -761,13 +790,14 @@ const ConditionSetting: React.FC = () => {
 
               <Typography sx={{ margin: '2px' }}> ―</Typography>
 
-              <LocalizationProvider dateAdapter={AdapterDayjs} >
+              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja"> 
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                   <ThemeProvider theme={theme}>
                     <DatePicker
                       value={endDate ? dayjs(endDate) : dayjs(showModal.HistoricalSetting.Range.DateTo)}
                       onChange={handleEndDateChange}
                       format="YYYY/MM/DD"
+                      minDate={dayjs(minDaysAgo)}
                     />
                   </ThemeProvider>
                 </DemoContainer>
@@ -885,8 +915,10 @@ const ConditionSetting: React.FC = () => {
               <>  <Box className="inputContainer">
                 <TextField
                   type="number"
-                  value={value1}
-                  onChange={handleChange1}
+                  value={selectedMinutes}
+                  onChange={updateMinutes}
+                  onKeyDown={handleKeyDown}
+                  onBlur={handleMinutesBlur}
                   inputProps={{
                     min: 1,
                     max: 30,

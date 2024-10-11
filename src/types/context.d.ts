@@ -27,7 +27,7 @@ type RequestPayload = {
   Code: string;
   HistoricalSetting: HistoricalSetting;
   CalculationSetting: CalculationSetting;
-  ViewSetting: ViewSetting;
+  ViewSetting?: ViewSetting;
 };
 
 type HistoricalSetting = {
