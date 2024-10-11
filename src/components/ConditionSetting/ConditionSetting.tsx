@@ -1,14 +1,20 @@
 import { TextField, Box, Grid, Typography, Button, Stack, ToggleButton, ToggleButtonGroup, MenuItem, Checkbox, Select, FormControlLabel, FormHelperText } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
-import { saveSettingsAPI, loadSettingsAPI, requestAPI, statusAPI, getQvDataAPI, packageAPI,serverMessageAPI,clientMessageAPI } from '../../api/api';
+import dayjs, { Dayjs } from 'dayjs';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { saveSettingsAPI, loadSettingsAPI, requestAPI, statusAPI, getQvDataAPI, packageAPI, serverMessageAPI, clientMessageAPI } from '../../api/api';
 
 const ConditionSetting: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [alignment, setAlignment] = useState<string>('');
-  const [days, setDays] = useState<number>(1);
+  const [days, setDays] = useState<number | ''>(1);
   const [value1, setValue1] = useState<number>(30);
   const [minutes, setminutes] = useState<string>('');
   const [startTime, setStartTime] = useState<string>('');
@@ -27,7 +33,7 @@ const ConditionSetting: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['1', '1', '1']);
-  const {setclientMessage,setserverMessage, clientMessage, hasLoaded, setHasLoaded, noacl, setNoacl, setSaveViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading, setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
+  const { setclientMessage, setserverMessage, clientMessage, hasLoaded, setHasLoaded, noacl, setNoacl, setSaveViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading, setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
   const [errorDatefrom, seterrorDatefrom] = useState<boolean>(false);
@@ -47,20 +53,40 @@ const ConditionSetting: React.FC = () => {
       fontWeight: '900',
     },
   };
-  const handleInputDay = (event: any) => {
-    if (event.target.value > 30) {
-      setDays(30);
-      return
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === '.' || event.key === 'e') {
+      event.preventDefault();
     }
-    if (event.target.value < 1) {
-      setDays(1);
-      return
-    }
-    setDays(event.target.value);
   };
-  const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    setter(event.target.value);
-  }
+  const handleInputDay = (event: any) => {
+    const inputValue = event.target.value;
+    if (inputValue === '') {
+      setDays('');
+      return;
+    }
+    if (!/^\d*$/.test(inputValue)) {
+      return;
+    }
+    const numericValue = parseInt(inputValue, 10);
+    if (numericValue > 30) {
+      setDays(30);
+      return;
+    }
+    if (numericValue < 1) {
+      setDays(1);
+      return;
+    }
+    setDays(numericValue);
+  };
+
+  const handleBlur = () => {
+    if (days === '') {
+      setDays(10);
+    }
+  };
+
+
   const handleStartTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newStartTime = event.target.value;
     setStartTime(newStartTime);
@@ -136,8 +162,8 @@ const ConditionSetting: React.FC = () => {
       HistoricalSetting: {
         Category: alignment,
         Range: {
-          DateFrom: startDate.split('-').join('/'),
-          DateTo: endDate.split('-').join('/'),
+          DateFrom: startDate,
+          DateTo: endDate,
           Days: String(days),
           SQ: {
             LargeSQ: checkedState[0],
@@ -197,7 +223,7 @@ const ConditionSetting: React.FC = () => {
       })
 
     if (!noACL) {
-      document.title ='ボリュームカーブ' ;
+      document.title = 'ボリュームカーブ';
       const loadSettings = async () => {
         try {
           const result = await loadSettingsAPI();
@@ -205,8 +231,8 @@ const ConditionSetting: React.FC = () => {
             && result.body.response.D.volumecurve_info.ViewSettings) {
             const requestPayload = result.body.response.D.volumecurve_info;
             setAlignment(requestPayload.HistoricalSetting.Category);
-            setstartDate(requestPayload.HistoricalSetting.Range.DateFrom.split('/').join('-'));
-            setendDate(requestPayload.HistoricalSetting.Range.DateTo.split('/').join('-'));
+            setstartDate(requestPayload.HistoricalSetting.Range.DateFrom);
+            setendDate(requestPayload.HistoricalSetting.Range.DateTo);
             setDays(Number(requestPayload.HistoricalSetting.Range.Days));
             setCheckedState([requestPayload.HistoricalSetting.Range.SQ.LargeSQ, requestPayload.HistoricalSetting.Range.SQ.SmallSQ, requestPayload.HistoricalSetting.Range.SQ.WeeklySQ]);
             setminutes(requestPayload.CalculationSetting.Category);
@@ -228,8 +254,8 @@ const ConditionSetting: React.FC = () => {
         }
       };
       loadSettings();
-    }else{
-      document.title ='システム障害対応中！！ボリュームカーブ' ;
+    } else {
+      document.title = 'システム障害対応中！！ボリュームカーブ';
     }
     setHasLoaded(true);
   }, [hasLoaded]);
@@ -261,8 +287,8 @@ const ConditionSetting: React.FC = () => {
       HistoricalSetting: {
         Category: alignment,
         Range: {
-          DateFrom: startDate.split('/').join('-'),
-          DateTo: endDate.split('/').join('-'),
+          DateFrom: startDate,
+          DateTo: endDate,
           Days: String(days),
           SQ: {
             LargeSQ: checkedState[0],
@@ -335,7 +361,7 @@ const ConditionSetting: React.FC = () => {
       console.error('Error fetching data:', err);
     }
   };
-  
+
   const getserverMessage = async () => {
     try {
       const response = await serverMessageAPI();
@@ -404,7 +430,7 @@ const ConditionSetting: React.FC = () => {
                     // QvHistoricalData
                     const QvHistoricalData = await getQvData(ID, 'QvHistoricalData.json');
                     setQvHistoricalDatajson(QvHistoricalData)
-                 
+
                     setLoading(false);
                   } else if (status.Status === -1) {
                     clearInterval(intervalId);
@@ -438,6 +464,7 @@ const ConditionSetting: React.FC = () => {
     fetchData();
   }, [requestPayload]);
 
+
   useEffect(() => {
     setInputValue(showModal.Code);
     setAlignment(showModal.HistoricalSetting.Category);
@@ -460,12 +487,15 @@ const ConditionSetting: React.FC = () => {
   }, [isHistoricalActive]);
 
   const validatePayload = (payload: RequestPayload): boolean => {
+
     const category = payload.HistoricalSetting.Category;
     const DateTo = payload.HistoricalSetting.Range.DateTo
     const DateFrom = payload.HistoricalSetting.Range.DateFrom
+
     let hasError = false;
     const newValidationState = { error: false, helperText: '' };
-    const todayFormatted = today.split('-').join('/');
+    const todayFormatted = today;
+
     if (!payload.Code) {
       newValidationState.error = true;
       newValidationState.helperText = clientMessage.WCI028;
@@ -476,14 +506,14 @@ const ConditionSetting: React.FC = () => {
     }
 
     if (category === '1') {
-      if (!DateFrom || DateFrom > todayFormatted) {
+      if (DateFrom == 'Invalid Date' || DateFrom > todayFormatted) {
         seterrorDatefrom(true);
         hasError = true;
       } else {
         seterrorDatefrom(false);
       }
     }
-    if (category === '2' && !DateTo) {
+    if (category === '2' && DateTo == 'Invalid Date') {
       seterrorDateto(true);
       hasError = true;
     } else {
@@ -514,6 +544,82 @@ const ConditionSetting: React.FC = () => {
     return !hasError;
   };
 
+  const handleStartDateChange = (newValue: Dayjs | null) => {
+    if (newValue !== null) {
+      setstartDate(newValue.format('YYYY-MM-DD'))
+    }
+  };
+
+  const handleEndDateChange = (newValue: Dayjs | null) => {
+    if (newValue !== null) {
+      setendDate(newValue.format('YYYY-MM-DD'))
+    }
+  };
+
+  const theme = createTheme({
+    components: {
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            zIndex: 10,
+            minWidth: '111px !important',
+            padding: '0',
+            '& .MuiInputBase-input': {
+              fontSize: '10px',
+              paddingLeft: '5px !important',
+              paddingRight: '0px !important',
+              paddingTop: '5px !important',
+            },
+            '& .MuiOutlinedInput-root': {
+              width: '110px',
+              height: '25px',
+              marginLeft: '5px',
+              boxSizing: 'border-box',
+              overflow: 'hidden',
+            },
+            '& .MuiInputAdornment-root': {
+              marginRight: '0px',
+              padding: '0px !important',
+            },
+            '& .MuiSvgIcon-root': {
+              fontSize: '10px',
+              padding: '0px !important',
+            },
+          },
+        },
+      },
+      // @ts-ignore
+      MuiPickersTextField: {
+        styleOverrides: {
+          root: {
+            padding: '0',
+            '& .MuiInputBase-input': {
+              fontSize: '11px',
+              paddingLeft: '5px !important',
+              paddingRight: '0px !important',
+              paddingTop: '5px !important',
+            },
+            '& .MuiOutlinedInput-root': {
+              height: '25px',
+              marginLeft: '5px',
+              boxSizing: 'border-box',
+              overflow: 'hidden',
+            },
+            '& .MuiInputAdornment-root': {
+              marginRight: '0px',
+              padding: '0px !important',
+            },
+            '& .MuiSvgIcon-root': {
+              fontSize: '100px',
+              padding: '0px !important',
+              margin: '0px !important',
+            },
+          },
+        },
+      },
+    },
+  });
+
   const renderUI = () => {
     const currentAlignment = alignment || '0';
     switch (currentAlignment) {
@@ -529,6 +635,8 @@ const ConditionSetting: React.FC = () => {
                 value={days}
                 size="small"
                 onChange={handleInputDay}
+                onKeyDown={handleKeyDown}
+                onBlur={handleBlur}
                 InputProps={{
                   sx: {
                     padding: 0,
@@ -552,14 +660,29 @@ const ConditionSetting: React.FC = () => {
       case '1':
         return (
           <div style={{ height: "90px" }}>
-            <div style={{ height: "60px" }}>
-              <p style={{ display: 'inline-block', fontSize: '10px' }}>開始日</p>
-              <input className='setDate' type="date" value={startDate || showModal.HistoricalSetting.Range.DateFrom} min={minDaysAgo} onChange={handleDateChange(setstartDate)} />
+            <div style={{ display: 'flex', alignItems: 'center', height: "40px" }}>
+              <p style={{ fontSize: '10px' }}>開始日</p>
+              <LocalizationProvider dateAdapter={AdapterDayjs} >
+                <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
+                  <ThemeProvider theme={theme}>
+                    <DatePicker
+                      value={startDate ? dayjs(startDate) : dayjs(showModal.HistoricalSetting.Range.DateFrom)}
+                      minDate={dayjs(minDaysAgo)}
+                      onChange={handleStartDateChange}
+                      format="YYYY/MM/DD"
+                    />
+                  </ThemeProvider>
+                </DemoContainer>
+              </LocalizationProvider>
+            </div>
+            <div style={{ height: '10px' }}>
               {errorDatefrom &&
                 <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}
-                >  {startDate ? clientMessage.WCI031 : clientMessage.WCI029}</FormHelperText>}
-            </div>
-            <Stack direction="row" spacing={1} alignItems="center">
+                >
+                  {requestPayload.HistoricalSetting.Range.DateFrom ? clientMessage.WCI031 : clientMessage.WCI029}</FormHelperText>
+              }</div>
+
+            <Stack direction="row" spacing={1} alignItems="center" sx={{ marginTop: '10px' }}>
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
               <Button variant="outlined" size="small" onClick={handleDecrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>-</Button>
               <TextField
@@ -567,6 +690,8 @@ const ConditionSetting: React.FC = () => {
                 value={days}
                 size="small"
                 onChange={handleInputDay}
+                onKeyDown={handleKeyDown}
+                onBlur={handleBlur}
                 InputProps={{ sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
                 sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
               />
@@ -577,13 +702,28 @@ const ConditionSetting: React.FC = () => {
       case '2':
         return (
           <div style={{ height: "90px" }}>
-            <div style={{ height: "60px" }}>
-              <p style={{ display: 'inline-block', fontSize: '10px' }}>終了日</p>
-              <input className='setDate' type="date" value={endDate} onChange={handleDateChange(setendDate)} />
-              {errorDateto &&
-                <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}>{clientMessage.WCI030}</FormHelperText>}
+            <div style={{ display: 'flex', alignItems: 'center', height: "40px" }}>
+              <p style={{ fontSize: '10px' }}>終了日</p>
+
+              <LocalizationProvider dateAdapter={AdapterDayjs} >
+                <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
+                  <ThemeProvider theme={theme}>
+                    <DatePicker
+                      value={endDate ? dayjs(endDate) : dayjs(showModal.HistoricalSetting.Range.DateTo)}
+                      onChange={handleEndDateChange}
+                      format="YYYY/MM/DD"
+                    />
+                  </ThemeProvider>
+                </DemoContainer>
+              </LocalizationProvider>
+               </div>
+              <div style={{ height: '10px' }}>
+                {errorDateto &&
+                  <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}>{clientMessage.WCI030}</FormHelperText>
+                }
+             
             </div>
-            <Stack direction="row" spacing={1} alignItems="center">
+            <Stack direction="row" spacing={1} alignItems="center" sx={{ marginTop: '10px' }}>
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
               <Button variant="outlined" size="small" onClick={handleDecrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>-</Button>
               <TextField
@@ -591,29 +731,53 @@ const ConditionSetting: React.FC = () => {
                 value={days}
                 size="small"
                 onChange={handleInputDay}
+                onKeyDown={handleKeyDown}
+                onBlur={handleBlur}
                 InputProps={{ sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
                 sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
               />
               <Button variant="outlined" size="small" onClick={handleIncrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>+</Button>
             </Stack>
-          </div>
+          </div >
         );
       case '3':
         return (
           <div style={{ height: "90px" }}>
-            <Grid container spacing={1} alignItems="center" sx={{ marginTop: '0px' }}>
-              <Grid item>
-                <p style={{ display: 'inline-block', fontSize: '10px' }}>期間</p>
-              </Grid>
-              <input className='setDate' type="date" value={startDate} min={minDaysAgo} onChange={handleDateChange(setstartDate)} />
+            <div style={{ display: 'flex', alignItems: 'center', height: "50px" }}>
+              <p style={{ display: 'inline-block', fontSize: '10px' }}>期間</p>
 
-              <Grid  >
-                <Typography sx={{ marginTop: '10px' }}>―</Typography>
-              </Grid>
-              <input className='setDate' type="date" value={endDate} onChange={handleDateChange(setendDate)} />
-            </Grid>
-            {errorDatefrom &&
-              <FormHelperText style={{ color: '#d32f2f', marginLeft: '25px', marginTop: 0 }}>{clientMessage.WCI032}</FormHelperText>}
+              <LocalizationProvider dateAdapter={AdapterDayjs} >
+                <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
+                  <ThemeProvider theme={theme}>
+                    <DatePicker
+                      value={startDate ? dayjs(startDate) : dayjs(showModal.HistoricalSetting.Range.DateFrom)}
+                      onChange={handleStartDateChange}
+                      minDate={dayjs(minDaysAgo)}
+                      format="YYYY/MM/DD"
+                    />
+                  </ThemeProvider>
+                </DemoContainer>
+              </LocalizationProvider>
+
+              <Typography sx={{ margin: '2px' }}> ―</Typography>
+
+              <LocalizationProvider dateAdapter={AdapterDayjs} >
+                <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
+                  <ThemeProvider theme={theme}>
+                    <DatePicker
+                      value={endDate ? dayjs(endDate) : dayjs(showModal.HistoricalSetting.Range.DateTo)}
+                      onChange={handleEndDateChange}
+                      format="YYYY/MM/DD"
+                    />
+                  </ThemeProvider>
+                </DemoContainer>
+              </LocalizationProvider>
+            </div>
+            <div style={{ height: '10px' }}>
+              {errorDatefrom &&
+                <FormHelperText style={{ color: '#d32f2f', marginLeft: '25px', marginTop: 0 }}>{clientMessage.WCI032}</FormHelperText>
+              }
+            </div>
           </div>
         );
       case '4':

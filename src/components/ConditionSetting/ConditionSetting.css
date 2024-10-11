@@ -100,3 +100,13 @@
   width: 60px;
   height: 10px;
 }
+
+
+/* .css-ybvd6v-MuiStack-root > .MuiTextField-root,
+.css-ybvd6v-MuiStack-root > .MuiPickersTextField-root {
+    min-width: 100px !important;
+} */
+body .css-ybvd6v-MuiStack-root > .MuiTextField-root,
+body .css-ybvd6v-MuiStack-root > .MuiPickersTextField-root {
+    min-width: 100px !important;
+}

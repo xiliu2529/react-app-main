@@ -15,7 +15,7 @@ import { useMyContext } from '../../contexts/MyContext';
 import { saveSettingsAPI } from '../../api/api';
 
 const SettingsDialog = () => {
-    const { saveViewSettings, nocal, setshowConditionSettings, setisHistoricalActive, setbuttonName, settingsState, setSettingsState, showModal, buttonName, isHistoricalActive, showConditionSettings, setViewSettings } = useMyContext();
+    const { saveViewSettings,noacl, setshowConditionSettings, setisHistoricalActive, setbuttonName, settingsState, setSettingsState, showModal, buttonName, isHistoricalActive, showConditionSettings, setViewSettings } = useMyContext();
     const [open, setOpen] = useState(false);
     const [checkboxStates, setCheckboxStates] = useState<CheckboxState>(
         [false, false, false, false, false, false]
@@ -90,7 +90,7 @@ const SettingsDialog = () => {
                 CheckboxStates: checkboxStates,
                 Colors: colors,
             };
-            if (!nocal) {
+            if (!noacl) {
                 saveSettings(newSettings);
             }
         }
@@ -205,7 +205,8 @@ const SettingsDialog = () => {
                                         control={<Checkbox checked={checkboxStates[3]} onChange={() => handleCheckboxChange(3)} />}
                                         label="当日出来高分布を百分率で表示"
                                     />
-                                    <br />
+                                    <p style={{margin:0,paddingLeft:'25px', fontSize:'10px'}}> ※再算出後に反映されます。</p>
+                                    <br/>
                                     <p className='sub-title'>グラフ</p>
                                     <RadioGroup
                                         value={radioValues[1]}

@@ -10,13 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@mui/lab": "^5.0.0-alpha.171",
-    "@mui/material": "^5.16.0",
+    "@mui/material": "^5.16.7",
     "@mui/x-data-grid-generator": "^7.9.0",
-    "@mui/x-date-pickers": "^7.10.0",
+    "@mui/x-date-pickers": "^7.19.0",
     "axios": "^1.7.3",
+    "dayjs": "^1.11.13",
     "highcharts": "^10.3.3",
     "highcharts-react-official": "^3.2.1",
     "papaparse": "^5.4.1",
