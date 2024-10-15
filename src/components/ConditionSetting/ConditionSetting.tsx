@@ -583,28 +583,33 @@ const ConditionSetting: React.FC = () => {
   const theme = createTheme(
     {
       components: {
-        // 定义 MuiTextField 组件的样式重写
         MuiTextField: {
           styleOverrides: {
             root: {
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderWidth: '1px', 
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderWidth: '2px', 
+              },
               marginRight: '0',
-              '& .MuiInputBase-input': { // 针对文本框的输入部分
-                fontSize: '10px', // 设置输入文本的字体大小为 10px
-                paddingRight: '0px !important', // 强制设置右侧内边距为 0
-                paddingTop: '5px !important', // 强制设置顶部内边距为 5px
+              '& .MuiInputBase-input': {
+                fontSize: '10px', 
+                paddingRight: '0px !important', 
+                paddingTop: '5px !important',
               },
-              '& .MuiOutlinedInput-root': { // 针对文本框的外部容器
-                width: '100px', // 设置文本框的宽度为 110px
-                height: '25px', // 设置文本框的高度为 25px
-                marginLeft: '5px', // 设置左侧外边距为 5px
-                overflow: 'hidden', // 超出部分隐藏
+              '& .MuiOutlinedInput-root': {
+                width: '105px', 
+                height: '27px', 
+                marginLeft: '5px', 
+                overflow: 'hidden',
               },
-              '& .MuiInputAdornment-root': { // 针对输入框的装饰元素（例如，前缀或后缀图标）
-                // padding: '0px !important', // 强制设置内边距为 0
+              '& .MuiInputAdornment-root': { 
+                marginLeft: '0px', 
               },
-              '& .MuiSvgIcon-root': { // 针对输入框中的 SVG 图标
-                fontSize: '15px', // 设置图标的字体大小为 10px
-                padding: '0px !important', // 强制设置内边距为 0
+              '& .MuiSvgIcon-root': {
+                fontSize: '12px',
+                padding: '0px !important', 
               },
             },
           },
@@ -671,7 +676,7 @@ const ConditionSetting: React.FC = () => {
                 </DemoContainer>
               </LocalizationProvider>
             </div>
-            <div style={{ height: '10px' }}>
+            <div style={{ height: '5px' }}>
               {errorDatefrom &&
                 <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}
                 >
@@ -714,7 +719,7 @@ const ConditionSetting: React.FC = () => {
                 </DemoContainer>
               </LocalizationProvider>
             </div>
-            <div style={{ height: '10px' }}>
+            <div style={{ height: '5px' }}>
               {errorDateto &&
                 <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}>
                   {clientMessage.WCI030}</FormHelperText>
@@ -757,7 +762,7 @@ const ConditionSetting: React.FC = () => {
                 </DemoContainer>
               </LocalizationProvider>
 
-              <Typography sx={{ margin: '2px' }}> ―</Typography>
+              <Typography sx={{ margin: '2px',marginLeft:'6px' }}> ―</Typography>
 
               <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja">
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
@@ -772,7 +777,7 @@ const ConditionSetting: React.FC = () => {
                 </DemoContainer>
               </LocalizationProvider>
             </div>
-            <div style={{ height: '10px' }}>
+            <div style={{ height: '5px' }}>
               {errorDatefrom &&
                 <FormHelperText style={{ color: '#d32f2f', marginLeft: '25px', marginTop: 0 }}>{clientMessage.WCI032}</FormHelperText>
               }
