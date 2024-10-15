@@ -8,7 +8,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
 import dayjs, { Dayjs } from 'dayjs';
-import 'dayjs/locale/ja'; 
+import 'dayjs/locale/ja';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { saveSettingsAPI, loadSettingsAPI, requestAPI, statusAPI, getQvDataAPI, packageAPI, serverMessageAPI, clientMessageAPI } from '../../api/api';
 
@@ -91,11 +91,11 @@ const ConditionSetting: React.FC = () => {
     }
   };
 
-  const handleMinutesBlur  = () => {
+  const handleMinutesBlur = () => {
     if (selectedMinutes === null) {
-        setselectedMinutes(30);
+      setselectedMinutes(30);
     }
-};
+  };
 
   const handleStartTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newStartTime = event.target.value;
@@ -117,20 +117,20 @@ const ConditionSetting: React.FC = () => {
     const inputValue = e.target.value;
 
     if (inputValue === '') {
-        setselectedMinutes(null); 
-        return;
+      setselectedMinutes(null);
+      return;
     }
 
     const newValue = Number(inputValue);
 
     if (newValue < 1) {
-        setselectedMinutes(1);
+      setselectedMinutes(1);
     } else if (newValue > 30) {
-        setselectedMinutes(30); 
+      setselectedMinutes(30);
     } else {
-        setselectedMinutes(newValue); 
+      setselectedMinutes(newValue);
     }
-};
+  };
 
 
 
@@ -582,69 +582,38 @@ const ConditionSetting: React.FC = () => {
 
   const theme = createTheme(
     {
-    components: {
-      MuiTextField: {
-        styleOverrides: {
-          root: {
-            zIndex: 10,
-            minWidth: '111px !important',
-            padding: '0',
-            '& .MuiInputBase-input': {
-              fontSize: '10px',
-              paddingLeft: '5px !important',
-              paddingRight: '0px !important',
-              paddingTop: '5px !important',
-            },
-            '& .MuiOutlinedInput-root': {
-              width: '110px',
-              height: '25px',
-              marginLeft: '5px',
-              boxSizing: 'border-box',
-              overflow: 'hidden',
-            },
-            '& .MuiInputAdornment-root': {
-              marginRight: '0px',
-              padding: '0px !important',
-            },
-            '& .MuiSvgIcon-root': {
-              fontSize: '10px',
-              padding: '0px !important',
+      components: {
+        // 定义 MuiTextField 组件的样式重写
+        MuiTextField: {
+          styleOverrides: {
+            root: {
+              marginRight: '0',
+              '& .MuiInputBase-input': { // 针对文本框的输入部分
+                fontSize: '10px', // 设置输入文本的字体大小为 10px
+                paddingRight: '0px !important', // 强制设置右侧内边距为 0
+                paddingTop: '5px !important', // 强制设置顶部内边距为 5px
+              },
+              '& .MuiOutlinedInput-root': { // 针对文本框的外部容器
+                width: '100px', // 设置文本框的宽度为 110px
+                height: '25px', // 设置文本框的高度为 25px
+                marginLeft: '5px', // 设置左侧外边距为 5px
+                overflow: 'hidden', // 超出部分隐藏
+              },
+              '& .MuiInputAdornment-root': { // 针对输入框的装饰元素（例如，前缀或后缀图标）
+                // padding: '0px !important', // 强制设置内边距为 0
+              },
+              '& .MuiSvgIcon-root': { // 针对输入框中的 SVG 图标
+                fontSize: '15px', // 设置图标的字体大小为 10px
+                padding: '0px !important', // 强制设置内边距为 0
+              },
             },
           },
         },
-      },
-      // @ts-ignore
-      MuiPickersTextField: {
-        styleOverrides: {
-          root: {
-            padding: '0',
-            '& .MuiInputBase-input': {
-              fontSize: '11px',
-              paddingLeft: '5px !important',
-              paddingRight: '0px !important',
-              paddingTop: '5px !important',
-            },
-            '& .MuiOutlinedInput-root': {
-              height: '25px',
-              marginLeft: '5px',
-              boxSizing: 'border-box',
-              overflow: 'hidden',
-            },
-            '& .MuiInputAdornment-root': {
-              marginRight: '0px',
-              padding: '0px !important',
-            },
-            '& .MuiSvgIcon-root': {
-              fontSize: '100px',
-              padding: '0px !important',
-              margin: '0px !important',
-            },
-          },
-        },
+      
       },
     },
-  },
-);
+  )
+
 
   const renderUI = () => {
     const currentAlignment = alignment || '0';
@@ -686,9 +655,9 @@ const ConditionSetting: React.FC = () => {
       case '1':
         return (
           <div style={{ height: "90px" }}>
-            <div style={{ display: 'flex', alignItems: 'center', height: "40px" }}>
+            <div style={{ display: 'flex', alignItems: 'center', height: "45px" }}>
               <p style={{ fontSize: '10px' }}>開始日</p>
-              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja"> 
+              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja">
 
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                   <ThemeProvider theme={theme}>
@@ -729,10 +698,10 @@ const ConditionSetting: React.FC = () => {
       case '2':
         return (
           <div style={{ height: "90px" }}>
-            <div style={{ display: 'flex', alignItems: 'center', height: "40px" }}>
+            <div style={{ display: 'flex', alignItems: 'center', height: "45px" }}>
               <p style={{ fontSize: '10px' }}>終了日</p>
 
-              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja"> 
+              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja">
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                   <ThemeProvider theme={theme}>
                     <DatePicker
@@ -772,10 +741,10 @@ const ConditionSetting: React.FC = () => {
       case '3':
         return (
           <div style={{ height: "90px" }}>
-            <div style={{ display: 'flex', alignItems: 'center', height: "40px" }}>
+            <div style={{ display: 'flex', alignItems: 'center', height: "45px" }}>
               <p style={{ display: 'inline-block', fontSize: '10px' }}>期間</p>
 
-              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja"> 
+              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja">
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                   <ThemeProvider theme={theme}>
                     <DatePicker
@@ -790,7 +759,7 @@ const ConditionSetting: React.FC = () => {
 
               <Typography sx={{ margin: '2px' }}> ―</Typography>
 
-              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja"> 
+              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja">
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                   <ThemeProvider theme={theme}>
                     <DatePicker
