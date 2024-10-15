@@ -586,35 +586,35 @@ const ConditionSetting: React.FC = () => {
         MuiTextField: {
           styleOverrides: {
             root: {
+              minWidth: '100px !important',
               '& .MuiOutlinedInput-notchedOutline': {
-                borderWidth: '1px', 
+                borderWidth: '1px',
               },
               '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderWidth: '2px', 
+                borderWidth: '2px',
               },
               marginRight: '0',
               '& .MuiInputBase-input': {
-                fontSize: '10px', 
-                paddingRight: '0px !important', 
+                fontSize: '10px',
+                paddingRight: '0px !important',
                 paddingTop: '5px !important',
               },
               '& .MuiOutlinedInput-root': {
-                width: '105px', 
-                height: '27px', 
-                marginLeft: '5px', 
+                width: '105px',
+                height: '27px',
+                marginLeft: '5px',
                 overflow: 'hidden',
               },
-              '& .MuiInputAdornment-root': { 
-                marginLeft: '0px', 
+              '& .MuiInputAdornment-root': {
+                marginLeft: '0px',
               },
               '& .MuiSvgIcon-root': {
                 fontSize: '12px',
-                padding: '0px !important', 
+                padding: '0px !important',
               },
             },
           },
         },
-      
       },
     },
   )
@@ -762,7 +762,7 @@ const ConditionSetting: React.FC = () => {
                 </DemoContainer>
               </LocalizationProvider>
 
-              <Typography sx={{ margin: '2px',marginLeft:'6px' }}> ―</Typography>
+              <Typography sx={{ margin: '2px', marginLeft: '6px' }}> ―</Typography>
 
               <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja">
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
