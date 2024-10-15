@@ -12,6 +12,8 @@ import 'dayjs/locale/ja';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { saveSettingsAPI, loadSettingsAPI, requestAPI, statusAPI, getQvDataAPI, packageAPI, serverMessageAPI, clientMessageAPI } from '../../api/api';
 
+dayjs.locale('ja');
+
 const ConditionSetting: React.FC = () => {
   const [isFirstRender, setIsFirstRender] = useState(true);
   const [inputValue, setInputValue] = useState<string>('');
@@ -360,7 +362,6 @@ const ConditionSetting: React.FC = () => {
     try {
       const response = await requestAPI(requestPayload);
       return response;
-
     } catch (err) {
       console.error('Error fetching data:', err);
     }
@@ -484,7 +485,6 @@ const ConditionSetting: React.FC = () => {
     fetchData();
   }, [requestPayload]);
 
-
   useEffect(() => {
     setInputValue(showModal.Code);
     setAlignment(showModal.HistoricalSetting.Category);
@@ -507,11 +507,9 @@ const ConditionSetting: React.FC = () => {
   }, [isHistoricalActive]);
 
   const validatePayload = (payload: RequestPayload): boolean => {
-
     const category = payload.HistoricalSetting.Category;
     const DateTo = payload.HistoricalSetting.Range.DateTo
     const DateFrom = payload.HistoricalSetting.Range.DateFrom
-
     let hasError = false;
     const newValidationState = { error: false, helperText: '' };
     const todayFormatted = today;
@@ -543,11 +541,10 @@ const ConditionSetting: React.FC = () => {
     }
 
     if (category === '3') {
-      if (!DateFrom || !DateTo) {
+      if (DateFrom === 'Invalid Date' || DateTo === 'Invalid Date') {
         seterrorDatefrom(true);
         hasError = true;
-      }
-      else if (DateTo < DateFrom) {
+      } else if (DateTo < DateFrom) {
         seterrorDatefrom(true);
         hasError = true;
       }
@@ -615,6 +612,14 @@ const ConditionSetting: React.FC = () => {
             },
           },
         },
+        // @ts-ignore
+        MuiDateCalendar: {
+          styleOverrides: {
+            root: {
+              height: '280px !important',
+            },
+          },
+        },
       },
     },
   )
@@ -657,13 +662,13 @@ const ConditionSetting: React.FC = () => {
             </Stack>
           </div>
         );
+
       case '1':
         return (
           <div style={{ height: "90px" }}>
-            <div style={{ display: 'flex', alignItems: 'center', height: "45px" }}>
+            <div style={{ display: 'flex', alignItems: 'center', height: "35px", marginTop: '6px' }}>
               <p style={{ fontSize: '10px' }}>開始日</p>
               <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja">
-
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                   <ThemeProvider theme={theme}>
                     <DatePicker
@@ -671,6 +676,11 @@ const ConditionSetting: React.FC = () => {
                       minDate={dayjs(minDaysAgo)}
                       onChange={handleStartDateChange}
                       format="YYYY/MM/DD"
+                      slotProps={{
+                        actionBar: {
+                          actions: ['today'],
+                        },
+                      }}
                     />
                   </ThemeProvider>
                 </DemoContainer>
@@ -682,7 +692,6 @@ const ConditionSetting: React.FC = () => {
                 >
                   {requestPayload.HistoricalSetting.Range.DateFrom ? clientMessage.WCI031 : clientMessage.WCI029}</FormHelperText>
               }</div>
-
             <Stack direction="row" spacing={1} alignItems="center" sx={{ marginTop: '10px' }}>
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
               <Button variant="outlined" size="small" onClick={handleDecrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>-</Button>
@@ -700,12 +709,12 @@ const ConditionSetting: React.FC = () => {
             </Stack>
           </div>
         );
+
       case '2':
         return (
           <div style={{ height: "90px" }}>
-            <div style={{ display: 'flex', alignItems: 'center', height: "45px" }}>
+            <div style={{ display: 'flex', alignItems: 'center', height: "35px", marginTop: '6px' }}>
               <p style={{ fontSize: '10px' }}>終了日</p>
-
               <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja">
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                   <ThemeProvider theme={theme}>
@@ -714,6 +723,11 @@ const ConditionSetting: React.FC = () => {
                       onChange={handleEndDateChange}
                       format="YYYY/MM/DD"
                       minDate={dayjs(minDaysAgo)}
+                      slotProps={{
+                        actionBar: {
+                          actions: ['today'],
+                        },
+                      }}
                     />
                   </ThemeProvider>
                 </DemoContainer>
@@ -722,9 +736,8 @@ const ConditionSetting: React.FC = () => {
             <div style={{ height: '5px' }}>
               {errorDateto &&
                 <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}>
-                  {clientMessage.WCI030}</FormHelperText>
+                  {requestPayload.HistoricalSetting.Range.DateTo ? clientMessage.WCI032 : clientMessage.WCI030}</FormHelperText>
               }
-
             </div>
             <Stack direction="row" spacing={1} alignItems="center" sx={{ marginTop: '10px' }}>
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
@@ -743,12 +756,12 @@ const ConditionSetting: React.FC = () => {
             </Stack>
           </div >
         );
+
       case '3':
         return (
           <div style={{ height: "90px" }}>
-            <div style={{ display: 'flex', alignItems: 'center', height: "45px" }}>
+            <div style={{ display: 'flex', alignItems: 'center', height: "35px", marginTop: '6px' }}>
               <p style={{ display: 'inline-block', fontSize: '10px' }}>期間</p>
-
               <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja">
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                   <ThemeProvider theme={theme}>
@@ -757,13 +770,16 @@ const ConditionSetting: React.FC = () => {
                       onChange={handleStartDateChange}
                       minDate={dayjs(minDaysAgo)}
                       format="YYYY/MM/DD"
+                      slotProps={{
+                        actionBar: {
+                          actions: ['today'],
+                        },
+                      }}
                     />
                   </ThemeProvider>
                 </DemoContainer>
               </LocalizationProvider>
-
               <Typography sx={{ margin: '2px', marginLeft: '6px' }}> ―</Typography>
-
               <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja">
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                   <ThemeProvider theme={theme}>
@@ -772,6 +788,11 @@ const ConditionSetting: React.FC = () => {
                       onChange={handleEndDateChange}
                       format="YYYY/MM/DD"
                       minDate={dayjs(minDaysAgo)}
+                      slotProps={{
+                        actionBar: {
+                          actions: ['today'],
+                        },
+                      }}
                     />
                   </ThemeProvider>
                 </DemoContainer>
@@ -779,11 +800,12 @@ const ConditionSetting: React.FC = () => {
             </div>
             <div style={{ height: '5px' }}>
               {errorDatefrom &&
-                <FormHelperText style={{ color: '#d32f2f', marginLeft: '25px', marginTop: 0 }}>{clientMessage.WCI032}</FormHelperText>
+                <FormHelperText style={{ color: '#d32f2f', marginLeft: '25px', marginTop: 0 }}>{clientMessage.WCI033}</FormHelperText>
               }
             </div>
           </div>
         );
+
       case '4':
         return (
           <div className='SQ-css'>
@@ -816,7 +838,7 @@ const ConditionSetting: React.FC = () => {
             />
 
             {errorSQ &&
-              <FormHelperText style={{ color: '#d32f2f', marginTop: 0 }}>{clientMessage.WCI033}</FormHelperText>}
+              <FormHelperText style={{ color: '#d32f2f', marginTop: 0 }}>{clientMessage.WCI034}</FormHelperText>}
           </div>
         );
       default:
