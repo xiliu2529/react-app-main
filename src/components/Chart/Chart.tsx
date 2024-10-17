@@ -15,7 +15,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   const chartRef = useRef<Highcharts.Chart | null>(null);
   const chartRef1 = useRef<Highcharts.Chart | null>(null);
   const chartRef2 = useRef<Highcharts.Chart | null>(null);
-  const { response, QvChartDatajson, settingsState, conditionSettingState, setSettingsState } = useMyContext();
+  const {error, response, QvChartDatajson, settingsState, conditionSettingState, setSettingsState } = useMyContext();
   const [QvChartData, setQvChartData] = useState<TickFrame>({
     EveningOpenTickFrame: {
       AverageDaysData: {
@@ -38,6 +38,23 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       setQvChartData(QvChartDatajson);
     }
   }, [QvChartDatajson]);
+
+  
+  useEffect(() => {
+    setQvChartData({
+      EveningOpenTickFrame: {
+        AverageDaysData: {
+          Distribution: "",
+          Cumulative: "",
+        },
+        TodayData: {
+          Distribution: "",
+          Cumulative: "",
+          ClosePrice: "",
+        }
+      }
+    })
+  }, [error]);
 
   const [chartState, setChartState] = useState<ChartState>({
     xAxisLabels: [],

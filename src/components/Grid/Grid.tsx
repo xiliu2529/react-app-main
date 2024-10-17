@@ -6,7 +6,7 @@ import { Data } from '../../types/grid';
 import { useRef, useEffect, useState } from 'react';
 
 const Grids: React.FC = () => {
-  const { response, QvVolumeCurveDatajson, QvTotalingInfojson, settingsState, conditionSettingState, griddownload, buttonName, shouldDownload, setShouldDownload } = useMyContext();
+  const {error, ViewSettings,response, QvVolumeCurveDatajson, QvTotalingInfojson, settingsState, conditionSettingState, griddownload, buttonName, shouldDownload, setShouldDownload } = useMyContext();
   const isInitialized = useRef(false);
   const [QvVolumeCurveData, setQvVolumeCurveData] = useState<GridDisplayData>({});
   const [QvTotalingInfo, setQvTotalingInfo] = useState<Data>({
@@ -23,7 +23,22 @@ const Grids: React.FC = () => {
       setQvVolumeCurveData(QvVolumeCurveDatajson);
       setQvTotalingInfo(QvTotalingInfojson);
     }
-  }, [QvVolumeCurveDatajson, QvTotalingInfojson]);
+   
+  }, [QvVolumeCurveDatajson, QvTotalingInfojson,error]);
+
+  useEffect(() => {
+    setQvVolumeCurveData({}); 
+    setQvTotalingInfo({
+        QuoteCode: '',
+        AbbreviatedName: '',
+        MarketName: '',
+        ListedSection: '',
+        Today: '',
+        CalculationDateTime: "",
+        AverageDays: []
+    });
+   
+  }, [error]);
 
   const dates = QvTotalingInfo.AverageDays.map(item => item.Date);
   const count = dates.length;
@@ -148,8 +163,49 @@ const Grids: React.FC = () => {
 
     return csvRows.join('\n');
   };
+  
+  const removeLastTwoThreeColumnsFromCSV = (csvData: string) => {
+    const rows = csvData.split('\n').filter(row => row.trim() !== ''); 
+    const removeLastTwoThreeColumns = (row: string) => {
+      const columns = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || []; 
+      if (columns.length > 3) {
+        columns.splice(-3, 2); 
+      }
+      return columns.join(',');
+    };
+    const filteredRows = rows.map(row => removeLastTwoThreeColumns(row));
+    return filteredRows.join('\n'); 
+  };
+  
+  const removeLastColumnFromCSV = (csvData: string) => {
+    const rows = csvData.split('\n');
+    const removeLastColumn = (row: string) => {
+      const columns = row.split(','); 
+      if (columns.length > 1) {
+        columns.pop(); 
+      }
+      return columns.join(',');
+    };
+    const filteredRows = rows.map(row => removeLastColumn(row));
+    return filteredRows.join('\n');
+  };
+  
+
   const downloadCSV = (filename: string) => {
-    const csvData = exportTableToCSV();
+    let csvData = exportTableToCSV();
+
+    if (!ViewSettings.CheckboxStates[1]) {
+      csvData = removeLastTwoThreeColumnsFromCSV(csvData)
+    }
+
+    if (!ViewSettings.CheckboxStates[2]) {
+      csvData = removeLastColumnFromCSV(csvData)
+    }
+    
+
+    console.log('csvData',csvData);
+    
+
     const bom = '\uFEFF';
     const csvContent = bom + csvData;
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });

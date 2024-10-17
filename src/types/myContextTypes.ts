@@ -25,28 +25,20 @@ export interface MyContextType {
   setshowConditionSettings: (state: boolean) => void;
   ViewSettings: any
   setViewSettings: (state: any) => void;
-
   saveViewSettings: any
   setSaveViewSettings: (state: any) => void;
-
   QvTotalingInfojson: any;
   setQvTotalingInfojson: (state: any) => void;
   QvVolumeCurveDatajson: any;
   setQvVolumeCurveDatajson: (state: any) => void;
-
   QvChartDatajson: any;
   setQvChartDatajson: (state: any) => void;
-
   QvHistoricalDatajson: any;
   setQvHistoricalDatajson: React.Dispatch<React.SetStateAction<any>>;
-
   noacl: boolean
   setNoacl: (alignment: boolean) => void;
-
   hasLoaded: boolean
   setHasLoaded: (state: boolean) => void;
-
-
   clientMessage: any
   setclientMessage: (state: any) => void;
   serverMessage: any

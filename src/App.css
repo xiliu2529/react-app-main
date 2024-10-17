@@ -5,8 +5,12 @@ body, html, #root, .app {
     height: 100%;
     font-size: 12px;
     background-color:  #F7F7F7;
+  }
+  body {
     font-family: "Roboto", "Helvetica Neue", "Tahoma", "Arial", "Noto Sans JP", "Hiragino Sans", "Meiryo", "Hiragino Kaku Gothic ProN", "sans-serif";
   }
+  
+
 
 html{
   overflow-x: auto;

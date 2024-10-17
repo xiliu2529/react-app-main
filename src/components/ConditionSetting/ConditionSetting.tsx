@@ -19,9 +19,7 @@ const ConditionSetting: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [alignment, setAlignment] = useState<string>('');
   const [days, setDays] = useState<number | ''>(1);
-
   const [selectedMinutes, setselectedMinutes] = useState<number | null>(null);
-
   const [minutes, setminutes] = useState<string>('');
   const [startTime, setStartTime] = useState<string>('');
   const [startTime1, setStartTime1] = useState<string>('');
@@ -44,6 +42,8 @@ const ConditionSetting: React.FC = () => {
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
   const [errorDatefrom, seterrorDatefrom] = useState<boolean>(false);
   const [errorDateto, seterrorDateto] = useState<boolean>(false);
+  const [errorDatetofrom, seterrorDatetofrom] = useState<boolean>(false);
+  const [TimeError, setTimeError] = useState<boolean>(false);
   const [validation, setValidation] = useState<{ error: boolean; helperText: string }>({
     error: false,
     helperText: '',
@@ -117,14 +117,11 @@ const ConditionSetting: React.FC = () => {
 
   const updateMinutes = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-
     if (inputValue === '') {
       setselectedMinutes(null);
       return;
     }
-
     const newValue = Number(inputValue);
-
     if (newValue < 1) {
       setselectedMinutes(1);
     } else if (newValue > 30) {
@@ -133,8 +130,6 @@ const ConditionSetting: React.FC = () => {
       setselectedMinutes(newValue);
     }
   };
-
-
 
   const getTenDaysAgoDate = (): string => {
     const today = new Date();
@@ -240,6 +235,8 @@ const ConditionSetting: React.FC = () => {
         } else {
           setError({ show: '2', type: "ECI002" });
         }
+        console.log('noaclFlag',noaclFlag);
+        
         setNoacl(noaclFlag)
         noACL = noaclFlag
       })
@@ -515,6 +512,8 @@ const ConditionSetting: React.FC = () => {
     const todayFormatted = today;
     const oneYearAgo = new Date(today);
     oneYearAgo.setFullYear(new Date().getFullYear() - 1);
+    const startTime = payload.CalculationSetting.Range.TimeFrom
+    const endTime = payload.CalculationSetting.Range.TimeTo
 
     if (!payload.Code) {
       newValidationState.error = true;
@@ -527,6 +526,7 @@ const ConditionSetting: React.FC = () => {
 
     if (category === '1') {
       if (DateFrom == 'Invalid Date' || DateFrom > todayFormatted) {
+        console.log('DateFrom',DateFrom);
         seterrorDatefrom(true);
         hasError = true;
       } else {
@@ -534,6 +534,7 @@ const ConditionSetting: React.FC = () => {
       }
     }
     if (category === '2' && DateTo == 'Invalid Date') {
+      console.log('DateTo',DateTo);
       seterrorDateto(true);
       hasError = true;
     } else {
@@ -542,14 +543,14 @@ const ConditionSetting: React.FC = () => {
 
     if (category === '3') {
       if (DateFrom === 'Invalid Date' || DateTo === 'Invalid Date') {
-        seterrorDatefrom(true);
+        seterrorDatetofrom(true);
         hasError = true;
       } else if (DateTo < DateFrom) {
-        seterrorDatefrom(true);
+        seterrorDatetofrom(true);
         hasError = true;
       }
       else {
-        seterrorDatefrom(false);
+        seterrorDatetofrom(false);
       }
     }
 
@@ -562,6 +563,16 @@ const ConditionSetting: React.FC = () => {
         setErrorSQ(false);
       }
     }
+    if (minutes !== '0') {
+      if (startTime > endTime) {
+        setTimeError(true);
+        hasError = true;
+      } else if (startTime <= endTime) {
+        setTimeError(false);
+      }
+    }
+
+
     return !hasError;
   };
 
@@ -624,13 +635,12 @@ const ConditionSetting: React.FC = () => {
     },
   )
 
-
   const renderUI = () => {
     const currentAlignment = alignment || '0';
     switch (currentAlignment) {
       case '0':
         return (
-          <div style={{ height: "80px" }}>
+          <div style={{ height: "86px" }}>
             <Stack direction="row" spacing={1} alignItems="center" className='counter-controls'>
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
               <Button variant="outlined" size="small" onClick={handleDecrement} sx={{ padding: 0, width: '25px', minWidth: '25px', height: '25px', fontSize: '25px' }}>-</Button>
@@ -668,7 +678,10 @@ const ConditionSetting: React.FC = () => {
           <div style={{ height: "90px" }}>
             <div style={{ display: 'flex', alignItems: 'center', height: "35px", marginTop: '6px' }}>
               <p style={{ fontSize: '10px' }}>開始日</p>
-              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja">
+              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja"
+                localeText={{
+                  todayButtonLabel: "今日",
+                }}>
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                   <ThemeProvider theme={theme}>
                     <DatePicker
@@ -690,7 +703,7 @@ const ConditionSetting: React.FC = () => {
               {errorDatefrom &&
                 <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}
                 >
-                  {requestPayload.HistoricalSetting.Range.DateFrom ? clientMessage.WCI031 : clientMessage.WCI029}</FormHelperText>
+                  {requestPayload.HistoricalSetting.Range.DateFrom !== 'Invalid Date'? clientMessage.WCI031 : clientMessage.WCI029}</FormHelperText>
               }</div>
             <Stack direction="row" spacing={1} alignItems="center" sx={{ marginTop: '10px' }}>
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
@@ -715,7 +728,10 @@ const ConditionSetting: React.FC = () => {
           <div style={{ height: "90px" }}>
             <div style={{ display: 'flex', alignItems: 'center', height: "35px", marginTop: '6px' }}>
               <p style={{ fontSize: '10px' }}>終了日</p>
-              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja">
+              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja"
+                localeText={{
+                  todayButtonLabel: "今日",
+                }}>
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                   <ThemeProvider theme={theme}>
                     <DatePicker
@@ -736,7 +752,7 @@ const ConditionSetting: React.FC = () => {
             <div style={{ height: '5px' }}>
               {errorDateto &&
                 <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}>
-                  {requestPayload.HistoricalSetting.Range.DateTo ? clientMessage.WCI032 : clientMessage.WCI030}</FormHelperText>
+                  {requestPayload.HistoricalSetting.Range.DateTo !== 'Invalid Date' ? clientMessage.WCI032 : clientMessage.WCI030}</FormHelperText>
               }
             </div>
             <Stack direction="row" spacing={1} alignItems="center" sx={{ marginTop: '10px' }}>
@@ -762,7 +778,10 @@ const ConditionSetting: React.FC = () => {
           <div style={{ height: "90px" }}>
             <div style={{ display: 'flex', alignItems: 'center', height: "35px", marginTop: '6px' }}>
               <p style={{ display: 'inline-block', fontSize: '10px' }}>期間</p>
-              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja">
+              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja"
+                localeText={{
+                  todayButtonLabel: "今日",
+                }}>
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                   <ThemeProvider theme={theme}>
                     <DatePicker
@@ -779,8 +798,11 @@ const ConditionSetting: React.FC = () => {
                   </ThemeProvider>
                 </DemoContainer>
               </LocalizationProvider>
-              <Typography sx={{ margin: '2px', marginLeft: '6px' }}> ―</Typography>
-              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja">
+              <Typography sx={{ margin: '2px', marginLeft: '6px' }}>―</Typography>
+              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja"
+                localeText={{
+                  todayButtonLabel: "今日",
+                }}>
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                   <ThemeProvider theme={theme}>
                     <DatePicker
@@ -799,7 +821,7 @@ const ConditionSetting: React.FC = () => {
               </LocalizationProvider>
             </div>
             <div style={{ height: '5px' }}>
-              {errorDatefrom &&
+              {errorDatetofrom &&
                 <FormHelperText style={{ color: '#d32f2f', marginLeft: '25px', marginTop: 0 }}>{clientMessage.WCI033}</FormHelperText>
               }
             </div>
@@ -895,7 +917,7 @@ const ConditionSetting: React.FC = () => {
         <div style={{ height: '50px' }}>
           <Grid container spacing={1} alignItems="center" sx={{ marginTop: '5px' }}>
             <Grid item>
-              <Typography variant="body1">開始終了時刻</Typography>
+              <Typography variant="body1" sx={{ fontSize: '12px' }}>開始終了時刻</Typography>
             </Grid>
             <Grid item>
               <TextField className='custom-time-input' type="time" variant="outlined" sx={{
@@ -936,6 +958,12 @@ const ConditionSetting: React.FC = () => {
                   }
                 }} value={endTime} onChange={handleEndTimeChange} />
               </Grid>}
+         
+            {TimeError &&
+              <FormHelperText style={{ color: '#d32f2f', marginLeft: '90px', marginTop:'5px' }}>
+              {clientMessage.WCI035}
+            </FormHelperText>
+            }
 
           </Grid>
         </div>

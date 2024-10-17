@@ -24,6 +24,8 @@ const MainPage: React.FC = () => {
 
   useEffect(() => {
     if (error.show === '1' || error.show === '2') {
+      console.log('error,',error);
+      
       setShowSnackbar(true);
       const timer = setTimeout(() => {
         setShowSnackbar(false);

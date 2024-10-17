@@ -7,7 +7,7 @@ import { Data } from '../../types/grid';
 import { Stack } from '@mui/material';
 
 const InfoPanel: React.FC = () => {
-  const { response, QvTotalingInfojson, isHistoricalActive, setisHistoricalActive,
+  const { error,response, QvTotalingInfojson, isHistoricalActive, setisHistoricalActive,
   } = useMyContext();
   const [QvTotalingInfo, setQvTotalingInfo] = useState<Data>({
     QuoteCode: '',
@@ -31,6 +31,18 @@ const InfoPanel: React.FC = () => {
       setQvTotalingInfo(QvTotalingInfojson);
     }
   }, [QvTotalingInfojson]);
+
+  useEffect(() => {
+    setQvTotalingInfo({
+      QuoteCode: '',
+      AbbreviatedName: '',
+      MarketName: '',
+      ListedSection: '',
+      Today: '',
+      CalculationDateTime: '',
+      AverageDays: []
+    })
+  }, [error]);
 
   return (
     <div id='InfoPanel'>
