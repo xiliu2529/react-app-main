@@ -37,7 +37,7 @@ const ConditionSetting: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['1', '1', '1']);
-  const { setclientMessage, setserverMessage, clientMessage, hasLoaded, setHasLoaded, noacl, setNoacl, setSaveViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading, setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
+  const { setclearData,clearData,setclientMessage, setserverMessage, clientMessage, hasLoaded, setHasLoaded, noacl, setNoacl, setSaveViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading, setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
   const [errorDatefrom, seterrorDatefrom] = useState<boolean>(false);
@@ -52,6 +52,7 @@ const ConditionSetting: React.FC = () => {
   useEffect(() => {
     loadingRef.current = loading;
   }, [loading]);
+
   const selectedStyle = {
     '&.Mui-selected': {
       backgroundColor: '#E8ECF0',
@@ -404,6 +405,7 @@ const ConditionSetting: React.FC = () => {
         if (isReadyToSend) {
           const isValid = validatePayload(requestPayload);
           if (isValid) {
+            setclearData(!clearData)
             setLoading(true);
             if (!noacl) {
               await saveSettings();
@@ -778,6 +780,7 @@ const ConditionSetting: React.FC = () => {
           <div style={{ height: "90px" }}>
             <div style={{ display: 'flex', alignItems: 'center', height: "35px", marginTop: '6px' }}>
               <p style={{ display: 'inline-block', fontSize: '10px' }}>期間</p>
+                 <LocalizationProvider></LocalizationProvider>
               <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja"
                 localeText={{
                   todayButtonLabel: "今日",

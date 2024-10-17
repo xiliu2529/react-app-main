@@ -6,7 +6,7 @@ import { Data } from '../../types/grid';
 import { useRef, useEffect, useState } from 'react';
 
 const Grids: React.FC = () => {
-  const {error, ViewSettings,response, QvVolumeCurveDatajson, QvTotalingInfojson, settingsState, conditionSettingState, griddownload, buttonName, shouldDownload, setShouldDownload } = useMyContext();
+  const {clearData, ViewSettings,response, QvVolumeCurveDatajson, QvTotalingInfojson, settingsState, conditionSettingState, griddownload, buttonName, shouldDownload, setShouldDownload } = useMyContext();
   const isInitialized = useRef(false);
   const [QvVolumeCurveData, setQvVolumeCurveData] = useState<GridDisplayData>({});
   const [QvTotalingInfo, setQvTotalingInfo] = useState<Data>({
@@ -24,9 +24,13 @@ const Grids: React.FC = () => {
       setQvTotalingInfo(QvTotalingInfojson);
     }
    
-  }, [QvVolumeCurveDatajson, QvTotalingInfojson,error]);
+  }, [QvVolumeCurveDatajson, QvTotalingInfojson]);
 
   useEffect(() => {
+    if (!isInitialized.current) {
+      isInitialized.current = true;
+      return;
+    }
     setQvVolumeCurveData({}); 
     setQvTotalingInfo({
         QuoteCode: '',
@@ -38,7 +42,7 @@ const Grids: React.FC = () => {
         AverageDays: []
     });
    
-  }, [error]);
+  }, [clearData]);
 
   const dates = QvTotalingInfo.AverageDays.map(item => item.Date);
   const count = dates.length;

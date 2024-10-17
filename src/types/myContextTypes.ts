@@ -43,6 +43,8 @@ export interface MyContextType {
   setclientMessage: (state: any) => void;
   serverMessage: any
   setserverMessage: (state: any) => void;
+  clearData: boolean
+  setclearData: (state: boolean) => void;
 
 
 

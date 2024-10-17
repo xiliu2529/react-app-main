@@ -189,6 +189,7 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [clientMessage, setclientMessage] = useState<any>('');
   const [serverMessage, setserverMessage] = useState<any>('');
+  const [clearData, setclearData] = useState(false);
   return (
     <MyContext.Provider
       value={{
@@ -235,7 +236,9 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         clientMessage,
         setclientMessage,
         serverMessage,
-        setserverMessage
+        setserverMessage,
+        clearData,
+        setclearData,
       }}
     >
       {children}
