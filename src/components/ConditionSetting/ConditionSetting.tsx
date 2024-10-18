@@ -37,7 +37,7 @@ const ConditionSetting: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['1', '1', '1']);
-  const { setclearData,clearData,setclientMessage, setserverMessage, clientMessage, hasLoaded, setHasLoaded, noacl, setNoacl, setSaveViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading, setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
+  const { setclearData, clearData, setclientMessage, setserverMessage, clientMessage, hasLoaded, setHasLoaded, noacl, setNoacl, setSaveViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading, setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
   const [errorDatefrom, seterrorDatefrom] = useState<boolean>(false);
@@ -236,8 +236,8 @@ const ConditionSetting: React.FC = () => {
         } else {
           setError({ show: '2', type: "ECI002" });
         }
-        console.log('noaclFlag',noaclFlag);
-        
+        console.log('noaclFlag', noaclFlag);
+
         setNoacl(noaclFlag)
         noACL = noaclFlag
       })
@@ -528,7 +528,7 @@ const ConditionSetting: React.FC = () => {
 
     if (category === '1') {
       if (DateFrom == 'Invalid Date' || DateFrom > todayFormatted) {
-        console.log('DateFrom',DateFrom);
+        console.log('DateFrom', DateFrom);
         seterrorDatefrom(true);
         hasError = true;
       } else {
@@ -536,7 +536,7 @@ const ConditionSetting: React.FC = () => {
       }
     }
     if (category === '2' && DateTo == 'Invalid Date') {
-      console.log('DateTo',DateTo);
+      console.log('DateTo', DateTo);
       seterrorDateto(true);
       hasError = true;
     } else {
@@ -705,7 +705,7 @@ const ConditionSetting: React.FC = () => {
               {errorDatefrom &&
                 <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}
                 >
-                  {requestPayload.HistoricalSetting.Range.DateFrom !== 'Invalid Date'? clientMessage.WCI031 : clientMessage.WCI029}</FormHelperText>
+                  {requestPayload.HistoricalSetting.Range.DateFrom !== 'Invalid Date' ? clientMessage.WCI031 : clientMessage.WCI029}</FormHelperText>
               }</div>
             <Stack direction="row" spacing={1} alignItems="center" sx={{ marginTop: '10px' }}>
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
@@ -780,7 +780,7 @@ const ConditionSetting: React.FC = () => {
           <div style={{ height: "90px" }}>
             <div style={{ display: 'flex', alignItems: 'center', height: "35px", marginTop: '6px' }}>
               <p style={{ display: 'inline-block', fontSize: '10px' }}>期間</p>
-                 <LocalizationProvider></LocalizationProvider>
+              <LocalizationProvider></LocalizationProvider>
               <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja"
                 localeText={{
                   todayButtonLabel: "今日",
@@ -924,10 +924,14 @@ const ConditionSetting: React.FC = () => {
             </Grid>
             <Grid item>
               <TextField className='custom-time-input' type="time" variant="outlined" sx={{
-                width: '82px', '& input::-webkit-calendar-picker-indicator': {
+                width: '82px', '& .MuiInputBase-input[type="time"]': {
+                  fontSize: '12px',
+                }, '& input::-webkit-calendar-picker-indicator': {
                   cursor: 'pointer'
                 }
-              }} value={startTime} onChange={handleStartTimeChange} />
+              }}
+                error={TimeError}
+                value={startTime} onChange={handleStartTimeChange} />
             </Grid>
             <Grid item>
               <Typography variant="body1">-</Typography>
@@ -956,18 +960,23 @@ const ConditionSetting: React.FC = () => {
               <Grid item>
                 <TextField className='custom-time-input' type="time" variant="outlined" sx={{
                   width: '82px',
+                  '& .MuiInputBase-input[type="time"]': {
+                    fontSize: '12px',
+                  },
                   '& input::-webkit-calendar-picker-indicator': {
+                    fontSize: '12px',
                     cursor: 'pointer'
                   }
-                }} value={endTime} onChange={handleEndTimeChange} />
+                }}
+                  value={endTime} onChange={handleEndTimeChange}
+                  error={TimeError} />
               </Grid>}
-         
-            {TimeError &&
-              <FormHelperText style={{ color: '#d32f2f', marginLeft: '90px', marginTop:'5px' }}>
-              {clientMessage.WCI035}
-            </FormHelperText>
-            }
 
+            {TimeError &&
+              <FormHelperText style={{ color: '#d32f2f', marginLeft: '90px', marginTop: '5px' }}>
+                {clientMessage.WCI035}
+              </FormHelperText>
+            }
           </Grid>
         </div>
         <p style={{ marginBottom: '10px' }}>個别算出</p>

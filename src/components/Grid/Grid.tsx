@@ -6,7 +6,7 @@ import { Data } from '../../types/grid';
 import { useRef, useEffect, useState } from 'react';
 
 const Grids: React.FC = () => {
-  const {clearData, ViewSettings,response, QvVolumeCurveDatajson, QvTotalingInfojson, settingsState, conditionSettingState, griddownload, buttonName, shouldDownload, setShouldDownload } = useMyContext();
+  const { clearData, ViewSettings, response, QvVolumeCurveDatajson, QvTotalingInfojson, settingsState, conditionSettingState, griddownload, buttonName, shouldDownload, setShouldDownload } = useMyContext();
   const isInitialized = useRef(false);
   const [QvVolumeCurveData, setQvVolumeCurveData] = useState<GridDisplayData>({});
   const [QvTotalingInfo, setQvTotalingInfo] = useState<Data>({
@@ -23,7 +23,7 @@ const Grids: React.FC = () => {
       setQvVolumeCurveData(QvVolumeCurveDatajson);
       setQvTotalingInfo(QvTotalingInfojson);
     }
-   
+
   }, [QvVolumeCurveDatajson, QvTotalingInfojson]);
 
   useEffect(() => {
@@ -31,17 +31,17 @@ const Grids: React.FC = () => {
       isInitialized.current = true;
       return;
     }
-    setQvVolumeCurveData({}); 
+    setQvVolumeCurveData({});
     setQvTotalingInfo({
-        QuoteCode: '',
-        AbbreviatedName: '',
-        MarketName: '',
-        ListedSection: '',
-        Today: '',
-        CalculationDateTime: "",
-        AverageDays: []
+      QuoteCode: '',
+      AbbreviatedName: '',
+      MarketName: '',
+      ListedSection: '',
+      Today: '',
+      CalculationDateTime: "",
+      AverageDays: []
     });
-   
+
   }, [clearData]);
 
   const dates = QvTotalingInfo.AverageDays.map(item => item.Date);
@@ -85,34 +85,57 @@ const Grids: React.FC = () => {
   };
 
   const exportTableToCSV = () => {
-    const headers = ['', displayText, '', '', QvTotalingInfo.Today, '', '', '', '時間帯別最多出来高·価格'];
+    let headers = ['', displayText, '', '', QvTotalingInfo.Today, '', '', '', '時間帯別最多出来高·価格'];
+    if (!ViewSettings.CheckboxStates[1]) {
+      headers = ['', displayText, '', '', QvTotalingInfo.Today, '', '', '',];
+    }
     const wrapValue = (value: string | number) => {
       if (typeof value === 'string' && value.includes(',')) {
-        return `"${value}"`;
+        return `"${value}"`; 
       }
       return value;
     };
-    const csvRows: string[] = [];
+    const csvRows: string[] = []; 
     csvRows.push(headers.join(','));
+    const headerTexts = ['時間', '出来高', '分布', '累計', '出来高', '分布', '累計', '差', '価格', '出来高', '場引けVWAP'];
+    
+    if (!ViewSettings.CheckboxStates[1]) {
+      headerTexts.splice(8, 2);
+    }
+
+    if (!ViewSettings.CheckboxStates[2]) {
+      headerTexts.splice(-1, 1);
+    }
     csvRows.push(headerTexts.join(','));
-    const totalRow = [
+
+
+    let totalRow = [
       '合計',
-      wrapValue(QvVolumeCurveData.TotalFrame!.AverageDaysData.Volume),
+      wrapValue(QvVolumeCurveData.TotalFrame!.AverageDaysData.Volume), 
       wrapValue(QvVolumeCurveData.TotalFrame!.AverageDaysData.Distribution),
       wrapValue(QvVolumeCurveData.TotalFrame!.AverageDaysData.Cumulative),
       wrapValue(QvVolumeCurveData.TotalFrame!.TodayData.Volume),
       wrapValue(QvVolumeCurveData.TotalFrame!.TodayData.Distribution),
       wrapValue(QvVolumeCurveData.TotalFrame!.TodayData.Cumulative),
-      wrapValue(QvVolumeCurveData.TotalFrame!.TodayData.Difference!),
+      wrapValue(QvVolumeCurveData.TotalFrame!.TodayData.Difference!), 
       wrapValue(QvVolumeCurveData.TotalFrame!.MostVolumeAndPrice.Price),
       wrapValue(QvVolumeCurveData.TotalFrame!.MostVolumeAndPrice.Volume),
       wrapValue(QvVolumeCurveData.TotalFrame!.CloseVWAP)
     ];
+
+    if (!ViewSettings.CheckboxStates[1]) {
+      totalRow.splice(8, 2);
+    }
+
+    if (!ViewSettings.CheckboxStates[2]) {
+      totalRow.splice(-1, 1); 
+    }
     csvRows.push(totalRow.join(','));
     const addRow = (label: string, data: any) => {
-      const row = [
+
+      let row = [
         label,
-        wrapValue(data.AverageDaysData.Volume),
+        wrapValue(data.AverageDaysData.Volume), 
         wrapValue(data.AverageDaysData.Distribution),
         wrapValue(data.AverageDaysData.Cumulative),
         wrapValue(data.TodayData.Volume),
@@ -123,20 +146,26 @@ const Grids: React.FC = () => {
         wrapValue(data.MostVolumeAndPrice.Volume),
         wrapValue(data.CloseVWAP)
       ];
+
+      if (!ViewSettings.CheckboxStates[1]) {
+        row.splice(8, 2); 
+      }
+
+      if (!ViewSettings.CheckboxStates[2]) {
+        row.splice(-1, 1); 
+      }
       csvRows.push(row.join(','));
     };
 
     if (conditionSettingState.marketState.eveningOpening && QvVolumeCurveData.EveningOpenTickFrame) {
-      addRow('寄付', QvVolumeCurveData.EveningOpenTickFrame);
+      addRow('寄付', QvVolumeCurveData.EveningOpenTickFrame); 
     }
     if (QvVolumeCurveData.EveningTickFrame) {
       Object.entries(QvVolumeCurveData.EveningTickFrame!).forEach(([key, value]) => addRow(key, value));
     }
-
     if (conditionSettingState.marketState.eveningClose && QvVolumeCurveData.EveningCloseTickFrame) {
       addRow('引け', QvVolumeCurveData.EveningCloseTickFrame);
     }
-
     if (QvVolumeCurveData.EveningCloseSessionFrame && (settingsState.checkboxStates[0] || settingsState.checkboxStates[2])) {
       addRow('イブニング合計', QvVolumeCurveData.EveningCloseSessionFrame);
     }
@@ -164,52 +193,12 @@ const Grids: React.FC = () => {
     if (QvVolumeCurveData.PMCloseSessionFrame && (settingsState.checkboxStates[0] || settingsState.checkboxStates[2])) {
       addRow('後場合計', QvVolumeCurveData.PMCloseSessionFrame);
     }
-
     return csvRows.join('\n');
   };
-  
-  const removeLastTwoThreeColumnsFromCSV = (csvData: string) => {
-    const rows = csvData.split('\n').filter(row => row.trim() !== ''); 
-    const removeLastTwoThreeColumns = (row: string) => {
-      const columns = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || []; 
-      if (columns.length > 3) {
-        columns.splice(-3, 2); 
-      }
-      return columns.join(',');
-    };
-    const filteredRows = rows.map(row => removeLastTwoThreeColumns(row));
-    return filteredRows.join('\n'); 
-  };
-  
-  const removeLastColumnFromCSV = (csvData: string) => {
-    const rows = csvData.split('\n');
-    const removeLastColumn = (row: string) => {
-      const columns = row.split(','); 
-      if (columns.length > 1) {
-        columns.pop(); 
-      }
-      return columns.join(',');
-    };
-    const filteredRows = rows.map(row => removeLastColumn(row));
-    return filteredRows.join('\n');
-  };
-  
 
   const downloadCSV = (filename: string) => {
     let csvData = exportTableToCSV();
-
-    if (!ViewSettings.CheckboxStates[1]) {
-      csvData = removeLastTwoThreeColumnsFromCSV(csvData)
-    }
-
-    if (!ViewSettings.CheckboxStates[2]) {
-      csvData = removeLastColumnFromCSV(csvData)
-    }
-    
-
-    console.log('csvData',csvData);
-    
-
+    console.log('csvData', csvData);
     const bom = '\uFEFF';
     const csvContent = bom + csvData;
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -219,8 +208,9 @@ const Grids: React.FC = () => {
     link.setAttribute('download', filename);
     link.click();
     URL.revokeObjectURL(url);
-    setShouldDownload(false)
+    setShouldDownload(false);
   };
+
   useEffect(() => {
     if (!isInitialized.current) {
       isInitialized.current = true;
