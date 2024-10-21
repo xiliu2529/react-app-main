@@ -15,6 +15,20 @@
   border: 1px solid #ddd;
   padding: 5px 0px !important;
   text-align: center !important;
+  border-top: none !important; 
+  border-bottom: none !important; 
+}
+
+.table-containergrid{
+  max-height: 460px; 
+  overflow-y: auto; 
+}
+
+.Tablehead-historical{
+    position: sticky;
+    top: 0; 
+    background-color: white; 
+    z-index: 1;
 }
 
 .custom-header-cell {
@@ -22,6 +36,8 @@
   border: 1px solid #ddd;
   padding: 5px 0px !important;
   text-align: center !important;
+  border-top: none !important; 
+  border-bottom: none !important; 
 }
 
 .custom-table-cell-a {

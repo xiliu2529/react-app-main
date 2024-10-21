@@ -17,6 +17,7 @@ type QvHistoricalDataType = {
     };
     EveningOpenTickFrame?: any;
     EveningCloseTickFrame?: any;
+    EveningTickFrame?: any;
     PMOpenTickFrame?: any;
     PMTickFrame?: any;
     PMCloseTickFrame?: any;
@@ -24,7 +25,7 @@ type QvHistoricalDataType = {
 };
 
 const HistoricalGrid: React.FC = () => {
-  const {clearData, response, QvHistoricalDatajson, settingsState, conditionSettingState, griddownload, buttonName, shouldDownload, setShouldDownload } = useMyContext();
+  const { clearData, response, QvHistoricalDatajson, settingsState, conditionSettingState, griddownload, buttonName, shouldDownload, setShouldDownload } = useMyContext();
   const isInitialized = useRef(false);
   const [QvHistoricalData, setQvHistoricalData] = useState<QvHistoricalDataType>({})
 
@@ -41,11 +42,17 @@ const HistoricalGrid: React.FC = () => {
   }, [QvHistoricalDatajson]);
 
   useEffect(() => {
-    if (!isInitialized.current) {
-      isInitialized.current = true;
-      return;
+    if (clearData) {
+      setQvHistoricalData({})
+    }else{
+      const sortedData = Object.keys(QvHistoricalDatajson)
+      .sort((a: string, b: string) => new Date(b).getTime() - new Date(a).getTime())
+    const orderedData = sortedData.reduce((acc, date) => {
+      acc[date] = QvHistoricalDatajson[date];
+      return acc;
+    }, {} as Record<string, any>);
+      setQvHistoricalData(orderedData)
     }
-    setQvHistoricalData({})
   }, [clearData]);
 
   const historicalDates = Object.keys(QvHistoricalData);
@@ -172,6 +179,7 @@ const HistoricalGrid: React.FC = () => {
         rows.push(row);
       });
     };
+
     if (conditionSettingState.marketState.eveningOpening && QvHistoricalData[historicalDates[0]]?.EveningOpenTickFrame) {
       const eveningOpenRow = ['寄付', ...getEveningOpenTickFrame().flatMap(item => [item.volume, item.distribution])];
       rows.push(eveningOpenRow);
@@ -180,10 +188,12 @@ const HistoricalGrid: React.FC = () => {
     if (QvHistoricalData[historicalDates[0]]?.EveningTickFrame) {
       addTimeSlotRows(timeSlots, 'EveningTickFrame');
     }
+
     if (conditionSettingState.marketState.eveningClose && QvHistoricalData[historicalDates[0]]?.EveningCloseTickFrame) {
       const eveningCloseRow = ['引け', ...getEveningCloseTickFrame().flatMap(item => [item.volume, item.distribution])];
       rows.push(eveningCloseRow);
     }
+
     // @ts-ignore
     if (conditionSettingState.marketState.preMarketOpening && QvHistoricalData[historicalDates[0]]?.AMOpenTickFrame) {
       const amOpenRow = ['寄付', ...getAMOpenTickFrameData().flatMap(item => [item.volume, item.distribution])];
@@ -209,6 +219,7 @@ const HistoricalGrid: React.FC = () => {
       const pmCloseRow = ['引け', ...getPMCloseTickFrameData().flatMap(item => [item.volume, item.distribution])];
       rows.push(pmCloseRow);
     }
+
     return rows;
   };
 
@@ -263,8 +274,8 @@ const HistoricalGrid: React.FC = () => {
         <Grid container direction="column" spacing={1}>
           <Grid item>
             <TableContainer component={Paper} className="table-containergrid">
-              <Table stickyHeader>
-                <TableHead>
+              <Table>
+                <TableHead className='Tablehead-historical'>
                   <TableRow>
                     <TableCell className="custom-header-cell"></TableCell>
                     {Object.keys(QvHistoricalData).length == 0 ? (
@@ -319,9 +330,11 @@ const HistoricalGrid: React.FC = () => {
                           <TableCell className="custom-table-cell-a">{data.distribution}</TableCell>
                         </React.Fragment>
                       ))}
-                    </TableRow> : null}
+                    </TableRow> : null
+                  }
 
-                  {Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].EveningOpenTickFrame ? renderTimeSlotRows(timeSlots, 'EveningTickFrame') : null}
+                  {Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].EveningTickFrame? renderTimeSlotRows(timeSlots, 'EveningTickFrame') : null}
+
                   {conditionSettingState.marketState.eveningClose && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].EveningCloseTickFrame ?
                     <TableRow>
                       <TableCell className="custom-table-cell">引け</TableCell>
@@ -333,6 +346,7 @@ const HistoricalGrid: React.FC = () => {
                       ))}
                     </TableRow> : null
                   }
+
                   {conditionSettingState.marketState.preMarketOpening ?
                     <TableRow>
                       <TableCell className="custom-table-cell">寄付</TableCell>
@@ -345,6 +359,7 @@ const HistoricalGrid: React.FC = () => {
                     </TableRow> : null}
 
                   {renderTimeSlotRows(timeSlots1, 'AMTickFrame')}
+
                   {conditionSettingState.marketState.preMarketClose ?
                     <TableRow>
                       <TableCell className="custom-table-cell">引け</TableCell>
@@ -356,6 +371,7 @@ const HistoricalGrid: React.FC = () => {
                       ))}
                     </TableRow> : null
                   }
+
                   {conditionSettingState.marketState.postMarketOpening && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].PMOpenTickFrame ?
                     <TableRow >
                       <TableCell className="custom-table-cell">寄付</TableCell>
@@ -367,7 +383,9 @@ const HistoricalGrid: React.FC = () => {
                       ))}
                     </TableRow>
                     : null}
+
                   {Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].PMTickFrame ? renderTimeSlotRows(timeSlots2, 'PMTickFrame') : null}
+
                   {conditionSettingState.marketState.postMarketClose && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].PMCloseTickFrame ?
                     <TableRow>
                       <TableCell className="custom-table-cell">引け</TableCell>
@@ -378,6 +396,7 @@ const HistoricalGrid: React.FC = () => {
                         </React.Fragment>
                       ))}
                     </TableRow> : null}
+
                 </TableBody>
               </Table>
             </TableContainer>

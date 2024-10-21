@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import './InfoPanel.css'
@@ -9,7 +9,6 @@ import { Stack } from '@mui/material';
 const InfoPanel: React.FC = () => {
   const { clearData,response, QvTotalingInfojson, isHistoricalActive, setisHistoricalActive,
   } = useMyContext();
-  const isInitialized = useRef(false);
   const [QvTotalingInfo, setQvTotalingInfo] = useState<Data>({
     QuoteCode: '',
     AbbreviatedName: '',
@@ -34,10 +33,7 @@ const InfoPanel: React.FC = () => {
   }, [QvTotalingInfojson]);
 
   useEffect(() => {
-    if (!isInitialized.current) {
-      isInitialized.current = true;
-      return;
-    }
+    if (clearData) {
       setQvTotalingInfo({
         QuoteCode: '',
         AbbreviatedName: '',
@@ -47,7 +43,11 @@ const InfoPanel: React.FC = () => {
         CalculationDateTime: '',
         AverageDays: []
       });
+    }else{
+      setQvTotalingInfo(QvTotalingInfojson);
+    }
   }, [clearData]); 
+  
 
   return (
     <div id='InfoPanel'>

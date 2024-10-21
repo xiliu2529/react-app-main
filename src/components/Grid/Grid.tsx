@@ -27,21 +27,21 @@ const Grids: React.FC = () => {
   }, [QvVolumeCurveDatajson, QvTotalingInfojson]);
 
   useEffect(() => {
-    if (!isInitialized.current) {
-      isInitialized.current = true;
-      return;
+    if (clearData) {
+      setQvVolumeCurveData({});
+      setQvTotalingInfo({
+        QuoteCode: '',
+        AbbreviatedName: '',
+        MarketName: '',
+        ListedSection: '',
+        Today: '',
+        CalculationDateTime: "",
+        AverageDays: []
+      });
+    }else{
+      setQvVolumeCurveData(QvVolumeCurveDatajson);
+      setQvTotalingInfo(QvTotalingInfojson);
     }
-    setQvVolumeCurveData({});
-    setQvTotalingInfo({
-      QuoteCode: '',
-      AbbreviatedName: '',
-      MarketName: '',
-      ListedSection: '',
-      Today: '',
-      CalculationDateTime: "",
-      AverageDays: []
-    });
-
   }, [clearData]);
 
   const dates = QvTotalingInfo.AverageDays.map(item => item.Date);
@@ -91,14 +91,14 @@ const Grids: React.FC = () => {
     }
     const wrapValue = (value: string | number) => {
       if (typeof value === 'string' && value.includes(',')) {
-        return `"${value}"`; 
+        return `"${value}"`;
       }
       return value;
     };
-    const csvRows: string[] = []; 
+    const csvRows: string[] = [];
     csvRows.push(headers.join(','));
     const headerTexts = ['時間', '出来高', '分布', '累計', '出来高', '分布', '累計', '差', '価格', '出来高', '場引けVWAP'];
-    
+
     if (!ViewSettings.CheckboxStates[1]) {
       headerTexts.splice(8, 2);
     }
@@ -111,13 +111,13 @@ const Grids: React.FC = () => {
 
     let totalRow = [
       '合計',
-      wrapValue(QvVolumeCurveData.TotalFrame!.AverageDaysData.Volume), 
+      wrapValue(QvVolumeCurveData.TotalFrame!.AverageDaysData.Volume),
       wrapValue(QvVolumeCurveData.TotalFrame!.AverageDaysData.Distribution),
       wrapValue(QvVolumeCurveData.TotalFrame!.AverageDaysData.Cumulative),
       wrapValue(QvVolumeCurveData.TotalFrame!.TodayData.Volume),
       wrapValue(QvVolumeCurveData.TotalFrame!.TodayData.Distribution),
       wrapValue(QvVolumeCurveData.TotalFrame!.TodayData.Cumulative),
-      wrapValue(QvVolumeCurveData.TotalFrame!.TodayData.Difference!), 
+      wrapValue(QvVolumeCurveData.TotalFrame!.TodayData.Difference!),
       wrapValue(QvVolumeCurveData.TotalFrame!.MostVolumeAndPrice.Price),
       wrapValue(QvVolumeCurveData.TotalFrame!.MostVolumeAndPrice.Volume),
       wrapValue(QvVolumeCurveData.TotalFrame!.CloseVWAP)
@@ -128,14 +128,14 @@ const Grids: React.FC = () => {
     }
 
     if (!ViewSettings.CheckboxStates[2]) {
-      totalRow.splice(-1, 1); 
+      totalRow.splice(-1, 1);
     }
     csvRows.push(totalRow.join(','));
     const addRow = (label: string, data: any) => {
 
       let row = [
         label,
-        wrapValue(data.AverageDaysData.Volume), 
+        wrapValue(data.AverageDaysData.Volume),
         wrapValue(data.AverageDaysData.Distribution),
         wrapValue(data.AverageDaysData.Cumulative),
         wrapValue(data.TodayData.Volume),
@@ -148,17 +148,17 @@ const Grids: React.FC = () => {
       ];
 
       if (!ViewSettings.CheckboxStates[1]) {
-        row.splice(8, 2); 
+        row.splice(8, 2);
       }
 
       if (!ViewSettings.CheckboxStates[2]) {
-        row.splice(-1, 1); 
+        row.splice(-1, 1);
       }
       csvRows.push(row.join(','));
     };
 
     if (conditionSettingState.marketState.eveningOpening && QvVolumeCurveData.EveningOpenTickFrame) {
-      addRow('寄付', QvVolumeCurveData.EveningOpenTickFrame); 
+      addRow('寄付', QvVolumeCurveData.EveningOpenTickFrame);
     }
     if (QvVolumeCurveData.EveningTickFrame) {
       Object.entries(QvVolumeCurveData.EveningTickFrame!).forEach(([key, value]) => addRow(key, value));
@@ -198,7 +198,6 @@ const Grids: React.FC = () => {
 
   const downloadCSV = (filename: string) => {
     let csvData = exportTableToCSV();
-    console.log('csvData', csvData);
     const bom = '\uFEFF';
     const csvContent = bom + csvData;
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -237,12 +236,12 @@ const Grids: React.FC = () => {
       <Grid container direction="column" spacing={0} >
         <Grid item >
           <TableContainer className="table-container">
-            <Table stickyHeader>
-              <TableHead>
+            <Table>
+              <TableHead className='Tablehead'>
                 <TableRow>
                   <TableCell className='table-title'> </TableCell>
                   <TableCell className='table-title' colSpan={3}>
-                    {count == 0 ? null : displayText}
+                    {count === 0 ? null : displayText}
                   </TableCell>
                   <TableCell className='table-title' colSpan={2}>
                     {QvTotalingInfo.Today}
@@ -252,6 +251,7 @@ const Grids: React.FC = () => {
                   <TableCell className='table-title' colSpan={2} id='table-title-right'>
                     時間帯別最多出来高·価格
                   </TableCell>
+                  <TableCell className='table-title'></TableCell>
                 </TableRow>
                 <TableRow>
                   {headerTexts.map((text, index) => (

@@ -37,7 +37,7 @@ const ConditionSetting: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['1', '1', '1']);
-  const { setclearData, clearData, setclientMessage, setserverMessage, clientMessage, hasLoaded, setHasLoaded, noacl, setNoacl, setSaveViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading, setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
+  const { setclearData, setclientMessage, setserverMessage, clientMessage, hasLoaded, setHasLoaded, noacl, setNoacl, setSaveViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading, setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
   const [errorDatefrom, seterrorDatefrom] = useState<boolean>(false);
@@ -228,16 +228,10 @@ const ConditionSetting: React.FC = () => {
     getserverMessage()
     packageAPI()
       .then(({ noaclFlag, result }) => {
-        if (result) {
-          if (result.body.response == 'OK') {
-          } else {
-            setError({ show: '2', type: 'WCI001' });
-          }
-        } else {
+        if (!result) {
           setError({ show: '2', type: "ECI002" });
         }
         console.log('noaclFlag', noaclFlag);
-
         setNoacl(noaclFlag)
         noACL = noaclFlag
       })
@@ -405,7 +399,7 @@ const ConditionSetting: React.FC = () => {
         if (isReadyToSend) {
           const isValid = validatePayload(requestPayload);
           if (isValid) {
-            setclearData(!clearData)
+            setclearData(true)
             setLoading(true);
             if (!noacl) {
               await saveSettings();
@@ -433,6 +427,7 @@ const ConditionSetting: React.FC = () => {
                   }
                   const status = await fetchStatus(ID);
                   if (status.Status == 1) {
+                    setclearData(false)
                     clearInterval(intervalId);
                     setResponse(true)
                     // QvTotalingInfo
@@ -450,7 +445,9 @@ const ConditionSetting: React.FC = () => {
                     // QvHistoricalData
                     const QvHistoricalData = await getQvData(ID, 'QvHistoricalData.json');
                     setQvHistoricalDatajson(QvHistoricalData)
-
+                    
+                    // console.log('QvHistoricalData', QvHistoricalData);
+                    console.log('QvChartData', QvChartData);
                     setLoading(false);
                   } else if (status.Status === -1) {
                     clearInterval(intervalId);
@@ -528,7 +525,6 @@ const ConditionSetting: React.FC = () => {
 
     if (category === '1') {
       if (DateFrom == 'Invalid Date' || DateFrom > todayFormatted) {
-        console.log('DateFrom', DateFrom);
         seterrorDatefrom(true);
         hasError = true;
       } else {
@@ -536,7 +532,6 @@ const ConditionSetting: React.FC = () => {
       }
     }
     if (category === '2' && DateTo == 'Invalid Date') {
-      console.log('DateTo', DateTo);
       seterrorDateto(true);
       hasError = true;
     } else {

@@ -9,6 +9,15 @@
 
 .table-container {
   padding: 0 !important;
+  max-height: 460px; /* 设置最大高度以允许滚动 */
+  overflow-y: auto; /* 允许垂直滚动 */
+}
+
+.Tablehead{
+  position: sticky;
+  top: 0; /* 确保固定在最上方 */
+  background-color: white; /* 设置背景颜色以确保表头可读 */
+  z-index: 1; /* 确保表头在其他内容之上 */
 }
 
 .table-title {
@@ -16,6 +25,8 @@
   color: #2d70d4 !important;
   white-space: nowrap;
   font-size: 13px !important;
+  border-bottom: 0px solid rgb(224, 224, 224)  !important;;
+
 }
 
 .table-body-cell-a,
@@ -29,7 +40,8 @@
 
 .table-head-cell {
   background-color: #f3f3f3 !important;
-  border: 1px solid #ddd;
+  border: 1px solid #ddd; 
+  border-top: none !important; 
   padding: 5px 10px !important;
   text-align: center !important;
   white-space: nowrap;
@@ -110,3 +122,4 @@
   display: var(--hide-last-column);
   filter: var(--filter-brightness);
 }
+
