@@ -1,3 +1,17 @@
+
+.grid-container{
+  width: 880px;
+  overflow-x: auto;
+  overflow-y:hidden;
+}
+
+.table-containergrid{
+  max-height: 460px; 
+  overflow-y: auto; 
+  overflow-x: auto; 
+  max-width: 880px;
+}
+
 .custom-table-cell-a,
 .custom-table-cell {
   border: 1px solid #ddd;
@@ -19,16 +33,12 @@
   border-bottom: none !important; 
 }
 
-.table-containergrid{
-  max-height: 460px; 
-  overflow-y: auto; 
-}
 
 .Tablehead-historical{
     position: sticky;
     top: 0; 
     background-color: white; 
-    z-index: 1;
+    z-index: 15;
 }
 
 .custom-header-cell {

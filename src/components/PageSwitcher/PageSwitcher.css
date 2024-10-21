@@ -18,6 +18,21 @@
   width: 1000px;
 }
 
+.right-top .grid-container{
+  width: 870px;
+}
+.right-top .table-container{
+  max-width: 870px;
+}
+
+.ChartBottom-top .grid-container{
+  width: 1165px;
+}
+.ChartBottom-top .table-container{
+  max-width: 1165px;
+}
+
+
 .right-column {
   width: 100%;
   margin-left: 10px;
@@ -44,16 +59,25 @@
 .GridChartPage-GRid .grid-container {
   width: 670px;
 }
+.GridChartPage-GRid .table-container{
+  max-width: 670px;
+}
 
 .gridnomi .toggle-button {
   margin-left: 280px
-
 }
 
 .gridnomi {
   height: 100%;
   width: 1200px;
   margin-left: 20px;
+}
+
+.gridnomi .grid-container {
+  width: 1165px;
+}
+.gridnomi .table-container{
+  max-width: 1165px;
 }
 
 .InfoPanelHistoricalGrid {
@@ -75,6 +99,9 @@
 .SettingsChartGridPage-InfoPanelGrid .grid-container {
   width: 560px;
 }
+.SettingsChartGridPage-InfoPanelGrid .table-container {
+  width: 560px;
+}
 
 .SettingsChartPage {
   display: flex;
@@ -92,3 +119,17 @@
   margin-left: 10px;
   width: 900px;
 }
+.SettingsGridPage-InfoPanelGrid .grid-container {
+  width: 880px;
+}
+.SettingsGridPage-InfoPanelGrid .table-container {
+ max-width: 880px;
+}
+
+.InfoPanelHistoricalGrid .grid-container{
+  width: 1180px;
+}
+.InfoPanelHistoricalGrid .table-containergrid{
+  max-width: 1180px;
+}
+

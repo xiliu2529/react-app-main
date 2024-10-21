@@ -4,20 +4,26 @@
   border-radius: 2px;
   background-color: #fff;
   height: 460px;
-  overflow-x: auto;
+  overflow-x: hidden;
+  overflow-y:hidden;
+  width: 560px;
 }
 
 .table-container {
+  position: relative;
   padding: 0 !important;
-  max-height: 460px; /* 设置最大高度以允许滚动 */
-  overflow-y: auto; /* 允许垂直滚动 */
+  height: 460px; 
+  max-height: 460px; 
+  max-width: 560px; 
+  overflow-y: auto; 
+  overflow-x: auto;
 }
 
 .Tablehead{
   position: sticky;
-  top: 0; /* 确保固定在最上方 */
-  background-color: white; /* 设置背景颜色以确保表头可读 */
-  z-index: 1; /* 确保表头在其他内容之上 */
+  top: 0; 
+  background-color: white; 
+  z-index: 15; 
 }
 
 .table-title {
@@ -37,6 +43,7 @@
   font-size: 12px !important;
   white-space: nowrap;
 }
+
 
 .table-head-cell {
   background-color: #f3f3f3 !important;
@@ -122,4 +129,13 @@
   display: var(--hide-last-column);
   filter: var(--filter-brightness);
 }
+
+td:first-child, th:first-child {
+  position: sticky; 
+  left: 0; 
+  z-index: 10; 
+  border-left: 0px !important;
+}
+
+
 
