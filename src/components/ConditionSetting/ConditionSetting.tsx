@@ -9,6 +9,7 @@ import './ConditionSetting.css';
 import { useMyContext } from '../../contexts/MyContext';
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/ja';
+import { Helmet } from 'react-helmet';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { saveSettingsAPI, loadSettingsAPI, requestAPI, statusAPI, getQvDataAPI, packageAPI, serverMessageAPI, clientMessageAPI } from '../../api/api';
 
@@ -17,6 +18,7 @@ dayjs.locale('ja');
 const ConditionSetting: React.FC = () => {
   const [isFirstRender, setIsFirstRender] = useState(true);
   const [inputValue, setInputValue] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
   const [alignment, setAlignment] = useState<string>('');
   const [days, setDays] = useState<number | ''>(1);
   const [selectedMinutes, setselectedMinutes] = useState<number | null>(null);
@@ -37,7 +39,7 @@ const ConditionSetting: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
   const [checkedState, setCheckedState] = React.useState<string[]>(['1', '1', '1']);
-  const { setclearData, setclientMessage, setserverMessage, clientMessage, hasLoaded, setHasLoaded, noacl, setNoacl, setSaveViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading, setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
+  const { setclearData, setclientMessage, setserverMessage, clientMessage, hasLoaded, setHasLoaded, Noacl, setNoacl, setSaveViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading, setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
   const [errorDatefrom, seterrorDatefrom] = useState<boolean>(false);
@@ -222,8 +224,8 @@ const ConditionSetting: React.FC = () => {
   };
 
   useEffect(() => {
+    let noaclFlag = true;
     if (hasLoaded) return;
-    let noACL = false;
     getclientMessage()
     getserverMessage()
     packageAPI()
@@ -231,13 +233,9 @@ const ConditionSetting: React.FC = () => {
         if (!result) {
           setError({ show: '2', type: "ECI002" });
         }
-        console.log('noaclFlag', noaclFlag);
         setNoacl(noaclFlag)
-        noACL = noaclFlag
       })
-
-    if (!noACL) {
-      document.title = 'ボリュームカーブ';
+    if (!noaclFlag) {
       const loadSettings = async () => {
         try {
           const result = await loadSettingsAPI();
@@ -268,11 +266,17 @@ const ConditionSetting: React.FC = () => {
         }
       };
       loadSettings();
-    } else {
-      document.title = 'システム障害対応中！！ボリュームカーブ';
     }
     setHasLoaded(true);
   }, [hasLoaded]);
+
+  useEffect(() => {
+    if (Noacl) {
+      setTitle('システム障害対応中！！ボリュームカーブ')
+    } else {
+      setTitle('ボリュームカーブ')
+    }
+  }, [Noacl])
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -401,7 +405,7 @@ const ConditionSetting: React.FC = () => {
           if (isValid) {
             setclearData(true)
             setLoading(true);
-            if (!noacl) {
+            if (!Noacl) {
               await saveSettings();
             }
             try {
@@ -445,9 +449,7 @@ const ConditionSetting: React.FC = () => {
                     // QvHistoricalData
                     const QvHistoricalData = await getQvData(ID, 'QvHistoricalData.json');
                     setQvHistoricalDatajson(QvHistoricalData)
-                    
-                    // console.log('QvHistoricalData', QvHistoricalData);
-                    console.log('QvChartData', QvChartData);
+
                     setLoading(false);
                   } else if (status.Status === -1) {
                     clearInterval(intervalId);
@@ -868,6 +870,9 @@ const ConditionSetting: React.FC = () => {
 
   return (
     <div className='commonsp-top'>
+     <Helmet>
+     <title>{title}</title>
+     </Helmet>
       <div className='commonsp'>
         <div className='title-1'>銘柄設定</div>
         <Stack direction="row" spacing={1} alignItems="center">

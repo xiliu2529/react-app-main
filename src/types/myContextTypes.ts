@@ -35,7 +35,7 @@ export interface MyContextType {
   setQvChartDatajson: (state: any) => void;
   QvHistoricalDatajson: any;
   setQvHistoricalDatajson: React.Dispatch<React.SetStateAction<any>>;
-  noacl: boolean
+  Noacl: boolean
   setNoacl: (alignment: boolean) => void;
   hasLoaded: boolean
   setHasLoaded: (state: boolean) => void;

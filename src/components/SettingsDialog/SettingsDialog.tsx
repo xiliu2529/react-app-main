@@ -15,7 +15,7 @@ import { useMyContext } from '../../contexts/MyContext';
 import { saveSettingsAPI } from '../../api/api';
 
 const SettingsDialog = () => {
-    const { saveViewSettings,noacl, setshowConditionSettings, setisHistoricalActive, setbuttonName, settingsState, setSettingsState, showModal, buttonName, isHistoricalActive, showConditionSettings, setViewSettings } = useMyContext();
+    const { saveViewSettings,Noacl, setshowConditionSettings, setisHistoricalActive, setbuttonName, settingsState, setSettingsState, showModal, buttonName, isHistoricalActive, showConditionSettings, setViewSettings } = useMyContext();
     const [open, setOpen] = useState(false);
     const [checkboxStates, setCheckboxStates] = useState<CheckboxState>(
         [false, false, false, false, false, false]
@@ -90,7 +90,7 @@ const SettingsDialog = () => {
                 CheckboxStates: checkboxStates,
                 Colors: colors,
             };
-            if (!noacl) {
+            if (!Noacl) {
                 saveSettings(newSettings);
             }
         }

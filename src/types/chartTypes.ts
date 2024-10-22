@@ -1,37 +1,37 @@
 export interface ChartData {
   timeLabels: string[];
-  todayDistribution: { y: number; color: string }[];
-  todayCumulative: { y: number; color: string }[];
-  closePrice: { y: number; color: string }[];
-  historicalDistribution: { y: number; color: string }[];
-  historicalCumulative: { y: number; color: string }[];
+  todayDistribution: { y: number|null; color: string }[];
+  todayCumulative: { y: number|null; color: string }[];
+  closePrice: { y: number|null; color: string }[];
+  historicalDistribution: { y: number|null; color: string }[];
+  historicalCumulative: { y: number|null; color: string }[];
   timeLabels1: string[];
-  todayDistribution1: { y: number; color: string }[];
-  todayCumulative1: { y: number; color: string }[];
-  closePrice1: { y: number; color: string }[];
-  historicalDistribution1: { y: number; color: string }[];
-  historicalCumulative1: { y: number; color: string }[];
+  todayDistribution1: { y: number|null; color: string }[];
+  todayCumulative1: { y: number|null; color: string }[];
+  closePrice1: { y: number|null; color: string }[];
+  historicalDistribution1: { y: number|null; color: string }[];
+  historicalCumulative1: { y: number|null; color: string }[];
   timeLabels2: string[];
-  todayDistribution2: { y: number; color: string }[];
-  todayCumulative2: { y: number; color: string }[];
-  closePrice2: { y: number; color: string }[];
-  historicalDistribution2: { y: number; color: string }[];
-  historicalCumulative2: { y: number; color: string }[];
+  todayDistribution2: { y: number|null; color: string }[];
+  todayCumulative2: { y: number|null; color: string }[];
+  closePrice2: { y: number|null; color: string }[];
+  historicalDistribution2: { y: number|null; color: string }[];
+  historicalCumulative2: { y: number|null; color: string }[];
 }
 
 export interface ChartState {
   xAxisLabels: string[];
-  todayDistribution: { y: number; color: string }[];
-  todayCumulative: { y: number; color: string }[];
-  historicalDistribution: { y: number; color: string }[];
-  historicalCumulative: { y: number; color: string }[];
-  ClosePrice: { y: number; color: string }[];
+  todayDistribution: { y: number|null; color: string }[];
+  todayCumulative: { y: number|null; color: string }[];
+  historicalDistribution: { y: number|null; color: string }[];
+  historicalCumulative: { y: number|null; color: string }[];
+  ClosePrice: { y: number|null; color: string }[];
 }
 
-export type ChartDatax = {
+type ChartDatax = {
   Distribution: string;
   Cumulative: string;
-  ClosePrice?: string;
+  ClosePrice?: string; 
 };
 
 export type TimeFrameData = {
