@@ -224,7 +224,7 @@ const ConditionSetting: React.FC = () => {
   };
 
   useEffect(() => {
-    let noaclFlag = true;
+    let noaclflag = false;
     if (hasLoaded) return;
     getclientMessage()
     getserverMessage()
@@ -234,8 +234,9 @@ const ConditionSetting: React.FC = () => {
           setError({ show: '2', type: "ECI002" });
         }
         setNoacl(noaclFlag)
+        noaclflag = noaclFlag
       })
-    if (!noaclFlag) {
+    if (!noaclflag) {
       const loadSettings = async () => {
         try {
           const result = await loadSettingsAPI();
@@ -266,18 +267,12 @@ const ConditionSetting: React.FC = () => {
         }
       };
       loadSettings();
+    }else{
+      setTitle('システム障害対応中！！ボリュームカーブ')
     }
     setHasLoaded(true);
   }, [hasLoaded]);
-
-  useEffect(() => {
-    if (Noacl) {
-      setTitle('システム障害対応中！！ボリュームカーブ')
-    } else {
-      setTitle('ボリュームカーブ')
-    }
-  }, [Noacl])
-
+  
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Enter') {
