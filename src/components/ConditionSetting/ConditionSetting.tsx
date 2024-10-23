@@ -224,19 +224,19 @@ const ConditionSetting: React.FC = () => {
   };
 
   useEffect(() => {
-    let noaclflag = false;
+    let NOACL = false;
     if (hasLoaded) return;
     getclientMessage()
     getserverMessage()
     packageAPI()
       .then(({ noaclFlag, result }) => {
+        NOACL = noaclFlag
         if (!result) {
           setError({ show: '2', type: "ECI002" });
         }
         setNoacl(noaclFlag)
-        noaclflag = noaclFlag
       })
-    if (!noaclflag) {
+    if (!NOACL) {
       const loadSettings = async () => {
         try {
           const result = await loadSettingsAPI();

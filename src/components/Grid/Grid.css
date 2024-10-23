@@ -91,8 +91,8 @@
     padding: 0 !important;
     overflow-x: visible;
     overflow-y: visible;
-    max-height: none; 
-    max-width: none; 
+    max-height: none !important; 
+    max-width: none !important; 
   }
 
   .table-title {
@@ -105,8 +105,9 @@
   td:first-child, th:first-child {
     position: static; 
     border-left: 1px solid #ccc !important;
-
   }
+
+  
 }
 
 .table-head-cell:first-of-type,

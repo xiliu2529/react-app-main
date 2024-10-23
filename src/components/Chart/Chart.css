@@ -1,14 +1,26 @@
 @media print {
-    .chart {
-      page-break-inside: avoid;
-      margin-right: 0; 
-      transform: scale(0.9);  
-      transform-origin: top left;
-    }
-    .container-chart {
-      page-break-inside: avoid;
-    }
-    #chart-container1, #chart-container2, #chart-container {
-      page-break-inside: avoid;
-    }
+
+  .chart {
+    page-break-inside: avoid;
+    margin-right: 0;
+    transform: scale(0.9);
+    transform-origin: top left;
   }
+  .GridChartPage-Chart .chart{
+    page-break-inside: avoid;
+    margin-right: 0;
+    transform: scale(0.8);
+    transform-origin: top left;
+  }
+
+
+  .container-chart {
+    page-break-inside: avoid;
+  }
+
+  #chart-container1,
+  #chart-container2,
+  #chart-container {
+    page-break-inside: avoid;
+  }
+}
