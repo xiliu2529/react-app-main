@@ -235,44 +235,45 @@ const ConditionSetting: React.FC = () => {
           setError({ show: '2', type: "ECI002" });
         }
         setNoacl(noaclFlag)
-      })
-    if (!NOACL) {
-      const loadSettings = async () => {
-        try {
-          const result = await loadSettingsAPI();
-          if (result.body.response.D.volumecurve_info.HistoricalSetting && result.body.response.D.volumecurve_info.CalculationSetting
-            && result.body.response.D.volumecurve_info.ViewSettings) {
-            const requestPayload = result.body.response.D.volumecurve_info;
-            setAlignment(requestPayload.HistoricalSetting.Category);
-            setstartDate(requestPayload.HistoricalSetting.Range.DateFrom);
-            setendDate(requestPayload.HistoricalSetting.Range.DateTo);
-            setDays(Number(requestPayload.HistoricalSetting.Range.Days));
-            setCheckedState([requestPayload.HistoricalSetting.Range.SQ.LargeSQ, requestPayload.HistoricalSetting.Range.SQ.SmallSQ, requestPayload.HistoricalSetting.Range.SQ.WeeklySQ]);
-            setminutes(requestPayload.CalculationSetting.Category);
-            setStartTime(requestPayload.CalculationSetting.Range.TimeFrom);
-            setEndTime(requestPayload.CalculationSetting.Range.TimeTo);
-            setselectedMinutes(Number(requestPayload.CalculationSetting.Range.Minutes));
-            setMarketState({
-              preMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.OpenTick),
-              preMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.CloseTick),
-              postMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.OpenTick),
-              postMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.CloseTick),
-              eveningOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.OpenTick),
-              eveningClose: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.CloseTick),
-            });
-            setSaveViewSettings(requestPayload.ViewSettings)
-          }
-        } catch (err) {
-          console.error('Error fetching data:', err);
+        if (!NOACL) {
+          const loadSettings = async () => {
+            try {
+              const result = await loadSettingsAPI();
+              if (result.body.response.D.volumecurve_info.HistoricalSetting && result.body.response.D.volumecurve_info.CalculationSetting
+                && result.body.response.D.volumecurve_info.ViewSettings) {
+                const requestPayload = result.body.response.D.volumecurve_info;
+                setAlignment(requestPayload.HistoricalSetting.Category);
+                setstartDate(requestPayload.HistoricalSetting.Range.DateFrom);
+                setendDate(requestPayload.HistoricalSetting.Range.DateTo);
+                setDays(Number(requestPayload.HistoricalSetting.Range.Days));
+                setCheckedState([requestPayload.HistoricalSetting.Range.SQ.LargeSQ, requestPayload.HistoricalSetting.Range.SQ.SmallSQ, requestPayload.HistoricalSetting.Range.SQ.WeeklySQ]);
+                setminutes(requestPayload.CalculationSetting.Category);
+                setStartTime(requestPayload.CalculationSetting.Range.TimeFrom);
+                setEndTime(requestPayload.CalculationSetting.Range.TimeTo);
+                setselectedMinutes(Number(requestPayload.CalculationSetting.Range.Minutes));
+                setMarketState({
+                  preMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.OpenTick),
+                  preMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.AM.CloseTick),
+                  postMarketOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.OpenTick),
+                  postMarketClose: convertToBoolean(requestPayload.CalculationSetting.Individual.PM.CloseTick),
+                  eveningOpening: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.OpenTick),
+                  eveningClose: convertToBoolean(requestPayload.CalculationSetting.Individual.Evening.CloseTick),
+                });
+                setSaveViewSettings(requestPayload.ViewSettings)
+              }
+            } catch (err) {
+              console.error('Error fetching data:', err);
+            }
+          };
+          loadSettings();
+        } else {
+          setTitle('システム障害対応中！！ボリュームカーブ')
         }
-      };
-      loadSettings();
-    }else{
-      setTitle('システム障害対応中！！ボリュームカーブ')
-    }
+      })
+
     setHasLoaded(true);
   }, [hasLoaded]);
-  
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Enter') {
@@ -865,9 +866,9 @@ const ConditionSetting: React.FC = () => {
 
   return (
     <div className='commonsp-top'>
-     <Helmet>
-     <title>{title}</title>
-     </Helmet>
+      <Helmet>
+        <title>{title}</title>
+      </Helmet>
       <div className='commonsp'>
         <div className='title-1'>銘柄設定</div>
         <Stack direction="row" spacing={1} alignItems="center">
