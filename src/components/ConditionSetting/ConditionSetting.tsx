@@ -278,15 +278,16 @@ const ConditionSetting: React.FC = () => {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Enter') {
-        handleCalculate();
+      if (loading) {
+        event.preventDefault();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [inputValue, alignment, startDate, endDate, days, checkedState, minutes, startTime, endTime, selectedMinutes, marketState, settingsState]);
+  }, [loading]); 
+  
 
   useEffect(() => {
     if (minutes == '0') {
