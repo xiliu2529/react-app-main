@@ -46,6 +46,8 @@ const ConditionSetting: React.FC = () => {
   const [errorDateto, seterrorDateto] = useState<boolean>(false);
   const [errorDatetofrom, seterrorDatetofrom] = useState<boolean>(false);
   const [TimeError, setTimeError] = useState<boolean>(false);
+  const [datafromErrortext, setdatafromErrortext] = useState<boolean>(false);
+  const [datatoErrortext, setdatatoErrortext] = useState<boolean>(false);
   const [validation, setValidation] = useState<{ error: boolean; helperText: string }>({
     error: false,
     helperText: '',
@@ -522,19 +524,35 @@ const ConditionSetting: React.FC = () => {
     }
 
     if (category === '1') {
-      if (DateFrom == 'Invalid Date' || DateFrom > todayFormatted) {
+      if (DateFrom == 'null') {
         seterrorDatefrom(true);
+        setdatafromErrortext(false)
         hasError = true;
       } else {
-        seterrorDatefrom(false);
+        if (DateFrom > todayFormatted) {
+          seterrorDatefrom(true);
+          setdatafromErrortext(true)
+          hasError = true;
+        } else {
+          seterrorDatefrom(false);
+        }
       }
     }
-    if (category === '2' && DateTo == 'Invalid Date') {
-      seterrorDateto(true);
-      hasError = true;
-    } else {
-      seterrorDateto(false);
-    }
+    if (category === '2') {
+      if (DateTo == 'null') {
+        seterrorDateto(true);
+        setdatatoErrortext(false)
+        hasError = true;
+      } else {
+        if (DateTo == 'Invalid Date') {
+          seterrorDateto(true);
+          setdatatoErrortext(true)
+          hasError = true;
+        } else {
+          seterrorDateto(false);
+        }
+      }
+    } 
 
     if (category === '3') {
       if (DateFrom === 'Invalid Date' || DateTo === 'Invalid Date') {
@@ -574,12 +592,17 @@ const ConditionSetting: React.FC = () => {
   const handleStartDateChange = (newValue: Dayjs | null) => {
     if (newValue !== null) {
       setstartDate(newValue.format('YYYY-MM-DD'))
+    } else {
+      setstartDate('null')
     }
   };
+
 
   const handleEndDateChange = (newValue: Dayjs | null) => {
     if (newValue !== null) {
       setendDate(newValue.format('YYYY-MM-DD'))
+    } else {
+      setendDate('null')
     }
   };
 
@@ -694,11 +717,11 @@ const ConditionSetting: React.FC = () => {
                 </DemoContainer>
               </LocalizationProvider>
             </div>
-            <div style={{ height: '5px' }}>
+            <div style={{ height: '10px', marginTop:'-5px'}}>
               {errorDatefrom &&
                 <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}
                 >
-                  {requestPayload.HistoricalSetting.Range.DateFrom !== 'Invalid Date' ? clientMessage.WCI031 : clientMessage.WCI029}</FormHelperText>
+                  {datafromErrortext ? clientMessage.WCI031 : clientMessage.WCI029}</FormHelperText>
               }</div>
             <Stack direction="row" spacing={1} alignItems="center" sx={{ marginTop: '10px' }}>
               <Typography variant="body1" sx={{ fontSize: '10px' }}>日数</Typography>
@@ -744,10 +767,10 @@ const ConditionSetting: React.FC = () => {
                 </DemoContainer>
               </LocalizationProvider>
             </div>
-            <div style={{ height: '5px' }}>
+            <div style={{ height: '10px', marginTop:'-5px'}}>
               {errorDateto &&
                 <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}>
-                  {requestPayload.HistoricalSetting.Range.DateTo !== 'Invalid Date' ? clientMessage.WCI032 : clientMessage.WCI030}</FormHelperText>
+                  {datatoErrortext ? clientMessage.WCI032 : clientMessage.WCI030}</FormHelperText>
               }
             </div>
             <Stack direction="row" spacing={1} alignItems="center" sx={{ marginTop: '10px' }}>
@@ -816,9 +839,9 @@ const ConditionSetting: React.FC = () => {
                 </DemoContainer>
               </LocalizationProvider>
             </div>
-            <div style={{ height: '5px' }}>
+            <div style={{ height: '10px', marginTop:'-5px'}}>
               {errorDatetofrom &&
-                <FormHelperText style={{ color: '#d32f2f', marginLeft: '25px', marginTop: 0 }}>{clientMessage.WCI033}</FormHelperText>
+                <FormHelperText style={{ color: '#d32f2f', marginLeft: '25px', marginTop: 0}}>{clientMessage.WCI033}</FormHelperText>
               }
             </div>
           </div>
@@ -969,7 +992,7 @@ const ConditionSetting: React.FC = () => {
               </Grid>}
 
             {TimeError &&
-              <FormHelperText style={{ color: '#d32f2f', marginLeft: '90px', marginTop: '5px' }}>
+              <FormHelperText style={{ color: '#d32f2f', marginLeft: '90px', marginTop: '0px' }}>
                 {clientMessage.WCI035}
               </FormHelperText>
             }

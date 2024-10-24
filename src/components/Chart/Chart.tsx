@@ -12,9 +12,9 @@ import { useMyContext } from '../../contexts/MyContext';
 import './Chart.css';
 
 const Chart: React.FC<{ height: string | number | null, width: string | number | null }> = (props) => {
-  const chartRef = useRef<Highcharts.Chart | null>(null);
-  const chartRef1 = useRef<Highcharts.Chart | null>(null);
-  const chartRef2 = useRef<Highcharts.Chart | null>(null);
+  const dailyAndCumulativeChart = useRef<Highcharts.Chart | null>(null);
+  const dailyChart = useRef<Highcharts.Chart | null>(null);
+  const cumulativeChart = useRef<Highcharts.Chart | null>(null);
   const { clearData, response, QvChartDatajson, settingsState, conditionSettingState, setSettingsState } = useMyContext();
   const [QvChartData, setQvChartData] = useState<TickFrame>({
     EveningOpenTickFrame: {
@@ -999,37 +999,36 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   };
 
   useEffect(() => {
-    const container = document.getElementById('chart-container');
-    const container1 = document.getElementById('chart-container1');
-    const container2 = document.getElementById('chart-container2');
-
-    if (container) {
-      container.innerHTML = '';
-      chartRef.current = Highcharts.chart('chart-container', {
+    const dailyAndCumulative = document.getElementById('chart-container');
+    const daily = document.getElementById('chart-container1');
+    const cumulative = document.getElementById('chart-container2');
+    if (dailyAndCumulative) {
+      dailyAndCumulative.innerHTML = '';
+      dailyAndCumulativeChart.current = Highcharts.chart('chart-container', {
         ...chartOptions, accessibility: {
           enabled: false
         }, chart: { height: props.height, width: props.width, backgroundColor: settingsState.colors[2] }
       });
     }
-    if (container1) {
-      container1.innerHTML = '';
-      chartRef1.current = Highcharts.chart('chart-container1', {
+    if (daily) {
+      daily.innerHTML = '';
+      dailyChart.current = Highcharts.chart('chart-container1', {
         ...chartOptions1, accessibility: {
           enabled: false
         }, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width, backgroundColor: settingsState.colors[2] }
       });
     }
-    if (container2) {
-      container2.innerHTML = '';
-      chartRef2.current = Highcharts.chart('chart-container2', {
+    if (cumulative) {
+      cumulative.innerHTML = '';
+      cumulativeChart.current = Highcharts.chart('chart-container2', {
         ...chartOptions2, accessibility: {
           enabled: false
         }, chart: { height: props.height ? `${parseFloat(props.height as string) / 2}px` : '200px', width: props.width, backgroundColor: settingsState.colors[2] }
       });
     }
-    addRightClickExportMenu(chartRef.current, 'chart-container');
-    addRightClickExportMenu(chartRef1.current, 'chart-container1');
-    addRightClickExportMenu(chartRef2.current, 'chart-container2');
+    addRightClickExportMenu(dailyAndCumulativeChart.current, 'chart-container');
+    addRightClickExportMenu(dailyChart.current, 'chart-container1');
+    addRightClickExportMenu(cumulativeChart.current, 'chart-container2');
   }, [settingsState, chartState]);
 
   return (
