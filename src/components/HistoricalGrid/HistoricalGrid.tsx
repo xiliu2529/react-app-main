@@ -44,13 +44,13 @@ const HistoricalGrid: React.FC = () => {
   useEffect(() => {
     if (clearData) {
       setQvHistoricalData({})
-    }else{
+    } else {
       const sortedData = Object.keys(QvHistoricalDatajson)
-      .sort((a: string, b: string) => new Date(b).getTime() - new Date(a).getTime())
-    const orderedData = sortedData.reduce((acc, date) => {
-      acc[date] = QvHistoricalDatajson[date];
-      return acc;
-    }, {} as Record<string, any>);
+        .sort((a: string, b: string) => new Date(b).getTime() - new Date(a).getTime())
+      const orderedData = sortedData.reduce((acc, date) => {
+        acc[date] = QvHistoricalDatajson[date];
+        return acc;
+      }, {} as Record<string, any>);
       setQvHistoricalData(orderedData)
     }
   }, [clearData]);
@@ -333,7 +333,7 @@ const HistoricalGrid: React.FC = () => {
                     </TableRow> : null
                   }
 
-                  {Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].EveningTickFrame? renderTimeSlotRows(timeSlots, 'EveningTickFrame') : null}
+                  {Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].EveningTickFrame ? renderTimeSlotRows(timeSlots, 'EveningTickFrame') : null}
 
                   {conditionSettingState.marketState.eveningClose && Object.keys(QvHistoricalData).length != 0 && QvHistoricalData[historicalDates[0]].EveningCloseTickFrame ?
                     <TableRow>

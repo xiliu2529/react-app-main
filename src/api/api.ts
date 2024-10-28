@@ -170,10 +170,3 @@ export const getQvDataAPI = async (ID: any, Qv: any) => {
     throw error;
   }
 };
-
-
-
-
-
-
-

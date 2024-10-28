@@ -12,7 +12,6 @@ import 'dayjs/locale/ja';
 import { Helmet } from 'react-helmet';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { saveSettingsAPI, loadSettingsAPI, requestAPI, statusAPI, getQvDataAPI, packageAPI, serverMessageAPI, clientMessageAPI } from '../../api/api';
-
 dayjs.locale('ja');
 
 const ConditionSetting: React.FC = () => {
@@ -176,6 +175,17 @@ const ConditionSetting: React.FC = () => {
       [key]: event.target.checked,
     });
   };
+  const handleEnterPress = (event: React.KeyboardEvent) => {
+    if (!loading) {
+      if (event.key === 'Enter') {
+        const activeElement = document.activeElement;
+        if (activeElement && activeElement.id === 'stock-input') {
+          handleCalculate()
+        }
+      }
+    }
+  };
+
 
   const handleCalculate = () => {
     setResponse(false)
@@ -286,8 +296,8 @@ const ConditionSetting: React.FC = () => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [loading]); 
-  
+  }, [loading]);
+
 
   useEffect(() => {
     if (minutes == '0') {
@@ -297,6 +307,11 @@ const ConditionSetting: React.FC = () => {
       setStartTime1(startTime)
     }
   }, [startTime])
+
+
+  useEffect(() => {
+    setTimeError(false)
+  }, [minutes])
 
   useEffect(() => {
     if (isFirstRender) {
@@ -553,7 +568,7 @@ const ConditionSetting: React.FC = () => {
           seterrorDateto(false);
         }
       }
-    } 
+    }
 
     if (category === '3') {
       if (DateFrom === 'Invalid Date' || DateTo === 'Invalid Date') {
@@ -578,14 +593,17 @@ const ConditionSetting: React.FC = () => {
       }
     }
     if (minutes !== '0') {
-      if (startTime > endTime) {
-        setTimeError(true);
-        hasError = true;
-      } else if (startTime <= endTime) {
+      if (startTime && endTime) {
+        if (startTime > endTime) {
+          setTimeError(true);
+          hasError = true;
+        } else {
+          setTimeError(false);
+        }
+      } else {
         setTimeError(false);
       }
     }
-
 
     return !hasError;
   };
@@ -597,7 +615,6 @@ const ConditionSetting: React.FC = () => {
       setstartDate('null')
     }
   };
-
 
   const handleEndDateChange = (newValue: Dayjs | null) => {
     if (newValue !== null) {
@@ -718,7 +735,7 @@ const ConditionSetting: React.FC = () => {
                 </DemoContainer>
               </LocalizationProvider>
             </div>
-            <div style={{ height: '10px', marginTop:'-5px'}}>
+            <div style={{ height: '10px', marginTop: '-5px' }}>
               {errorDatefrom &&
                 <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}
                 >
@@ -768,7 +785,7 @@ const ConditionSetting: React.FC = () => {
                 </DemoContainer>
               </LocalizationProvider>
             </div>
-            <div style={{ height: '10px', marginTop:'-5px'}}>
+            <div style={{ height: '10px', marginTop: '-5px' }}>
               {errorDateto &&
                 <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}>
                   {datatoErrortext ? clientMessage.WCI032 : clientMessage.WCI030}</FormHelperText>
@@ -840,9 +857,9 @@ const ConditionSetting: React.FC = () => {
                 </DemoContainer>
               </LocalizationProvider>
             </div>
-            <div style={{ height: '10px', marginTop:'-5px'}}>
+            <div style={{ height: '10px', marginTop: '-5px' }}>
               {errorDatetofrom &&
-                <FormHelperText style={{ color: '#d32f2f', marginLeft: '25px', marginTop: 0}}>{clientMessage.WCI033}</FormHelperText>
+                <FormHelperText style={{ color: '#d32f2f', marginLeft: '25px', marginTop: 0 }}>{clientMessage.WCI033}</FormHelperText>
               }
             </div>
           </div>
@@ -908,10 +925,12 @@ const ConditionSetting: React.FC = () => {
                 boxShadow: '0 0 0px 1000px white inset !important'
               },
             }}
+            id="stock-input"
             error={validation.error}
             helperText={validation.helperText}
             value={inputValue}
             onChange={handleInputChange}
+            onKeyDown={handleEnterPress}
           />
         </Stack>
         <div className='title-1' id='title-1-2'>期間設定</div>

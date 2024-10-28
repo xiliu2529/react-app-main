@@ -48,7 +48,6 @@ const InfoPanel: React.FC = () => {
     }
   }, [clearData]); 
   
-
   return (
     <div id='InfoPanel'>
       <ToggleButtonGroup

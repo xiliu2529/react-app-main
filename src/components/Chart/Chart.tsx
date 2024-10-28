@@ -677,7 +677,12 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         format: '{value}%',
       }, title: {
         text: undefined
-      }
+      },
+      gridLineWidth: 0,
+      lineWidth: 0,
+      tickAmount: 5,
+      alignTicks: true,
+
     }, {
       labels: {
         style: {
@@ -689,7 +694,12 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       opposite: true,
       title: {
         text: undefined
-      }
+      },
+      max: 100,
+      ceiling: 100,
+      endOnTick: false,
+      tickAmount: 5,
+      alignTicks: true,
     }, {
       labels: {
         style: {
@@ -750,7 +760,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     }, {
       showInLegend: false,
       type: 'spline',
-      yAxis: 0,
+      yAxis: 1,
       name: '当日 累計',
       data: chartState.todayCumulative,
       color: settingsState.colors[14],
@@ -786,13 +796,11 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     exporting: {
       enabled: false,
     }
-
   };
 
   const chartOptions1: Highcharts.Options = {
     chart: {
       type: 'column',
-
     },
     title: {
       text: ''
@@ -814,7 +822,11 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         format: '{value}%',
       }, title: {
         text: undefined
-      }
+      },
+      gridLineWidth: 0,
+      lineWidth: 0,
+      tickAmount: 5,
+      alignTicks: true,
     },
     {
       labels: {
@@ -827,7 +839,12 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       opposite: true,
       title: {
         text: undefined
-      }
+      },
+      max: 100,
+      ceiling: 100,
+      endOnTick: false,
+      tickAmount: 5,
+      alignTicks: true,
     },
     {
       labels: {
@@ -912,7 +929,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     chart: {
       type: 'column',
     },
-
     title: {
       text: ''
     },
@@ -933,7 +949,11 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         format: '{value}%',
       }, title: {
         text: undefined
-      }
+      },
+      gridLineWidth: 0,
+      lineWidth: 0,
+      tickAmount: 5,
+      alignTicks: true,
     }, {
       labels: {
         style: {
@@ -945,7 +965,12 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       opposite: true,
       title: {
         text: undefined
-      }
+      },
+      max: 100,
+      ceiling: 100,
+      endOnTick: false,
+      tickAmount: 5,
+      alignTicks: true,
     }],
     tooltip: {
       shared: true,

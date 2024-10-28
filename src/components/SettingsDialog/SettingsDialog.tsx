@@ -15,7 +15,7 @@ import { useMyContext } from '../../contexts/MyContext';
 import { saveSettingsAPI } from '../../api/api';
 
 const SettingsDialog = () => {
-    const { saveViewSettings,Noacl, setshowConditionSettings, setisHistoricalActive, setbuttonName, settingsState, setSettingsState, showModal, buttonName, isHistoricalActive, showConditionSettings, setViewSettings } = useMyContext();
+    const { saveViewSettings, Noacl, setshowConditionSettings, setisHistoricalActive, setbuttonName, settingsState, setSettingsState, showModal, buttonName, isHistoricalActive, showConditionSettings, setViewSettings } = useMyContext();
     const [open, setOpen] = useState(false);
     const [checkboxStates, setCheckboxStates] = useState<CheckboxState>(
         [false, false, false, false, false, false]
@@ -205,8 +205,8 @@ const SettingsDialog = () => {
                                         control={<Checkbox checked={checkboxStates[3]} onChange={() => handleCheckboxChange(3)} />}
                                         label="当日出来高分布を百分率で表示"
                                     />
-                                    <p style={{margin:0,paddingLeft:'25px', fontSize:'10px'}}> ※再算出後に反映されます。</p>
-                                    <br/>
+                                    <p style={{ margin: 0, paddingLeft: '25px', fontSize: '10px' }}> ※再算出後に反映されます。</p>
+                                    <br />
                                     <p className='sub-title'>グラフ</p>
                                     <RadioGroup
                                         value={radioValues[1]}
@@ -229,7 +229,6 @@ const SettingsDialog = () => {
                                 </Grid >
 
                                 <Grid item xs={10} sm={6} className='right-container'>
-
                                     <p className='category-title'>色</p>
                                     <p className='sub-title'>グリッド</p>
                                     <div className="wrapper">
@@ -356,5 +355,3 @@ const SettingsDialog = () => {
 };
 
 export default SettingsDialog;
-
-

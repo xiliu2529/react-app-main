@@ -38,7 +38,7 @@ const Grids: React.FC = () => {
         CalculationDateTime: "",
         AverageDays: []
       });
-    }else{
+    } else {
       setQvVolumeCurveData(QvVolumeCurveDatajson);
       setQvTotalingInfo(QvTotalingInfojson);
     }
@@ -238,7 +238,7 @@ const Grids: React.FC = () => {
           <TableContainer className="table-container">
             <Table>
               <TableHead className='Tablehead'>
-                <TableRow> 
+                <TableRow>
                   <TableCell className='table-title'> </TableCell>
                   <TableCell className='table-title' colSpan={3}>
                     {count === 0 ? null : displayText}

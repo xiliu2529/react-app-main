@@ -14,8 +14,6 @@ const InfoPanelGrid: React.FC = () => {
       </div>
     </div>
   );
-
-
 };
 
 export default InfoPanelGrid;
