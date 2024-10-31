@@ -53,6 +53,15 @@ const ConditionSetting: React.FC = () => {
   });
   const loadingRef = useRef(loading);
   useEffect(() => {
+    if (startDate == 'Invalid Date') {
+      setstartDate('null')
+    }
+    if (endDate == 'Invalid Date') {
+      setendDate('null')
+    }
+  }, [alignment]);
+
+  useEffect(() => {
     loadingRef.current = loading;
   }, [loading]);
 
@@ -175,19 +184,27 @@ const ConditionSetting: React.FC = () => {
       [key]: event.target.checked,
     });
   };
+
+  let hasTriggered = false;
   const handleEnterPress = (event: React.KeyboardEvent) => {
-    if (!loading) {
-      if (event.key === 'Enter') {
-        const activeElement = document.activeElement;
-        if (activeElement && activeElement.id === 'stock-input') {
-          handleCalculate()
-        }
+    if(!loading){
+    if (!hasTriggered && event.key === 'Enter') {
+      const activeElement = document.activeElement;
+      if (activeElement && activeElement.id === 'stock-input') {
+        hasTriggered = true;
+        handleCalculate();
+        setTimeout(() => { hasTriggered = false; }, 1000);
       }
     }
+  }
   };
-
-
   const handleCalculate = () => {
+    setTimeError(false)
+    setErrorSQ(false)
+    seterrorDatetofrom(false)
+    seterrorDateto(false)
+    seterrorDatefrom(false)
+
     setResponse(false)
     setRequestPayload({
       Code: inputValue,
@@ -571,7 +588,7 @@ const ConditionSetting: React.FC = () => {
     }
 
     if (category === '3') {
-      if (DateFrom === 'Invalid Date' || DateTo === 'Invalid Date') {
+      if (DateFrom === 'Invalid Date' || DateTo === 'Invalid Date' || DateFrom == 'null' || DateTo == 'null') {
         seterrorDatetofrom(true);
         hasError = true;
       } else if (DateTo < DateFrom) {
