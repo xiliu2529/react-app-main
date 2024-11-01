@@ -58,7 +58,14 @@
   background-size: contain;
   background-repeat: no-repeat;
   cursor: pointer;
-  padding-right: 30px;
+  height: 22px; 
+  width: 22px;  
+  margin: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-repeat: no-repeat;
+  background-position: left center;
 }
 
 .category-title {

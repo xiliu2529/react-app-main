@@ -18,14 +18,19 @@
   line-height: 30px;
 }
 
+.print-icon,
+.favorite-button,
+.download-button {
+  height: 22px;
+  width: 22px;
+  margin: 5px;
+}
+
 .print-icon {
   background-image: url('../../img/print_24dp_FFFFFF.svg');
   background-size: contain;
   background-repeat: no-repeat;
   cursor: pointer;
-  min-width: 30px;
-  max-width: 60px;
-  margin-left: 10px;
 }
 
 .help-button {
@@ -42,6 +47,7 @@
   border-radius: 5px;
   padding-left: 30px;
   white-space: nowrap;
+  margin-right: 5px;
 }
 
 .download-button {
@@ -49,8 +55,6 @@
   background-size: contain;
   background-repeat: no-repeat;
   cursor: pointer;
-  min-width: 30px;
-  max-width: 60px;
 }
 
 @media print {

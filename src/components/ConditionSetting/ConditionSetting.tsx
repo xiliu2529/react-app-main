@@ -15,6 +15,7 @@ import { saveSettingsAPI, loadSettingsAPI, requestAPI, statusAPI, getQvDataAPI, 
 dayjs.locale('ja');
 
 const ConditionSetting: React.FC = () => {
+  const [isCalculating, setIsCalculating] = useState(false);
   const [isFirstRender, setIsFirstRender] = useState(true);
   const [inputValue, setInputValue] = useState<string>('');
   const [title, setTitle] = useState<string>('');
@@ -120,6 +121,7 @@ const ConditionSetting: React.FC = () => {
     const newEndTime = event.target.value;
     setEndTime(newEndTime);
   };
+  
   const sqhandleChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedState(prevState => {
       const newState = [...prevState];
@@ -187,24 +189,19 @@ const ConditionSetting: React.FC = () => {
 
   let hasTriggered = false;
   const handleEnterPress = (event: React.KeyboardEvent) => {
-    if(!loading){
-    if (!hasTriggered && event.key === 'Enter') {
-      const activeElement = document.activeElement;
-      if (activeElement && activeElement.id === 'stock-input') {
-        hasTriggered = true;
-        handleCalculate();
-        setTimeout(() => { hasTriggered = false; }, 1000);
+    if (!loading) {
+      if (!hasTriggered && event.key === 'Enter') {
+        const activeElement = document.activeElement;
+        if (activeElement && activeElement.id === 'stock-input') {
+          hasTriggered = true;
+          handleCalculate();
+          setTimeout(() => { hasTriggered = false; }, 1000);
+        }
       }
     }
-  }
   };
   const handleCalculate = () => {
-    setTimeError(false)
-    setErrorSQ(false)
-    seterrorDatetofrom(false)
-    seterrorDateto(false)
-    seterrorDatefrom(false)
-
+    if (isCalculating) return;
     setResponse(false)
     setRequestPayload({
       Code: inputValue,
@@ -250,6 +247,7 @@ const ConditionSetting: React.FC = () => {
     });
     setIsReadyToSend(true);
     setConditionSettingState({ marketState, inputValue });
+    setIsCalculating(false);
   };
 
   useEffect(() => {
@@ -621,7 +619,6 @@ const ConditionSetting: React.FC = () => {
         setTimeError(false);
       }
     }
-
     return !hasError;
   };
 
@@ -987,7 +984,13 @@ const ConditionSetting: React.FC = () => {
                 }
               }}
                 error={TimeError}
-                value={startTime} onChange={handleStartTimeChange} />
+                value={startTime} onChange={handleStartTimeChange}
+                onBlur={(event) => {
+                  const inputValue = event.target.value;
+                  if (!inputValue || !/^\d{2}:\d{2}$/.test(inputValue)) {
+                    event.target.value = '';
+                  }}}
+                />
             </Grid>
             <Grid item>
               <Typography variant="body1">-</Typography>
@@ -1025,7 +1028,13 @@ const ConditionSetting: React.FC = () => {
                   }
                 }}
                   value={endTime} onChange={handleEndTimeChange}
-                  error={TimeError} />
+                  error={TimeError}
+                  onBlur={(event) => {
+                    const inputValue = event.target.value;
+                    if (!inputValue || !/^\d{2}:\d{2}$/.test(inputValue)) {
+                      event.target.value = '';
+                    }}}
+                />
               </Grid>}
 
             {TimeError &&

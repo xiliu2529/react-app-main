@@ -22,7 +22,7 @@ const Utilities: React.FC = () => {
       <span className="help-button" onClick={help}>ヘルプ</span>
       <span className="print-icon" onClick={print}></span>
       <span className="download-button" onClick={download}></span>
-      <SettingsDialog />
+      <SettingsDialog/>
     </div>
   )
 };
