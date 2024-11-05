@@ -36,6 +36,8 @@ type HistoricalSetting = {
 };
 
 type Rangex = {
+  startDate?: string;
+  endDate?: string;
   DateFrom: string;
   DateTo: string;
   Days: string;

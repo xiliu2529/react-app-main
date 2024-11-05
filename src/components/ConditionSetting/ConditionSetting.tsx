@@ -36,8 +36,10 @@ const ConditionSetting: React.FC = () => {
     eveningClose: false,
   });
   const [startDate, setstartDate] = useState<string>('');
-  const today = new Date().toISOString().split('T')[0];
   const [endDate, setendDate] = useState<string>('');
+  const [DateFrom, setDateFrom] = useState<string>('');
+  const [DateTo, setDateTo] = useState<string>('');
+  const today = new Date().toISOString().split('T')[0];
   const [checkedState, setCheckedState] = React.useState<string[]>(['1', '1', '1']);
   const { setclearData, setclientMessage, setserverMessage, clientMessage, hasLoaded, setHasLoaded, Noacl, setNoacl, setSaveViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading, setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
@@ -54,6 +56,12 @@ const ConditionSetting: React.FC = () => {
   });
   const loadingRef = useRef(loading);
   useEffect(() => {
+    if (DateFrom == 'Invalid Date') {
+      setDateFrom('null')
+    }
+    if (DateTo == 'Invalid Date') {
+      setDateTo('null')
+    }
     if (startDate == 'Invalid Date') {
       setstartDate('null')
     }
@@ -208,8 +216,8 @@ const ConditionSetting: React.FC = () => {
       HistoricalSetting: {
         Category: alignment,
         Range: {
-          DateFrom: startDate,
-          DateTo: endDate,
+          DateFrom: alignment === '3' ? DateFrom : startDate,
+          DateTo: alignment === '3' ? DateTo : endDate,
           Days: String(days),
           SQ: {
             LargeSQ: checkedState[0],
@@ -270,8 +278,10 @@ const ConditionSetting: React.FC = () => {
                 && result.body.response.D.volumecurve_info.ViewSettings) {
                 const requestPayload = result.body.response.D.volumecurve_info;
                 setAlignment(requestPayload.HistoricalSetting.Category);
-                setstartDate(requestPayload.HistoricalSetting.Range.DateFrom);
-                setendDate(requestPayload.HistoricalSetting.Range.DateTo);
+                setDateFrom(requestPayload.HistoricalSetting.Range.DateFrom);
+                setDateTo(requestPayload.HistoricalSetting.Range.DateTo);
+                setstartDate(requestPayload.HistoricalSetting.Range.startDate);
+                setendDate(requestPayload.HistoricalSetting.Range.endDate);
                 setDays(Number(requestPayload.HistoricalSetting.Range.Days));
                 setCheckedState([requestPayload.HistoricalSetting.Range.SQ.LargeSQ, requestPayload.HistoricalSetting.Range.SQ.SmallSQ, requestPayload.HistoricalSetting.Range.SQ.WeeklySQ]);
                 setminutes(requestPayload.CalculationSetting.Category);
@@ -338,8 +348,10 @@ const ConditionSetting: React.FC = () => {
       HistoricalSetting: {
         Category: alignment,
         Range: {
-          DateFrom: startDate,
-          DateTo: endDate,
+          startDate: startDate,
+          endDate: endDate,
+          DateFrom: DateFrom,
+          DateTo: DateTo,
           Days: String(days),
           SQ: {
             LargeSQ: checkedState[0],
@@ -371,7 +383,7 @@ const ConditionSetting: React.FC = () => {
         },
       },
     });
-  }, [inputValue, alignment, startDate, endDate, days, checkedState, minutes, startTime, endTime, selectedMinutes, marketState]);
+  }, [inputValue, alignment, startDate, endDate,DateFrom,DateTo, days, checkedState, minutes, startTime, endTime, selectedMinutes, marketState]);
 
   const saveSettings = async () => {
     try {
@@ -515,8 +527,12 @@ const ConditionSetting: React.FC = () => {
   useEffect(() => {
     setInputValue(showModal.Code);
     setAlignment(showModal.HistoricalSetting.Category);
-    setstartDate(showModal.HistoricalSetting.Range.DateFrom);
-    setendDate(showModal.HistoricalSetting.Range.DateTo);
+    if (showModal.HistoricalSetting.Range.startDate !== undefined && showModal.HistoricalSetting.Range.endDate !== undefined) {
+      setstartDate(showModal.HistoricalSetting.Range.startDate);
+      setendDate(showModal.HistoricalSetting.Range.endDate);
+    }
+    setDateFrom(showModal.HistoricalSetting.Range.DateFrom);
+    setDateTo(showModal.HistoricalSetting.Range.DateTo);
     setDays(Number(showModal.HistoricalSetting.Range.Days));
     setCheckedState([showModal.HistoricalSetting.Range.SQ.LargeSQ, showModal.HistoricalSetting.Range.SQ.SmallSQ, showModal.HistoricalSetting.Range.SQ.WeeklySQ]);
     setminutes(showModal.CalculationSetting.Category);
@@ -630,6 +646,22 @@ const ConditionSetting: React.FC = () => {
     }
   };
 
+  const handleDateFromChange = (newValue: Dayjs | null) => {
+    if (newValue !== null) {
+      setDateFrom(newValue.format('YYYY-MM-DD'))
+    } else {
+      setDateFrom('null')
+    }
+  };
+
+  const handleDateToChange = (newValue: Dayjs | null) => {
+    if (newValue !== null) {
+      setDateTo(newValue.format('YYYY-MM-DD'))
+    } else {
+      setDateTo('null')
+    }
+  };
+  
   const handleEndDateChange = (newValue: Dayjs | null) => {
     if (newValue !== null) {
       setendDate(newValue.format('YYYY-MM-DD'))
@@ -735,7 +767,7 @@ const ConditionSetting: React.FC = () => {
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                   <ThemeProvider theme={theme}>
                     <DatePicker
-                      value={startDate ? dayjs(startDate) : dayjs(showModal.HistoricalSetting.Range.DateFrom)}
+                      value={startDate ? dayjs(startDate) : dayjs(showModal.HistoricalSetting.Range.startDate)}
                       minDate={dayjs(minDaysAgo)}
                       onChange={handleStartDateChange}
                       format="YYYY/MM/DD"
@@ -785,7 +817,7 @@ const ConditionSetting: React.FC = () => {
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                   <ThemeProvider theme={theme}>
                     <DatePicker
-                      value={endDate ? dayjs(endDate) : dayjs(showModal.HistoricalSetting.Range.DateTo)}
+                      value={endDate ? dayjs(endDate) : dayjs(showModal.HistoricalSetting.Range.endDate)}
                       onChange={handleEndDateChange}
                       format="YYYY/MM/DD"
                       minDate={dayjs(minDaysAgo)}
@@ -836,8 +868,8 @@ const ConditionSetting: React.FC = () => {
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                   <ThemeProvider theme={theme}>
                     <DatePicker
-                      value={startDate ? dayjs(startDate) : dayjs(showModal.HistoricalSetting.Range.DateFrom)}
-                      onChange={handleStartDateChange}
+                      value={DateFrom ? dayjs(DateFrom) : dayjs(showModal.HistoricalSetting.Range.DateFrom)}
+                      onChange={handleDateFromChange}
                       minDate={dayjs(minDaysAgo)}
                       format="YYYY/MM/DD"
                       slotProps={{
@@ -857,8 +889,8 @@ const ConditionSetting: React.FC = () => {
                 <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                   <ThemeProvider theme={theme}>
                     <DatePicker
-                      value={endDate ? dayjs(endDate) : dayjs(showModal.HistoricalSetting.Range.DateTo)}
-                      onChange={handleEndDateChange}
+                      value={DateTo ? dayjs(DateTo) : dayjs(showModal.HistoricalSetting.Range.DateTo)}
+                      onChange={handleDateToChange}
                       format="YYYY/MM/DD"
                       minDate={dayjs(minDaysAgo)}
                       slotProps={{

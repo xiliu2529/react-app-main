@@ -88,6 +88,8 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       HistoricalSetting: {
         Category: '0',
         Range: {
+          startDate: tenDaysAgo,
+          endDate: today,
           DateFrom: tenDaysAgo,
           DateTo: today,
           Days: '10',
