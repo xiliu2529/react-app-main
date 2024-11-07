@@ -192,6 +192,7 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [clientMessage, setclientMessage] = useState<any>('');
   const [serverMessage, setserverMessage] = useState<any>('');
   const [clearData, setclearData] = useState(false);
+  const [isCapped, setisCapped] = useState(false);
   return (
     <MyContext.Provider
       value={{
@@ -241,6 +242,8 @@ export const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         setserverMessage,
         clearData,
         setclearData,
+        isCapped,
+        setisCapped
       }}
     >
       {children}

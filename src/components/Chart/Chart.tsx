@@ -15,7 +15,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   const dailyAndCumulativeChart = useRef<Highcharts.Chart | null>(null);
   const dailyChart = useRef<Highcharts.Chart | null>(null);
   const cumulativeChart = useRef<Highcharts.Chart | null>(null);
-  const { clearData, response, QvChartDatajson, settingsState, conditionSettingState, setSettingsState } = useMyContext();
+  const { isCapped, clearData, response, QvChartDatajson, settingsState, conditionSettingState, setSettingsState } = useMyContext();
   const [QvChartData, setQvChartData] = useState<TickFrame>({
     EveningOpenTickFrame: {
       AverageDaysData: {
@@ -615,7 +615,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         ],
       }));
     }
-
   }, [settingsState, QvChartData]);
 
   useEffect(() => {
@@ -653,6 +652,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     });
   }, [chartData]);
 
+  const isValidValue = Array.isArray(chartState.todayCumulative) && chartState.todayCumulative.length > 0;
   const chartOptions: Highcharts.Options = {
     chart: {
       type: 'column',
@@ -695,8 +695,10 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       title: {
         text: undefined
       },
-      max: 100,
-      ceiling: 100,
+
+      max: isCapped ? undefined : 100,
+      ceiling: isCapped ? undefined : 100,
+      min: isValidValue ? 0 : undefined,
       endOnTick: false,
       tickAmount: 5,
       alignTicks: true,
@@ -712,7 +714,8 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       opposite: true,
       title: {
         text: undefined
-      }
+      },
+      visible: false
     }],
 
     tooltip: {
@@ -721,7 +724,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       formatter: function () {
         let s = '<span>' + this.x + '</span><br/>';
         this.points?.forEach(function (point) {
-          const marker = '<span style="color:' + point.series.color + '">●</span>';
+          const marker = '<span style="color:' + point.color + '">●</span>';
           s += '<div style="display: flex; justify-content: space-between; min-width: 150px;">' +
             '<span style="text-align:left;">' + marker + ' ' + point.series.name + ':</span>' +
             '<span style="text-align:right;">' + point.y + (point.series.name === '終値' ? '' : '%') + '</span>' +
@@ -772,7 +775,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       type: 'spline',
       yAxis: 1,
       name: '過去平均 累計',
-      color: settingsState.colors[15],
       data: chartState.historicalCumulative,
       tooltip: {
         valueSuffix: '%'
@@ -840,8 +842,10 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       title: {
         text: undefined
       },
-      max: 100,
-      ceiling: 100,
+
+      max: isCapped ? undefined : 100,
+      ceiling: isCapped ? undefined : 100,
+      min: isValidValue ? 0 : undefined,
       endOnTick: false,
       tickAmount: 5,
       alignTicks: true,
@@ -858,7 +862,8 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       opposite: true,
       title: {
         text: undefined
-      }
+      },
+      visible: false
     }
     ],
     tooltip: {
@@ -867,7 +872,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       formatter: function () {
         let s = '<span>' + this.x + '</span><br/>';
         this.points?.forEach(function (point) {
-          const marker = '<span style="color:' + point.series.color + '">●</span>';
+          const marker = '<span style="color:' + point.color + '">●</span>';
           s += '<div style="display: flex; justify-content: space-between; min-width: 150px;">' +
             '<span style="text-align:left;">' + marker + ' ' + point.series.name + ':</span>' +
             '<span style="text-align:right;">' + point.y + (point.series.name === '終値' ? '' : '%') + '</span>' +
@@ -968,6 +973,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       },
       max: 100,
       ceiling: 100,
+      min: isValidValue ? 0 : undefined,
       endOnTick: false,
       tickAmount: 5,
       alignTicks: true,
@@ -978,7 +984,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       formatter: function () {
         let s = '<span>' + this.x + '</span><br/>';
         this.points?.forEach(function (point) {
-          const marker = '<span style="color:' + point.series.color + '">●</span>';
+          const marker = '<span style="color:' + point.color + '">●</span>';
           s += '<div style="display: flex; justify-content: space-between; min-width: 150px;">' +
             '<span style="text-align:left;">' + marker + ' ' + point.series.name + ':</span>' +
             '<span style="text-align:right;">' + point.y + '%</span>' +
@@ -1008,7 +1014,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         type: 'spline',
         yAxis: 1,
         name: '過去平均 累計',
-        color: !useDailyColor ? settingsState.colors[15] : settingsState.colors[14],
         data: chartState.historicalCumulative,
         tooltip: {
           valueSuffix: '%'

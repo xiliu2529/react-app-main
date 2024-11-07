@@ -41,7 +41,7 @@ const ConditionSetting: React.FC = () => {
   const [DateTo, setDateTo] = useState<string>('');
   const today = new Date().toISOString().split('T')[0];
   const [checkedState, setCheckedState] = React.useState<string[]>(['1', '1', '1']);
-  const { setclearData, setclientMessage, setserverMessage, clientMessage, hasLoaded, setHasLoaded, Noacl, setNoacl, setSaveViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading, setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
+  const { setisCapped,setclearData, setclientMessage, setserverMessage, clientMessage, hasLoaded, setHasLoaded, Noacl, setNoacl, setSaveViewSettings, setQvChartDatajson, setQvHistoricalDatajson, loading, setQvTotalingInfojson, setQvVolumeCurveDatajson, setLoading, setError, setConditionSettingState, isHistoricalActive, requestPayload, setRequestPayload, setshowModal, showModal, settingsState, setResponse, ViewSettings } = useMyContext();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [errorSQ, setErrorSQ] = useState<boolean>(false);
   const [errorDatefrom, seterrorDatefrom] = useState<boolean>(false);
@@ -482,6 +482,9 @@ const ConditionSetting: React.FC = () => {
                     // QvVolumeCurveData
                     const QvVolumeCurveData = await getQvData(ID, 'QvVolumeCurveData.json');
                     setQvVolumeCurveDatajson(QvVolumeCurveData)
+                    const distribution = QvVolumeCurveData.TotalFrame.TodayData.Distribution;
+                    const numericValue = parseFloat(distribution.replace('%', '')); 
+                    setisCapped(numericValue > 100)
 
                     // QvChartData
                     const QvChartData = await getQvData(ID, 'QvChartData.json');
