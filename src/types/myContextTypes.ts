@@ -45,6 +45,4 @@ export interface MyContextType {
   setserverMessage: (state: any) => void;
   clearData: boolean
   setclearData: (state: boolean) => void;
-  isCapped: boolean
-  setisCapped: (state: boolean) => void;
 }

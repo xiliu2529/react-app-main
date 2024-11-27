@@ -9,8 +9,11 @@ const Header: React.FC = () => {
 
   return (
     <header className="header">
+      <div className="header-div">
         <img src={labo} className="quick" alt="Icon description" onClick={handleClick}/>
+        <span className="overlay-text">ボリュームカーブ</span>
         <Utilities/>
+        </div>
     </header>
   );
 };

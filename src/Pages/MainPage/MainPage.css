@@ -1,10 +1,14 @@
 .body{
     width: 100%;
     height: 100%;
+    justify-content: center;
+    max-width: 1200px; /* 设置最大宽度，防止内容过度扩展 */
+    margin: 0 auto; /* 保证两侧空白区域均匀 */
 }
 
 .layout{
     width: 100%;
+    justify-content: center;
 }
 
 .custom-snackbar {

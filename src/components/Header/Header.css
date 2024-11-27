@@ -1,23 +1,36 @@
-.body {
-  width: 100%;
-}
-
 .header {
-  height: 36px;
   background-color: #143867;
   display: flex;
-  grid-column: 1 / -1;
-  width: auto;
-  min-width: 1200px;
-  align-items: center;
-  justify-content: space-between;
+  width: 100%;
+  min-width: 1200px; 
+  align-items: center; 
+  justify-content: center;
 }
 
 .quick {
   color: white;
   font-size: 24px;
   font-weight: bold;
-  display: flex;
-  margin-left: 30px;
+  margin-top: 12px;
+  margin-bottom: 12px;
   align-items: center;
+}
+
+.overlay-text {
+  margin-right: 800px;
+  color: white;
+  text-align: left;
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 20px; 
+  white-space: nowrap;
+}
+
+.header-div{
+  background-color: #143867;
+  display: flex;
+  width: 100%;
+  min-width: 1200px; 
+  align-items: center; 
+  justify-content: center;
 }

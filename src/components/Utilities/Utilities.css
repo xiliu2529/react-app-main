@@ -1,7 +1,7 @@
 .utilities-container {
+  margin-left: 1000px;
   display: flex;
-  align-items: center;
-  gap: 1px;
+  position: absolute; 
 }
 
 .help-button,

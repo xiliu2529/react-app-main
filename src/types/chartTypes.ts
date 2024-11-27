@@ -43,7 +43,19 @@ export type TimeFrames = {
   [key: string]: TimeFrameData;
 };
 
+export type AxisInfo = {
+  AverageDaysData: {
+    MaxDistribution: string;
+    MaxCumulative: string;
+  };
+  TodayData: {
+    MaxDistribution: string;
+    MaxCumulative: string;
+  };
+};
+
 export type TickFrame = {
+  AxisInfo?: AxisInfo; 
   EveningOpenTickFrame?: TimeFrameData;
   EveningTickFrame?: TimeFrames;
   EveningCloseTickFrame?: TimeFrameData;

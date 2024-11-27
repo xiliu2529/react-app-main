@@ -15,7 +15,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   const dailyAndCumulativeChart = useRef<Highcharts.Chart | null>(null);
   const dailyChart = useRef<Highcharts.Chart | null>(null);
   const cumulativeChart = useRef<Highcharts.Chart | null>(null);
-  const { isCapped, clearData, response, QvChartDatajson, settingsState, conditionSettingState, setSettingsState } = useMyContext();
+  const { clearData, response, QvChartDatajson, settingsState, conditionSettingState, setSettingsState } = useMyContext();
   const [QvChartData, setQvChartData] = useState<TickFrame>({
     EveningOpenTickFrame: {
       AverageDaysData: {
@@ -653,6 +653,11 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
   }, [chartData]);
 
   const isValidValue = Array.isArray(chartState.todayCumulative) && chartState.todayCumulative.length > 0;
+  const todayMaxCumulative = QvChartData.AxisInfo?.TodayData.MaxCumulative
+  const todayMaxDistribution = QvChartData.AxisInfo?.TodayData.MaxDistribution
+  const ADMaxCumulative = QvChartData.AxisInfo?.AverageDaysData.MaxCumulative
+  const ADMaxDistribution = QvChartData.AxisInfo?.AverageDaysData.MaxDistribution
+
   const chartOptions: Highcharts.Options = {
     chart: {
       type: 'column',
@@ -678,10 +683,14 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       }, title: {
         text: undefined
       },
-      gridLineWidth: 0,
+      gridLineDashStyle: 'ShortDash',
+      gridLineColor: '#67e6a8',
+
+      max:todayMaxDistribution !== undefined ? Number(todayMaxDistribution) : undefined,
+      min: isValidValue ? 0 : undefined,
       lineWidth: 0,
-      tickAmount: 5,
-      alignTicks: true,
+      alignTicks: true, 
+      endOnTick: true, 
 
     }, {
       labels: {
@@ -696,12 +705,11 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         text: undefined
       },
 
-      max: isCapped ? undefined : 100,
-      ceiling: isCapped ? undefined : 100,
+      max:todayMaxCumulative !== undefined ? Number(todayMaxCumulative) : undefined,
       min: isValidValue ? 0 : undefined,
-      endOnTick: false,
-      tickAmount: 5,
-      alignTicks: true,
+      alignTicks: true, 
+      endOnTick: true, 
+      
     }, {
       labels: {
         style: {
@@ -769,6 +777,9 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       color: settingsState.colors[14],
       tooltip: {
         valueSuffix: '%'
+      },
+      marker: {
+        enabled: true, 
       }
     }, {
       showInLegend: false,
@@ -778,6 +789,9 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       data: chartState.historicalCumulative,
       tooltip: {
         valueSuffix: '%'
+      },
+      marker: {
+        enabled: true, 
       }
     }, {
       showInLegend: false,
@@ -789,6 +803,9 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       visible: settingsState.checkboxStates[4],
       tooltip: {
         valueSuffix: ''
+      },
+      marker: {
+        enabled: true, 
       }
 
     }]
@@ -799,7 +816,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       enabled: false,
     }
   };
-
   const chartOptions1: Highcharts.Options = {
     chart: {
       type: 'column',
@@ -816,55 +832,46 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         }
       }
     },
-    yAxis: [{
-      labels: {
-        style: {
-          color: settingsState.colors[3]
+    yAxis: [
+      {
+        labels: {
+          style: {
+            color: settingsState.colors[3]
+          },
+          format: '{value}%',
         },
-        format: '{value}%',
-      }, title: {
-        text: undefined
+        title: { text: undefined },
+        max: todayMaxDistribution !== undefined ? Number(todayMaxDistribution) : undefined,
+        min: isValidValue ? 0 : undefined,
+        alignTicks: true, 
+        endOnTick: true, 
       },
-      gridLineWidth: 0,
-      lineWidth: 0,
-      tickAmount: 5,
-      alignTicks: true,
-    },
-    {
-      labels: {
-        style: {
-          color: settingsState.colors[3]
+      {
+        labels: {
+          style: {
+            color: settingsState.colors[3]
+          },
+          format: '{value}%',
         },
-        format: '{value} %',
-
+        opposite: true,
+        title: { text: undefined },
+        max: todayMaxCumulative !== undefined ? Number(todayMaxCumulative) : undefined,
+        min: isValidValue ? 0 : undefined,
+        alignTicks: true, 
+        endOnTick: true,
       },
-      opposite: true,
-      title: {
-        text: undefined
-      },
-
-      max: isCapped ? undefined : 100,
-      ceiling: isCapped ? undefined : 100,
-      min: isValidValue ? 0 : undefined,
-      endOnTick: false,
-      tickAmount: 5,
-      alignTicks: true,
-    },
-    {
-      labels: {
-        style: {
-          color: settingsState.colors[3]
+      {
+        labels: {
+          style: {
+            color: settingsState.colors[3]
+          },
+          format: '{value} ',
+          enabled: false
         },
-        format: '{value} ',
-        enabled: false
-
-      },
-      opposite: true,
-      title: {
-        text: undefined
-      },
-      visible: false
-    }
+        opposite: true,
+        title: { text: undefined },
+        visible: false
+      }
     ],
     tooltip: {
       shared: true,
@@ -880,56 +887,55 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         });
         return '<div style="min-width: 150px;">' + s + '</div>';
       }
-    }
-    ,
+    },
     legend: {
       align: 'left',
       verticalAlign: 'top',
       backgroundColor: Highcharts.defaultOptions.legend?.backgroundColor || 'rgba(255,255,255,0.25)'
     },
-    series: [{
-      showInLegend: false,
-      type: 'column',
-      color: '#FF0000',
-      yAxis: 0,
-      name: '当日 分布',
-      data: chartState.todayDistribution
-      , tooltip: {
-        valueSuffix: '%'
+    series: [
+      {
+        showInLegend: false,
+        type: 'column',
+        color: '#FF0000',
+        yAxis: 0,
+        name: '当日 分布',
+        data: chartState.todayDistribution,
+        tooltip: { valueSuffix: '%' }
+      },
+      {
+        showInLegend: false,
+        type: 'spline',
+        yAxis: 1,
+        name: '当日 累計',
+        color: settingsState.colors[14],
+        data: chartState.todayCumulative,
+        tooltip: { valueSuffix: '%' } 
+        ,
+        marker: {
+        enabled: true, 
       }
-    }, {
-      showInLegend: false,
-      type: 'spline',
-      yAxis: 1,
-      name: '当日 累計',
-      color: settingsState.colors[14],
-      data: chartState.todayCumulative,
-      tooltip: {
-        valueSuffix: '%'
+      },
+      {
+        showInLegend: false,
+        type: 'spline',
+        yAxis: 2,
+        color: settingsState.colors[16],
+        name: '終値',
+        data: chartState.ClosePrice,
+        visible: settingsState.checkboxStates[4],
+        tooltip: { valueSuffix: '' }
+        ,
+        marker: {
+        enabled: true, 
       }
-    }
-      , {
-      showInLegend: false,
-      type: 'spline',
-      yAxis: 2,
-      color: settingsState.colors[16],
-      name: '終値',
-      data: chartState.ClosePrice,
-      visible: settingsState.checkboxStates[4],
-      tooltip: {
-        valueSuffix: ''
       }
-
-    }
     ],
-    credits: {
-      enabled: false
-    },
-    exporting: {
-      enabled: false,
-    }
+    credits: { enabled: false },
+    exporting: { enabled: false },
   };
-
+  
+  
   const chartOptions2: Highcharts.Options = {
     chart: {
       type: 'column',
@@ -955,10 +961,9 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       }, title: {
         text: undefined
       },
-      gridLineWidth: 0,
-      lineWidth: 0,
-      tickAmount: 5,
-      alignTicks: true,
+      max: ADMaxDistribution !== undefined ? Number(ADMaxDistribution) : undefined, 
+      min: isValidValue ? 0 : undefined, 
+      gridLineWidth: 0, 
     }, {
       labels: {
         style: {
@@ -971,12 +976,10 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       title: {
         text: undefined
       },
-      max: 100,
-      ceiling: 100,
+      max:ADMaxCumulative !== undefined ? Number(ADMaxCumulative) : undefined,
       min: isValidValue ? 0 : undefined,
-      endOnTick: false,
-      tickAmount: 5,
-      alignTicks: true,
+      alignTicks: false,
+      endOnTick: false, 
     }],
     tooltip: {
       shared: true,
@@ -1007,7 +1010,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         data: chartState.historicalDistribution,
         tooltip: {
           valueSuffix: '%'
-        }
+        },
       },
       {
         showInLegend: false,
@@ -1017,6 +1020,9 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         data: chartState.historicalCumulative,
         tooltip: {
           valueSuffix: '%'
+        },
+        marker: {
+          enabled: true, 
         }
       }
     ]
