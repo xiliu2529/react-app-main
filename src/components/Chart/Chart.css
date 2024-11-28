@@ -23,3 +23,7 @@
     page-break-inside: avoid;
   }
 }
+
+.chart-top .MuiFormControlLabel-label {
+  font-size: 12px;
+}

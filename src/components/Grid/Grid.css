@@ -30,7 +30,7 @@
   padding: 0 !important;
   color: #2d70d4 !important;
   white-space: nowrap;
-  font-size: 13px !important;
+  font-size: 12px !important;
   border-bottom: 0px solid rgb(224, 224, 224)  !important;;
 
 }
@@ -99,7 +99,7 @@
     padding: 0 !important;
     color: #2d70d4 !important;
     white-space: nowrap;
-    font-size: 13px !important;
+    font-size: 12px !important;
   }
 
   td:first-child, th:first-child {

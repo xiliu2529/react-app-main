@@ -13,18 +13,18 @@ import {
     FormControlLabel,
     FormHelperText
 } from '@mui/material';
-import React, {useEffect, useRef, useState} from 'react';
-import {SelectChangeEvent} from '@mui/material/Select';
-import {DemoContainer} from '@mui/x-date-pickers/internals/demo';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
-import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
-import {DatePicker} from '@mui/x-date-pickers/DatePicker';
+import React, { useEffect, useRef, useState } from 'react';
+import { SelectChangeEvent } from '@mui/material/Select';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import './ConditionSetting.css';
-import {useMyContext} from '../../contexts/MyContext';
-import dayjs, {Dayjs} from 'dayjs';
+import { useMyContext } from '../../contexts/MyContext';
+import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/ja';
-import {Helmet} from 'react-helmet';
-import {createTheme, ThemeProvider} from '@mui/material/styles';
+import { Helmet } from 'react-helmet';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {
     saveSettingsAPI,
     loadSettingsAPI,
@@ -306,7 +306,7 @@ const ConditionSetting: React.FC = () => {
             },
         });
         setIsReadyToSend(true);
-        setConditionSettingState({marketState, inputValue});
+        setConditionSettingState({ marketState, inputValue });
         setIsCalculating(false);
     };
 
@@ -316,10 +316,10 @@ const ConditionSetting: React.FC = () => {
         getclientMessage()
         getserverMessage()
         packageAPI()
-            .then(({noaclFlag, result}) => {
+            .then(({ noaclFlag, result }) => {
                 NOACL = noaclFlag
                 if (!result) {
-                    setError({show: '2', type: "ECI002"});
+                    setError({ show: '2', type: "ECI002" });
                 }
                 setNoacl(noaclFlag)
                 if (!NOACL) {
@@ -441,7 +441,7 @@ const ConditionSetting: React.FC = () => {
         try {
             const HistoricalSetting: HistoricalSetting = showModal.HistoricalSetting
             const CalculationSetting: CalculationSetting = showModal.CalculationSetting
-            await saveSettingsAPI({ViewSettings, HistoricalSetting, CalculationSetting});
+            await saveSettingsAPI({ ViewSettings, HistoricalSetting, CalculationSetting });
         } catch (err) {
             console.error('Error fetching data:', err);
         }
@@ -549,9 +549,9 @@ const ConditionSetting: React.FC = () => {
                                     } else if (status.Status === -1) {
                                         clearInterval(intervalId);
                                         if (status.MessageCode == '') {
-                                            setError({show: '2', type: "ECR001"});
+                                            setError({ show: '2', type: "ECR001" });
                                         } else {
-                                            setError({show: '1', type: status.MessageCode});
+                                            setError({ show: '1', type: status.MessageCode });
                                         }
                                         setLoading(false);
                                     }
@@ -609,7 +609,7 @@ const ConditionSetting: React.FC = () => {
         const DateTo = payload.HistoricalSetting.Range.DateTo
         const DateFrom = payload.HistoricalSetting.Range.DateFrom
         let hasError = false;
-        const newValidationState = {error: false, helperText: ''};
+        const newValidationState = { error: false, helperText: '' };
         const todayFormatted = today;
         const oneYearAgo = new Date(today);
         oneYearAgo.setFullYear(new Date().getFullYear() - 1);
@@ -622,7 +622,7 @@ const ConditionSetting: React.FC = () => {
             setValidation(newValidationState);
             hasError = true;
         } else {
-            setValidation({error: false, helperText: ''});
+            setValidation({ error: false, helperText: '' });
         }
 
         if (category === '1') {
@@ -776,9 +776,9 @@ const ConditionSetting: React.FC = () => {
         switch (currentAlignment) {
             case '0':
                 return (
-                    <div style={{height: "86px"}}>
+                    <div style={{ height: "86px" }}>
                         <Stack direction="row" spacing={1} alignItems="center" className='counter-controls'>
-                            <Typography variant="body1" sx={{fontSize: '10px'}}>日数</Typography>
+                            <Typography variant="body1" sx={{ fontSize: '13px' }}>日数</Typography>
                             <Button variant="outlined" size="small" onClick={handleDecrement} sx={{
                                 padding: 0,
                                 width: '25px',
@@ -808,7 +808,7 @@ const ConditionSetting: React.FC = () => {
                                         },
                                     },
                                 }}
-                                sx={{width: '55px', '& .MuiOutlinedInput-root': {padding: 0}}}
+                                sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
                             />
                             <Button variant="outlined" size="small" onClick={handleIncrement} sx={{
                                 padding: 0,
@@ -823,14 +823,14 @@ const ConditionSetting: React.FC = () => {
 
             case '1':
                 return (
-                    <div style={{height: "90px"}}>
-                        <div style={{display: 'flex', alignItems: 'center', height: "35px", marginTop: '6px'}}>
-                            <p style={{fontSize: '10px'}}>開始日</p>
+                    <div style={{ height: "90px" }}>
+                        <div style={{ display: 'flex', alignItems: 'center', height: "35px", marginTop: '6px' }}>
+                            <p style={{ fontSize: '13px' }}>開始日</p>
                             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja"
-                                                  localeText={{
-                                                      todayButtonLabel: "今日",
-                                                  }}>
-                                <DemoContainer components={['DatePicker']} sx={{padding: '0'}}>
+                                localeText={{
+                                    todayButtonLabel: "今日",
+                                }}>
+                                <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                                     <ThemeProvider theme={theme}>
                                         <DatePicker
                                             value={startDate ? dayjs(startDate) : dayjs(showModal.HistoricalSetting.Range.startDate)}
@@ -847,14 +847,14 @@ const ConditionSetting: React.FC = () => {
                                 </DemoContainer>
                             </LocalizationProvider>
                         </div>
-                        <div style={{height: '10px', marginTop: '-5px'}}>
+                        <div style={{ height: '10px', marginTop: '-5px' }}>
                             {errorDatefrom &&
-                                <FormHelperText style={{color: '#d32f2f', marginLeft: '35px', marginTop: 0}}
+                                <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}
                                 >
                                     {datafromErrortext ? clientMessage.WCI031 : clientMessage.WCI029}</FormHelperText>
                             }</div>
-                        <Stack direction="row" spacing={1} alignItems="center" sx={{marginTop: '10px'}}>
-                            <Typography variant="body1" sx={{fontSize: '10px'}}>日数</Typography>
+                        <Stack direction="row" spacing={1} alignItems="center" sx={{ marginTop: '10px' }}>
+                            <Typography variant="body1" sx={{ fontSize: '13px' }}>日数</Typography>
                             <Button variant="outlined" size="small" onClick={handleDecrement} sx={{
                                 padding: 0,
                                 width: '25px',
@@ -869,8 +869,8 @@ const ConditionSetting: React.FC = () => {
                                 onChange={handleInputDay}
                                 onKeyDown={handleKeyDown}
                                 onBlur={handleBlur}
-                                InputProps={{sx: {padding: 0, '& input': {height: '10px', textAlign: 'center'}}}}
-                                sx={{width: '55px', '& .MuiOutlinedInput-root': {padding: 0}}}
+                                InputProps={{ sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
+                                sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
                             />
                             <Button variant="outlined" size="small" onClick={handleIncrement} sx={{
                                 padding: 0,
@@ -885,14 +885,14 @@ const ConditionSetting: React.FC = () => {
 
             case '2':
                 return (
-                    <div style={{height: "90px"}}>
-                        <div style={{display: 'flex', alignItems: 'center', height: "35px", marginTop: '6px'}}>
-                            <p style={{fontSize: '10px'}}>終了日</p>
+                    <div style={{ height: "90px" }}>
+                        <div style={{ display: 'flex', alignItems: 'center', height: "35px", marginTop: '6px' }}>
+                            <p style={{ fontSize: '13px' }}>終了日</p>
                             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja"
-                                                  localeText={{
-                                                      todayButtonLabel: "今日",
-                                                  }}>
-                                <DemoContainer components={['DatePicker']} sx={{padding: '0'}}>
+                                localeText={{
+                                    todayButtonLabel: "今日",
+                                }}>
+                                <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                                     <ThemeProvider theme={theme}>
                                         <DatePicker
                                             value={endDate ? dayjs(endDate) : dayjs(showModal.HistoricalSetting.Range.endDate)}
@@ -909,14 +909,14 @@ const ConditionSetting: React.FC = () => {
                                 </DemoContainer>
                             </LocalizationProvider>
                         </div>
-                        <div style={{height: '10px', marginTop: '-5px'}}>
+                        <div style={{ height: '10px', marginTop: '-5px' }}>
                             {errorDateto &&
-                                <FormHelperText style={{color: '#d32f2f', marginLeft: '35px', marginTop: 0}}>
+                                <FormHelperText style={{ color: '#d32f2f', marginLeft: '35px', marginTop: 0 }}>
                                     {datatoErrortext ? clientMessage.WCI032 : clientMessage.WCI030}</FormHelperText>
                             }
                         </div>
-                        <Stack direction="row" spacing={1} alignItems="center" sx={{marginTop: '10px'}}>
-                            <Typography variant="body1" sx={{fontSize: '10px'}}>日数</Typography>
+                        <Stack direction="row" spacing={1} alignItems="center" sx={{ marginTop: '10px' }}>
+                            <Typography variant="body1" sx={{ fontSize: '13px' }}>日数</Typography>
                             <Button variant="outlined" size="small" onClick={handleDecrement} sx={{
                                 padding: 0,
                                 width: '25px',
@@ -931,8 +931,8 @@ const ConditionSetting: React.FC = () => {
                                 onChange={handleInputDay}
                                 onKeyDown={handleKeyDown}
                                 onBlur={handleBlur}
-                                InputProps={{sx: {padding: 0, '& input': {height: '10px', textAlign: 'center'}}}}
-                                sx={{width: '55px', '& .MuiOutlinedInput-root': {padding: 0}}}
+                                InputProps={{ sx: { padding: 0, '& input': { height: '10px', textAlign: 'center' } } }}
+                                sx={{ width: '55px', '& .MuiOutlinedInput-root': { padding: 0 } }}
                             />
                             <Button variant="outlined" size="small" onClick={handleIncrement} sx={{
                                 padding: 0,
@@ -947,15 +947,15 @@ const ConditionSetting: React.FC = () => {
 
             case '3':
                 return (
-                    <div style={{height: "90px"}}>
-                        <div style={{display: 'flex', alignItems: 'center', height: "35px", marginTop: '6px'}}>
-                            <p style={{display: 'inline-block', fontSize: '10px'}}>期間</p>
+                    <div style={{ height: "90px" }}>
+                        <div style={{ display: 'flex', alignItems: 'center', height: "35px", marginTop: '6px' }}>
+                            <p style={{ display: 'inline-block', fontSize: '13px' }}>期間</p>
                             <LocalizationProvider></LocalizationProvider>
                             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja"
-                                                  localeText={{
-                                                      todayButtonLabel: "今日",
-                                                  }}>
-                                <DemoContainer components={['DatePicker']} sx={{padding: '0'}}>
+                                localeText={{
+                                    todayButtonLabel: "今日",
+                                }}>
+                                <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                                     <ThemeProvider theme={theme}>
                                         <DatePicker
                                             value={DateFrom ? dayjs(DateFrom) : dayjs(showModal.HistoricalSetting.Range.DateFrom)}
@@ -971,12 +971,12 @@ const ConditionSetting: React.FC = () => {
                                     </ThemeProvider>
                                 </DemoContainer>
                             </LocalizationProvider>
-                            <Typography sx={{margin: '2px', marginLeft: '6px'}}>―</Typography>
+                            <Typography sx={{ margin: '2px', marginLeft: '6px' }}>―</Typography>
                             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja"
-                                                  localeText={{
-                                                      todayButtonLabel: "今日",
-                                                  }}>
-                                <DemoContainer components={['DatePicker']} sx={{padding: '0'}}>
+                                localeText={{
+                                    todayButtonLabel: "今日",
+                                }}>
+                                <DemoContainer components={['DatePicker']} sx={{ padding: '0' }}>
                                     <ThemeProvider theme={theme}>
                                         <DatePicker
                                             value={DateTo ? dayjs(DateTo) : dayjs(showModal.HistoricalSetting.Range.DateTo)}
@@ -993,7 +993,7 @@ const ConditionSetting: React.FC = () => {
                                 </DemoContainer>
                             </LocalizationProvider>
                         </div>
-                        <div style={{height: '10px', marginTop: '-5px'}}>
+                        <div style={{ height: '10px', marginTop: '-5px' }}>
                             {errorDatetofrom &&
                                 <FormHelperText style={{
                                     color: '#d32f2f',
@@ -1015,7 +1015,7 @@ const ConditionSetting: React.FC = () => {
                                     onChange={sqhandleChange(0)}
                                 />
                             }
-                            label={<span style={{fontSize: '10px'}}>Large-SQ</span>}
+                            label={<span style={{ fontSize: '12px' }}>Large-SQ</span>}
                         />
                         <FormControlLabel
                             control={
@@ -1024,7 +1024,7 @@ const ConditionSetting: React.FC = () => {
                                     onChange={sqhandleChange(1)}
                                 />
                             }
-                            label={<span style={{fontSize: '10px'}}>Small-SQ</span>}
+                            label={<span style={{ fontSize: '12px' }}>Small-SQ</span>}
                         />
                         <FormControlLabel
                             control={
@@ -1033,12 +1033,12 @@ const ConditionSetting: React.FC = () => {
                                     onChange={sqhandleChange(2)}
                                 />
                             }
-                            label={<span style={{fontSize: '10px'}}>Weekly-SQ</span>}
+                            label={<span style={{ fontSize: '12px' }}>Weekly-SQ</span>}
                         />
 
                         {errorSQ &&
                             <FormHelperText
-                                style={{color: '#d32f2f', marginTop: 0}}>{clientMessage.WCI034}</FormHelperText>}
+                                style={{ color: '#d32f2f', marginTop: 0 }}>{clientMessage.WCI034}</FormHelperText>}
                     </div>
                 );
             default:
@@ -1054,11 +1054,13 @@ const ConditionSetting: React.FC = () => {
             <div className='commonsp'>
                 <div className='title-1'>銘柄設定</div>
                 <Stack direction="row" spacing={1} alignItems="center">
-                    <Typography variant="body1" sx={{fontSize: "10px"}}>銘柄入力</Typography>
+                    <Typography variant="body1" sx={{ fontSize: "10px" }}>
+                        <p className='title-p'>銘柄入力</p>
+                    </Typography>
                     <TextField
                         sx={{
                             width: '90px', height: '30px', pa: '20px',
-                            '& .MuiInputBase-root': {height: '100%', padding: '0 0px',}, '& .MuiFormHelperText-root': {
+                            '& .MuiInputBase-root': { height: '100%', padding: '0 0px', }, '& .MuiFormHelperText-root': {
                                 whiteSpace: 'nowrap',
                                 margin: '0 0px',
                             },
@@ -1076,20 +1078,20 @@ const ConditionSetting: React.FC = () => {
                 </Stack>
                 <div className='title-1' id='title-1-2'>期間設定</div>
                 <ToggleButtonGroup value={alignment} exclusive onChange={handleAlignment} aria-label="text alignment">
-                    <ToggleButton value="0" className="ToggleButton" sx={selectedStyle}>直近</ToggleButton>
-                    <ToggleButton value="1" className="ToggleButton" sx={selectedStyle}>開始日</ToggleButton>
-                    <ToggleButton value="2" className="ToggleButton" sx={selectedStyle}>終了日</ToggleButton>
-                    <ToggleButton value="3" className="ToggleButton" sx={selectedStyle}> 開始終了日</ToggleButton>
-                    <ToggleButton value="4" className="ToggleButton" sx={selectedStyle}>SQ-日</ToggleButton>
+                    <ToggleButton value="0" className="ToggleButton" sx={{ ...selectedStyle, width: "45px" }}>直近</ToggleButton>
+                    <ToggleButton value="1" className="ToggleButton" sx={{ ...selectedStyle, width: "50px" }}>開始日</ToggleButton>
+                    <ToggleButton value="2" className="ToggleButton" sx={{ ...selectedStyle, width: "50px" }}>終了日</ToggleButton>
+                    <ToggleButton value="3" className="ToggleButton" sx={{ ...selectedStyle, width: "80px" }}> 開始終了日</ToggleButton>
+                    <ToggleButton value="4" className="ToggleButton" sx={{ ...selectedStyle, width: "50px" }}>SQ-日</ToggleButton>
                 </ToggleButtonGroup>
                 <div className="content-container">
                     {renderUI()}
                 </div>
                 <div id='title-2' className='title-1'>算出間隔</div>
                 <Stack direction="row" spacing={1} alignItems="center">
-                    <p>間隔</p>
+                    <p className='title-p'>間隔</p>
                     <Select labelId="demo-simple-select-label" id="demo-simple-select" value={minutes} label="minutes"
-                            onChange={handleChange}>
+                        onChange={handleChange}>
                         <MenuItem value='0'>1</MenuItem>
                         <MenuItem value='1'>5</MenuItem>
                         <MenuItem value='2'>10</MenuItem>
@@ -1098,10 +1100,10 @@ const ConditionSetting: React.FC = () => {
                     </Select>
                     <p>分間隔</p>
                 </Stack>
-                <div style={{height: '50px'}}>
-                    <Grid container spacing={1} alignItems="center" sx={{marginTop: '5px'}}>
+                <div style={{ height: '30px', width: '280px' }}>
+                    <Grid container spacing={1} alignItems="center" sx={{ marginTop: '5px' }}>
                         <Grid item>
-                            <Typography variant="body1" sx={{fontSize: '12px'}}>開始終了時刻</Typography>
+                            <Typography variant="body1" sx={{ fontSize: '13px' }}>開始終了時刻</Typography>
                         </Grid>
                         <Grid item>
                             <TextField className='custom-time-input' type="time" variant="outlined" sx={{
@@ -1111,14 +1113,14 @@ const ConditionSetting: React.FC = () => {
                                     cursor: 'pointer'
                                 }
                             }}
-                                       error={TimeError}
-                                       value={startTime} onChange={handleStartTimeChange}
-                                       onBlur={(event) => {
-                                           const inputValue = event.target.value;
-                                           if (!inputValue || !/^\d{2}:\d{2}$/.test(inputValue)) {
-                                               event.target.value = '';
-                                           }
-                                       }}
+                                error={TimeError}
+                                value={startTime} onChange={handleStartTimeChange}
+                                onBlur={(event) => {
+                                    const inputValue = event.target.value;
+                                    if (!inputValue || !/^\d{2}:\d{2}$/.test(inputValue)) {
+                                        event.target.value = '';
+                                    }
+                                }}
                             />
                         </Grid>
                         <Grid item>
@@ -1141,7 +1143,7 @@ const ConditionSetting: React.FC = () => {
                                     variant="outlined"
                                 />
                             </Box>
-                                <Typography sx={{marginTop: '7px'}}>
+                                <Typography sx={{ marginTop: '7px' }}>
                                     分
                                 </Typography></>
                             :
@@ -1156,54 +1158,54 @@ const ConditionSetting: React.FC = () => {
                                         cursor: 'pointer'
                                     }
                                 }}
-                                           value={endTime} onChange={handleEndTimeChange}
-                                           error={TimeError}
-                                           onBlur={(event) => {
-                                               const inputValue = event.target.value;
-                                               if (!inputValue || !/^\d{2}:\d{2}$/.test(inputValue)) {
-                                                   event.target.value = '';
-                                               }
-                                           }}
+                                    value={endTime} onChange={handleEndTimeChange}
+                                    error={TimeError}
+                                    onBlur={(event) => {
+                                        const inputValue = event.target.value;
+                                        if (!inputValue || !/^\d{2}:\d{2}$/.test(inputValue)) {
+                                            event.target.value = '';
+                                        }
+                                    }}
                                 />
                             </Grid>}
 
                         {TimeError &&
-                            <FormHelperText style={{color: '#d32f2f', marginLeft: '90px', marginTop: '0px'}}>
+                            <FormHelperText style={{ color: '#d32f2f', marginLeft: '90px', marginTop: '0px' }}>
                                 {clientMessage.WCI035}
                             </FormHelperText>
                         }
                     </Grid>
                 </div>
-                <p style={{marginBottom: '10px'}}>個别算出</p>
+                <p className='title-p' style={{ marginBottom: '10px' }}>個别算出</p>
                 <div>
                     <Grid container spacing={1} alignItems="center">
-                        <Typography variant="body1" padding='10px' paddingRight='50px'>前場</Typography>
+                        <Typography variant="body1" paddingRight='55px' paddingLeft='20px'><p className='title-p'>前場</p></Typography>
                         <FormControlLabel control={<Checkbox checked={marketState.preMarketOpening}
-                                                             onChange={handleCheckboxChange('preMarketOpening')}/>}
-                                          label="寄付"/>
+                            onChange={handleCheckboxChange('preMarketOpening')} />}
+                            label="寄付" />
                         <FormControlLabel control={<Checkbox checked={marketState.preMarketClose}
-                                                             onChange={handleCheckboxChange('preMarketClose')}/>}
-                                          label="引け"/>
+                            onChange={handleCheckboxChange('preMarketClose')} />}
+                            label="引け" />
                     </Grid>
 
                     <Grid container spacing={1} alignItems="center">
-                        <Typography variant="body1" padding='10px' paddingRight='50px'>後場</Typography>
+                        <Typography variant="body1" paddingRight='55px' paddingLeft='20px' > <p className='title-p'>後場</p></Typography>
                         <FormControlLabel control={<Checkbox checked={marketState.postMarketOpening}
-                                                             onChange={handleCheckboxChange('postMarketOpening')}/>}
-                                          label="寄付"/>
+                            onChange={handleCheckboxChange('postMarketOpening')} />}
+                            label="寄付" />
                         <FormControlLabel control={<Checkbox checked={marketState.postMarketClose}
-                                                             onChange={handleCheckboxChange('postMarketClose')}/>}
-                                          label="引け"/>
+                            onChange={handleCheckboxChange('postMarketClose')} />}
+                            label="引け" />
                     </Grid>
 
                     <Grid container spacing={1} alignItems="center">
-                        <Typography variant="body1" padding='10px' paddingRight='13.7px'>イブニング</Typography>
+                        <Typography variant="body1" paddingRight='15px' paddingLeft='20px' ><p className='title-p'>イブニング</p></Typography>
                         <FormControlLabel control={<Checkbox checked={marketState.eveningOpening}
-                                                             onChange={handleCheckboxChange('eveningOpening')}/>}
-                                          label="寄付"/>
+                            onChange={handleCheckboxChange('eveningOpening')} />}
+                            label="寄付" />
                         <FormControlLabel control={<Checkbox checked={marketState.eveningClose}
-                                                             onChange={handleCheckboxChange('eveningClose')}/>}
-                                          label="引け"/>
+                            onChange={handleCheckboxChange('eveningClose')} />}
+                            label="引け" />
                     </Grid>
                 </div>
             </div>
@@ -1211,11 +1213,13 @@ const ConditionSetting: React.FC = () => {
                 backgroundColor: '#143867',
                 color: '#fff',
                 marginLeft: '230px',
-                borderRadius: '15px',
-                marginTop: '5px'
+                borderRadius: '20px',
+                marginTop: '5px',
+                fontSize:'12px',
+                fontWeight:700
             }}
-                    onClick={handleCalculate}>
-                算出
+                onClick={handleCalculate}>
+               算出
             </Button>
         </div>
     );

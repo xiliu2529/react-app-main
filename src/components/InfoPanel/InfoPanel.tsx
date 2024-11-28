@@ -68,10 +68,10 @@ const InfoPanel: React.FC = () => {
       <div className='message'>
         <Stack direction="row" spacing={1} alignItems="center">
           <span className="label">銘柄コード:</span>
-          <span className="value">{QvTotalingInfo.QuoteCode}</span>
+          <span className="label-value">{QvTotalingInfo.QuoteCode}</span>
           <span className="label">銘柄名:</span>
-          <span className="value">{QvTotalingInfo.AbbreviatedName}</span>
-          <span className="value">{QvTotalingInfo.MarketName}{QvTotalingInfo.ListedSection}</span>
+          <span className="label-value">{QvTotalingInfo.AbbreviatedName}</span>
+          <span className="label-value">{QvTotalingInfo.MarketName}{QvTotalingInfo.ListedSection}</span>
         </Stack>
         <p className="execution-time">実行日時: {QvTotalingInfo.CalculationDateTime}</p>
       </div>

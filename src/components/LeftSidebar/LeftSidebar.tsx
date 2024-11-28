@@ -121,15 +121,22 @@ const LeftSidebar: React.FC = () => {
           <img src={icon} alt="Icon" className="icon" style={{
             height: "12px",
             marginRight: "10px",
+          
             filter: isHistoricalActive ? 'none ' : "grayscale(100%)",
           }} />
-          レイアウト切替
+          <p style={{fontSize:'12px'}}> レイアウト切替</p>
+         
         </span>
 
         <FormGroup>
           <FormControlLabel
             control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
             label="条件設定表示"
+            sx={{
+              "& .MuiFormControlLabel-label": {
+                fontSize: "12px", 
+              },
+            }}
           />
         </FormGroup>
       </span>

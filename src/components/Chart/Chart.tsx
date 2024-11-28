@@ -670,14 +670,16 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       crosshair: true,
       labels: {
         style: {
-          color: settingsState.colors[3]
+          color: settingsState.colors[3],
+          fontSize: '12px'
         }
       }
     },
     yAxis: [{
       labels: {
         style: {
-          color: settingsState.colors[3]
+          color: settingsState.colors[3],
+          fontSize: '12px'
         },
         format: '{value}%',
       }, title: {
@@ -828,7 +830,8 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       crosshair: true,
       labels: {
         style: {
-          color: settingsState.colors[3]
+          color: settingsState.colors[3],
+          fontSize: '12px'
         }
       }
     },
@@ -836,7 +839,8 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       {
         labels: {
           style: {
-            color: settingsState.colors[3]
+            color: settingsState.colors[3],
+            fontSize: '12px'
           },
           format: '{value}%',
         },
@@ -940,6 +944,7 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     chart: {
       type: 'column',
     },
+    
     title: {
       text: ''
     },
@@ -948,14 +953,16 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       crosshair: true,
       labels: {
         style: {
-          color: settingsState.colors[3]
+          color: settingsState.colors[3],
+          fontSize: '12px'
         }
       }
     },
     yAxis: [{
       labels: {
         style: {
-          color: settingsState.colors[3]
+          color: settingsState.colors[3],
+          fontSize: '12px'
         },
         format: '{value}%',
       }, title: {

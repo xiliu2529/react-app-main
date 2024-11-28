@@ -9,6 +9,7 @@
   }
 
   .customToggleButton{
+    font-size: 12px !important;
     width: 200px;
     background-color: #fff;
     border: #fff 1px solid !important;
@@ -41,7 +42,7 @@
 }
 
 .execution-time{
-  font-size: 10px;
+  font-size: 12px;
   color: #635e5e;
 }
 
@@ -51,9 +52,11 @@
 
 .label{
   white-space: nowrap; 
+  font-size: 13px;
 }
 
-.value {
+.label-value {
   width: 100px; 
+  font-size: 13px;
   white-space: nowrap; 
 }
