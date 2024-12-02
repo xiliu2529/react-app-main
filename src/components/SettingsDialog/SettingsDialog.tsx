@@ -156,7 +156,7 @@ const SettingsDialog = () => {
                     minHeight: '550px',
                 }
             }}>
-                <DialogTitle sx={{ backgroundColor: '#143867', color: '#fff' }}>オプション設定</DialogTitle>
+                <DialogTitle sx={{ backgroundColor: '#143867', color: '#fff',fontSize:'18px' ,fontWeight:700}}>オプション設定</DialogTitle>
                 <DialogContent dividers>
 
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -170,14 +170,16 @@ const SettingsDialog = () => {
                                     <FormControlLabel
                                         control={<Checkbox checked={checkboxStates[0]} onChange={() => handleCheckboxChange(0)} />}
                                         label="場引け出来高を表示"
+                                        sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }}
                                     />
                                     <div></div>
                                     <FormControlLabel
                                         control={<Checkbox checked={checkboxStates[1]} onChange={() => handleCheckboxChange(1)} />}
                                         label="時間帯別最多出来高·価格を表示"
+                                        sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }}
                                     />
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        <p style={{ fontWeight: 'bold' }}>優先表示</p>
+                                        <p className='sub-title'>優先表示</p>
 
                                         <RadioGroup
                                             value={radioValues[0]}
@@ -190,8 +192,10 @@ const SettingsDialog = () => {
                                                 marginLeft: '20px'
                                             }}
                                         >
-                                            <FormControlLabel value="0" control={<Radio />} label="高値" />
-                                            <FormControlLabel value="1" control={<Radio />} label="安値" />
+                                            <FormControlLabel value="0" control={<Radio />} label="高値" 
+                                             sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }}/>
+                                            <FormControlLabel value="1" control={<Radio />} label="安値"
+                                             sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }} />
                                         </RadioGroup>
                                     </div>
 
@@ -199,13 +203,15 @@ const SettingsDialog = () => {
                                     <FormControlLabel
                                         control={<Checkbox checked={checkboxStates[2]} onChange={() => handleCheckboxChange(2)} />}
                                         label="場引けVWAPを表示"
+                                        sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }} 
                                     />
                                     <div></div>
                                     <FormControlLabel
                                         control={<Checkbox checked={checkboxStates[3]} onChange={() => handleCheckboxChange(3)} />}
                                         label="当日出来高分布を百分率で表示"
+                                        sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }} 
                                     />
-                                    <p style={{ margin: 0, paddingLeft: '25px', fontSize: '10px' }}> ※再算出後に反映されます。</p>
+                                    <p style={{ margin: 0, paddingLeft: '25px', fontSize: '12px' }}> ※再算出後に反映されます。</p>
                                     <br />
                                     <p className='sub-title'>グラフ</p>
                                     <RadioGroup
@@ -219,12 +225,15 @@ const SettingsDialog = () => {
                                             marginLeft: '20px'
                                         }}
                                     >
-                                        <FormControlLabel value="0" control={<Radio />} label="並ベて表示" />
-                                        <FormControlLabel value="1" control={<Radio />} label="重ねて表示" />
+                                        <FormControlLabel value="0" control={<Radio />} label="並ベて表示"
+                                            sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }}  />
+                                        <FormControlLabel value="1" control={<Radio />} label="重ねて表示" 
+                                            sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }} />
                                     </RadioGroup>
                                     <FormControlLabel
                                         control={<Checkbox checked={checkboxStates[4]} onChange={() => handleCheckboxChange(4)} />}
                                         label="当日の価格チャートを表示"
+                                        sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }} 
                                     />
                                 </Grid >
 
@@ -233,11 +242,11 @@ const SettingsDialog = () => {
                                     <p className='sub-title'>グリッド</p>
                                     <div className="wrapper">
                                         <span className="inline-container">
-                                            <p>背景</p>
+                                            <p className='container-p'>背景</p>
                                             <input className="color-picker" type="color" value={colors[0]} style={{ width: '100px' }} onChange={(event) => handleColorChange(0, event.target.value)} />
                                         </span>
                                         <span className="inline-container">
-                                            <p>文字</p>
+                                            <p className='container-p'>文字</p>
                                             <input className="color-picker" type="color" value={colors[1]} style={{ width: '100px' }} onChange={(event) => handleColorChange(1, event.target.value)} />
                                         </span>
                                     </div>
@@ -246,15 +255,15 @@ const SettingsDialog = () => {
                                     <div style={{ border: '1px solid #ccc', borderRadius: '5px', padding: '10px' }}>
                                         <div className="wrapper">
                                             <span className="inline-container">
-                                                <p>背景</p>
+                                                <p className='container-p'>背景</p>
                                                 <input className="color-picker" type="color" value={colors[2]} style={{ width: '100px', }} onChange={(event) => handleColorChange(2, event.target.value)} />
                                             </span>
                                             <span className="inline-container">
-                                                <p>文字</p>
+                                                <p className='container-p'>文字</p>
                                                 <input className="color-picker" type="color" value={colors[3]} style={{ width: '100px' }} onChange={(event) => handleColorChange(3, event.target.value)} />
                                             </span>
                                         </div>
-                                        <p> 分布</p>
+                                        <p className='container-p'> 分布</p>
                                         <div>
                                             <div style={{ border: '1px solid #ccc', borderRadius: '5px', padding: '10px', maxWidth: '400px' }}>
                                                 <div className="header-container">
@@ -311,7 +320,7 @@ const SettingsDialog = () => {
                                                 </div>
                                             </div>
                                             <div className="wrapper">
-                                                <p style={{ width: '50px' }}>累計</p>
+                                                <p style={{ width: '60px',fontSize:'13px' }}>累計</p>
                                                 <span className="inline-container">
                                                     <input type="color" value={colors[14]} style={{ width: '100px' }} onChange={(event) => handleColorChange(14, event.target.value)} />
                                                 </span>
@@ -320,7 +329,7 @@ const SettingsDialog = () => {
                                                 </span>
                                             </div>
                                             <div className="wrapper">
-                                                <p style={{ width: '50px' }}>チャート</p>
+                                                <p style={{ width: '60px',fontSize:'13px' }}>チャート</p>
                                                 <span className="inline-container">
                                                     <input type="color" value={colors[16]} style={{ width: '100px' }} onChange={(event) => handleColorChange(16, event.target.value)} />
                                                 </span>
@@ -335,9 +344,11 @@ const SettingsDialog = () => {
                                                 control={<Checkbox checked={checkboxStates[5]} onChange={() => handleCheckboxChange(5)} />}
                                                 label="当日の色設定を使用する"
                                                 className="inline-element"
+                                                sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }} 
+
                                             />
                                         </div>
-                                        <Button variant="contained" onClick={handleButtonClick} style={{ backgroundColor: 'white', color: 'gray', border: '1px solid gray', marginRight: '30px' }}>
+                                        <Button variant="contained" onClick={handleButtonClick} style={{ backgroundColor: 'white', color: 'gray', border: '1px solid gray', marginRight: '30px',fontSize:'12px',fontWeight:400 }}>
                                             初期値に戻す</Button>
                                     </div>
                                 </Grid>
@@ -346,8 +357,8 @@ const SettingsDialog = () => {
                     </div>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => handleClose(true)} style={{ backgroundColor: '#143867', color: 'white' }}>OK</Button>
-                    <Button onClick={() => handleClose(false)} style={{ border: '2px solid #143867', backgroundColor: 'white', color: '#143867' }}>キャンセル</Button>
+                    <Button onClick={() => handleClose(true)} style={{ backgroundColor: '#143867', color: 'white',fontSize:'16px',fontWeight:700 }}>OK</Button>
+                    <Button onClick={() => handleClose(false)} style={{ border: '2px solid #143867', backgroundColor: 'white', color: '#143867',fontSize:'16px',fontWeight:700 }}>キャンセル</Button>
                 </DialogActions>
             </Dialog>
         </div>

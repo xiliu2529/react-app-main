@@ -25,6 +25,8 @@ import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/ja';
 import { Helmet } from 'react-helmet';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import plus from '../../img/Icon_plus.svg'
+import minus from '../../img/Icon_minus.svg'
 import {
     saveSettingsAPI,
     loadSettingsAPI,
@@ -35,6 +37,7 @@ import {
     serverMessageAPI,
     clientMessageAPI
 } from '../../api/api';
+
 
 dayjs.locale('ja');
 
@@ -785,7 +788,9 @@ const ConditionSetting: React.FC = () => {
                                 minWidth: '25px',
                                 height: '25px',
                                 fontSize: '25px'
-                            }}>-</Button>
+                            }}>
+                                <img src={minus} />
+                            </Button>
                             <TextField
                                 variant="outlined"
                                 type="number"
@@ -816,7 +821,9 @@ const ConditionSetting: React.FC = () => {
                                 minWidth: '25px',
                                 height: '25px',
                                 fontSize: '25px'
-                            }}>+</Button>
+                            }}>
+                                <img src={plus} />
+                            </Button>
                         </Stack>
                     </div>
                 );
@@ -861,7 +868,9 @@ const ConditionSetting: React.FC = () => {
                                 minWidth: '25px',
                                 height: '25px',
                                 fontSize: '25px'
-                            }}>-</Button>
+                            }}>
+                                <img src={minus} />
+                            </Button>
                             <TextField
                                 variant="outlined"
                                 value={days}
@@ -878,7 +887,9 @@ const ConditionSetting: React.FC = () => {
                                 minWidth: '25px',
                                 height: '25px',
                                 fontSize: '25px'
-                            }}>+</Button>
+                            }}>
+                                <img src={plus} />
+                            </Button>
                         </Stack>
                     </div>
                 );
@@ -923,7 +934,9 @@ const ConditionSetting: React.FC = () => {
                                 minWidth: '25px',
                                 height: '25px',
                                 fontSize: '25px'
-                            }}>-</Button>
+                            }}>
+                                <img src={minus} />
+                            </Button>
                             <TextField
                                 variant="outlined"
                                 value={days}
@@ -940,7 +953,9 @@ const ConditionSetting: React.FC = () => {
                                 minWidth: '25px',
                                 height: '25px',
                                 fontSize: '25px'
-                            }}>+</Button>
+                            }}>
+                                <img src={plus} />
+                            </Button>
                         </Stack>
                     </div>
                 );
@@ -1215,11 +1230,11 @@ const ConditionSetting: React.FC = () => {
                 marginLeft: '230px',
                 borderRadius: '20px',
                 marginTop: '5px',
-                fontSize:'12px',
-                fontWeight:700
+                fontSize: '12px',
+                fontWeight: 700
             }}
                 onClick={handleCalculate}>
-               算出
+                算出
             </Button>
         </div>
     );

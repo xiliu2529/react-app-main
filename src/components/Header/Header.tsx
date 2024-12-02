@@ -1,7 +1,7 @@
 import React from 'react';
 import './Header.css';
 import Utilities from '../../components/Utilities/Utilities'
-import labo from '../../img/labo.svg'
+import labo from '../../img/logo_white.svg'
 
 const Header: React.FC = () => {
   const handleClick = () => {

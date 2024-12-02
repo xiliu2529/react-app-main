@@ -13,9 +13,10 @@
 
 .custom-table-cell-a,
 .custom-table-cell {
+  font-size: 12px !important;
   border: 1px solid #ddd;
-  padding: 0px !important;
   text-align: right !important;
+  white-space: nowrap;
 }
 
 #time {
@@ -26,7 +27,7 @@
   max-width: 50px;
   background-color: #e8ecf0 !important;
   border: 1px solid #ddd;
-  padding: 5px 0px !important;
+  padding: 5px !important;
   text-align: center !important;
   border-top: none !important;
   border-bottom: none !important;
@@ -42,9 +43,10 @@
 }
 
 .custom-header-cell {
+  font-size: 12px !important;
   background-color: #e8ecf0 !important;
   border: 1px solid #ddd;
-  padding: 5px 0px !important;
+  padding: 5px !important;
   text-align: center !important;
   border-top: none !important;
   border-bottom: none !important;
