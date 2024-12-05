@@ -54,15 +54,13 @@
   font-size: 13px;
 }
 
-.settings-icon {
-  background-image: url('../../img/settings_24dp_FFFFFF.svg');
-  background-size: contain;
+.settings-icon{
+  background-image: url('../../img/Icon_setting_white.svg');
   background-repeat: no-repeat;
   cursor: pointer;
-  height: 22px; 
-  width: 22px;  
-  margin: 5px;
-  display: inline-flex;
+  height: 24px; 
+  width: 24px;  
+  margin: 8px;
   align-items: center;
   justify-content: center;
   background-repeat: no-repeat;
@@ -107,7 +105,4 @@
 
 .container-p,.header-p{
   font-size: 13px;
-}
-.header-p{
-
 }

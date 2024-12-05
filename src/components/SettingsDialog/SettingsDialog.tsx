@@ -146,7 +146,7 @@ const SettingsDialog = () => {
 
     return (
         <div>
-            <span className="settings-icon" onClick={handleOpen}></span>
+            <div className="settings-icon" onClick={handleOpen}></div>
             <Dialog open={open} onClose={() => handleClose(false)} maxWidth="lg" fullWidth sx={{
                 zIndex: 9999,
                 '& .MuiDialog-paper': {
@@ -156,7 +156,7 @@ const SettingsDialog = () => {
                     minHeight: '550px',
                 }
             }}>
-                <DialogTitle sx={{ backgroundColor: '#143867', color: '#fff',fontSize:'18px' ,fontWeight:700}}>オプション設定</DialogTitle>
+                <DialogTitle sx={{ backgroundColor: '#143867', color: '#fff', fontSize: '18px', fontWeight: 700 }}>オプション設定</DialogTitle>
                 <DialogContent dividers>
 
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -192,10 +192,10 @@ const SettingsDialog = () => {
                                                 marginLeft: '20px'
                                             }}
                                         >
-                                            <FormControlLabel value="0" control={<Radio />} label="高値" 
-                                             sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }}/>
+                                            <FormControlLabel value="0" control={<Radio />} label="高値"
+                                                sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }} />
                                             <FormControlLabel value="1" control={<Radio />} label="安値"
-                                             sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }} />
+                                                sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }} />
                                         </RadioGroup>
                                     </div>
 
@@ -203,13 +203,13 @@ const SettingsDialog = () => {
                                     <FormControlLabel
                                         control={<Checkbox checked={checkboxStates[2]} onChange={() => handleCheckboxChange(2)} />}
                                         label="場引けVWAPを表示"
-                                        sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }} 
+                                        sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }}
                                     />
                                     <div></div>
                                     <FormControlLabel
                                         control={<Checkbox checked={checkboxStates[3]} onChange={() => handleCheckboxChange(3)} />}
                                         label="当日出来高分布を百分率で表示"
-                                        sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }} 
+                                        sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }}
                                     />
                                     <p style={{ margin: 0, paddingLeft: '25px', fontSize: '12px' }}> ※再算出後に反映されます。</p>
                                     <br />
@@ -226,14 +226,14 @@ const SettingsDialog = () => {
                                         }}
                                     >
                                         <FormControlLabel value="0" control={<Radio />} label="並ベて表示"
-                                            sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }}  />
-                                        <FormControlLabel value="1" control={<Radio />} label="重ねて表示" 
+                                            sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }} />
+                                        <FormControlLabel value="1" control={<Radio />} label="重ねて表示"
                                             sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }} />
                                     </RadioGroup>
                                     <FormControlLabel
                                         control={<Checkbox checked={checkboxStates[4]} onChange={() => handleCheckboxChange(4)} />}
                                         label="当日の価格チャートを表示"
-                                        sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }} 
+                                        sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }}
                                     />
                                 </Grid >
 
@@ -320,7 +320,7 @@ const SettingsDialog = () => {
                                                 </div>
                                             </div>
                                             <div className="wrapper">
-                                                <p style={{ width: '60px',fontSize:'13px' }}>累計</p>
+                                                <p style={{ width: '60px', fontSize: '13px' }}>累計</p>
                                                 <span className="inline-container">
                                                     <input type="color" value={colors[14]} style={{ width: '100px' }} onChange={(event) => handleColorChange(14, event.target.value)} />
                                                 </span>
@@ -329,7 +329,7 @@ const SettingsDialog = () => {
                                                 </span>
                                             </div>
                                             <div className="wrapper">
-                                                <p style={{ width: '60px',fontSize:'13px' }}>チャート</p>
+                                                <p style={{ width: '60px', fontSize: '13px' }}>チャート</p>
                                                 <span className="inline-container">
                                                     <input type="color" value={colors[16]} style={{ width: '100px' }} onChange={(event) => handleColorChange(16, event.target.value)} />
                                                 </span>
@@ -344,11 +344,11 @@ const SettingsDialog = () => {
                                                 control={<Checkbox checked={checkboxStates[5]} onChange={() => handleCheckboxChange(5)} />}
                                                 label="当日の色設定を使用する"
                                                 className="inline-element"
-                                                sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }} 
+                                                sx={{ '& .MuiFormControlLabel-label': { fontSize: '12px' } }}
 
                                             />
                                         </div>
-                                        <Button variant="contained" onClick={handleButtonClick} style={{ backgroundColor: 'white', color: 'gray', border: '1px solid gray', marginRight: '30px',fontSize:'12px',fontWeight:400 }}>
+                                        <Button variant="contained" onClick={handleButtonClick} style={{ boxShadow: 'none', backgroundColor: 'white', color: 'gray', border: '1px solid gray', marginRight: '30px', fontSize: '12px', fontWeight: 400 }}>
                                             初期値に戻す</Button>
                                     </div>
                                 </Grid>
@@ -356,9 +356,44 @@ const SettingsDialog = () => {
                         </FormControl>
                     </div>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => handleClose(true)} style={{ backgroundColor: '#143867', color: 'white',fontSize:'16px',fontWeight:700 }}>OK</Button>
-                    <Button onClick={() => handleClose(false)} style={{ border: '2px solid #143867', backgroundColor: 'white', color: '#143867',fontSize:'16px',fontWeight:700 }}>キャンセル</Button>
+                <DialogActions sx={{padding:0}}>
+                    <Button
+                        onClick={() => handleClose(true)}
+                        sx={{
+                            backgroundColor: '#143867',
+                            color: 'white',
+                            fontSize: '16px',
+                            fontWeight: 700,
+                            margin: '12px',
+                            marginRight:'6px',
+                            padding:'10px 41px !important',
+                            '&:hover': {
+                                backgroundColor: 'rgb(67, 96, 133)',
+                            }
+                        }}
+                    >
+                        OK
+                    </Button>
+
+                    <Button
+                        onClick={() => handleClose(false)}
+                        sx={{
+                            border: '1px solid #143867',
+                            backgroundColor: 'white',
+                            color: '#143867',
+                            fontSize: '16px',
+                            fontWeight: 700,
+                            whiteSpace: 'nowrap',
+                            margin: '12px',
+                            marginLeft:'6px  !important',
+                            padding:'10px 16px !important',
+                          '&:hover': {
+                                backgroundColor: 'rgba(20, 56, 103, 0.1)',
+                            }
+                        }}
+                    >
+                        キャンセル
+                    </Button>
                 </DialogActions>
             </Dialog>
         </div>

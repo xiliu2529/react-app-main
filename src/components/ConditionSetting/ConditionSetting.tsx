@@ -329,14 +329,10 @@ const ConditionSetting: React.FC = () => {
                     const loadSettings = async () => {
                         try {
                             const result = await loadSettingsAPI();
-                            if (result.body.response.D.volumecurve_info.HistoricalSetting && result.body.response.D.volumecurve_info.CalculationSetting
-                                && result.body.response.D.volumecurve_info.ViewSettings) {
+                            const volumecurveInfo = result.body.response.D.volumecurve_info;
+                            if (volumecurveInfo && volumecurveInfo.HistoricalSetting && volumecurveInfo.CalculationSetting && volumecurveInfo.ViewSettings) {
                                 const requestPayload = result.body.response.D.volumecurve_info;
                                 setAlignment(requestPayload.HistoricalSetting.Category);
-                                setDateFrom(requestPayload.HistoricalSetting.Range.DateFrom);
-                                setDateTo(requestPayload.HistoricalSetting.Range.DateTo);
-                                setstartDate(requestPayload.HistoricalSetting.Range.startDate);
-                                setendDate(requestPayload.HistoricalSetting.Range.endDate);
                                 setDays(Number(requestPayload.HistoricalSetting.Range.Days));
                                 setCheckedState([requestPayload.HistoricalSetting.Range.SQ.LargeSQ, requestPayload.HistoricalSetting.Range.SQ.SmallSQ, requestPayload.HistoricalSetting.Range.SQ.WeeklySQ]);
                                 setminutes(requestPayload.CalculationSetting.Category);
@@ -1227,16 +1223,22 @@ const ConditionSetting: React.FC = () => {
             <Button sx={{
                 backgroundColor: '#143867',
                 color: '#fff',
-                marginLeft: '230px',
-                borderRadius: '20px',
-                marginTop: '5px',
-                fontSize: '12px',
-                fontWeight: 700
+                marginLeft: '180px',
+                borderRadius: '54px',
+                marginTop: '12px',
+                fontSize: '16px',
+                fontWeight: 700,
+                width: '120px',
+                height: '54px',
+                padding: '14px 40px',
+                '&:hover': {
+                    backgroundColor: 'rgb(67, 96, 133)',
+                }
             }}
                 onClick={handleCalculate}>
                 算出
             </Button>
-        </div>
+        </div >
     );
 };
 

@@ -1,12 +1,14 @@
 .utilities-container {
-  margin-left: 1000px;
+  margin-left: 950px;
   display: flex;
-  position: absolute; 
+  position: absolute;
+  justify-content: center;
+  display: flex;
+  align-items: center;
 }
 
 .help-button,
 .print-icon,
-.favorite-button,
 .download-button {
   display: inline-flex;
   align-items: center;
@@ -14,16 +16,14 @@
   background-repeat: no-repeat;
   background-position: left center;
   cursor: pointer;
-  height: 22px;
   line-height: 30px;
 }
 
 .print-icon,
-.favorite-button,
 .download-button {
-  height: 22px;
-  width: 22px;
-  margin: 5px;
+  height: 24px;
+  width: 24px;
+  margin: 8px;
 }
 
 .print-icon {
@@ -33,22 +33,34 @@
   cursor: pointer;
 }
 
-.help-button {
-  background-image: url('../../img/info_24dp_FFFFFF.svg');
-  background-size: 20px 20px;
-  background-repeat: no-repeat;
-  background-position: 5px center;
-  cursor: pointer;
-  height: 20px;
-  color: #fff;
-  font-weight: 700;
-  font-size: 15px;
+.help {
+  width: 90px;
+  height: 32px;
   border: 1px solid #fff;
-  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 5px;
-  padding-left: 30px;
   white-space: nowrap;
-  margin-right: 5px;
+  cursor: pointer;
+  margin-right: 16px;
+}
+
+.help-button {
+  background-image: url('../../img/icon_info_white.svg');
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 24px;
+  width: 24px;
+}
+
+.help-p {
+  margin: 0;
+  margin-left: 10px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .download-button {

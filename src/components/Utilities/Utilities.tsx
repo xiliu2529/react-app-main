@@ -19,7 +19,10 @@ const Utilities: React.FC = () => {
   }
   return (
     <div className="utilities-container">
-      <span className="help-button" onClick={help}>ヘルプ</span>
+      <div className='help' onClick={help}>
+         <span className="help-button"></span>
+          <p className='help-p'>ヘルプ</p>
+          </div>
       <span className="print-icon" onClick={print}></span>
       <span className="download-button" onClick={download}></span>
       <SettingsDialog/>
