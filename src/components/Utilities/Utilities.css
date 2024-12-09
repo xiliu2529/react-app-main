@@ -27,7 +27,7 @@
 }
 
 .print-icon {
-  background-image: url('../../img/print_24dp_FFFFFF.svg');
+  background-image: url('../../img/icon_print_white.svg');
   background-size: contain;
   background-repeat: no-repeat;
   cursor: pointer;
@@ -64,7 +64,7 @@
 }
 
 .download-button {
-  background-image: url('../../img/file_download_24dp_FFFFFF.svg');
+  background-image: url('../../img/icon_download_white.svg');
   background-size: contain;
   background-repeat: no-repeat;
   cursor: pointer;

@@ -348,15 +348,29 @@ const SettingsDialog = () => {
 
                                             />
                                         </div>
-                                        <Button variant="contained" onClick={handleButtonClick} style={{ boxShadow: 'none', backgroundColor: 'white', color: 'gray', border: '1px solid gray', marginRight: '30px', fontSize: '12px', fontWeight: 400 }}>
-                                            初期値に戻す</Button>
+                                        <Button variant="contained" onClick={handleButtonClick}
+                                          sx={{
+                                            boxShadow: 'none',
+                                            backgroundColor: 'white',
+                                            color: 'gray',
+                                            border: '1px solid gray',
+                                            marginRight: '30px',
+                                            fontSize: '12px',
+                                            fontWeight: 400,
+                                            '&:hover': {
+                                              backgroundColor: 'rgba(20, 56, 103, 0.1)',
+                                              boxShadow: 'none', 
+                                            },
+                                          }}
+                                        >
+                                          初期値に戻す</Button>
                                     </div>
                                 </Grid>
                             </Grid>
                         </FormControl>
                     </div>
                 </DialogContent>
-                <DialogActions sx={{padding:0}}>
+                <DialogActions sx={{ padding: 0 }}>
                     <Button
                         onClick={() => handleClose(true)}
                         sx={{
@@ -365,11 +379,11 @@ const SettingsDialog = () => {
                             fontSize: '16px',
                             fontWeight: 700,
                             margin: '12px',
-                            marginRight:'6px',
-                            padding:'10px 41px !important',
+                            marginRight: '6px',
+                            padding: '11px 41px !important',
                             '&:hover': {
                                 backgroundColor: 'rgb(67, 96, 133)',
-                            }
+                            },  
                         }}
                     >
                         OK
@@ -385,9 +399,9 @@ const SettingsDialog = () => {
                             fontWeight: 700,
                             whiteSpace: 'nowrap',
                             margin: '12px',
-                            marginLeft:'6px  !important',
-                            padding:'10px 16px !important',
-                          '&:hover': {
+                            marginLeft: '6px  !important',
+                            padding: '10px 16px !important',
+                            '&:hover': {
                                 backgroundColor: 'rgba(20, 56, 103, 0.1)',
                             }
                         }}
