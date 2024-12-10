@@ -688,12 +688,9 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       gridLineDashStyle: 'ShortDash',
       gridLineColor: '#67e6a8',
 
-      max:todayMaxDistribution !== undefined ? Number(todayMaxDistribution) : undefined,
+      max:ADMaxDistribution !== undefined ? Number(ADMaxDistribution) : undefined,
       min: isValidValue ? 0 : undefined,
-      lineWidth: 0,
-      alignTicks: true, 
-      endOnTick: true, 
-
+      gridLineWidth: 0, 
     }, {
       labels: {
         style: {
@@ -706,12 +703,10 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
       title: {
         text: undefined
       },
-
-      max:todayMaxCumulative !== undefined ? Number(todayMaxCumulative) : undefined,
+      max:ADMaxCumulative !== undefined ? Number(ADMaxCumulative) : undefined,
       min: isValidValue ? 0 : undefined,
-      alignTicks: true, 
-      endOnTick: true, 
-      
+      alignTicks: false, 
+      endOnTick: false, 
     }, {
       labels: {
         style: {
@@ -743,7 +738,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
         return '<div style="min-width: 150px;">' + s + '</div>';
       }
     }
-
     ,
     legend: {
       align: 'left',
@@ -938,8 +932,6 @@ const Chart: React.FC<{ height: string | number | null, width: string | number |
     credits: { enabled: false },
     exporting: { enabled: false },
   };
-  
-  
   const chartOptions2: Highcharts.Options = {
     chart: {
       type: 'column',
